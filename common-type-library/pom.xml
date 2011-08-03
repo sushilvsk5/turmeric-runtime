@@ -17,7 +17,7 @@
   </parent>
   <groupId>org.ebayopensource.turmeric.typelib</groupId>
   <artifactId>common-type-library</artifactId>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <name>Turmeric Runtime :: Common Type Library</name>
   <build>
     <plugins>
@@ -41,11 +41,27 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+           <archive>  
+              <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+           </archive> 
+        </configuration>
+      </plugin>  
       <plugin>   
          <groupId>org.apache.felix</groupId>
          <artifactId>maven-bundle-plugin</artifactId>
          <extensions>true</extensions>
          <version>2.3.4</version>
+         <executions>
+             <execution>
+                 <id>bundle-manifest</id>
+                 <goals>
+                    <goal>manifest</goal>
+                 </goals>
+             </execution>
+         </executions>
          <configuration>
             <instructions>
                <Export-Package>org.ebayopensource.turmeric.common.*</Export-Package>
@@ -57,11 +73,6 @@
     </plugins>	
   </build>
   <dependencies>
-    <dependency>
-      <groupId>org.apache.felix</groupId>
-      <artifactId>org.osgi.core</artifactId>
-      <version>1.0.0</version>
-    </dependency>  
     <dependency>
       <groupId>org.ebayopensource.turmeric.runtime</groupId>
       <artifactId>config-validation-tests</artifactId>

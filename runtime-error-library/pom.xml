@@ -17,14 +17,13 @@
   </parent>
   <groupId>org.ebayopensource.turmeric.errorlib</groupId>
   <artifactId>runtime-error-library</artifactId>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <name>Turmeric Runtime :: Runtime Error Library</name>
   <build>
     <plugins>
       <plugin>
         <groupId>org.ebayopensource.turmeric.maven</groupId>
         <artifactId>turmeric-maven-plugin</artifactId>
-        <!-- An early SNAPSHOT, replace with released version later -->
         <version>1.0.0</version>
         <executions>
           <execution>
@@ -37,12 +36,28 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+           <archive>  
+              <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+           </archive> 
+        </configuration>
+      </plugin>  
       <plugin>   
          <groupId>org.apache.felix</groupId>
          <artifactId>maven-bundle-plugin</artifactId>
          <extensions>true</extensions>
          <version>2.3.4</version>
-          <configuration>
+         <executions>
+             <execution>
+                 <id>bundle-manifest</id>
+                 <goals>
+                    <goal>manifest</goal>
+                 </goals>
+             </execution>
+         </executions>
+         <configuration>
             <instructions>
                <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                <Bundle-Version>${project.version}</Bundle-Version>
@@ -69,10 +84,5 @@
       <version>1.0.3</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.apache.felix</groupId>
-      <artifactId>org.osgi.core</artifactId>
-      <version>1.0.0</version>
-    </dependency>      
   </dependencies>
 </project>
