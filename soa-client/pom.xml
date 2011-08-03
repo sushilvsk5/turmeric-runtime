@@ -62,11 +62,20 @@
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-           <archive>  
-              <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-           </archive> 
-        </configuration>
+        <executions>
+        	<execution>
+        	    <id>manifest-bundle-jar</id>
+        	    <phase>package</phase>
+		        <configuration>
+		           <archive>  
+		              <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+		           </archive> 
+		        </configuration>
+		        <goals>
+		        	<goal>jar</goal>
+		        </goals>
+            </execution>
+        </executions>
       </plugin>  
       <plugin>   
          <groupId>org.apache.felix</groupId>
@@ -76,18 +85,20 @@
          <executions>
              <execution>
                  <id>bundle-manifest</id>
+                 <phase>prepare-package</phase>
                  <goals>
                     <goal>manifest</goal>
                  </goals>
              </execution>
          </executions>
          <configuration>
-         <instructions>
-            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Bundle-Version>${project.version}</Bundle-Version>
-         </instructions>
-      </configuration>  
-	</plugin>
+	         <instructions>
+	            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+	            <Bundle-Version>${project.version}</Bundle-Version>
+	         </instructions>
+            <manifestLocation>${project.build.outputDirectory}/META-INF</manifestLocation>
+         </configuration>  
+	   </plugin>
     </plugins>
   </build>
   <properties>

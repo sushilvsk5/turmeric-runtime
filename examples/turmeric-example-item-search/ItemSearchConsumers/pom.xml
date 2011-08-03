@@ -35,11 +35,6 @@
     </dependency>
     <dependency>
       <groupId>org.ebayopensource.turmeric.intf</groupId>
-      <artifactId>FindingServiceV1</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.ebayopensource.turmeric.intf</groupId>
       <artifactId>AmazonSearchServiceV1</artifactId>
       <version>${project.version}</version>
     </dependency>
