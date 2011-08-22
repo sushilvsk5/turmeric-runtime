@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.prettyprint.cassandra.serializers.LongSerializer;
+import me.prettyprint.cassandra.serializers.ObjectSerializer;
+import me.prettyprint.cassandra.serializers.SerializerTypeInferer;
 import me.prettyprint.cassandra.serializers.StringSerializer;
+import me.prettyprint.cassandra.serializers.TypeInferringSerializer;
 import me.prettyprint.hector.api.Keyspace;
 import me.prettyprint.hector.api.Serializer;
 import me.prettyprint.hector.api.beans.ColumnSlice;
@@ -68,40 +71,53 @@ public class CassandraErrorLoggingHandlerTest {
     public void testPersistErrors() throws ServiceException {
 
         List<CommonErrorData> errorsToStore = createTestCommonErrorDataList(1);
+        String serverName = "localhost";
         String srvcAdminName = "ServiceAdminName1";
         String opName = "Operation1";
         boolean serverSide = true;
         String consumerName = "ConsumerName1";
-        logHandler.persistErrors(errorsToStore, srvcAdminName, opName, serverSide, consumerName);
+        long now = System.currentTimeMillis();
+        logHandler.persistErrors(errorsToStore, serverName, srvcAdminName, opName, serverSide, consumerName, now);
         
         //now I need to retrieve the values. I use Hector for this.
-        ColumnSlice<String, Object> columnSlice = getColumnValues("Errors", new Long(0), StringSerializer.get(), "name", "category",
+        ColumnSlice<Object, Object> errorColumnSlice = getColumnValues("Errors", new Long(0), StringSerializer.get(), StringSerializer.get(), "name", "category",
                         "severity", "domain", "subDomain", "organization");
-        assertValue(columnSlice, "name", "TestErrorName", "organization", "TestOrganization", "domain", "TestDomain", "subDomain", "TestSubdomain", "severity", "ERROR", "category", "APPLICATION");
+        assertValues(errorColumnSlice, "name", "TestErrorName", "organization", "TestOrganization", "domain", "TestDomain", "subDomain", "TestSubdomain", "severity", "ERROR", "category", "APPLICATION");
         
-        ColumnSlice<String, Object> longColumnSlice = getColumnValues("Errors", new Long(0), LongSerializer.get(), "errorId");
-        assertValue(longColumnSlice, "errorId", new Long(0));
+        ColumnSlice<Object, Object> longColumnSlice = getColumnValues("Errors", new Long(0), StringSerializer.get(), LongSerializer.get(), "errorId");
+        assertValues(longColumnSlice, "errorId", new Long(0));
+        
+        //now, assert the count cf - first the category one
+        ColumnSlice<Object, Object> categoryCountColumnSlice = getColumnValues("ErrorCountsByCategory", "localhost-ServiceAdminName1-Operation1-APPLICATION", LongSerializer.get(), StringSerializer.get(), new Long(now));
+        assertValues(categoryCountColumnSlice, now, "0-localhost-ServiceAdminName1-Operation1");
+        
+        
+      //now, assert the count cf - then the severity one
+        ColumnSlice<Object, Object> severityCountColumnSlice = getColumnValues("ErrorCountsBySeverity", "localhost-ServiceAdminName1-Operation1-ERROR", LongSerializer.get(), StringSerializer.get(), new Long(now));
+        assertValues(severityCountColumnSlice, now, "0-localhost-ServiceAdminName1-Operation1");
+        
     }
 
-    public void assertValue(ColumnSlice<String, Object> columnSlice, Object... columnPairs) {
+    public void assertValues(ColumnSlice<Object, Object> columnSlice, Object... columnPairs) {
         
         //the asserts are done in this way: assert(columnPairs[0], columnPairs[1]);, assert(columnPairs[2], columnPairs[3]), ...;
         for (int i = 0; i < columnPairs.length/2; i++) {
-            HColumn<String, Object> column = columnSlice.getColumnByName(columnPairs[2*i].toString());
+            HColumn<Object, Object> column = columnSlice.getColumnByName(columnPairs[2*i]);
+            assertNotNull("Null column name ="+columnPairs[2*i], column);
             Object value = column.getValue();
             assertEquals("Expected = "+columnPairs[2*i +1]+". Actual = "+value,columnPairs[2*i +1], value);
         }
     }
 
-    public ColumnSlice<String, Object> getColumnValues(String cfName, Long key, Serializer serializer, String... columnNames) {
+    public ColumnSlice<Object, Object> getColumnValues(String cfName, Object key, Serializer columnNameSerializer, Serializer valueSerializer, Object... columnNames) {
         Keyspace kspace = HectorManager.getKeyspace("Test Cluster", "192.168.2.41", "TurmericMonitoring");
-        SliceQuery<Long, String, Object> q = HFactory.createSliceQuery(kspace, LongSerializer.get(),
-                        StringSerializer.get(), serializer);
+        SliceQuery<Object, Object, Object> q = HFactory.createSliceQuery(kspace, SerializerTypeInferer.getSerializer(key),
+                        columnNameSerializer, valueSerializer);
         q.setColumnFamily(cfName);
         q.setKey(key);
         q.setColumnNames(columnNames);
-        QueryResult<ColumnSlice<String, Object>> r = q.execute();
-        ColumnSlice<String, Object> columnSlice = r.get();
+        QueryResult<ColumnSlice<Object, Object>> r = q.execute();
+        ColumnSlice<Object, Object> columnSlice = r.get();
         return columnSlice;
     }
 

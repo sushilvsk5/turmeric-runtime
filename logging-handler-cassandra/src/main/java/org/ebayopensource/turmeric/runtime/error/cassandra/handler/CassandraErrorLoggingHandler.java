@@ -9,6 +9,8 @@
 
 package org.ebayopensource.turmeric.runtime.error.cassandra.handler;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import me.prettyprint.cassandra.model.QuorumAllConsistencyLevelPolicy;
@@ -33,16 +35,23 @@ import org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandlerStage;
 import org.ebayopensource.turmeric.runtime.common.pipeline.MessageContext;
 import org.ebayopensource.turmeric.runtime.common.types.SOAConstants;
 import org.ebayopensource.turmeric.runtime.common.types.SOAHeaders;
+import org.ebayopensource.turmeric.runtime.error.cassandra.dao.ErrorCountsDAO;
 import org.ebayopensource.turmeric.runtime.error.cassandra.dao.ErrorDAO;
+import org.ebayopensource.turmeric.runtime.error.cassandra.dao.ErrorValueDAO;
 import org.ebayopensource.turmeric.runtime.error.cassandra.model.Error;
+import org.ebayopensource.turmeric.utils.cassandra.HectorHelper;
 import org.ebayopensource.turmeric.utils.cassandra.HectorManager;
 import org.ebayopensource.turmeric.runtime.error.cassandra.model.*;
 
 public class CassandraErrorLoggingHandler implements LoggingHandler {
-    ErrorDAO errorDao = null;
+    private ErrorDAO errorDao = null;
+    private ErrorValueDAO errorValueDao = null;
+    private ErrorCountsDAO errorCountsDao = null;
     
     public CassandraErrorLoggingHandler(){
         errorDao = new ErrorDAO("Test Cluster", "192.168.2.41", "TurmericMonitoring", Long.class, org.ebayopensource.turmeric.runtime.error.cassandra.model.Error.class, "Errors");
+        errorValueDao = new ErrorValueDAO("Test Cluster", "192.168.2.41", "TurmericMonitoring", String.class, org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorValue.class, "ErrorValues");
+        errorCountsDao = new ErrorCountsDAO("Test Cluster", "192.168.2.41", "TurmericMonitoring");
     }
 
     public void init(InitContext ctx) throws ServiceException {
@@ -67,14 +76,17 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
         String serviceAdminName = ctx.getAdminName();
         String operationName = ctx.getOperationName();
         boolean serverSide = !ctx.getServiceId().isClientSide();
-        persistErrors(errorsToStore, serviceAdminName, operationName, serverSide, consumerName);
+        String serverName = getInetAddress().getHostAddress();
+        long now = System.currentTimeMillis();
+        persistErrors(errorsToStore, serverName, serviceAdminName, operationName, serverSide, consumerName, now);
 
     }
 
-    public void persistErrors(List<CommonErrorData> errorsToStore, String srvcAdminName, String opName, boolean serverSide, String consumerName) throws ServiceException {
+    public void persistErrors(List<CommonErrorData> errorsToStore, String serverName, String srvcAdminName, String opName, boolean serverSide, String consumerName, long timeStamp) throws ServiceException {
         try {
-            long now = System.currentTimeMillis();
+            
             for (CommonErrorData commonErrorData : errorsToStore) {
+                String errorValueKey = commonErrorData.getErrorId()+"-"+serverName+"-"+srvcAdminName+"-"+opName;
                 String errorMessage = commonErrorData.getMessage();
                 org.ebayopensource.turmeric.runtime.error.cassandra.model.Error errorToSave = new Error();
                 errorToSave.setErrorId(commonErrorData.getErrorId());
@@ -85,6 +97,20 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
                 errorToSave.setSubDomain(commonErrorData.getSubdomain());
                 errorToSave.setOrganization(commonErrorData.getOrganization());
                 errorDao.save(errorToSave.getErrorId(), errorToSave);
+                
+                ErrorValue errorValue = new ErrorValue();
+                errorValue.setAggregationPeriod(0);
+                errorValue.setConsumerName(consumerName);
+                errorValue.setErrorId(errorToSave.getErrorId());
+                errorValue.setErrorMessage(errorMessage);
+                errorValue.setOperationName(opName);
+                errorValue.setServerSide(serverSide);
+                errorValue.setServiceAdminName(srvcAdminName);
+                errorValue.setServerName(serverName);
+                errorValue.setTimeStamp(timeStamp);
+                //TODO: not good. What if 2 different error values for the same error occurs at the same time?
+                errorValueDao.save(errorValueKey, errorValue);
+                errorCountsDao.saveCountByCategory(errorToSave, errorValue, errorValueKey, timeStamp, 1);
             }
 
         }
@@ -104,6 +130,14 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
         if (result == null)
             result = SOAConstants.DEFAULT_USE_CASE;
         return result;
+    }
+    
+    private InetAddress getInetAddress() throws ServiceException {
+        try {
+            return InetAddress.getLocalHost();
+        } catch (UnknownHostException x) {
+            throw new ServiceException("Unkonwn host name", x);
+        }
     }
 
 }
