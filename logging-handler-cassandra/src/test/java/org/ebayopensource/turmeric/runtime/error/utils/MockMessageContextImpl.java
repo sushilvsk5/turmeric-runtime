@@ -123,7 +123,6 @@ public class MockMessageContextImpl implements MessageContext {
     }
 
     public Message getRequestMessage() {
-        // TODO Auto-generated method stub
         return null;
     }
 
