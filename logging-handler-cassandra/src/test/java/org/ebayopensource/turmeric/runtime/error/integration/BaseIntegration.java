@@ -34,8 +34,8 @@ public class BaseIntegration {
         }
     }
 
-    public ColumnSlice<Object, Object> getColumnValues(String cfName, Object key, Serializer columnNameSerializer, Serializer valueSerializer, Object... columnNames) {
-        Keyspace kspace = HectorManager.getKeyspace("Test Cluster", "192.168.2.41", "TurmericMonitoring");
+    public ColumnSlice<Object, Object> getColumnValues(Keyspace kspace, String cfName, Object key, Serializer columnNameSerializer, Serializer valueSerializer, Object... columnNames) {
+        
         SliceQuery<Object, Object, Object> q = HFactory.createSliceQuery(kspace,
                         SerializerTypeInferer.getSerializer(key), columnNameSerializer, valueSerializer);
         q.setColumnFamily(cfName);
