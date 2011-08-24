@@ -32,14 +32,6 @@ public class CassandraErrorLoggingHandlerTestIT extends BaseIntegration{
     CassandraErrorLoggingHandler logHandler = null;
     Keyspace kspace = null;
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-    }
-
     @Before
     public void setUp(){
         
@@ -61,15 +53,20 @@ public class CassandraErrorLoggingHandlerTestIT extends BaseIntegration{
 
     @Test
     public void testInit() throws ServiceException {
-        Map<String, String> options = new HashMap<String, String>();
-        options.put("cluster-name", "Test Cluster");
-        options.put("host-address", "127.0.0.1");
-        options.put("keyspace-name", "TurmericMonitoring");
+        Map<String, String> options = createOptionsMap();
         InitContext ctx = new MockInitContext(options);
         logHandler.init(ctx);
         assertEquals("Test Cluster", logHandler.getClusterName());
         assertEquals("127.0.0.1", logHandler.getHostAddress());
         assertEquals("TurmericMonitoring", logHandler.getKeyspaceName());
+    }
+
+    public Map<String, String> createOptionsMap() {
+        Map<String, String> options = new HashMap<String, String>();
+        options.put("cluster-name", "Test Cluster");
+        options.put("host-address", "127.0.0.1");
+        options.put("keyspace-name", "TurmericMonitoring");
+        return options;
     }
 
     @Test
@@ -82,11 +79,7 @@ public class CassandraErrorLoggingHandlerTestIT extends BaseIntegration{
         boolean serverSide = true;
         String consumerName = "ConsumerName1";
         long now = System.currentTimeMillis();
-        // init the logHandler with the params
-        Map<String, String> options = new HashMap<String, String>();
-        options.put("cluster-name", "Test Cluster");
-        options.put("host-address", "127.0.0.1");
-        options.put("keyspace-name", "TurmericMonitoring");
+        Map<String, String> options = createOptionsMap();
         InitContext ctx = new MockInitContext(options);
         logHandler.init(ctx);
         logHandler.persistErrors(errorsToStore, serverName, srvcAdminName, opName, serverSide, consumerName, now);
