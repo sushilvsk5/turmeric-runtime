@@ -1,34 +1,28 @@
 package org.ebayopensource.turmeric.runtime.error.integration;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import me.prettyprint.cassandra.serializers.LongSerializer;
-import me.prettyprint.cassandra.serializers.ObjectSerializer;
 import me.prettyprint.cassandra.serializers.StringSerializer;
-import me.prettyprint.cassandra.serializers.TypeInferringSerializer;
 import me.prettyprint.hector.api.Keyspace;
 import me.prettyprint.hector.api.beans.ColumnSlice;
 
 import org.ebayopensource.turmeric.common.v1.types.CommonErrorData;
 import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
 import org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler.InitContext;
-import org.ebayopensource.turmeric.runtime.common.pipeline.MessageContext;
 import org.ebayopensource.turmeric.runtime.error.cassandra.handler.CassandraErrorLoggingHandler;
 import org.ebayopensource.turmeric.runtime.error.utils.MockInitContext;
-import org.ebayopensource.turmeric.runtime.error.utils.MockMessageContextImpl;
-import org.ebayopensource.turmeric.runtime.sif.impl.internal.pipeline.ReducedClientMessageContextImpl;
-import org.ebayopensource.turmeric.utils.cassandra.HectorManager;
+import org.ebayopensource.turmeric.utils.cassandra.hector.HectorManager;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class CassandraErrorLoggingHandlerTestIT extends BaseIntegration{
+public class CassandraErrorLoggingHandlerTestIT extends CassandraTestHelper{
     CassandraErrorLoggingHandler logHandler = null;
     Keyspace kspace = null;
 
@@ -37,7 +31,7 @@ public class CassandraErrorLoggingHandlerTestIT extends BaseIntegration{
         
         try {
             logHandler = new CassandraErrorLoggingHandler();
-            kspace = HectorManager.getKeyspace("Test Cluster", "127.0.0.1", "TurmericMonitoring");
+            kspace = new HectorManager().getKeyspace("Test Cluster", "127.0.0.1", "TurmericMonitoring", "Errors");
         }
         catch (Exception e) {
             e.printStackTrace();

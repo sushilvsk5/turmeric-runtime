@@ -1,7 +1,5 @@
 package org.ebayopensource.turmeric.runtime.error.integration;
 
-import static org.junit.Assert.*;
-
 import me.prettyprint.cassandra.serializers.LongSerializer;
 import me.prettyprint.cassandra.serializers.StringSerializer;
 import me.prettyprint.hector.api.Keyspace;
@@ -12,14 +10,13 @@ import org.ebayopensource.turmeric.common.v1.types.ErrorSeverity;
 import org.ebayopensource.turmeric.runtime.error.cassandra.dao.ErrorCountsDAO;
 import org.ebayopensource.turmeric.runtime.error.cassandra.model.Error;
 import org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorValue;
-import org.ebayopensource.turmeric.utils.cassandra.HectorManager;
+import org.ebayopensource.turmeric.utils.cassandra.hector.HectorManager;
+
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ErrorCountsDAOTestIT extends BaseIntegration {
+public class ErrorCountsDAOTestIT extends CassandraTestHelper {
 
     ErrorCountsDAO dao = null;
     Keyspace kspace = null;
@@ -27,7 +24,7 @@ public class ErrorCountsDAOTestIT extends BaseIntegration {
     @Before
     public void setUp() {
         try {
-            kspace = HectorManager.getKeyspace("Test Cluster", "127.0.0.1", "TurmericMonitoring");
+            kspace = new HectorManager().getKeyspace("Test Cluster", "127.0.0.1", "TurmericMonitoring", "Errors");
             dao = new ErrorCountsDAO("Test Cluster", "127.0.0.1", "TurmericMonitoring");
         }
         catch (Exception e) {

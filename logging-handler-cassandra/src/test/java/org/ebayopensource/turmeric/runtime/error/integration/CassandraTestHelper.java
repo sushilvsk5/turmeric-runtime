@@ -18,9 +18,8 @@ import me.prettyprint.hector.api.query.SliceQuery;
 import org.ebayopensource.turmeric.common.v1.types.CommonErrorData;
 import org.ebayopensource.turmeric.common.v1.types.ErrorCategory;
 import org.ebayopensource.turmeric.common.v1.types.ErrorSeverity;
-import org.ebayopensource.turmeric.utils.cassandra.HectorManager;
 
-public class BaseIntegration {
+public class CassandraTestHelper {
 
     public void assertValues(ColumnSlice<Object, Object> columnSlice, Object... columnPairs) {
     

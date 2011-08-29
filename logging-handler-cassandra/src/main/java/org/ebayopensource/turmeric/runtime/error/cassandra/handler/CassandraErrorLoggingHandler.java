@@ -92,7 +92,7 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
         String serviceAdminName = ctx.getAdminName();
         String operationName = ctx.getOperationName();
         boolean serverSide = !ctx.getServiceId().isClientSide();
-        String serverName = getInetAddress().getHostAddress();
+        String serverName = getInetAddress();
         long now = System.currentTimeMillis();
         
         persistErrors(errorsToStore, serverName, serviceAdminName, operationName, serverSide, consumerName, now);
@@ -109,7 +109,7 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
         String serviceAdminName = ctx.getAdminName();
         String operationName = ctx.getOperationName();
         boolean serverSide = !ctx.getServiceId().isClientSide();
-        String serverName = getInetAddress().getHostAddress();
+        String serverName = getInetAddress();
         long now = System.currentTimeMillis();
         persistErrors(errorsToStore, serverName, serviceAdminName, operationName, serverSide, consumerName, now);
 
@@ -195,9 +195,9 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
      * @return the inet address
      * @throws ServiceException the service exception
      */
-    private InetAddress getInetAddress() throws ServiceException {
+    private String getInetAddress() throws ServiceException {
         try {
-            return InetAddress.getLocalHost();
+            return InetAddress.getLocalHost().getCanonicalHostName();
         }
         catch (UnknownHostException x) {
             throw new ServiceException("Unkonwn host name", x);

@@ -11,8 +11,8 @@ import me.prettyprint.hector.api.mutation.Mutator;
 
 import org.ebayopensource.turmeric.runtime.error.cassandra.model.Error;
 import org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorValue;
-import org.ebayopensource.turmeric.utils.cassandra.HectorHelper;
-import org.ebayopensource.turmeric.utils.cassandra.HectorManager;
+import org.ebayopensource.turmeric.utils.cassandra.hector.HectorManager;
+
 
 public class ErrorCountsDAO {
     private String clusterName;
@@ -22,7 +22,7 @@ public class ErrorCountsDAO {
     public ErrorCountsDAO(String clusterName, String host, String keyspaceName) {
         this.clusterName = clusterName;
         this.host = host;
-        this.keySpace = HectorManager.getKeyspace(clusterName, host, keyspaceName);
+        this.keySpace = new HectorManager().getKeyspace(clusterName, host, keyspaceName, "ErrorCountsByCategory");
     }
 
     public void saveErrorCounts(org.ebayopensource.turmeric.runtime.error.cassandra.model.Error errorToSave,
