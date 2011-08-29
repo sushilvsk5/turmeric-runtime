@@ -62,7 +62,11 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
 
     }
 
-    /* (non-Javadoc)
+    /**
+     * Inits the CassandraErrorLoggingHandler.
+     *
+     * @param ctx the ctx
+     * @throws ServiceException the service exception
      * @see org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler#init(org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler.InitContext)
      */
     public void init(InitContext ctx) throws ServiceException {
@@ -77,13 +81,23 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
         errorCountsDao = new ErrorCountsDAO(clusterName, hostAddress, keyspaceName);
     }
 
-    /* (non-Javadoc)
+    /**
+     * Log processing stage.
+     *
+     * @param ctx the ctx
+     * @param stage the stage
+     * @throws ServiceException the service exception
      * @see org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler#logProcessingStage(org.ebayopensource.turmeric.runtime.common.pipeline.MessageContext, org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandlerStage)
      */
     public void logProcessingStage(MessageContext ctx, LoggingHandlerStage stage) throws ServiceException {
     }
 
-    /* (non-Javadoc)
+    /**
+     * Log response resident error.
+     *
+     * @param ctx the ctx
+     * @param errorData the error data
+     * @throws ServiceException the service exception
      * @see org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler#logResponseResidentError(org.ebayopensource.turmeric.runtime.common.pipeline.MessageContext, org.ebayopensource.turmeric.common.v1.types.ErrorData)
      */
     public void logResponseResidentError(MessageContext ctx, ErrorData errorData) throws ServiceException {
@@ -99,7 +113,12 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
 
     }
 
-    /* (non-Javadoc)
+    /**
+     * Log error.
+     *
+     * @param ctx the ctx
+     * @param e the e
+     * @throws ServiceException the service exception
      * @see org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler#logError(org.ebayopensource.turmeric.runtime.common.pipeline.MessageContext, java.lang.Throwable)
      */
     public void logError(MessageContext ctx, Throwable e) throws ServiceException {
@@ -168,7 +187,12 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
         }
     }
 
-    /* (non-Javadoc)
+    /**
+     * Log warning.
+     *
+     * @param ctx the ctx
+     * @param e the e
+     * @throws ServiceException the service exception
      * @see org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler#logWarning(org.ebayopensource.turmeric.runtime.common.pipeline.MessageContext, java.lang.Throwable)
      */
     public void logWarning(MessageContext ctx, Throwable e) throws ServiceException {

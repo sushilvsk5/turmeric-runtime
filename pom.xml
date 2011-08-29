@@ -125,6 +125,7 @@
     <module>archetype</module>
     <module>turmeric-runtime-dist-war</module>
     <module>turmeric-runtime-dist</module>
+    <module>logging-handler-cassandra</module>
   </modules>
   <profiles>
     <profile>
