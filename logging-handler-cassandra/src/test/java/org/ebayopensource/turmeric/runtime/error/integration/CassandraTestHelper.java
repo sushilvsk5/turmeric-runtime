@@ -55,7 +55,7 @@ public class CassandraTestHelper {
             e.setDomain("TestDomain");
             e.setSubdomain("TestSubdomain");
             e.setErrorName("TestErrorName");
-            e.setErrorId(new Long(i));
+            e.setErrorId(Long.valueOf(i));
             e.setMessage("Error Message " + i);
             e.setOrganization("TestOrganization");
             commonErrorDataList.add(e);

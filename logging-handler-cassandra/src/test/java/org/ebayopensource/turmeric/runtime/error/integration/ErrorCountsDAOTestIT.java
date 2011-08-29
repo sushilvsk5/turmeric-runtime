@@ -46,13 +46,13 @@ public class ErrorCountsDAOTestIT extends CassandraTestHelper {
         errorToSave.setCategory(ErrorCategory.REQUEST.toString());
         errorToSave.setSeverity(ErrorSeverity.ERROR.toString());
         errorToSave.setDomain("TestDomain");
-        errorToSave.setErrorId(new Long(123));
+        errorToSave.setErrorId(Long.valueOf(123));
         errorToSave.setName("TestError1");
         errorToSave.setOrganization("TestOrg1");
         errorToSave.setSubDomain("TestSubDomain");
 
         ErrorValue errorValue = new ErrorValue();
-        errorValue.setErrorId(new Long(123));
+        errorValue.setErrorId(Long.valueOf(123));
         errorValue.setConsumerName("theTestConsumer");
         errorValue.setErrorMessage("The actual message");
         errorValue.setOperationName("Op1");
@@ -68,25 +68,25 @@ public class ErrorCountsDAOTestIT extends CassandraTestHelper {
         // now, assert the count cf - first the category one
         ColumnSlice<Object, Object> categoryCountColumnSlice = getColumnValues(kspace, "ErrorCountsByCategory",
                         "TheServerName-TheServiceAdminName-Op1-REQUEST", LongSerializer.get(),
-                        StringSerializer.get(), new Long(now));
+                        StringSerializer.get(), Long.valueOf(now));
         assertValues(categoryCountColumnSlice, now, "ErrorValueTestKey");
 
         // now, assert the count cf - all ops
         ColumnSlice<Object, Object> categoryCountAllOpsColumnSlice = getColumnValues(kspace, "ErrorCountsByCategory",
                         "TheServerName-TheServiceAdminName-All-REQUEST", LongSerializer.get(), StringSerializer.get(),
-                        new Long(now));
+                        Long.valueOf(now));
         assertValues(categoryCountAllOpsColumnSlice, now, "ErrorValueTestKey");
 
         // now, assert the count cf - then the severity one
         ColumnSlice<Object, Object> severityCountColumnSlice = getColumnValues(kspace, "ErrorCountsBySeverity",
                         "TheServerName-TheServiceAdminName-Op1-ERROR", LongSerializer.get(), StringSerializer.get(),
-                        new Long(now));
+                        Long.valueOf(now));
         assertValues(severityCountColumnSlice, now, "ErrorValueTestKey");
 
         // now, assert the count cf - all ops
         ColumnSlice<Object, Object> severityCountAllOpsColumnSlice = getColumnValues(kspace, "ErrorCountsBySeverity",
                         "TheServerName-TheServiceAdminName-All-ERROR", LongSerializer.get(), StringSerializer.get(),
-                        new Long(now));
+                        Long.valueOf(now));
         assertValues(severityCountAllOpsColumnSlice, now, "ErrorValueTestKey");
     }
 
