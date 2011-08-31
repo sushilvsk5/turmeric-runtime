@@ -2,7 +2,10 @@
 
 ==Prerequisites==
 
-The Turmeric project uses Maven 3.0 as a build tool and Subversion as  the source code repository.&nbsp; It also requires Java 6.0. You must  install them before performing this task. These instructions assume  that you are running from the command line.
+The Turmeric project uses Maven 3.0 as a build tool and Git as the source
+code repository. It also requires Java 6.0. You must  install them before
+performing this task. These instructions assume  that you are running from
+the command line.
 
 * Apache Maven 3.0 installed.
 * Java 6.0
