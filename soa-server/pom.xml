@@ -18,7 +18,7 @@
    </parent>
    <groupId>org.ebayopensource.turmeric.runtime</groupId>
    <artifactId>soa-server</artifactId>
-   <packaging>bundle</packaging>
+   <packaging>jar</packaging>
    <name>Turmeric Runtime :: SOA Server</name>
    <build>
       <resources>
@@ -30,27 +30,57 @@
          </resource>
       </resources>
       <plugins>
+<<<<<<< HEAD
          <plugin>
             <groupId>org.apache.felix</groupId>
             <artifactId>maven-bundle-plugin</artifactId>
             <version>2.3.4</version>
             <extensions>true</extensions>
           <configuration>
+=======
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+        	<execution>
+        	    <id>manifest-bundle-jar</id>
+        	    <phase>package</phase>
+		        <configuration>
+		           <archive>  
+		              <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+		           </archive> 
+		        </configuration>
+		        <goals>
+		        	<goal>jar</goal>
+		        </goals>
+            </execution>
+        </executions>
+      </plugin>  
+      <plugin>   
+         <groupId>org.apache.felix</groupId>
+         <artifactId>maven-bundle-plugin</artifactId>
+         <extensions>true</extensions>
+         <version>2.3.4</version>
+         <executions>
+             <execution>
+                 <id>bundle-manifest</id>
+                 <phase>prepare-package</phase>
+                 <goals>
+                    <goal>manifest</goal>
+                 </goals>
+             </execution>
+         </executions>
+         <configuration>
+>>>>>>> 7dfe9267543b6bb39fa36b835c7b206bc17c8915
             <instructions>
                <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                <Bundle-Version>${project.version}</Bundle-Version>
             </instructions>
-          </configuration>
-            
+            <manifestLocation>${project.build.outputDirectory}/META-INF</manifestLocation>
+          </configuration>   
          </plugin>
       </plugins>
    </build>
    <dependencies>
-      <dependency>
-         <groupId>org.apache.felix</groupId>
-         <artifactId>org.osgi.core</artifactId>
-         <version>1.0.0</version>
-      </dependency>
       <dependency>
          <groupId>org.ebayopensource.turmeric.runtime</groupId>
          <artifactId>soa-client</artifactId>

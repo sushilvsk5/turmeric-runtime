@@ -19,6 +19,6 @@
     <module>ItemSearchServiceV1</module>
     <module>ItemSearchServiceV1Impl</module>
     <module>ItemSearchConsumers</module>
-    <module>DemoApp</module>
+   <!-- <module>DemoApp</module> -->
   </modules>
 </project>

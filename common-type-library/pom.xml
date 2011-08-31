@@ -17,7 +17,7 @@
   </parent>
   <groupId>org.ebayopensource.turmeric.typelib</groupId>
   <artifactId>common-type-library</artifactId>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <name>Turmeric Runtime :: Common Type Library</name>
   <build>
     <plugins>
@@ -41,27 +41,50 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+        	<execution>
+        	    <id>manifest-bundle-jar</id>
+        	    <phase>package</phase>
+		        <configuration>
+		           <archive>  
+		              <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+		           </archive> 
+		        </configuration>
+            </execution>
+        </executions>
+      </plugin>  
       <plugin>   
          <groupId>org.apache.felix</groupId>
          <artifactId>maven-bundle-plugin</artifactId>
+<<<<<<< HEAD
          <extensions>true</extensions>
          <version>2.3.4</version>
+=======
+         <version>2.3.4</version>
+         <executions>
+             <execution>
+                 <id>bundle-manifest</id>
+                 <phase>prepare-package</phase>
+                 <goals>
+                    <goal>manifest</goal>
+                 </goals>
+             </execution>
+         </executions>
+>>>>>>> 7dfe9267543b6bb39fa36b835c7b206bc17c8915
          <configuration>
             <instructions>
                <Export-Package>org.ebayopensource.turmeric.common.*</Export-Package>
                <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                <Bundle-Version>${project.version}</Bundle-Version>
             </instructions>
+            <manifestLocation>${project.build.outputDirectory}/META-INF</manifestLocation>
          </configuration>   
       </plugin>
     </plugins>	
   </build>
   <dependencies>
-    <dependency>
-      <groupId>org.apache.felix</groupId>
-      <artifactId>org.osgi.core</artifactId>
-      <version>1.0.0</version>
-    </dependency>  
     <dependency>
       <groupId>org.ebayopensource.turmeric.runtime</groupId>
       <artifactId>config-validation-tests</artifactId>
