@@ -86,7 +86,7 @@
   </profiles>
   <properties>
     <requiredServices />
-s    <serviceName>AdvertisingUniqueIDServiceV1</serviceName>
+    <serviceName>AdvertisingUniqueIDServiceV1</serviceName>
     <serviceGroupID>org.ebayopensource.turmeric.runtime.tests</serviceGroupID>
   </properties>
 </project>
