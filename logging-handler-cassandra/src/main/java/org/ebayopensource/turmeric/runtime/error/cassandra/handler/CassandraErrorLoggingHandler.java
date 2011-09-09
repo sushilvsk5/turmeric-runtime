@@ -37,6 +37,8 @@ import org.ebayopensource.turmeric.runtime.error.cassandra.model.*;
  */
 public class CassandraErrorLoggingHandler implements LoggingHandler {
 
+    public static final String KEY_SEPARATOR = "|";
+
     /** The error dao. */
     private ErrorDAO errorDao = null;
     
@@ -152,30 +154,14 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
 
             for (ErrorData errorData : errorsToStore) {
                 CommonErrorData commonErrorData = (CommonErrorData) errorData;
-                String errorValueKey = commonErrorData.getErrorId() + "-" + serverName + "-" + srvcAdminName + "-"
-                                + opName;
                 String errorMessage = commonErrorData.getMessage();
-                org.ebayopensource.turmeric.runtime.error.cassandra.model.Error errorToSave = new Error();
-                errorToSave.setErrorId(commonErrorData.getErrorId());
-                errorToSave.setName(commonErrorData.getErrorName());
-                errorToSave.setCategory(commonErrorData.getCategory().toString());
-                errorToSave.setSeverity(commonErrorData.getSeverity().toString());
-                errorToSave.setDomain(commonErrorData.getDomain());
-                errorToSave.setSubDomain(commonErrorData.getSubdomain());
-                errorToSave.setOrganization(commonErrorData.getOrganization());
+                org.ebayopensource.turmeric.runtime.error.cassandra.model.Error errorToSave = new Error(commonErrorData);
+                
                 errorDao.save(errorToSave.getErrorId(), errorToSave);
 
-                ErrorValue errorValue = new ErrorValue();
-                errorValue.setAggregationPeriod(0);
-                errorValue.setConsumerName(consumerName);
-                errorValue.setErrorId(errorToSave.getErrorId());
-                errorValue.setErrorMessage(errorMessage);
-                errorValue.setOperationName(opName);
-                errorValue.setServerSide(serverSide);
-                errorValue.setServiceAdminName(srvcAdminName);
-                errorValue.setServerName(serverName);
-                errorValue.setTimeStamp(timeStamp);
-                // TODO: not good. What if 2 different error values for the same error occurs at the same time?
+                ErrorValue errorValue = new ErrorValue(errorToSave.getErrorId(), serverName, errorMessage, srvcAdminName, opName, consumerName, timeStamp, serverSide, 0);
+                String errorValueKey = errorValue.getKey();
+                //not good. What if 2 different error values for the same error occurs at the same time?
                 errorValueDao.save(errorValueKey, errorValue);
                 errorCountsDao.saveErrorCounts(errorToSave, errorValue, errorValueKey, timeStamp, 1);
             }
@@ -186,6 +172,13 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
             throw new ServiceException("Exception logging error in Cassandra cluster", he);
         }
     }
+
+//    public String createKeyForErrorValue(String serverName, String srvcAdminName, String opName,
+//                    long errorId) {
+//        String errorValueKey = errorId + KEY_SEPARATOR + serverName + KEY_SEPARATOR + srvcAdminName + KEY_SEPARATOR
+//                        + opName;
+//        return errorValueKey;
+//    }
 
     /**
      * Log warning.

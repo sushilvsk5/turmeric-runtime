@@ -21,6 +21,8 @@ import org.ebayopensource.turmeric.common.v1.types.ErrorSeverity;
 
 public class CassandraTestHelper {
 
+    protected static final String IP_ADDRESS = "192.168.2.41";
+
     public void assertValues(ColumnSlice<Object, Object> columnSlice, Object... columnPairs) {
     
         // the asserts are done in this way: assert(columnPairs[0], columnPairs[1]);, assert(columnPairs[2],
