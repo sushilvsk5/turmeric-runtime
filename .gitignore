@@ -16,8 +16,4 @@ ConfigRoot
 temp_per*
 .checkstyle
 *.orig
-*.BACKUP*
-*.LOCAL*
-*.REMOTE*
-
 
