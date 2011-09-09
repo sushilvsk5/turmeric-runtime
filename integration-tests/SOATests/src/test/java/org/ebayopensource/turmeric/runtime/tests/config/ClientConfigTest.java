@@ -61,7 +61,6 @@ public class ClientConfigTest extends AbstractTurmericTestCase {
 
 			CompareUtils.writeOutputFile(this.getClass(), output, "client");
 			String compareString = CompareUtils.getCompareString(this.getClass(), "client.compare.txt");
-			System.out.println(output.toString());
 			assertEquals(compareString, output.toString());
 			
 		} finally {

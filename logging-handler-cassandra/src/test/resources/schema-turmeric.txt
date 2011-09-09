@@ -1,0 +1,43 @@
+create keyspace TurmericMonitoring
+    with strategy_options=[{replication_factor:1}]
+    and placement_strategy = 'SimpleStrategy';
+
+use TurmericMonitoring;
+
+create column family ErrorCountsByCategory
+    with comparator = LongType
+    and key_validation_class=UTF8Type
+;
+
+create column family ErrorCountsBySeverity
+    with comparator = LongType
+    and key_validation_class=UTF8Type
+;
+
+create column family Errors
+	with key_validation_class = LongType
+	and comparator = UTF8Type
+	and  column_metadata = [
+		{column_name : errorId, validation_class: LongType},
+		{column_name : name, validation_class: UTF8Type},
+		{column_name : category, validation_class: UTF8Type},
+		{column_name : severity, validation_class: UTF8Type},
+		{column_name : domain, validation_class: UTF8Type},
+		{column_name : subDomain, validation_class: UTF8Type},
+		{column_name : organization, validation_class: UTF8Type}
+    ]
+;
+
+create column family ErrorValues
+	with key_validation_class = UTF8Type
+	and comparator = UTF8Type
+	and  column_metadata = [
+		{column_name : errorId, validation_class: LongType},
+		{column_name : name, validation_class: UTF8Type},
+		{column_name : category, validation_class: UTF8Type},
+		{column_name : severity, validation_class: UTF8Type},
+		{column_name : domain, validation_class: UTF8Type},
+		{column_name : subDomain, validation_class: UTF8Type},
+		{column_name : organization, validation_class: UTF8Type}
+    ]
+;

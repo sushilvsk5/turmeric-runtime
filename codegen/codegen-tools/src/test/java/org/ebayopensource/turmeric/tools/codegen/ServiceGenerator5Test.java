@@ -8,7 +8,7 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.tools.codegen;
 
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.*;
 
 import java.io.File;
 
@@ -20,6 +20,7 @@ import org.ebayopensource.turmeric.tools.TestResourceUtil;
 import org.ebayopensource.turmeric.tools.codegen.exception.MissingInputOptionException;
 import org.ebayopensource.turmeric.tools.codegen.external.WSDLUtil;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 
