@@ -1,6 +1,8 @@
 package org.ebayopensource.turmeric.runtime.error.cassandra.dao;
 
 import me.prettyprint.cassandra.serializers.IntegerSerializer;
+import static org.ebayopensource.turmeric.runtime.error.cassandra.handler.CassandraErrorLoggingHandler.KEY_SEPARATOR;
+
 import me.prettyprint.cassandra.serializers.LongSerializer;
 import me.prettyprint.cassandra.serializers.SerializerTypeInferer;
 import me.prettyprint.cassandra.serializers.StringSerializer;
@@ -67,10 +69,8 @@ public class ErrorCountsDAO {
         HColumn<Long, String> categoryColumnForAllOps = HFactory.createColumn(timeStamp, errorValueKey, LongSerializer.get(),
                         StringSerializer.get());
               
-        
         HColumn<Long, String> severityColumnAllOps = HFactory.createColumn(timeStamp, errorValueKey, LongSerializer.get(),
                         StringSerializer.get());
-        
         
         mutator.addInsertion(categoryKey, "ErrorCountsByCategory", categoryColumn);
         mutator.addInsertion(categoryKeyAllOps, "ErrorCountsByCategory", categoryColumnForAllOps);
@@ -108,9 +108,9 @@ public class ErrorCountsDAO {
      * @param suffix the suffix
      * @return the string
      */
-    public String createSuffixedErrorCountKey(ErrorValue errorValue, String suffix) {
-        String key = errorValue.getServerName() + "-" + errorValue.getServiceAdminName() + "-"
-                        + errorValue.getOperationName() + "-" + suffix;
+    private String createSuffixedErrorCountKey(ErrorValue errorValue, String suffix) {
+        String key = errorValue.getServerName() + KEY_SEPARATOR + errorValue.getServiceAdminName() + KEY_SEPARATOR
+        + errorValue.getConsumerName() + KEY_SEPARATOR + errorValue.getOperationName() + KEY_SEPARATOR + suffix + KEY_SEPARATOR + errorValue.isServerSide();
         return key;
     }
     
@@ -122,7 +122,7 @@ public class ErrorCountsDAO {
      * @return the string
      */
     public String createSuffixedErrorCountKeyAllOps(ErrorValue errorValue, String suffix) {
-        String key = errorValue.getServerName() + "-" + errorValue.getServiceAdminName() + "-All-" + suffix;
+        String key = errorValue.getServerName() + KEY_SEPARATOR + errorValue.getServiceAdminName() + KEY_SEPARATOR+ errorValue.getConsumerName() + KEY_SEPARATOR +"All"+ KEY_SEPARATOR + suffix + KEY_SEPARATOR + errorValue.isServerSide();
         return key;
     }
 
