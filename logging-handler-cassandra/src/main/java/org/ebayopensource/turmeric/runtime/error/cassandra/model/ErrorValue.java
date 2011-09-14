@@ -76,8 +76,8 @@ public class ErrorValue {
     /**
      * Instantiates a new error value.
      * 
-     * @param errorId
-     *            the error id
+     * @param error
+     *            the error
      * @param serverName
      *            the server name
      * @param errorMessage

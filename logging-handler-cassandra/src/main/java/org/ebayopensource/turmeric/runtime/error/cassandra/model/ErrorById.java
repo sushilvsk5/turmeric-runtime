@@ -59,11 +59,24 @@ public class ErrorById {
         this.setOrganization(commonErrorData.getOrganization());
     }
 
-    public ErrorById(ErrorById error) {
-        this(error.getCategory(), error.getDomain(), error.getErrorId(), error.getName(), error.getOrganization(),
-                        error.getSeverity(), error.getSubDomain());
-    }
-
+    /**
+     * Instantiates a new error by id.
+     * 
+     * @param category
+     *            the category
+     * @param domain
+     *            the domain
+     * @param errorId
+     *            the error id
+     * @param name
+     *            the name
+     * @param organization
+     *            the organization
+     * @param severity
+     *            the severity
+     * @param subDomain
+     *            the sub domain
+     */
     public ErrorById(String category, String domain, Long errorId, String name, String organization, String severity,
                     String subDomain) {
         super();

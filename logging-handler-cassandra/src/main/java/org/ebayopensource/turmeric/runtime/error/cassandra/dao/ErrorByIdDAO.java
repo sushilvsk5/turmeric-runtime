@@ -45,6 +45,18 @@ public class ErrorByIdDAO extends
         super(clusterName, host, s_keyspace, keyTypeClass, persistentClass, columnFamilyName);
     }
 
+    /**
+     * Save.
+     * 
+     * @param key
+     *            the key
+     * @param model
+     *            the model
+     * @param timestamp
+     *            the timestamp
+     * @param errorValueKey
+     *            the error value key
+     */
     public void save(Long key, ErrorById model, long timestamp, String errorValueKey) {
         super.save(key, model);
         Mutator<Long> mutator = HFactory.createMutator(keySpace, LongSerializer.get());
