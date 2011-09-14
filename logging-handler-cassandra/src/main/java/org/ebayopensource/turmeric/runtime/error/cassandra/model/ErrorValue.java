@@ -15,6 +15,64 @@ import static org.ebayopensource.turmeric.runtime.error.cassandra.handler.Cassan
  */
 public class ErrorValue {
 
+    /** The aggregation period. */
+    protected Long aggregationPeriod;
+
+    /** The category. */
+    protected String category;
+
+    /** The consumer name. */
+    protected String consumerName;
+
+    /** The domain. */
+    protected String domain;
+
+    /** The error id. */
+    protected Long errorId;
+
+    /** The error message. */
+    protected String errorMessage;
+
+    /** The key. */
+    protected String key;
+
+    /** The name. */
+    protected String name;
+
+    /** The operation name. */
+    protected String operationName;
+
+    /** The organization. */
+    protected String organization;
+
+    /** The random number. */
+    protected int randomNumber;
+
+    /** The server name. */
+    protected String serverName;
+
+    /** The server side. */
+    protected String serverSide;
+
+    /** The service admin name. */
+    protected String serviceAdminName;
+
+    /** The severity. */
+    protected String severity;
+
+    /** The sub domain. */
+    protected String subDomain;
+
+    /** The time stamp. */
+    protected Long tstamp;
+
+    /**
+     * Instantiates a new error value.
+     */
+    public ErrorValue() {
+
+    }
+
     /**
      * Instantiates a new error value.
      * 
@@ -36,75 +94,47 @@ public class ErrorValue {
      *            the server side
      * @param aggregationPeriod
      *            the aggregation period
+     * @param randomNumber
+     *            the random number
      */
-    public ErrorValue(Long errorId, String serverName, String errorMessage, String serviceAdminName,
-                    String operationName, String consumerName, long timeStamp, boolean serverSide, int aggregationPeriod) {
-        super();
-        this.errorId = errorId;
+    public ErrorValue(ErrorById error, String serverName, String errorMessage, String serviceAdminName,
+                    String operationName, String consumerName, long timeStamp, boolean serverSide,
+                    int aggregationPeriod, int randomNumber) {
+        this.errorId = error.getErrorId();
         this.serverName = serverName;
         this.errorMessage = errorMessage;
         this.serviceAdminName = serviceAdminName;
         this.operationName = operationName;
         this.consumerName = consumerName;
-        this.timeStamp = timeStamp;
-        this.serverSide = serverSide;
-        this.aggregationPeriod = aggregationPeriod;
+        this.tstamp = timeStamp;
+        this.serverSide = Boolean.toString(serverSide);
+        this.aggregationPeriod = Long.valueOf(aggregationPeriod);
+        this.randomNumber = randomNumber;
+        this.category = error.getCategory();
+        this.domain = error.getDomain();
+        this.errorId = error.getErrorId();
+        this.name = error.getName();
+        this.organization = error.getOrganization();
+        this.severity = error.getSeverity();
+        this.subDomain = error.getSubDomain();
     }
 
     /**
-     * Instantiates a new error value.
-     */
-    public ErrorValue() {
-
-    }
-
-    /** The error id. */
-    private Long errorId;
-
-    /** The server name. */
-    private String serverName;
-
-    /** The error message. */
-    private String errorMessage;
-
-    /** The service admin name. */
-    private String serviceAdminName;
-
-    /** The operation name. */
-    private String operationName;
-
-    /** The consumer name. */
-    private String consumerName;
-
-    /** The time stamp. */
-    private long timeStamp;
-
-    /** The server side. */
-    private boolean serverSide;
-
-    /** The aggregation period. */
-    private int aggregationPeriod;
-
-    /** The key. */
-    private String key;
-
-    /**
-     * Gets the server name.
+     * Gets the aggregation period.
      * 
-     * @return the server name
+     * @return the aggregation period
      */
-    public String getServerName() {
-        return serverName;
+    public Long getAggregationPeriod() {
+        return aggregationPeriod;
     }
 
     /**
-     * Sets the server name.
+     * Gets the consumer name.
      * 
-     * @param serverName
-     *            the new server name
+     * @return the consumer name
      */
-    public void setServerName(String serverName) {
-        this.serverName = serverName;
+    public String getConsumerName() {
+        return consumerName;
     }
 
     /**
@@ -117,16 +147,6 @@ public class ErrorValue {
     }
 
     /**
-     * Sets the error id.
-     * 
-     * @param errorId
-     *            the new error id
-     */
-    public void setErrorId(Long errorId) {
-        this.errorId = errorId;
-    }
-
-    /**
      * Gets the error message.
      * 
      * @return the error message
@@ -136,32 +156,16 @@ public class ErrorValue {
     }
 
     /**
-     * Sets the error message.
+     * Gets the key.
      * 
-     * @param errorMessage
-     *            the new error message
+     * @return the key
      */
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
+    public String getKey() {
+        if (key == null) {
+            key = this.tstamp + KEY_SEPARATOR + this.randomNumber;
+        }
 
-    /**
-     * Gets the service admin name.
-     * 
-     * @return the service admin name
-     */
-    public String getServiceAdminName() {
-        return serviceAdminName;
-    }
-
-    /**
-     * Sets the service admin name.
-     * 
-     * @param serviceAdminName
-     *            the new service admin name
-     */
-    public void setServiceAdminName(String serviceAdminName) {
-        this.serviceAdminName = serviceAdminName;
+        return key;
     }
 
     /**
@@ -174,22 +178,49 @@ public class ErrorValue {
     }
 
     /**
-     * Sets the operation name.
+     * Gets the server name.
      * 
-     * @param operationName
-     *            the new operation name
+     * @return the server name
      */
-    public void setOperationName(String operationName) {
-        this.operationName = operationName;
+    public String getServerName() {
+        return serverName;
     }
 
     /**
-     * Gets the consumer name.
+     * Gets the service admin name.
      * 
-     * @return the consumer name
+     * @return the service admin name
      */
-    public String getConsumerName() {
-        return consumerName;
+    public String getServiceAdminName() {
+        return serviceAdminName;
+    }
+
+    /**
+     * Gets the time stamp.
+     * 
+     * @return the time stamp
+     */
+    public long getTimeStamp() {
+        return tstamp;
+    }
+
+    /**
+     * Checks if is server side.
+     * 
+     * @return true, if is server side
+     */
+    public boolean isServerSide() {
+        return Boolean.parseBoolean(serverSide);
+    }
+
+    /**
+     * Sets the aggregation period.
+     * 
+     * @param aggregationPeriod
+     *            the new aggregation period
+     */
+    public void setAggregationPeriod(Long aggregationPeriod) {
+        this.aggregationPeriod = aggregationPeriod;
     }
 
     /**
@@ -203,31 +234,43 @@ public class ErrorValue {
     }
 
     /**
-     * Gets the time stamp.
+     * Sets the error id.
      * 
-     * @return the time stamp
+     * @param errorId
+     *            the new error id
      */
-    public long getTimeStamp() {
-        return timeStamp;
+    public void setErrorId(Long errorId) {
+        this.errorId = errorId;
     }
 
     /**
-     * Sets the time stamp.
+     * Sets the error message.
      * 
-     * @param timeStamp
-     *            the new time stamp
+     * @param errorMessage
+     *            the new error message
      */
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
     /**
-     * Checks if is server side.
+     * Sets the operation name.
      * 
-     * @return true, if is server side
+     * @param operationName
+     *            the new operation name
      */
-    public boolean isServerSide() {
-        return serverSide;
+    public void setOperationName(String operationName) {
+        this.operationName = operationName;
+    }
+
+    /**
+     * Sets the server name.
+     * 
+     * @param serverName
+     *            the new server name
+     */
+    public void setServerName(String serverName) {
+        this.serverName = serverName;
     }
 
     /**
@@ -237,40 +280,27 @@ public class ErrorValue {
      *            the new server side
      */
     public void setServerSide(boolean serverSide) {
-        this.serverSide = serverSide;
+        this.serverSide = Boolean.toString(serverSide);
     }
 
     /**
-     * Gets the aggregation period.
+     * Sets the service admin name.
      * 
-     * @return the aggregation period
+     * @param serviceAdminName
+     *            the new service admin name
      */
-    public int getAggregationPeriod() {
-        return aggregationPeriod;
+    public void setServiceAdminName(String serviceAdminName) {
+        this.serviceAdminName = serviceAdminName;
     }
 
     /**
-     * Sets the aggregation period.
+     * Sets the time stamp.
      * 
-     * @param aggregationPeriod
-     *            the new aggregation period
+     * @param timeStamp
+     *            the new time stamp
      */
-    public void setAggregationPeriod(int aggregationPeriod) {
-        this.aggregationPeriod = aggregationPeriod;
-    }
-
-    /**
-     * Gets the key.
-     *
-     * @return the key
-     */
-    public String getKey() {
-        if (key == null) {
-            key = this.errorId + KEY_SEPARATOR + serverName + KEY_SEPARATOR + this.serviceAdminName + KEY_SEPARATOR
-                            + this.operationName+KEY_SEPARATOR+serverSide;
-        }
-
-        return key;
+    public void setTimeStamp(long timeStamp) {
+        this.tstamp = timeStamp;
     }
 
 }

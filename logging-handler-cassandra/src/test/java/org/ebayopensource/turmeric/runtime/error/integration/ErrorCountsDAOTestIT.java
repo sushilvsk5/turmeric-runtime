@@ -17,7 +17,7 @@ import me.prettyprint.hector.api.beans.ColumnSlice;
 import org.ebayopensource.turmeric.common.v1.types.ErrorCategory;
 import org.ebayopensource.turmeric.common.v1.types.ErrorSeverity;
 import org.ebayopensource.turmeric.runtime.error.cassandra.dao.ErrorCountsDAO;
-import org.ebayopensource.turmeric.runtime.error.cassandra.model.Error;
+import org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorById;
 import org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorValue;
 import org.ebayopensource.turmeric.utils.cassandra.hector.HectorManager;
 
@@ -30,14 +30,14 @@ public class ErrorCountsDAOTestIT extends CassandraTestHelper {
     private ErrorCountsDAO dao = null;
     private Keyspace kspace = null;
     private Long now = -1l;
-    private Error errorToSave = null;
+    private ErrorById errorToSave = null;
     private ErrorValue errorValue = null;
     private int errorCountToStore;
 
     @Before
     public void setUp() {
         now = System.currentTimeMillis();
-        errorToSave = new Error();
+        errorToSave = new ErrorById();
         errorToSave.setCategory(ErrorCategory.REQUEST.toString());
         errorToSave.setSeverity(ErrorSeverity.ERROR.toString());
         errorToSave.setDomain("TestDomain");

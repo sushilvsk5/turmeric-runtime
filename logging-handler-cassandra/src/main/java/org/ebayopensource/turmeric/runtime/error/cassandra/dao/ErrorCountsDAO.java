@@ -11,7 +11,7 @@ import me.prettyprint.hector.api.beans.HColumn;
 import me.prettyprint.hector.api.factory.HFactory;
 import me.prettyprint.hector.api.mutation.Mutator;
 
-import org.ebayopensource.turmeric.runtime.error.cassandra.model.Error;
+import org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorById;
 import org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorValue;
 import org.ebayopensource.turmeric.utils.cassandra.hector.HectorManager;
 
@@ -52,7 +52,7 @@ public class ErrorCountsDAO {
      * @param timeStamp the time stamp
      * @param errorCountToStore the error count to store
      */
-    public void saveErrorCounts(org.ebayopensource.turmeric.runtime.error.cassandra.model.Error errorToSave,
+    public void saveErrorCounts(org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorById errorToSave,
                     ErrorValue errorValue, String errorValueKey, Long timeStamp, int errorCountToStore) {
         String categoryKey = createCategoryKeyByErrorValue(errorValue, errorToSave);
         String categoryKeyAllOps = createCategoryKeyByErrorValueForAllOps(errorValue, errorToSave);
@@ -86,7 +86,7 @@ public class ErrorCountsDAO {
      * @param error the error
      * @return the string
      */
-    public String createSeverityKeyByErrorValue(ErrorValue errorValue, Error error) {
+    public String createSeverityKeyByErrorValue(ErrorValue errorValue, ErrorById error) {
         return createSuffixedErrorCountKey(errorValue, error.getSeverity());
     }
     
@@ -97,7 +97,7 @@ public class ErrorCountsDAO {
      * @param error the error
      * @return the string
      */
-    public String createSeverityKeyByErrorValueForAllOps(ErrorValue errorValue, Error error) {
+    public String createSeverityKeyByErrorValueForAllOps(ErrorValue errorValue, ErrorById error) {
         return createSuffixedErrorCountKeyAllOps(errorValue, error.getSeverity());
     }
 
@@ -133,7 +133,7 @@ public class ErrorCountsDAO {
      * @param error the error
      * @return the string
      */
-    public String createCategoryKeyByErrorValue(ErrorValue errorValue, Error error) {
+    public String createCategoryKeyByErrorValue(ErrorValue errorValue, ErrorById error) {
         return createSuffixedErrorCountKey(errorValue, error.getCategory());
     }
     
@@ -144,7 +144,7 @@ public class ErrorCountsDAO {
      * @param error the error
      * @return the string
      */
-    public String createCategoryKeyByErrorValueForAllOps(ErrorValue errorValue, Error error) {
+    public String createCategoryKeyByErrorValueForAllOps(ErrorValue errorValue, ErrorById error) {
         return createSuffixedErrorCountKeyAllOps(errorValue, error.getCategory());
     }
 
