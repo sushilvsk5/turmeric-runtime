@@ -63,16 +63,15 @@
 									<outputDirectory>${root-dist-directory}</outputDirectory>
 								</artifactItem>
 								<!-- update this section to deploy the demo-echo-service war -->
-<!-- 								<artifactItem>
+								<artifactItem>
 									<groupId>org.ebayopensource.turmeric.runtime</groupId>
 									<artifactId>echoservice-example</artifactId>
-									<version>1.0.0</version>
+									<version>1.0.1.0-SNAPSHOT</version>
 									<type>war</type>
 									<overWrite>true</overWrite>
 									<includes>**</includes>
 									<outputDirectory>${assembly-directory}/webapps/example-echoservice</outputDirectory>
 								</artifactItem>
--->								
 							</artifactItems>
 						</configuration>
 					</execution>
@@ -184,13 +183,13 @@
 								<artifactItem>
 									<groupId>com.ebay.kernel</groupId>
 									<artifactId>uKernelCore</artifactId>
-									<version>1.77</version>
+									<version>1.73</version>
 									<outputDirectory>${assembly-directory}/lib/turmericsoa</outputDirectory>
 								</artifactItem>
 								<artifactItem>
 									<groupId>com.ebay.kernel</groupId>
 									<artifactId>uKernel</artifactId>
-									<version>1.82</version>
+									<version>1.75.689.2</version>
 									<outputDirectory>${assembly-directory}/lib/turmericsoa</outputDirectory>
 								</artifactItem>
 								<artifactItem>
@@ -199,22 +198,10 @@
 									<version>1.0.3</version>
 									<outputDirectory>${assembly-directory}/lib/turmericsoa</outputDirectory>
 								</artifactItem>
-								<artifactItem>
-									<groupId>org.ebayopensource.turmeric.runtime</groupId>
-									<artifactId>soa-client</artifactId>
-									<version>${turmeric-version}</version>
-									<outputDirectory>${assembly-directory}/lib/turmericsoa</outputDirectory>
-								</artifactItem>
-								<artifactItem>
-									<groupId>org.ebayopensource.turmeric.runtime</groupId>
-									<artifactId>soa-server</artifactId>
-									<version>${turmeric-version}</version>
-									<outputDirectory>${assembly-directory}/lib/turmericsoa</outputDirectory>
-								</artifactItem>
-								<artifactItem>
+ 								<artifactItem>
 									<groupId>org.ebayopensource.turmeric.typelib</groupId>
 									<artifactId>common-type-library</artifactId>
-									<version>${turmeric-version}</version>
+									<version>${project.version}</version>
 									<outputDirectory>${assembly-directory}/lib/turmericsoa</outputDirectory>
 								</artifactItem>
 								<artifactItem>
@@ -245,6 +232,12 @@
 									<groupId>backport-util-concurrent</groupId>
 									<artifactId>backport-util-concurrent</artifactId>
 									<version>3.1</version>
+									<outputDirectory>${assembly-directory}/lib/turmericsoa</outputDirectory>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.slf4j</groupId>
+									<artifactId>slf4j-simple</artifactId>
+									<version>${slf4j-version}</version>
 									<outputDirectory>${assembly-directory}/lib/turmericsoa</outputDirectory>
 								</artifactItem>
 								<artifactItem>
@@ -314,18 +307,20 @@
 									<outputDirectory>${assembly-directory}/lib/turmericsoa</outputDirectory>
 								</artifactItem>
 								<artifactItem>
-									<groupId>org.apache.geronimo</groupId>
-									<artifactId>geronimo-activation</artifactId>
-									<version>1.0</version>
+									<groupId>commons-httpclient</groupId>
+									<artifactId>commons-httpclient</artifactId>
+									<version>3.1</version>
 									<outputDirectory>${assembly-directory}/lib/turmericsoa</outputDirectory>
 								</artifactItem>
-<!-- 								<artifactItem>
+								<artifactItem>
 									<groupId>org.apache.geronimo.specs</groupId>
-									<artifactId>geronimo-jta_1.1_spec</artifactId>
-									<version>1.1</version>
+									<artifactId>geronimo-activation_1.1_spec</artifactId>
+									<version>1.0.1</version>
 									<outputDirectory>${assembly-directory}/lib/turmericsoa</outputDirectory>
 								</artifactItem>
--->
+								<!-- <artifactItem> <groupId>org.apache.geronimo.specs</groupId> 
+									<artifactId>geronimo-jta_1.1_spec</artifactId> <version>1.1</version> <outputDirectory>${assembly-directory}/lib/turmericsoa</outputDirectory> 
+									</artifactItem> -->
 								<artifactItem>
 									<groupId>org.apache.geronimo.specs</groupId>
 									<artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
@@ -391,11 +386,6 @@
 									<artifactId>jsr311-api</artifactId>
 									<version>1.0</version>
 									<outputDirectory>${assembly-directory}/lib/turmericsoa</outputDirectory>
-								</artifactItem>
-								<artifactItem>
-									<groupId>javax.xml.stream</groupId>
-									<artifactId>stax-api</artifactId>
-									<version>1.0-2</version>
 								</artifactItem>
 								<artifactItem>
 									<groupId>org.codehaus.woodstox</groupId>
