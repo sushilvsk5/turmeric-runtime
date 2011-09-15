@@ -1,0 +1,11 @@
+<Configure id="Server" class="org.eclipse.jetty.server.Server">
+	<Ref id="DeploymentManager"> 
+		<Call name="addLifeCycleBinding">
+			<Arg>
+				<New class="org.eclipse.jetty.deploy.bindings.GlobalWebappConfigBinding">
+					<Set name="jettyXml">file://<Property name="jetty.home" default="." />/etc/global-webapp-context-config.xml</Set>
+				</New>
+			</Arg>
+		</Call>
+	</Ref>
+</Configure>
