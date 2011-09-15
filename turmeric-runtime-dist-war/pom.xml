@@ -32,11 +32,13 @@
 			<groupId>org.ebayopensource.turmeric.runtime</groupId>
 			<artifactId>soa-client</artifactId>
 			<version>${project.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.ebayopensource.turmeric.runtime</groupId>
 			<artifactId>soa-server</artifactId>
 			<version>${project.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>sun-servlet</groupId>

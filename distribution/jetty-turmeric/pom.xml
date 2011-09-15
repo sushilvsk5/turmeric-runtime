@@ -199,6 +199,18 @@
 									<outputDirectory>${assembly-directory}/lib/turmericsoa</outputDirectory>
 								</artifactItem>
  								<artifactItem>
+									<groupId>org.ebayopensource.turmeric.runtime</groupId>
+									<artifactId>soa-client</artifactId>
+									<version>${turmeric-version}</version>
+									<outputDirectory>${assembly-directory}/lib/turmericsoa</outputDirectory>
+								</artifactItem>
+ 								<artifactItem>
+									<groupId>org.ebayopensource.turmeric.runtime</groupId>
+									<artifactId>soa-server</artifactId>
+									<version>${turmeric-version}</version>
+									<outputDirectory>${assembly-directory}/lib/turmericsoa</outputDirectory>
+								</artifactItem>
+ 								<artifactItem>
 									<groupId>org.ebayopensource.turmeric.typelib</groupId>
 									<artifactId>common-type-library</artifactId>
 									<version>${project.version}</version>
