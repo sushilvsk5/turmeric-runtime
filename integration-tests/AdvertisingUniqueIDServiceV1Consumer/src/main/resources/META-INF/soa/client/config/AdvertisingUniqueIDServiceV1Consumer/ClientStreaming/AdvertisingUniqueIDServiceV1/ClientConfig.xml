@@ -20,7 +20,7 @@
         <consumer-id>UniqueServiceConsumerV1</consumer-id>
       </invocation-options>
          <transport name="HTTP11">
-         <class-name>org.ebayopensource.turmeric.sif.impl.transport.http.HTTPSyncAsyncClientTransport
+         <class-name>org.ebayopensource.turmeric.runtime.sif.impl.transport.http.HTTPSyncAsyncClientTransport
          </class-name>
           <default-options>
 			        <socket-connect-timeout-msec>10000</socket-connect-timeout-msec>

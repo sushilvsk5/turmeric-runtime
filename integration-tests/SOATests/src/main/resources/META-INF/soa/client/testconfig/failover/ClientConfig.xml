@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<client-config-list xmlns="http://www.ebay.com/soaframework/common/config">
+<client-config-list xmlns="http://www.ebayopensource.org/soaframework/common/config">
 	<client-config
 		service-name="test1"
 		group="SOAWebServiceClient"
-		xmlns="http://www.ebay.com/soaframework/common/config">
+		xmlns="http://www.ebayopensource.org/soaframework/common/config">
 		<service-interface-class-name>
 			org.ebayopensource.turmeric.runtime.tests.service1.sample.services.message.Test1Service
 		</service-interface-class-name>
@@ -34,7 +34,7 @@
 	<client-config
 		service-name="test1a"
 		group="SOAWebServiceClient"
-		xmlns="http://www.ebay.com/soaframework/common/config">
+		xmlns="http://www.ebayopensource.org/soaframework/common/config">
 		<service-interface-class-name>
 			org.ebayopensource.turmeric.runtime.tests.service1.sample.services.message.Test1Service
 		</service-interface-class-name>
@@ -65,7 +65,7 @@
 	<client-config
 		service-name="test1b"
 		group="SOAWebServiceClient"
-		xmlns="http://www.ebay.com/soaframework/common/config">
+		xmlns="http://www.ebayopensource.org/soaframework/common/config">
 		<service-interface-class-name>
 			org.ebayopensource.turmeric.runtime.tests.service1.sample.services.message.Test1Service
 		</service-interface-class-name>
@@ -90,7 +90,7 @@
 		</client-instance-config>
 	</client-config>
 	<client-config
-		service-name="{http://www.ebay.com/soaframework/common/config}test1gen"
+		service-name="{http://www.ebayopensource.org/soaframework/common/config}test1gen"
 		group="SOAWebServiceClient">
 		<service-interface-class-name>
 			org.ebayopensource.turmeric.runtime.tests.service1.sample.services.message.Test1Service
@@ -105,11 +105,11 @@
 			</invocation-options>
 		</client-instance-config>
 	</client-config>
-	<client-config-list xmlns="http://www.ebay.com/soaframework/common/config">
+	<client-config-list xmlns="http://www.ebayopensource.org/soaframework/common/config">
 	  <client-config
 		service-name="test1d"
 		group="SOAWebServiceClient"
-		xmlns="http://www.ebay.com/soaframework/common/config">
+		xmlns="http://www.ebayopensource.org/soaframework/common/config">
 	    <service-interface-class-name>org.ebayopensource.turmeric.runtime.tests.service1.sample.services.message.Test1Service</service-interface-class-name>
 	    <service-location>http://localhost:9090/ws/spf</service-location>
 	    <client-instance-config>
