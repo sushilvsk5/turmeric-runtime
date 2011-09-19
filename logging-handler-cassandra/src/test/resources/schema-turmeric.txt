@@ -14,7 +14,7 @@ create column family ErrorCountsBySeverity
     and key_validation_class=UTF8Type
 ;
 
-create column family Errors
+create column family ErrorsById
 	with key_validation_class = LongType
 	and comparator = UTF8Type
 	and  column_metadata = [
@@ -38,6 +38,15 @@ create column family ErrorValues
 		{column_name : severity, validation_class: UTF8Type},
 		{column_name : domain, validation_class: UTF8Type},
 		{column_name : subDomain, validation_class: UTF8Type},
-		{column_name : organization, validation_class: UTF8Type}
-    ]
+		{column_name : organization, validation_class: UTF8Type},
+		{column_name : aggregationPeriod, validation_class: LongType},
+		{column_name : consumerName, validation_class: UTF8Type},
+    	{column_name : errorMessage, validation_class: UTF8Type},
+   		{column_name : operationName, validation_class: UTF8Type},
+		{column_name : randomNumber, validation_class: UTF8Type},
+    	{column_name : serverName, validation_class: UTF8Type},
+    	{column_name : serverSide, validation_class: UTF8Type},
+    	{column_name : serviceAdminName, validation_class: UTF8Type},
+        {column_name : tstamp, validation_class: LongType}
+     ]
 ;
