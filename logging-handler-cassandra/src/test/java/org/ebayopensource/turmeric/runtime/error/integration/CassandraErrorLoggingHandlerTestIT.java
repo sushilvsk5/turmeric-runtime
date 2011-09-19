@@ -96,7 +96,7 @@ public class CassandraErrorLoggingHandlerTestIT extends CassandraTestHelper {
 
     @After
     public void tearDown() {
-        this.cleanUpTestData();
+        // this.cleanUpTestData();
         logHandler = null;
         kspace = null;
     }
