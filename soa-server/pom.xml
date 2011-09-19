@@ -30,6 +30,14 @@
          </resource>
       </resources>
       <plugins>
+<<<<<<< HEAD
+         <plugin>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>maven-bundle-plugin</artifactId>
+            <version>2.3.4</version>
+            <extensions>true</extensions>
+          <configuration>
+=======
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
         <executions>
@@ -62,6 +70,7 @@
              </execution>
          </executions>
          <configuration>
+>>>>>>> 7dfe9267543b6bb39fa36b835c7b206bc17c8915
             <instructions>
                <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                <Bundle-Version>${project.version}</Bundle-Version>

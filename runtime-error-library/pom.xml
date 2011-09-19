@@ -58,6 +58,9 @@
          <artifactId>maven-bundle-plugin</artifactId>
          <extensions>true</extensions>
          <version>2.3.4</version>
+<<<<<<< HEAD
+          <configuration>
+=======
          <executions>
              <execution>
                  <id>bundle-manifest</id>
@@ -68,6 +71,7 @@
              </execution>
          </executions>
          <configuration>
+>>>>>>> 7dfe9267543b6bb39fa36b835c7b206bc17c8915
             <instructions>
                <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                <Bundle-Version>${project.version}</Bundle-Version>
