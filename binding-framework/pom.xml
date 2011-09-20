@@ -77,17 +77,6 @@
          <groupId>org.apache.felix</groupId>
          <artifactId>maven-bundle-plugin</artifactId>
          <extensions>true</extensions>
-<<<<<<< HEAD
-         <version>2.3.4</version>
-         <configuration>
-            <instructions>
-               <Export-Package>org.ebayopensource.turmeric.runtime.binding.*</Export-Package>
-               <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-               <Bundle-Version>${project.version}</Bundle-Version>
-            </instructions>
-         </configuration>   
-      </plugin>	
-=======
          <version>2.3.5</version>
          <executions>
              <execution>
@@ -124,7 +113,6 @@
             </execution>
         </executions>
       </plugin>  
->>>>>>> 7dfe9267543b6bb39fa36b835c7b206bc17c8915
     </plugins>
   </build>
 </project>
