@@ -5,7 +5,7 @@
  #   java -jar start.jar --list-options
  #-----------------------------------------------------------
 -OPTIONS=Server,jsp,jmx,resources,websocket,ext
-+OPTIONS=Server,jsp,jmx,resources,websocket,turmericsoa,ext,jta,plus,jdbc,annotations
++OPTIONS=Server,jsp,jmx,resources,websocket,cassandra,turmericsoa,ext,jta,plus,jdbc,annotations
  #-----------------------------------------------------------
  
  
