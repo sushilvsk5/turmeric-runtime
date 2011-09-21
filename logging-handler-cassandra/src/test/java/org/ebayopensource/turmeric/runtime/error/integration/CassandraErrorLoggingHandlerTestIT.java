@@ -31,7 +31,7 @@ public class CassandraErrorLoggingHandlerTestIT extends CassandraTestHelper{
         
         try {
             logHandler = new CassandraErrorLoggingHandler();
-            kspace = new HectorManager().getKeyspace("Test Cluster", "127.0.0.1", "TurmericMonitoring", "Errors");
+            kspace = new HectorManager().getKeyspace("Test Cluster", "127.0.0.1", "TurmericMonitoring", "Errors", false);
         }
         catch (Exception e) {
             e.printStackTrace();

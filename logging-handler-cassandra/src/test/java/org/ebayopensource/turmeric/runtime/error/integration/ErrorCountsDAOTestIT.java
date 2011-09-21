@@ -24,7 +24,7 @@ public class ErrorCountsDAOTestIT extends CassandraTestHelper {
     @Before
     public void setUp() {
         try {
-            kspace = new HectorManager().getKeyspace("Test Cluster", "127.0.0.1", "TurmericMonitoring", "Errors");
+            kspace = new HectorManager().getKeyspace("Test Cluster", "127.0.0.1", "TurmericMonitoring", "Errors", false);
             dao = new ErrorCountsDAO("Test Cluster", "127.0.0.1", "TurmericMonitoring");
         }
         catch (Exception e) {
