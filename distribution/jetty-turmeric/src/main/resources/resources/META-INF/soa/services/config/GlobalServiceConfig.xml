@@ -12,21 +12,21 @@
 
 	<!-- Uncomment the following to enable metrics with the cassandra provider. 
 		You will need to make sure the appropriate provider jar is in lib/turmericsoa -->
-
+<!-- 
 	<monitor-config>
 		<storage-provider name="DAOMetricsStorageProvider">
 			<class-name>org.ebayopensource.turmeric.monitoring.cassandra.storage.provider.CassandraMetricsStorageProvider
 			</class-name>
 			<storage-options>
 				<option name="storeServiceMetrics">false</option>
-				<option name="hostName">192.168.2.41</option>
+				<option name="hostName">127.0.0.1</option>
 				<option name="keyspaceName">TurmericMonitoring</option>
 				<option name="clusterName">Test Cluster</option>
 			</storage-options>
 		</storage-provider>
 		<snapshot-interval>20</snapshot-interval>
 	</monitor-config>
-
+ -->
 	<service-config-groups>
 		<service-group name="eBoxServiceGroup">
 			<service-config>
