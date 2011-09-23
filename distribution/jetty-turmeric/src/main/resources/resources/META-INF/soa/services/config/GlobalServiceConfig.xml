@@ -22,6 +22,7 @@
 				<option name="hostName">127.0.0.1</option>
 				<option name="keyspaceName">TurmericMonitoring</option>
 				<option name="clusterName">Test Cluster</option>
+				<option name="embedded">true</option>
 			</storage-options>
 		</storage-provider>
 		<snapshot-interval>20</snapshot-interval>
