@@ -86,7 +86,8 @@ public class CassandraErrorLoggingHandlerTestIT extends CassandraTestHelper {
         ctx = new MockInitContext(options);
         try {
             logHandler = new CassandraErrorLoggingHandler();
-            kspace = new HectorManager().getKeyspace("Test Cluster", IP_ADDRESS, "TurmericMonitoring", "ErrorsById", false);
+            kspace = new HectorManager().getKeyspace("Test Cluster", IP_ADDRESS, "TurmericMonitoring", "ErrorsById",
+                            false);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -115,6 +116,40 @@ public class CassandraErrorLoggingHandlerTestIT extends CassandraTestHelper {
         assertEquals("Test Cluster", logHandler.getClusterName());
         assertEquals(IP_ADDRESS, logHandler.getHostAddress());
         assertEquals("TurmericMonitoring", logHandler.getKeyspaceName());
+    }
+
+    @Test
+    public void testInitEmbedded() throws ServiceException {
+        Map<String, String> options = this.createRegularOptionsMap();
+        options.put("embedded", "true");
+        // for the embeddedservie to start, we need to set the system proeprties log4j.configuration,cassandra.config
+        System.setProperty("log4j.configuration", "log4j.properties");
+        System.setProperty("cassandra.config", "cassandra.yaml");
+        InitContext ctx = new MockInitContext(options);
+        logHandler.init(ctx);
+        assertEquals("Test Cluster", logHandler.getClusterName());
+        assertEquals(IP_ADDRESS, logHandler.getHostAddress());
+        assertEquals("TurmericMonitoring", logHandler.getKeyspaceName());
+        assertEquals(true, logHandler.getEmbedded());
+    }
+
+    @Test
+    public void testInitEmbeddedFalse() throws ServiceException {
+        Map<String, String> options = this.createRegularOptionsMap();
+        options.put("embedded", "false");
+        InitContext ctx = new MockInitContext(options);
+        logHandler.init(ctx);
+        assertEquals("Test Cluster", logHandler.getClusterName());
+        assertEquals(IP_ADDRESS, logHandler.getHostAddress());
+        assertEquals("TurmericMonitoring", logHandler.getKeyspaceName());
+        assertEquals(false, logHandler.getEmbedded());
+    }
+
+    @Test(expected = ServiceException.class)
+    public void testInitNoParams() throws ServiceException {
+        Map<String, String> options = new HashMap<String, String>();
+        InitContext ctx = new MockInitContext(options);
+        logHandler.init(ctx);
     }
 
     @Test

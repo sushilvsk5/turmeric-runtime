@@ -31,6 +31,7 @@ import org.ebayopensource.turmeric.runtime.error.cassandra.dao.ErrorCountsDAO;
 import org.ebayopensource.turmeric.runtime.error.cassandra.dao.ErrorValueDAO;
 import org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorById;
 import org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorValue;
+import org.ebayopensource.turmeric.utils.cassandra.service.CassandraManager;
 
 /**
  * The Class CassandraErrorLoggingHandler.
@@ -44,6 +45,8 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
 
     /** The cluster name. */
     private String clusterName;
+
+    private Boolean embedded;
 
     /** The error counts dao. */
     private ErrorCountsDAO errorCountsDao = null;
@@ -76,6 +79,10 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
      */
     public String getClusterName() {
         return clusterName;
+    }
+
+    public Boolean getEmbedded() {
+        return embedded;
     }
 
     /**
@@ -127,6 +134,10 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
         clusterName = options.get("cluster-name");
         hostAddress = options.get("host-address");
         keyspaceName = options.get("keyspace-name");
+        if (this.isInvalidString(clusterName) || this.isInvalidString(hostAddress)
+                        || this.isInvalidString(keyspaceName)) {
+            throw new ServiceException("Invalid cassandra options. Empty clusterName/hostAddress/keyspaceName");
+        }
         String randomGeneratorClassName = options.get("random-generator-class-name");
         if ((randomGeneratorClassName == null) || randomGeneratorClassName.isEmpty()) {
             randomGenerator = new Random(System.currentTimeMillis());
@@ -140,12 +151,21 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
                 throw new ServiceException("Error instancing random generator class", e);
             }
         }
+        String embeddedOption = options.get("embedded");
+        this.embedded = Boolean.valueOf(embeddedOption);
+        if (this.embedded) {
+            CassandraManager.initialize();
+        }
         errorDao = new ErrorByIdDAO(clusterName, hostAddress, keyspaceName, Long.class,
                         org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorById.class, "ErrorsById");
         errorValueDao = new ErrorValueDAO(clusterName, hostAddress, keyspaceName, String.class,
                         org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorValue.class, "ErrorValues");
         errorCountsDao = new ErrorCountsDAO(clusterName, hostAddress, keyspaceName);
 
+    }
+
+    private boolean isInvalidString(String str) {
+        return (str == null) || str.isEmpty();
     }
 
     /**
