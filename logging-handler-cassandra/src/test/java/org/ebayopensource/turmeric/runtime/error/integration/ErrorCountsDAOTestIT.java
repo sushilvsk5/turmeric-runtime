@@ -58,7 +58,7 @@ public class ErrorCountsDAOTestIT extends CassandraTestHelper {
         errorCountToStore = 1;
 
         try {
-            kspace = new HectorManager().getKeyspace("Test Cluster", IP_ADDRESS, "TurmericMonitoring", "Errors", false);
+            kspace = new HectorManager().getKeyspace("Test Cluster", IP_ADDRESS, "TurmericMonitoring", "Errors", false, null, String.class);
             dao = new ErrorCountsDAO("Test Cluster", IP_ADDRESS, "TurmericMonitoring");
         }
         catch (Exception e) {

@@ -31,7 +31,7 @@ public class ErrorCountsDAO {
      *            the keyspace name
      */
     public ErrorCountsDAO(String clusterName, String host, String keyspaceName) {
-        this.keySpace = new HectorManager().getKeyspace(clusterName, host, keyspaceName, "ErrorCountsByCategory", false);
+        this.keySpace = new HectorManager().getKeyspace(clusterName, host, keyspaceName, "ErrorCountsByCategory", false, null, String.class);
     }
 
     /**
