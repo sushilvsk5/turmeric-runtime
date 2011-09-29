@@ -13,11 +13,16 @@ import java.util.Map;
 import org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler.InitContext;
 import org.ebayopensource.turmeric.runtime.common.service.ServiceId;
 
-public class MockInitContext implements InitContext{
+public class MockInitContext implements InitContext {
     Map<String, String> options = null;
-    
-    public MockInitContext(Map<String, String> opts){
+
+    public MockInitContext(Map<String, String> opts) {
         options = opts;
+    }
+
+    @Override
+    public Map<String, String> getOptions() {
+        return this.options;
     }
 
     @Override
@@ -27,14 +32,9 @@ public class MockInitContext implements InitContext{
     }
 
     @Override
-    public Map<String, String> getOptions() {
-        return this.options;
-    }
-
-    @Override
     public void setSupportsErrorLogging() {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

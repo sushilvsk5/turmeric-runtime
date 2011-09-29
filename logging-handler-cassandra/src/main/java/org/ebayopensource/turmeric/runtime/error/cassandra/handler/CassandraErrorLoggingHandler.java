@@ -11,11 +11,20 @@ package org.ebayopensource.turmeric.runtime.error.cassandra.handler;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import me.prettyprint.cassandra.service.ThriftCfDef;
+import me.prettyprint.hector.api.Cluster;
+import me.prettyprint.hector.api.ddl.ColumnDefinition;
+import me.prettyprint.hector.api.ddl.ColumnFamilyDefinition;
+import me.prettyprint.hector.api.ddl.ColumnType;
+import me.prettyprint.hector.api.ddl.ComparatorType;
 import me.prettyprint.hector.api.exceptions.HectorException;
+import me.prettyprint.hector.api.factory.HFactory;
 
 import org.ebayopensource.turmeric.common.v1.types.CommonErrorData;
 import org.ebayopensource.turmeric.common.v1.types.ErrorData;
@@ -72,6 +81,37 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
     public CassandraErrorLoggingHandler() {
     }
 
+    private void createCF(final String kspace, final String columnFamilyName, final Cluster cluster,
+                    boolean isSuperColumn, final ComparatorType superKeyValidator, final ComparatorType keyValidator,
+                    final ComparatorType superComparator, final ComparatorType comparator) {
+
+        if (isSuperColumn) {
+            ThriftCfDef cfDefinition = (ThriftCfDef) HFactory.createColumnFamilyDefinition(kspace, columnFamilyName,
+                            superComparator, new ArrayList<ColumnDefinition>());
+            cfDefinition.setColumnType(ColumnType.SUPER);
+            cfDefinition.setKeyValidationClass(superKeyValidator.getClassName());
+            cfDefinition.setSubComparatorType(comparator);
+            cluster.addColumnFamily(cfDefinition);
+        }
+        else {
+            ColumnFamilyDefinition cfDefinition = new ThriftCfDef(kspace, columnFamilyName);
+            cfDefinition.setKeyValidationClass(keyValidator.getClassName());
+            if ("MetricValuesByIpAndDate".equals(columnFamilyName) || "MetricTimeSeries".equals(columnFamilyName)
+                            || "ServiceCallsByTime".equals(columnFamilyName)
+                            || "ErrorCountsByCategory".equals(columnFamilyName)
+                            || "ErrorCountsBySeverity".equals(columnFamilyName)) {
+
+                ComparatorType comparator1 = this.getComparator(Long.class);
+                cfDefinition.setComparatorType(comparator1);
+            }
+            else {
+                cfDefinition.setComparatorType(comparator);
+            }
+
+            cluster.addColumnFamily(cfDefinition);
+        }
+    }
+
     /**
      * Gets the cluster name.
      * 
@@ -79,6 +119,25 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
      */
     public String getClusterName() {
         return clusterName;
+    }
+
+    private ComparatorType getComparator(Class<?> keyTypeClass) {
+        if ((keyTypeClass != null) && String.class.isAssignableFrom(keyTypeClass)) {
+            return ComparatorType.UTF8TYPE;
+        }
+        else if ((keyTypeClass != null) && Integer.class.isAssignableFrom(keyTypeClass)) {
+            return ComparatorType.INTEGERTYPE;
+        }
+        else if ((keyTypeClass != null) && Long.class.isAssignableFrom(keyTypeClass)) {
+            return ComparatorType.LONGTYPE;
+        }
+        else if ((keyTypeClass != null) && Date.class.isAssignableFrom(keyTypeClass)) {
+            return ComparatorType.TIMEUUIDTYPE;
+        }
+        else {
+            return ComparatorType.BYTESTYPE; // by default
+        }
+
     }
 
     public Boolean getEmbedded() {
@@ -156,6 +215,7 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
         if (this.embedded) {
             CassandraManager.initialize();
         }
+
         errorDao = new ErrorByIdDAO(clusterName, hostAddress, keyspaceName, Long.class,
                         org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorById.class, "ErrorsById");
         errorValueDao = new ErrorValueDAO(clusterName, hostAddress, keyspaceName, String.class,

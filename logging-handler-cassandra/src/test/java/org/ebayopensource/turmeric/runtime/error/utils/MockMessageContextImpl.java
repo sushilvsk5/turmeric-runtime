@@ -30,255 +30,307 @@ import org.ebayopensource.turmeric.runtime.common.types.ServiceAddress;
 
 public class MockMessageContextImpl implements MessageContext {
 
-    public boolean isElementOrderPreserved() {
+    @Override
+    public void addError(Throwable t) {
 
-        return false;
     }
 
-    public Charset getCharset() {
+    @Override
+    public void addResponseResidentError(CommonErrorData errorData) {
 
-        return null;
     }
 
-    public String getDefaultNamespace() {
+    @Override
+    public void addWarning(Throwable t) {
 
-        return null;
     }
 
-    public Map<String, List<String>> getNamespaceToPrefixMap() {
-
-        return null;
-    }
-
-    public String getNsForJavaType(Class arg0) {
-
-        return null;
-    }
-
-    public String getPayloadType() {
-
-        return null;
-    }
-
-    public Map<String, String> getPrefixToNamespaceMap() {
-
-        return null;
-    }
-
-    public Class getRootClass() {
-
-        return null;
-    }
-
-    public DataElementSchema getRootElementSchema() {
-
-        return null;
-    }
-
-    public QName getRootXMLName() {
-
-        return null;
-    }
-
-    public String getSingleNamespace() {
-
-        return null;
-    }
-
-    public ITypeConversionContext getTypeConversionContext() {
-
-        return null;
-    }
-
-    public boolean isREST() {
-
-        return false;
-    }
-
+    @Override
     public String getAdminName() {
 
         return null;
     }
 
-    public QName getServiceQName() {
-
-        return null;
-    }
-
-    public ServiceId getServiceId() {
-
-        return null;
-    }
-
-    public ServiceContext getServiceContext() {
-
-        return null;
-    }
-
-    public ServiceOperationDesc getOperation() {
-
-        return null;
-    }
-
-    public String getOperationName() {
-
-        return null;
-    }
-
-    public MessageProcessingStage getProcessingStage() {
-
-        return null;
-    }
-
-    public Message getRequestMessage() {
-        return null;
-    }
-
-    public Message getResponseMessage() {
-
-        return null;
-    }
-
+    @Override
     public Object getAuthenticatedUser() {
 
         return null;
     }
 
-    public void setAuthenticatedUser(Object user) {
-
-    }
-
-    public String getMessageProtocol() {
+    @Override
+    public Charset getCharset() {
 
         return null;
     }
 
-    public ServiceAddress getServiceAddress() {
-
-        return null;
-    }
-
+    @Override
     public ServiceAddress getClientAddress() {
 
         return null;
     }
 
-    public String getRequestId() {
+    @Override
+    public String getDefaultNamespace() {
 
         return null;
     }
 
-    public String getRequestGuid() {
-
-        return null;
-    }
-
-    public String getRequestUri() {
-
-        return null;
-    }
-
-    public void setRequestId(String requestId, String requestGuid) throws ServiceException {
-
-    }
-
-    public boolean hasErrors() {
-
-        return false;
-    }
-
-    public List<Throwable> getErrorList() {
-
-        return null;
-    }
-
-    public List<Throwable> getWarningList() {
-
-        return null;
-    }
-
-    public boolean hasResponseResidentErrors() {
-
-        return false;
-    }
-
-    public List<CommonErrorData> getResponseResidentErrorList() {
-
-        return null;
-    }
-
-    public void addResponseResidentError(CommonErrorData errorData) {
-
-    }
-
-    public void addError(Throwable t) {
-
-    }
-
-    public void addWarning(Throwable t) {
-
-    }
-
-    public Object getProperty(String name) {
-
-        return null;
-    }
-
-    public void setProperty(String name, Object value) throws ServiceException {
-
-    }
-
+    @Override
     public Charset getEffectiveCharset() {
 
         return null;
     }
 
+    @Override
+    public ErrorDataProvider getErrorDataProvider() throws ServiceException {
+
+        return null;
+    }
+
+    @Override
+    public List<Throwable> getErrorList() {
+
+        return null;
+    }
+
+    @Override
     public String getInvokerVersion() {
 
         return null;
     }
 
-    public String getServiceVersion() {
+    @Override
+    public String getMessageProtocol() {
 
         return null;
     }
 
+    @Override
+    public Map<String, List<String>> getNamespaceToPrefixMap() {
+
+        return null;
+    }
+
+    @Override
+    public String getNsForJavaType(Class arg0) {
+
+        return null;
+    }
+
+    @Override
+    public ServiceOperationDesc getOperation() {
+
+        return null;
+    }
+
+    @Override
+    public String getOperationName() {
+
+        return null;
+    }
+
+    @Override
+    public String getPayloadType() {
+
+        return null;
+    }
+
+    @Override
+    public Map<String, String> getPrefixToNamespaceMap() {
+
+        return null;
+    }
+
+    @Override
+    public MessageProcessingStage getProcessingStage() {
+
+        return null;
+    }
+
+    @Override
+    public Object getProperty(String name) {
+
+        return null;
+    }
+
+    @Override
+    public String getRequestGuid() {
+
+        return null;
+    }
+
+    @Override
+    public String getRequestId() {
+
+        return null;
+    }
+
+    @Override
+    public Message getRequestMessage() {
+        return null;
+    }
+
+    @Override
+    public String getRequestUri() {
+
+        return null;
+    }
+
+    @Override
+    public Message getResponseMessage() {
+
+        return null;
+    }
+
+    @Override
+    public List<CommonErrorData> getResponseResidentErrorList() {
+
+        return null;
+    }
+
+    @Override
+    public Class getRootClass() {
+
+        return null;
+    }
+
+    @Override
+    public DataElementSchema getRootElementSchema() {
+
+        return null;
+    }
+
+    @Override
+    public QName getRootXMLName() {
+
+        return null;
+    }
+
+    @Override
     public SecurityContext getSecurityContext() {
 
         return null;
     }
 
+    @Override
+    public ServiceAddress getServiceAddress() {
+
+        return null;
+    }
+
+    @Override
+    public ServiceContext getServiceContext() {
+
+        return null;
+    }
+
+    @Override
+    public ServiceId getServiceId() {
+
+        return null;
+    }
+
+    @Override
     public String getServiceLayer() {
 
         return null;
     }
 
-    public boolean isInboundRawMode() {
+    @Override
+    public QName getServiceQName() {
+
+        return null;
+    }
+
+    @Override
+    public String getServiceVersion() {
+
+        return null;
+    }
+
+    @Override
+    public String getSingleNamespace() {
+
+        return null;
+    }
+
+    @Override
+    public ITypeConversionContext getTypeConversionContext() {
+
+        return null;
+    }
+
+    @Override
+    public List<Throwable> getWarningList() {
+
+        return null;
+    }
+
+    @Override
+    public boolean hasErrors() {
 
         return false;
     }
 
-    public boolean isOutboundRawMode() {
+    @Override
+    public boolean hasResponseResidentErrors() {
 
         return false;
     }
 
-    public void setInboundRawMode(boolean b) {
-
-    }
-
-    public void setOutboundRawMode(boolean b) {
-
-    }
-
+    @Override
     public boolean isAsync() {
 
         return false;
     }
 
-    public ErrorDataProvider getErrorDataProvider() throws ServiceException {
+    @Override
+    public boolean isElementOrderPreserved() {
 
-        return null;
+        return false;
+    }
+
+    @Override
+    public boolean isInboundRawMode() {
+
+        return false;
+    }
+
+    @Override
+    public boolean isOutboundRawMode() {
+
+        return false;
+    }
+
+    @Override
+    public boolean isREST() {
+
+        return false;
+    }
+
+    @Override
+    public void setAuthenticatedUser(Object user) {
+
+    }
+
+    @Override
+    public void setInboundRawMode(boolean b) {
+
+    }
+
+    @Override
+    public void setOutboundRawMode(boolean b) {
+
+    }
+
+    @Override
+    public void setProperty(String name, Object value) throws ServiceException {
+
+    }
+
+    @Override
+    public void setRequestId(String requestId, String requestGuid) throws ServiceException {
+
     }
 
 }

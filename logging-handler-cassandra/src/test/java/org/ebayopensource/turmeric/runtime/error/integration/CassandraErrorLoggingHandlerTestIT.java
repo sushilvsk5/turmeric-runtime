@@ -11,6 +11,7 @@ package org.ebayopensource.turmeric.runtime.error.integration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,8 @@ import me.prettyprint.hector.api.mutation.Mutator;
 import me.prettyprint.hector.api.query.QueryResult;
 import me.prettyprint.hector.api.query.RangeSlicesQuery;
 
+import org.apache.cassandra.config.ConfigurationException;
+import org.apache.thrift.transport.TTransportException;
 import org.ebayopensource.turmeric.common.v1.types.CommonErrorData;
 import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
 import org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler.InitContext;
@@ -73,6 +76,7 @@ public class CassandraErrorLoggingHandlerTestIT extends CassandraTestHelper {
     public Map<String, String> createRegularOptionsMap() {
         Map<String, String> options = new HashMap<String, String>();
         options.put("cluster-name", "Test Cluster");
+        options.put("embedded", "true");
         options.put("host-address", IP_ADDRESS);
         options.put("keyspace-name", "TurmericMonitoring");
         options.put("random-generator-class-name", "org.ebayopensource.turmeric.runtime.error.utils.MockRandom");
@@ -80,14 +84,15 @@ public class CassandraErrorLoggingHandlerTestIT extends CassandraTestHelper {
     }
 
     @Before
-    public void setUp() {
+    public void setUp() throws TTransportException, IOException, InterruptedException, ConfigurationException {
+        initialize();
         errorsToStore = this.createTestCommonErrorDataList(1);
         options = this.createRegularOptionsMap();
         ctx = new MockInitContext(options);
         try {
             logHandler = new CassandraErrorLoggingHandler();
             kspace = new HectorManager().getKeyspace("Test Cluster", IP_ADDRESS, "TurmericMonitoring", "ErrorsById",
-                            false);
+                            false, null, String.class);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -121,7 +126,6 @@ public class CassandraErrorLoggingHandlerTestIT extends CassandraTestHelper {
     @Test
     public void testInitEmbedded() throws ServiceException {
         Map<String, String> options = this.createRegularOptionsMap();
-        options.put("embedded", "true");
         // for the embeddedservie to start, we need to set the system proeprties log4j.configuration,cassandra.config
         System.setProperty("log4j.configuration", "log4j.properties");
         System.setProperty("cassandra.config", "cassandra.yaml");

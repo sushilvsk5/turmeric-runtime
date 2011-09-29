@@ -8,19 +8,23 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.runtime.error.integration;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+
 import me.prettyprint.cassandra.serializers.LongSerializer;
 import me.prettyprint.cassandra.serializers.StringSerializer;
 import me.prettyprint.hector.api.Keyspace;
 import me.prettyprint.hector.api.beans.ColumnSlice;
 
+import org.apache.cassandra.config.ConfigurationException;
+import org.apache.thrift.transport.TTransportException;
 import org.ebayopensource.turmeric.common.v1.types.ErrorCategory;
 import org.ebayopensource.turmeric.common.v1.types.ErrorSeverity;
 import org.ebayopensource.turmeric.runtime.error.cassandra.dao.ErrorCountsDAO;
 import org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorById;
 import org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorValue;
 import org.ebayopensource.turmeric.utils.cassandra.hector.HectorManager;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,14 +32,15 @@ import org.junit.Test;
 public class ErrorCountsDAOTestIT extends CassandraTestHelper {
 
     private ErrorCountsDAO dao = null;
-    private Keyspace kspace = null;
-    private Long now = -1l;
+    private int errorCountToStore;
     private ErrorById errorToSave = null;
     private ErrorValue errorValue = null;
-    private int errorCountToStore;
+    private Keyspace kspace = null;
+    private Long now = -1l;
 
     @Before
-    public void setUp() {
+    public void setUp() throws TTransportException, IOException, InterruptedException, ConfigurationException {
+    	initialize();
         now = System.currentTimeMillis();
         errorToSave = new ErrorById();
         errorToSave.setCategory(ErrorCategory.REQUEST.toString());
@@ -58,7 +63,8 @@ public class ErrorCountsDAOTestIT extends CassandraTestHelper {
         errorCountToStore = 1;
 
         try {
-            kspace = new HectorManager().getKeyspace("Test Cluster", IP_ADDRESS, "TurmericMonitoring", "Errors", false);
+            kspace = new HectorManager().getKeyspace("Test Cluster", IP_ADDRESS, "TurmericMonitoring", "Errors", false,
+                            null, String.class);
             dao = new ErrorCountsDAO("Test Cluster", IP_ADDRESS, "TurmericMonitoring");
         }
         catch (Exception e) {
@@ -74,37 +80,6 @@ public class ErrorCountsDAOTestIT extends CassandraTestHelper {
     }
 
     @Test
-    public void testSaveErrorCounts() {
-
-        String errorValueKey = "ErrorValueTestKey";
-        dao.saveErrorCounts(errorToSave, errorValue, errorValueKey, now, errorCountToStore);
-
-        // now, assert the count cf | first the category one
-        ColumnSlice<Object, Object> categoryCountColumnSlice = getColumnValues(kspace, "ErrorCountsByCategory",
-                        "TheServerName|TheServiceAdminName|theTestConsumer|Op1|REQUEST|true", LongSerializer.get(),
-                        StringSerializer.get(), Long.valueOf(now));
-        assertValues(categoryCountColumnSlice, now, "ErrorValueTestKey");
-
-        // now, assert the count cf | all ops
-        ColumnSlice<Object, Object> categoryCountAllOpsColumnSlice = getColumnValues(kspace, "ErrorCountsByCategory",
-                        "TheServerName|TheServiceAdminName|theTestConsumer|All|REQUEST|true", LongSerializer.get(),
-                        StringSerializer.get(), Long.valueOf(now));
-        assertValues(categoryCountAllOpsColumnSlice, now, "ErrorValueTestKey");
-
-        // now, assert the count cf | then the severity one
-        ColumnSlice<Object, Object> severityCountColumnSlice = getColumnValues(kspace, "ErrorCountsBySeverity",
-                        "TheServerName|TheServiceAdminName|theTestConsumer|Op1|ERROR|true", LongSerializer.get(),
-                        StringSerializer.get(), Long.valueOf(now));
-        assertValues(severityCountColumnSlice, now, "ErrorValueTestKey");
-
-        // now, assert the count cf | all ops
-        ColumnSlice<Object, Object> severityCountAllOpsColumnSlice = getColumnValues(kspace, "ErrorCountsBySeverity",
-                        "TheServerName|TheServiceAdminName|theTestConsumer|All|ERROR|true", LongSerializer.get(),
-                        StringSerializer.get(), Long.valueOf(now));
-        assertValues(severityCountAllOpsColumnSlice, now, "ErrorValueTestKey");
-    }
-
-    @Test
     public void testCreateCategoryKeyByErrorValue() {
         String actual = dao.createCategoryKeyByErrorValue(errorValue, errorToSave);
         String expected = "TheServerName|TheServiceAdminName|theTestConsumer|Op1|REQUEST|true";
@@ -117,19 +92,50 @@ public class ErrorCountsDAOTestIT extends CassandraTestHelper {
         String expected = "TheServerName|TheServiceAdminName|theTestConsumer|All|REQUEST|true";
         assertEquals(expected, actual);
     }
-    
+
     @Test
     public void testCreateSeverityKeyByErrorValue() {
         String actual = dao.createSeverityKeyByErrorValue(errorValue, errorToSave);
         String expected = "TheServerName|TheServiceAdminName|theTestConsumer|Op1|ERROR|true";
         assertEquals(expected, actual);
     }
-    
+
     @Test
     public void testCreateSeverityKeyByErrorValueForAllOps() {
         String actual = dao.createSeverityKeyByErrorValueForAllOps(errorValue, errorToSave);
         String expected = "TheServerName|TheServiceAdminName|theTestConsumer|All|ERROR|true";
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testSaveErrorCounts() {
+
+        String errorValueKey = "ErrorValueTestKey";
+        dao.saveErrorCounts(errorToSave, errorValue, errorValueKey, now, errorCountToStore);
+
+        // now, assert the count cf | first the category one
+        ColumnSlice<Object, Object> categoryCountColumnSlice = this.getColumnValues(kspace, "ErrorCountsByCategory",
+                        "TheServerName|TheServiceAdminName|theTestConsumer|Op1|REQUEST|true", LongSerializer.get(),
+                        StringSerializer.get(), Long.valueOf(now));
+        this.assertValues(categoryCountColumnSlice, now, "ErrorValueTestKey");
+
+        // now, assert the count cf | all ops
+        ColumnSlice<Object, Object> categoryCountAllOpsColumnSlice = this.getColumnValues(kspace,
+                        "ErrorCountsByCategory", "TheServerName|TheServiceAdminName|theTestConsumer|All|REQUEST|true",
+                        LongSerializer.get(), StringSerializer.get(), Long.valueOf(now));
+        this.assertValues(categoryCountAllOpsColumnSlice, now, "ErrorValueTestKey");
+
+        // now, assert the count cf | then the severity one
+        ColumnSlice<Object, Object> severityCountColumnSlice = this.getColumnValues(kspace, "ErrorCountsBySeverity",
+                        "TheServerName|TheServiceAdminName|theTestConsumer|Op1|ERROR|true", LongSerializer.get(),
+                        StringSerializer.get(), Long.valueOf(now));
+        this.assertValues(severityCountColumnSlice, now, "ErrorValueTestKey");
+
+        // now, assert the count cf | all ops
+        ColumnSlice<Object, Object> severityCountAllOpsColumnSlice = this.getColumnValues(kspace,
+                        "ErrorCountsBySeverity", "TheServerName|TheServiceAdminName|theTestConsumer|All|ERROR|true",
+                        LongSerializer.get(), StringSerializer.get(), Long.valueOf(now));
+        this.assertValues(severityCountAllOpsColumnSlice, now, "ErrorValueTestKey");
     }
 
 }
