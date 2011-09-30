@@ -492,6 +492,12 @@
 									<version>${turmeric-version}</version>
 									<outputDirectory>${assembly-directory}/lib/turmericsoa</outputDirectory>
 								</artifactItem>
+								<artifactItem>
+									<artifactId>turmeric-utils-jpa</artifactId>
+									<groupId>org.ebayopensource.turmeric.utils</groupId>
+									<version>0.9.0-Beta</version>
+									<outputDirectory>${assembly-directory}/lib/turmericsoa</outputDirectory>
+								</artifactItem>
 								<!-- ADD CASSANDRA/HECTOR RELATED DEPS HERE -->
 								<artifactItem>
 									<groupId>org.ebayopensource.turmeric.utils</groupId>
