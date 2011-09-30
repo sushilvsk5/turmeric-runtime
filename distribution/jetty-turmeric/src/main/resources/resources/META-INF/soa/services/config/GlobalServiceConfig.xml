@@ -19,9 +19,9 @@
 			</class-name>
 			<storage-options>
 				<option name="storeServiceMetrics">false</option>
-				<option name="hostName">127.0.0.1</option>
-				<option name="keyspaceName">TurmericMonitoring</option>
-				<option name="clusterName">Test Cluster</option>
+				<option name="host-address">127.0.0.1</option>
+				<option name="keyspace-name">TurmericMonitoring</option>
+				<option name="cluster-name">Test Cluster</option>
 				<option name="embedded">true</option>
 			</storage-options>
 		</storage-provider>
@@ -46,13 +46,6 @@
 					<supported-locale>zh-Hant_US</supported-locale>
 				</G11N-options>
 				<pipeline-config>
-					<!-- <request-handlers> -->
-					<!-- <handler name="G11N"> -->
-					<!-- <class-name>org.ebayopensource.turmeric.runtime.spf.impl.handlers.G11nHandler</class-name> -->
-					<!-- </handler> -->
-					<!-- </request-handlers> -->
-					<!-- <response-handlers> -->
-					<!-- </response-handlers> -->
 					<logging-handler>
 						<class-name>org.ebayopensource.turmeric.runtime.spf.impl.pipeline.ServerLoggingHandler
 						</class-name>
@@ -128,12 +121,6 @@
 					<supported-locale>zh-Hant_US</supported-locale>
 				</G11N-options>
 				<pipeline-config>
-					<response-handlers>
-						<handler name="RREH">
-							<class-name>org.ebayopensource.turmeric.runtime.error.ResponseResidentErrorLoggingHandler
-							</class-name>
-						</handler>
-					</response-handlers>
 					<logging-handler>
 						<class-name>org.ebayopensource.turmeric.runtime.spf.impl.pipeline.ServerLoggingHandler
 						</class-name>
@@ -142,16 +129,18 @@
 					</logging-handler>
 					<!-- Uncomment the following to enable metrics. You will need to make 
 						sure the appropriate provider jar is in lib/turmericsoa -->
+				    <!-- 
 					<logging-handler>
 						<class-name>org.ebayopensource.turmeric.runtime.error.cassandra.handler.CassandraErrorLoggingHandler
 						</class-name>
 						<options>
-							<option name="hostName">127.0.0.1</option>
-							<option name="keyspaceName">TurmericMonitoring</option>
-							<option name="clusterName">Test Cluster</option>
+							<option name="host-address">127.0.0.1</option>
+							<option name="keyspace-name">TurmericMonitoring</option>
+							<option name="cluster-name">Test Cluster</option>
 							<option name="embedded">true</option>
 						</options>
 					</logging-handler>
+					 -->
 				</pipeline-config>
 				<protocol-processor name="SOAP11" version="1.1">
 					<indicator>
@@ -237,9 +226,18 @@
 					</logging-handler>
 					<!-- Uncomment the following to enable metrics. You will need to make 
 						sure the appropriate provider jar is in lib/turmericsoa -->
-					<!-- <logging-handler> <class-name>org.ebayopensource.turmeric.runtime.error.DAOErrorLoggingHandler</class-name> 
-						<options> <option name="persistenceUnitName">errors</option> <option name="errorDAOClassName">org.ebayopensource.turmeric.runtime.error.ErrorDAOImpl</option> 
-						</options> </logging-handler> -->
+				    <!-- 
+					<logging-handler>
+						<class-name>org.ebayopensource.turmeric.runtime.error.cassandra.handler.CassandraErrorLoggingHandler
+						</class-name>
+						<options>
+							<option name="host-address">127.0.0.1</option>
+							<option name="keyspace-name">TurmericMonitoring</option>
+							<option name="cluster-name">Test Cluster</option>
+							<option name="embedded">true</option>
+						</options>
+					</logging-handler>
+					 -->
 				</pipeline-config>
 				<protocol-processor name="SOAP11" version="1.1">
 					<indicator>
@@ -325,9 +323,18 @@
 					</logging-handler>
 					<!-- Uncomment the following to enable metrics. You will need to make 
 						sure the appropriate provider jar is in lib/turmericsoa -->
-					<!-- <logging-handler> <class-name>org.ebayopensource.turmeric.runtime.error.DAOErrorLoggingHandler</class-name> 
-						<options> <option name="persistenceUnitName">errors</option> <option name="errorDAOClassName">org.ebayopensource.turmeric.runtime.error.ErrorDAOImpl</option> 
-						</options> </logging-handler> -->
+				    <!-- 
+					<logging-handler>
+						<class-name>org.ebayopensource.turmeric.runtime.error.cassandra.handler.CassandraErrorLoggingHandler
+						</class-name>
+						<options>
+							<option name="host-address">127.0.0.1</option>
+							<option name="keyspace-name">TurmericMonitoring</option>
+							<option name="cluster-name">Test Cluster</option>
+							<option name="embedded">true</option>
+						</options>
+					</logging-handler>
+					 -->
 				</pipeline-config>
 				<protocol-processor name="SOAP11" version="1.1">
 					<indicator>

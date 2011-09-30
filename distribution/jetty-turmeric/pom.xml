@@ -486,6 +486,12 @@
 									<version>3.2.1</version>
 									<outputDirectory>${assembly-directory}/lib/turmericsoa</outputDirectory>
 								</artifactItem>
+								<artifactItem>
+									<artifactId>logging-handler-jpa</artifactId>
+									<groupId>org.ebayopensource.turmeric.runtime</groupId>
+									<version>${turmeric-version}</version>
+									<outputDirectory>${assembly-directory}/lib/turmericsoa</outputDirectory>
+								</artifactItem>
 								<!-- ADD CASSANDRA/HECTOR RELATED DEPS HERE -->
 								<artifactItem>
 									<groupId>org.ebayopensource.turmeric.utils</groupId>
