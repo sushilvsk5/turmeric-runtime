@@ -121,6 +121,12 @@
 					<supported-locale>zh-Hant_US</supported-locale>
 				</G11N-options>
 				<pipeline-config>
+					<response-handlers>
+						<handler name="RREH">
+							<class-name>org.ebayopensource.turmeric.runtime.error.ResponseResidentErrorLoggingHandler
+							</class-name>
+						</handler>
+					</response-handlers>
 					<logging-handler>
 						<class-name>org.ebayopensource.turmeric.runtime.spf.impl.pipeline.ServerLoggingHandler
 						</class-name>
