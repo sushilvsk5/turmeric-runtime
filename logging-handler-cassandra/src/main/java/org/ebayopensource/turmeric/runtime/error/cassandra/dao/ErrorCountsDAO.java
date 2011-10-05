@@ -27,245 +27,335 @@ import org.ebayopensource.turmeric.utils.cassandra.hector.HectorManager;
  */
 public class ErrorCountsDAO {
 
-	/** The key space. */
-	private final Keyspace keySpace;
+   /** The key space. */
+   private final Keyspace keySpace;
 
-	/**
-	 * Instantiates a new error counts dao.
-	 * 
-	 * @param clusterName
-	 *            the cluster name
-	 * @param host
-	 *            the host
-	 * @param keyspaceName
-	 *            the keyspace name
-	 */
-	public ErrorCountsDAO(String clusterName, String host, String keyspaceName) {
-		try {
-			Cluster cluster = HFactory.getOrCreateCluster(clusterName,
-					host);
-			this.createCF(keyspaceName, "ErrorCountsByCategory", cluster,
-					false, ComparatorType.LONGTYPE, ComparatorType.UTF8TYPE,
-					ComparatorType.LONGTYPE, ComparatorType.LONGTYPE);
-			this.createCF(keyspaceName, "ErrorCountsBySeverity", cluster,
-					false, ComparatorType.LONGTYPE, ComparatorType.UTF8TYPE,
-					ComparatorType.LONGTYPE, ComparatorType.LONGTYPE);
+   /**
+    * Instantiates a new error counts dao.
+    * 
+    * @param clusterName
+    *           the cluster name
+    * @param host
+    *           the host
+    * @param keyspaceName
+    *           the keyspace name
+    */
+   public ErrorCountsDAO(String clusterName, String host, String keyspaceName) {
+      try {
+         Cluster cluster = HFactory.getOrCreateCluster(clusterName, host);
+         this.createCF(keyspaceName, "ErrorCountsByCategory", cluster, false, ComparatorType.LONGTYPE,
+                  ComparatorType.UTF8TYPE, ComparatorType.LONGTYPE, ComparatorType.LONGTYPE);
+         this.createCF(keyspaceName, "ErrorCountsBySeverity", cluster, false, ComparatorType.LONGTYPE,
+                  ComparatorType.UTF8TYPE, ComparatorType.LONGTYPE, ComparatorType.LONGTYPE);
 
-			
-		} catch (Exception e) {
+      } catch (Exception e) {
 
-		}
-		
-		this.keySpace = new HectorManager().getKeyspace(clusterName, host,
-				keyspaceName, "ErrorCountsByCategory", false, null,
-				String.class);
+      }
 
-	}
+      this.keySpace = new HectorManager().getKeyspace(clusterName, host, keyspaceName, "ErrorCountsByCategory", false,
+               null, String.class);
 
-	private void createCF(final String kspace, final String columnFamilyName,
-			final Cluster cluster, boolean isSuperColumn,
-			final ComparatorType superKeyValidator,
-			final ComparatorType keyValidator,
-			final ComparatorType superComparator,
-			final ComparatorType comparator) {
+   }
 
-		if (isSuperColumn) {
-			ThriftCfDef cfDefinition = (ThriftCfDef) HFactory
-					.createColumnFamilyDefinition(kspace, columnFamilyName,
-							superComparator, new ArrayList<ColumnDefinition>());
-			cfDefinition.setColumnType(ColumnType.SUPER);
-			cfDefinition
-					.setKeyValidationClass(superKeyValidator.getClassName());
-			cfDefinition.setSubComparatorType(comparator);
-			cluster.addColumnFamily(cfDefinition);
-		} else {
-			ColumnFamilyDefinition cfDefinition = new ThriftCfDef(kspace,
-					columnFamilyName);
-			cfDefinition.setKeyValidationClass(keyValidator.getClassName());
-			if ("MetricValuesByIpAndDate".equals(columnFamilyName)
-					|| "MetricTimeSeries".equals(columnFamilyName)
-					|| "ServiceCallsByTime".equals(columnFamilyName)
-					|| "ErrorCountsByCategory".equals(columnFamilyName)
-					|| "ErrorCountsBySeverity".equals(columnFamilyName)) {
+   private void createCF(final String kspace, final String columnFamilyName, final Cluster cluster,
+            boolean isSuperColumn, final ComparatorType superKeyValidator, final ComparatorType keyValidator,
+            final ComparatorType superComparator, final ComparatorType comparator) {
 
-				ComparatorType comparator1 = this.getComparator(Long.class);
-				cfDefinition.setComparatorType(comparator1);
-			} else {
-				cfDefinition.setComparatorType(comparator);
-			}
+      if (isSuperColumn) {
+         ThriftCfDef cfDefinition = (ThriftCfDef) HFactory.createColumnFamilyDefinition(kspace, columnFamilyName,
+                  superComparator, new ArrayList<ColumnDefinition>());
+         cfDefinition.setColumnType(ColumnType.SUPER);
+         cfDefinition.setKeyValidationClass(superKeyValidator.getClassName());
+         cfDefinition.setSubComparatorType(comparator);
+         cluster.addColumnFamily(cfDefinition);
+      } else {
+         ColumnFamilyDefinition cfDefinition = new ThriftCfDef(kspace, columnFamilyName);
+         cfDefinition.setKeyValidationClass(keyValidator.getClassName());
+         if ("MetricValuesByIpAndDate".equals(columnFamilyName) || "MetricTimeSeries".equals(columnFamilyName)
+                  || "ServiceCallsByTime".equals(columnFamilyName) || "ErrorCountsByCategory".equals(columnFamilyName)
+                  || "ErrorCountsBySeverity".equals(columnFamilyName)) {
 
-			cluster.addColumnFamily(cfDefinition);
-		}
-	}
+            ComparatorType comparator1 = this.getComparator(Long.class);
+            cfDefinition.setComparatorType(comparator1);
+         } else {
+            cfDefinition.setComparatorType(comparator);
+         }
 
-	private ComparatorType getComparator(Class<?> keyTypeClass) {
-		if ((keyTypeClass != null)
-				&& String.class.isAssignableFrom(keyTypeClass)) {
-			return ComparatorType.UTF8TYPE;
-		} else if ((keyTypeClass != null)
-				&& Integer.class.isAssignableFrom(keyTypeClass)) {
-			return ComparatorType.INTEGERTYPE;
-		} else if ((keyTypeClass != null)
-				&& Long.class.isAssignableFrom(keyTypeClass)) {
-			return ComparatorType.LONGTYPE;
-		} else if ((keyTypeClass != null)
-				&& Date.class.isAssignableFrom(keyTypeClass)) {
-			return ComparatorType.TIMEUUIDTYPE;
-		} else {
-			return ComparatorType.BYTESTYPE; // by default
-		}
+         cluster.addColumnFamily(cfDefinition);
+      }
+   }
 
-	}
+   private ComparatorType getComparator(Class<?> keyTypeClass) {
+      if ((keyTypeClass != null) && String.class.isAssignableFrom(keyTypeClass)) {
+         return ComparatorType.UTF8TYPE;
+      } else if ((keyTypeClass != null) && Integer.class.isAssignableFrom(keyTypeClass)) {
+         return ComparatorType.INTEGERTYPE;
+      } else if ((keyTypeClass != null) && Long.class.isAssignableFrom(keyTypeClass)) {
+         return ComparatorType.LONGTYPE;
+      } else if ((keyTypeClass != null) && Date.class.isAssignableFrom(keyTypeClass)) {
+         return ComparatorType.TIMEUUIDTYPE;
+      } else {
+         return ComparatorType.BYTESTYPE; // by default
+      }
 
-	/**
-	 * Creates the category key by error value.
-	 * 
-	 * @param errorValue
-	 *            the error value
-	 * @param error
-	 *            the error
-	 * @return the string
-	 */
-	public String createCategoryKeyByErrorValue(ErrorValue errorValue,
-			ErrorById error) {
-		return this
-				.createSuffixedErrorCountKey(errorValue, error.getCategory());
-	}
+   }
 
-	/**
-	 * Creates the category key by error value for all ops.
-	 * 
-	 * @param errorValue
-	 *            the error value
-	 * @param error
-	 *            the error
-	 * @return the string
-	 */
-	public String createCategoryKeyByErrorValueForAllOps(ErrorValue errorValue,
-			ErrorById error) {
-		return this.createSuffixedErrorCountKeyAllOps(errorValue,
-				error.getCategory());
-	}
+   /**
+    * Creates the category key by error value.
+    * 
+    * @param errorValue
+    *           the error value
+    * @param error
+    *           the error
+    * @return the string
+    */
+   public String createCategoryKeyByErrorValue(ErrorValue errorValue, ErrorById error) {
+      return this.createSuffixedErrorCountKey(errorValue, error.getCategory());
+   }
 
-	/**
-	 * Creates the severity key by error value.
-	 * 
-	 * @param errorValue
-	 *            the error value
-	 * @param error
-	 *            the error
-	 * @return the string
-	 */
-	public String createSeverityKeyByErrorValue(ErrorValue errorValue,
-			ErrorById error) {
-		return this
-				.createSuffixedErrorCountKey(errorValue, error.getSeverity());
-	}
+   /**
+    * Creates the category key by error value for all ops.
+    * 
+    * @param errorValue
+    *           the error value
+    * @param error
+    *           the error
+    * @return the string
+    */
+   public String createCategoryKeyByErrorValueForAllOps(ErrorValue errorValue, ErrorById error) {
+      return this.createSuffixedErrorCountKeyAllOps(errorValue, error.getCategory());
+   }
 
-	/**
-	 * Creates the severity key by error value for all ops.
-	 * 
-	 * @param errorValue
-	 *            the error value
-	 * @param error
-	 *            the error
-	 * @return the string
-	 */
-	public String createSeverityKeyByErrorValueForAllOps(ErrorValue errorValue,
-			ErrorById error) {
-		return this.createSuffixedErrorCountKeyAllOps(errorValue,
-				error.getSeverity());
-	}
+   /**
+    * Creates the severity key by error value.
+    * 
+    * @param errorValue
+    *           the error value
+    * @param error
+    *           the error
+    * @return the string
+    */
+   public String createSeverityKeyByErrorValue(ErrorValue errorValue, ErrorById error) {
+      return this.createSuffixedErrorCountKey(errorValue, error.getSeverity());
+   }
 
-	/**
-	 * Creates the suffixed error count key.
-	 * 
-	 * @param errorValue
-	 *            the error value
-	 * @param suffix
-	 *            the suffix
-	 * @return the string
-	 */
-	private String createSuffixedErrorCountKey(ErrorValue errorValue,
-			String suffix) {
-		String key = errorValue.getServerName() + KEY_SEPARATOR
-				+ errorValue.getServiceAdminName() + KEY_SEPARATOR
-				+ errorValue.getConsumerName() + KEY_SEPARATOR
-				+ errorValue.getOperationName() + KEY_SEPARATOR + suffix
-				+ KEY_SEPARATOR + errorValue.isServerSide();
-		return key;
-	}
+   /**
+    * Creates the severity key by error value for all ops.
+    * 
+    * @param errorValue
+    *           the error value
+    * @param error
+    *           the error
+    * @return the string
+    */
+   public String createSeverityKeyByErrorValueForAllOps(ErrorValue errorValue, ErrorById error) {
+      return this.createSuffixedErrorCountKeyAllOps(errorValue, error.getSeverity());
+   }
 
-	/**
-	 * Creates the suffixed error count key all ops.
-	 * 
-	 * @param errorValue
-	 *            the error value
-	 * @param suffix
-	 *            the suffix
-	 * @return the string
-	 */
-	public String createSuffixedErrorCountKeyAllOps(ErrorValue errorValue,
-			String suffix) {
-		String key = errorValue.getServerName() + KEY_SEPARATOR
-				+ errorValue.getServiceAdminName() + KEY_SEPARATOR
-				+ errorValue.getConsumerName() + KEY_SEPARATOR + "All"
-				+ KEY_SEPARATOR + suffix + KEY_SEPARATOR
-				+ errorValue.isServerSide();
-		return key;
-	}
+   /**
+    * Creates the suffixed error count key.
+    * 
+    * @param errorValue
+    *           the error value
+    * @param suffix
+    *           the suffix
+    * @return the string
+    */
+   private String createSuffixedErrorCountKey(ErrorValue errorValue, String suffix) {
+      String key = errorValue.getServerName() + KEY_SEPARATOR + errorValue.getServiceAdminName() + KEY_SEPARATOR
+               + errorValue.getConsumerName() + KEY_SEPARATOR + errorValue.getOperationName() + KEY_SEPARATOR + suffix
+               + KEY_SEPARATOR + errorValue.isServerSide();
+      return key;
+   }
 
-	/**
-	 * Save error counts.
-	 * 
-	 * @param errorToSave
-	 *            the error to save
-	 * @param errorValue
-	 *            the error value
-	 * @param errorValueKey
-	 *            the error value key
-	 * @param timeStamp
-	 *            the time stamp
-	 * @param errorCountToStore
-	 *            the error count to store
-	 */
-	public void saveErrorCounts(
-			org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorById errorToSave,
-			ErrorValue errorValue, String errorValueKey, Long timeStamp,
-			int errorCountToStore) {
-		String categoryKey = this.createCategoryKeyByErrorValue(errorValue,
-				errorToSave);
-		String categoryKeyAllOps = this.createCategoryKeyByErrorValueForAllOps(
-				errorValue, errorToSave);
-		String severityKey = this.createSeverityKeyByErrorValue(errorValue,
-				errorToSave);
-		String severityKeyAllOps = this.createSeverityKeyByErrorValueForAllOps(
-				errorValue, errorToSave);
+   /**
+    * Creates the suffixed error count key all ops.
+    * 
+    * @param errorValue
+    *           the error value
+    * @param suffix
+    *           the suffix
+    * @return the string
+    */
+   public String createSuffixedErrorCountKeyAllOps(ErrorValue errorValue, String suffix) {
+      String key = errorValue.getServerName() + KEY_SEPARATOR + errorValue.getServiceAdminName() + KEY_SEPARATOR
+               + errorValue.getConsumerName() + KEY_SEPARATOR + "All" + KEY_SEPARATOR + suffix + KEY_SEPARATOR
+               + errorValue.isServerSide();
+      return key;
+   }
 
-		Mutator<String> mutator = HFactory.createMutator(keySpace,
-				StringSerializer.get());
-		HColumn<Long, String> categoryColumn = HFactory.createColumn(timeStamp,
-				errorValueKey, LongSerializer.get(), StringSerializer.get());
-		HColumn<Long, String> severityColumn = HFactory.createColumn(timeStamp,
-				errorValueKey, LongSerializer.get(), StringSerializer.get());
+   /**
+    * Save error counts.
+    * 
+    * @param errorToSave
+    *           the error to save
+    * @param errorValue
+    *           the error value
+    * @param errorValueKey
+    *           the error value key
+    * @param timeStamp
+    *           the time stamp
+    * @param errorCountToStore
+    *           the error count to store
+    */
+   public void saveErrorCounts(org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorById errorToSave,
+            ErrorValue errorValue, String errorValueKey, Long timeStamp, int errorCountToStore) {
+      Mutator<String> mutator = createStringMutator();
+      saveErrorCountsByCategory(errorToSave, errorValue, mutator, errorValueKey, timeStamp);
+      saveErrorCountsBySeverity(errorToSave, errorValue, mutator, errorValueKey, timeStamp);
+   }
 
-		// all ops columns
-		HColumn<Long, String> categoryColumnForAllOps = HFactory.createColumn(
-				timeStamp, errorValueKey, LongSerializer.get(),
-				StringSerializer.get());
+   private void saveErrorCountsBySeverity(
+            org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorById errorToSave, ErrorValue errorValue,
+            Mutator<String> mutator, String errorValueKey, Long timeStamp) {
+      HColumn<Long, String> severityColumn = HFactory.createColumn(timeStamp, errorValueKey, LongSerializer.get(),
+               StringSerializer.get());
 
-		HColumn<Long, String> severityColumnAllOps = HFactory.createColumn(
-				timeStamp, errorValueKey, LongSerializer.get(),
-				StringSerializer.get());
+      String severityKey = this.createSeverityKeyByErrorValue(errorValue, errorToSave);
+      String severityKeyAllOps = this.createSeverityKeyByErrorValueForAllOps(errorValue, errorToSave);
+      String severityKeyAllOpsAllConsumers = this.createSeverityKeyByErrorValueForAllOpsAllConsumers(errorValue,
+               errorToSave);
+      String severityKeyAllServers = this.createSeverityKeyByErrorValueForAllServer(errorValue, errorToSave);
+      String severityKeyAllConsumers = createSeverityKeyByErrorValueForAllConsumers(errorValue, errorToSave);
+      String severityKeyAllServersAllOperations = createSeverityKeyByErrorValueForAllServersAllOperations(errorValue,
+               errorToSave);
+      String severityKeyAllServersAllConsumers = createSeverityKeyByErrorValueForAllServersAllConsumers(errorValue,
+               errorToSave);
 
-		mutator.insert(categoryKey, "ErrorCountsByCategory", categoryColumn);
-		mutator.insert(categoryKeyAllOps, "ErrorCountsByCategory",
-				categoryColumnForAllOps);
-		mutator.insert(severityKey, "ErrorCountsBySeverity", severityColumn);
-		mutator.insert(severityKeyAllOps, "ErrorCountsBySeverity",
-				severityColumnAllOps);
-		// mutator.execute();
-	}
+      String severityKeyAllServersSomeConsumerSomeOperation = createSeverityKeyByErrorValueForAllServersSomeConsumerSomeOperation(
+               errorValue, errorToSave);
+
+      mutator.insert(severityKey, "ErrorCountsBySeverity", severityColumn);
+      mutator.insert(severityKeyAllOps, "ErrorCountsBySeverity", severityColumn);
+      mutator.insert(severityKeyAllOpsAllConsumers, "ErrorCountsBySeverity", severityColumn);
+      mutator.insert(severityKeyAllServers, "ErrorCountsBySeverity", severityColumn);
+      mutator.insert(severityKeyAllConsumers, "ErrorCountsBySeverity", severityColumn);
+      mutator.insert(severityKeyAllServersAllOperations, "ErrorCountsBySeverity", severityColumn);
+      mutator.insert(severityKeyAllServersAllConsumers, "ErrorCountsBySeverity", severityColumn);
+      mutator.insert(severityKeyAllServersSomeConsumerSomeOperation, "ErrorCountsBySeverity", severityColumn);
+   }
+
+   private String createSeverityKeyByErrorValueForAllServersSomeConsumerSomeOperation(ErrorValue errorValue,
+            ErrorById errorToSave) {
+      return concatValues("All", errorValue.getServiceAdminName(), errorValue.getConsumerName(),
+               errorValue.getOperationName(), errorToSave.getSeverity(), String.valueOf(errorValue.isServerSide()));
+   }
+
+   private String createSeverityKeyByErrorValueForAllServersAllConsumers(ErrorValue errorValue, ErrorById errorToSave) {
+      return concatValues("All", errorValue.getServiceAdminName(), "All", errorValue.getOperationName(),
+               errorToSave.getSeverity(), String.valueOf(errorValue.isServerSide()));
+   }
+
+   private String createSeverityKeyByErrorValueForAllServersAllOperations(ErrorValue errorValue, ErrorById errorToSave) {
+      return concatValues("All", errorValue.getServiceAdminName(), errorValue.getConsumerName(), "All",
+               errorToSave.getSeverity(), String.valueOf(errorValue.isServerSide()));
+   }
+
+   private Mutator<String> createStringMutator() {
+      Mutator<String> mutator = HFactory.createMutator(keySpace, StringSerializer.get());
+      return mutator;
+   }
+
+   private void saveErrorCountsByCategory(
+            org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorById errorToSave, ErrorValue errorValue,
+            Mutator<String> mutator, String errorValueKey, Long timeStamp) {
+      String detailedKey = this.createCategoryKeyByErrorValue(errorValue, errorToSave);
+      String keyAllOps = this.createCategoryKeyByErrorValueForAllOps(errorValue, errorToSave);
+      String keyAllOpsAllConsumers = this.createCategoryKeyByErrorValueForAllOpsAllConsumers(errorValue, errorToSave);
+      String categoryKeyAllConsumers = this.createCategoryKeyByErrorValueForAllConsumers(errorValue, errorToSave);
+      String categoryKeyAllServers = this.createCategoryKeyByErrorValueForAllServer(errorValue, errorToSave);
+      String categoryKeyAllServersWithAllConsumersAndSomeOperation = this
+               .createCategoryKeyByErrorValueForcategoryKeyAllServersWithAllConsumersAndSomeOperation(errorValue,
+                        errorToSave);
+      String categoryKeyAllServersWithSomeConsumersAndSomeOperation = this
+               .createCategoryKeyByErrorValueForcategoryKeyAllServersWithSomeConsumerAndSomeOperation(errorValue,
+                        errorToSave);
+      String categoryKeyAllServersSomeConsumersAllOperation = this
+               .createCategoryKeyByErrorValueForcategoryKeyAllServersSomeConsumersAllOperation(errorValue, errorToSave);
+
+      HColumn<Long, String> categoryColumn = HFactory.createColumn(timeStamp, errorValueKey, LongSerializer.get(),
+               StringSerializer.get());
+      HColumn<Long, String> categoryColumnForAllOps = HFactory.createColumn(timeStamp, errorValueKey,
+               LongSerializer.get(), StringSerializer.get());
+
+      mutator.insert(detailedKey, "ErrorCountsByCategory", categoryColumn);
+      mutator.insert(keyAllOps, "ErrorCountsByCategory", categoryColumnForAllOps);
+      mutator.insert(keyAllOpsAllConsumers, "ErrorCountsByCategory", categoryColumnForAllOps);
+      mutator.insert(categoryKeyAllServers, "ErrorCountsByCategory", categoryColumnForAllOps);
+      mutator.insert(categoryKeyAllConsumers, "ErrorCountsByCategory", categoryColumnForAllOps);
+      mutator.insert(categoryKeyAllServersWithAllConsumersAndSomeOperation, "ErrorCountsByCategory",
+               categoryColumnForAllOps);
+      mutator.insert(categoryKeyAllServersWithSomeConsumersAndSomeOperation, "ErrorCountsByCategory",
+               categoryColumnForAllOps);
+      mutator.insert(categoryKeyAllServersSomeConsumersAllOperation, "ErrorCountsByCategory", categoryColumnForAllOps);
+   }
+
+   private String createCategoryKeyByErrorValueForcategoryKeyAllServersSomeConsumersAllOperation(ErrorValue errorValue,
+            ErrorById errorToSave) {
+      return concatValues("All", errorValue.getServiceAdminName(), errorValue.getConsumerName(), "All",
+               errorToSave.getCategory(), String.valueOf(errorValue.isServerSide()));
+   }
+
+   private String createCategoryKeyByErrorValueForcategoryKeyAllServersWithSomeConsumerAndSomeOperation(
+            ErrorValue errorValue, ErrorById errorToSave) {
+      return concatValues("All", errorValue.getServiceAdminName(), errorValue.getConsumerName(),
+               errorValue.getOperationName(), errorToSave.getCategory(), String.valueOf(errorValue.isServerSide()));
+   }
+
+   private String createCategoryKeyByErrorValueForcategoryKeyAllServersWithAllConsumersAndSomeOperation(
+            ErrorValue errorValue, ErrorById errorToSave) {
+      return concatValues("All", errorValue.getServiceAdminName(), "All", errorValue.getOperationName(),
+               errorToSave.getCategory(), String.valueOf(errorValue.isServerSide()));
+   }
+
+   private String createSeverityKeyByErrorValueForAllConsumers(ErrorValue errorValue, ErrorById errorToSave) {
+      return concatValues(errorValue.getServerName(), errorValue.getServiceAdminName(), "All",
+               errorValue.getOperationName(), errorToSave.getSeverity(), String.valueOf(errorValue.isServerSide()));
+   }
+
+   private String createCategoryKeyByErrorValueForAllConsumers(ErrorValue errorValue, ErrorById errorToSave) {
+      return concatValues(errorValue.getServerName(), errorValue.getServiceAdminName(), "All",
+               errorValue.getOperationName(), errorToSave.getCategory(), String.valueOf(errorValue.isServerSide()));
+   }
+
+   private String createCategoryKeyByErrorValueForAllServer(ErrorValue errorValue, ErrorById errorToSave) {
+      return this.createSuffixedErrorCountKeyAllServers(errorValue, errorToSave.getCategory());
+   }
+
+   private String createSeverityKeyByErrorValueForAllServer(ErrorValue errorValue, ErrorById errorToSave) {
+      return this.createSuffixedErrorCountKeyAllServers(errorValue, errorToSave.getSeverity());
+   }
+
+   private String createSuffixedErrorCountKeyAllServers(ErrorValue errorValue, String suffix) {
+      String key = "All" + KEY_SEPARATOR + errorValue.getServiceAdminName() + KEY_SEPARATOR + "All" + KEY_SEPARATOR
+               + "All" + KEY_SEPARATOR + suffix + KEY_SEPARATOR + errorValue.isServerSide();
+      return key;
+   }
+
+   private String createCategoryKeyByErrorValueForAllOpsAllConsumers(ErrorValue errorValue, ErrorById errorToSave) {
+      return this.createSuffixedErrorCountKeyAllOpsAllConsumers(errorValue, errorToSave.getCategory());
+   }
+
+   private String createSeverityKeyByErrorValueForAllOpsAllConsumers(ErrorValue errorValue, ErrorById errorToSave) {
+      return this.createSuffixedErrorCountKeyAllOpsAllConsumers(errorValue, errorToSave.getSeverity());
+   }
+
+   private String createSuffixedErrorCountKeyAllOpsAllConsumers(ErrorValue errorValue, String suffix) {
+      String key = errorValue.getServerName() + KEY_SEPARATOR + errorValue.getServiceAdminName() + KEY_SEPARATOR
+               + "All" + KEY_SEPARATOR + "All" + KEY_SEPARATOR + suffix + KEY_SEPARATOR + errorValue.isServerSide();
+      return key;
+   }
+
+   private String concatValues(String... values) {
+      StringBuilder valueBuilder = new StringBuilder();
+      for (int i = 0; i < values.length - 1; i++) {
+         valueBuilder.append(values[i]).append(KEY_SEPARATOR);
+      }
+      if (values != null && values.length > 0) {
+         valueBuilder.append(values[values.length - 1]);
+      }
+      return valueBuilder.toString();
+
+   }
 
 }
-

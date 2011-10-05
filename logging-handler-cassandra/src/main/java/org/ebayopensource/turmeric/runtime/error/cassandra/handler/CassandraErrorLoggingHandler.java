@@ -11,20 +11,11 @@ package org.ebayopensource.turmeric.runtime.error.cassandra.handler;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import me.prettyprint.cassandra.service.ThriftCfDef;
-import me.prettyprint.hector.api.Cluster;
-import me.prettyprint.hector.api.ddl.ColumnDefinition;
-import me.prettyprint.hector.api.ddl.ColumnFamilyDefinition;
-import me.prettyprint.hector.api.ddl.ColumnType;
-import me.prettyprint.hector.api.ddl.ComparatorType;
 import me.prettyprint.hector.api.exceptions.HectorException;
-import me.prettyprint.hector.api.factory.HFactory;
 
 import org.ebayopensource.turmeric.common.v1.types.CommonErrorData;
 import org.ebayopensource.turmeric.common.v1.types.ErrorData;
@@ -42,6 +33,7 @@ import org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorById;
 import org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorValue;
 import org.ebayopensource.turmeric.utils.cassandra.service.CassandraManager;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class CassandraErrorLoggingHandler.
  * 
@@ -49,330 +41,361 @@ import org.ebayopensource.turmeric.utils.cassandra.service.CassandraManager;
  */
 public class CassandraErrorLoggingHandler implements LoggingHandler {
 
-    /** The Constant KEY_SEPARATOR. */
-    public static final String KEY_SEPARATOR = "|";
+   /** The Constant KEY_SEPARATOR. */
+   public static final String KEY_SEPARATOR = "|";
 
-    /** The cluster name. */
-    private String clusterName;
+   /** The cluster name. */
+   private String clusterName;
 
-    private Boolean embedded;
+   /** The embedded. */
+   private Boolean embedded;
 
-    /** The error counts dao. */
-    private ErrorCountsDAO errorCountsDao = null;
+   /** The error counts dao. */
+   private ErrorCountsDAO errorCountsDao = null;
 
-    /** The error dao. */
-    private ErrorByIdDAO errorDao = null;
+   /** The error dao. */
+   private ErrorByIdDAO errorDao = null;
 
-    /** The error value dao. */
-    private ErrorValueDAO errorValueDao = null;
+   /** The error value dao. */
+   private ErrorValueDAO errorValueDao = null;
 
-    /** The host address. */
-    private String hostAddress;
+   /** The host address. */
+   private String hostAddress;
 
-    /** The keyspace name. */
-    private String keyspaceName;
+   /** The keyspace name. */
+   private String keyspaceName;
 
-    /** The random generator. */
-    private Random randomGenerator;
+   /** The random generator. */
+   private Random randomGenerator;
 
-    /**
-     * Instantiates a new cassandra error logging handler.
-     */
-    public CassandraErrorLoggingHandler() {
-    }
+   /**
+    * Instantiates a new cassandra error logging handler.
+    */
+   public CassandraErrorLoggingHandler() {
+   }
 
-    private void createCF(final String kspace, final String columnFamilyName, final Cluster cluster,
-                    boolean isSuperColumn, final ComparatorType superKeyValidator, final ComparatorType keyValidator,
-                    final ComparatorType superComparator, final ComparatorType comparator) {
+   /**
+    * Creates the cf.
+    * 
+    * @param kspace
+    *           the kspace
+    * @param columnFamilyName
+    *           the column family name
+    * @param cluster
+    *           the cluster
+    * @param isSuperColumn
+    *           the is super column
+    * @param superKeyValidator
+    *           the super key validator
+    * @param keyValidator
+    *           the key validator
+    * @param superComparator
+    *           the super comparator
+    * @param comparator
+    *           the comparator
+    */
+   // private void createCF(final String kspace, final String columnFamilyName, final Cluster cluster,
+   // boolean isSuperColumn, final ComparatorType superKeyValidator, final ComparatorType keyValidator,
+   // final ComparatorType superComparator, final ComparatorType comparator) {
+   //
+   // if (isSuperColumn) {
+   // ThriftCfDef cfDefinition = (ThriftCfDef) HFactory.createColumnFamilyDefinition(kspace, columnFamilyName,
+   // superComparator, new ArrayList<ColumnDefinition>());
+   // cfDefinition.setColumnType(ColumnType.SUPER);
+   // cfDefinition.setKeyValidationClass(superKeyValidator.getClassName());
+   // cfDefinition.setSubComparatorType(comparator);
+   // cluster.addColumnFamily(cfDefinition);
+   // }
+   // else {
+   // ColumnFamilyDefinition cfDefinition = new ThriftCfDef(kspace, columnFamilyName);
+   // cfDefinition.setKeyValidationClass(keyValidator.getClassName());
+   // if ("MetricValuesByIpAndDate".equals(columnFamilyName) || "MetricTimeSeries".equals(columnFamilyName)
+   // || "ServiceCallsByTime".equals(columnFamilyName)
+   // || "ErrorCountsByCategory".equals(columnFamilyName)
+   // || "ErrorCountsBySeverity".equals(columnFamilyName)) {
+   //
+   // ComparatorType comparator1 = this.getComparator(Long.class);
+   // cfDefinition.setComparatorType(comparator1);
+   // }
+   // else {
+   // cfDefinition.setComparatorType(comparator);
+   // }
+   //
+   // cluster.addColumnFamily(cfDefinition);
+   // }
+   // }
 
-        if (isSuperColumn) {
-            ThriftCfDef cfDefinition = (ThriftCfDef) HFactory.createColumnFamilyDefinition(kspace, columnFamilyName,
-                            superComparator, new ArrayList<ColumnDefinition>());
-            cfDefinition.setColumnType(ColumnType.SUPER);
-            cfDefinition.setKeyValidationClass(superKeyValidator.getClassName());
-            cfDefinition.setSubComparatorType(comparator);
-            cluster.addColumnFamily(cfDefinition);
-        }
-        else {
-            ColumnFamilyDefinition cfDefinition = new ThriftCfDef(kspace, columnFamilyName);
-            cfDefinition.setKeyValidationClass(keyValidator.getClassName());
-            if ("MetricValuesByIpAndDate".equals(columnFamilyName) || "MetricTimeSeries".equals(columnFamilyName)
-                            || "ServiceCallsByTime".equals(columnFamilyName)
-                            || "ErrorCountsByCategory".equals(columnFamilyName)
-                            || "ErrorCountsBySeverity".equals(columnFamilyName)) {
+   /**
+    * Gets the cluster name.
+    * 
+    * @return the cluster name
+    */
+   public String getClusterName() {
+      return clusterName;
+   }
 
-                ComparatorType comparator1 = this.getComparator(Long.class);
-                cfDefinition.setComparatorType(comparator1);
-            }
-            else {
-                cfDefinition.setComparatorType(comparator);
-            }
+   /**
+    * Gets the comparator.
+    * 
+    * @param keyTypeClass
+    *           the key type class
+    * @return the comparator
+    */
+   // private ComparatorType getComparator(Class<?> keyTypeClass) {
+   // if ((keyTypeClass != null) && String.class.isAssignableFrom(keyTypeClass)) {
+   // return ComparatorType.UTF8TYPE;
+   // } else if ((keyTypeClass != null) && Integer.class.isAssignableFrom(keyTypeClass)) {
+   // return ComparatorType.INTEGERTYPE;
+   // } else if ((keyTypeClass != null) && Long.class.isAssignableFrom(keyTypeClass)) {
+   // return ComparatorType.LONGTYPE;
+   // } else if ((keyTypeClass != null) && Date.class.isAssignableFrom(keyTypeClass)) {
+   // return ComparatorType.TIMEUUIDTYPE;
+   // } else {
+   // return ComparatorType.BYTESTYPE; // by default
+   // }
+   //
+   // }
 
-            cluster.addColumnFamily(cfDefinition);
-        }
-    }
+   /**
+    * Gets the embedded.
+    * 
+    * @return the embedded
+    */
+   public Boolean getEmbedded() {
+      return embedded;
+   }
 
-    /**
-     * Gets the cluster name.
-     * 
-     * @return the cluster name
-     */
-    public String getClusterName() {
-        return clusterName;
-    }
+   /**
+    * Gets the host address.
+    * 
+    * @return the host address
+    */
+   public String getHostAddress() {
+      return hostAddress;
+   }
 
-    private ComparatorType getComparator(Class<?> keyTypeClass) {
-        if ((keyTypeClass != null) && String.class.isAssignableFrom(keyTypeClass)) {
-            return ComparatorType.UTF8TYPE;
-        }
-        else if ((keyTypeClass != null) && Integer.class.isAssignableFrom(keyTypeClass)) {
-            return ComparatorType.INTEGERTYPE;
-        }
-        else if ((keyTypeClass != null) && Long.class.isAssignableFrom(keyTypeClass)) {
-            return ComparatorType.LONGTYPE;
-        }
-        else if ((keyTypeClass != null) && Date.class.isAssignableFrom(keyTypeClass)) {
-            return ComparatorType.TIMEUUIDTYPE;
-        }
-        else {
-            return ComparatorType.BYTESTYPE; // by default
-        }
+   /**
+    * Gets the inet address.
+    * 
+    * @return the inet address
+    * @throws ServiceException
+    *            the service exception
+    */
+   private String getInetAddress() throws ServiceException {
+      try {
+         return InetAddress.getLocalHost().getCanonicalHostName();
+      } catch (UnknownHostException x) {
+         throw new ServiceException("Unkonwn host name", x);
+      }
+   }
 
-    }
+   /**
+    * Gets the keyspace name.
+    * 
+    * @return the keyspace name
+    */
+   public String getKeyspaceName() {
+      return keyspaceName;
+   }
 
-    public Boolean getEmbedded() {
-        return embedded;
-    }
+   /**
+    * Inits the CassandraErrorLoggingHandler.
+    * 
+    * @param ctx
+    *           the ctx
+    * @throws ServiceException
+    *            the service exception
+    * @see org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler#init(org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler.InitContext)
+    */
+   @Override
+   public void init(InitContext ctx) throws ServiceException {
+      java.util.Map<String, String> options = ctx.getOptions();
+      clusterName = options.get("cluster-name");
+      hostAddress = options.get("host-address");
+      keyspaceName = options.get("keyspace-name");
+      if (this.isInvalidString(clusterName) || this.isInvalidString(hostAddress) || this.isInvalidString(keyspaceName)) {
+         throw new ServiceException("Invalid cassandra options. Empty clusterName/hostAddress/keyspaceName");
+      }
+      String randomGeneratorClassName = options.get("random-generator-class-name");
+      if ((randomGeneratorClassName == null) || randomGeneratorClassName.isEmpty()) {
+         randomGenerator = new Random(System.currentTimeMillis());
+      } else {
+         try {
+            Class<?> theClass = Class.forName(randomGeneratorClassName);
+            randomGenerator = (Random) theClass.newInstance();
+         } catch (Exception e) {
+            throw new ServiceException("Error instancing random generator class", e);
+         }
+      }
+      String embeddedOption = options.get("embedded");
+      this.embedded = Boolean.valueOf(embeddedOption);
+      if (this.embedded) {
+         CassandraManager.initialize();
+      }
 
-    /**
-     * Gets the host address.
-     * 
-     * @return the host address
-     */
-    public String getHostAddress() {
-        return hostAddress;
-    }
+      errorDao = new ErrorByIdDAO(clusterName, hostAddress, keyspaceName, Long.class,
+               org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorById.class, "ErrorsById");
+      errorValueDao = new ErrorValueDAO(clusterName, hostAddress, keyspaceName, String.class,
+               org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorValue.class, "ErrorValues");
+      errorCountsDao = new ErrorCountsDAO(clusterName, hostAddress, keyspaceName);
 
-    /**
-     * Gets the inet address.
-     * 
-     * @return the inet address
-     * @throws ServiceException
-     *             the service exception
-     */
-    private String getInetAddress() throws ServiceException {
-        try {
-            return InetAddress.getLocalHost().getCanonicalHostName();
-        }
-        catch (UnknownHostException x) {
-            throw new ServiceException("Unkonwn host name", x);
-        }
-    }
+   }
 
-    /**
-     * Gets the keyspace name.
-     * 
-     * @return the keyspace name
-     */
-    public String getKeyspaceName() {
-        return keyspaceName;
-    }
+   /**
+    * Checks if is invalid string.
+    * 
+    * @param str
+    *           the str
+    * @return true, if is invalid string
+    */
+   private boolean isInvalidString(String str) {
+      return (str == null) || str.isEmpty();
+   }
 
-    /**
-     * Inits the CassandraErrorLoggingHandler.
-     * 
-     * @param ctx
-     *            the ctx
-     * @throws ServiceException
-     *             the service exception
-     * @see org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler#init(org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler.InitContext)
-     */
-    @Override
-    public void init(InitContext ctx) throws ServiceException {
-        java.util.Map<String, String> options = ctx.getOptions();
-        clusterName = options.get("cluster-name");
-        hostAddress = options.get("host-address");
-        keyspaceName = options.get("keyspace-name");
-        if (this.isInvalidString(clusterName) || this.isInvalidString(hostAddress)
-                        || this.isInvalidString(keyspaceName)) {
-            throw new ServiceException("Invalid cassandra options. Empty clusterName/hostAddress/keyspaceName");
-        }
-        String randomGeneratorClassName = options.get("random-generator-class-name");
-        if ((randomGeneratorClassName == null) || randomGeneratorClassName.isEmpty()) {
-            randomGenerator = new Random(System.currentTimeMillis());
-        }
-        else {
-            try {
-                Class<?> theClass = Class.forName(randomGeneratorClassName);
-                randomGenerator = (Random) theClass.newInstance();
-            }
-            catch (Exception e) {
-                throw new ServiceException("Error instancing random generator class", e);
-            }
-        }
-        String embeddedOption = options.get("embedded");
-        this.embedded = Boolean.valueOf(embeddedOption);
-        if (this.embedded) {
-            CassandraManager.initialize();
-        }
+   /**
+    * Log error.
+    * 
+    * @param ctx
+    *           the ctx
+    * @param e
+    *           the e
+    * @throws ServiceException
+    *            the service exception
+    * @see org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler#logError(org.ebayopensource.turmeric.runtime.common.pipeline.MessageContext,
+    *      java.lang.Throwable)
+    */
+   @Override
+   public void logError(MessageContext ctx, Throwable e) throws ServiceException {
+      ServiceExceptionInterface serviceException = (ServiceExceptionInterface) e;
+      List<CommonErrorData> errorsToStore = serviceException.getErrorMessage().getError();
+      String consumerName = this.retrieveConsumerName(ctx);
+      String serviceAdminName = ctx.getAdminName();
+      String operationName = ctx.getOperationName();
+      boolean serverSide = !ctx.getServiceId().isClientSide();
+      String serverName = this.getInetAddress();
+      long now = System.currentTimeMillis();
+      this.persistErrors(errorsToStore, serverName, serviceAdminName, operationName, serverSide, consumerName, now);
 
-        errorDao = new ErrorByIdDAO(clusterName, hostAddress, keyspaceName, Long.class,
-                        org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorById.class, "ErrorsById");
-        errorValueDao = new ErrorValueDAO(clusterName, hostAddress, keyspaceName, String.class,
-                        org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorValue.class, "ErrorValues");
-        errorCountsDao = new ErrorCountsDAO(clusterName, hostAddress, keyspaceName);
+   }
 
-    }
+   /**
+    * Log processing stage.
+    * 
+    * @param ctx
+    *           the ctx
+    * @param stage
+    *           the stage
+    * @throws ServiceException
+    *            the service exception
+    * @see org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler#logProcessingStage(org.ebayopensource.turmeric.runtime.common.pipeline.MessageContext,
+    *      org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandlerStage)
+    */
+   @Override
+   public void logProcessingStage(MessageContext ctx, LoggingHandlerStage stage) throws ServiceException {
+   }
 
-    private boolean isInvalidString(String str) {
-        return (str == null) || str.isEmpty();
-    }
+   /**
+    * Log response resident error.
+    * 
+    * @param ctx
+    *           the ctx
+    * @param errorData
+    *           the error data
+    * @throws ServiceException
+    *            the service exception
+    * @see org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler#logResponseResidentError(org.ebayopensource.turmeric.runtime.common.pipeline.MessageContext,
+    *      org.ebayopensource.turmeric.common.v1.types.ErrorData)
+    */
+   @Override
+   public void logResponseResidentError(MessageContext ctx, ErrorData errorData) throws ServiceException {
+      List<? extends ErrorData> errorsToStore = Collections.singletonList(errorData);
+      String consumerName = this.retrieveConsumerName(ctx);
+      String serviceAdminName = ctx.getAdminName();
+      String operationName = ctx.getOperationName();
+      boolean serverSide = !ctx.getServiceId().isClientSide();
+      String serverName = this.getInetAddress();
+      long now = System.currentTimeMillis();
 
-    /**
-     * Log error.
-     * 
-     * @param ctx
-     *            the ctx
-     * @param e
-     *            the e
-     * @throws ServiceException
-     *             the service exception
-     * @see org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler#logError(org.ebayopensource.turmeric.runtime.common.pipeline.MessageContext,
-     *      java.lang.Throwable)
-     */
-    @Override
-    public void logError(MessageContext ctx, Throwable e) throws ServiceException {
-        ServiceExceptionInterface serviceException = (ServiceExceptionInterface) e;
-        List<CommonErrorData> errorsToStore = serviceException.getErrorMessage().getError();
-        String consumerName = this.retrieveConsumerName(ctx);
-        String serviceAdminName = ctx.getAdminName();
-        String operationName = ctx.getOperationName();
-        boolean serverSide = !ctx.getServiceId().isClientSide();
-        String serverName = this.getInetAddress();
-        long now = System.currentTimeMillis();
-        this.persistErrors(errorsToStore, serverName, serviceAdminName, operationName, serverSide, consumerName, now);
+      this.persistErrors(errorsToStore, serverName, serviceAdminName, operationName, serverSide, consumerName, now);
 
-    }
+   }
 
-    /**
-     * Log processing stage.
-     * 
-     * @param ctx
-     *            the ctx
-     * @param stage
-     *            the stage
-     * @throws ServiceException
-     *             the service exception
-     * @see org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler#logProcessingStage(org.ebayopensource.turmeric.runtime.common.pipeline.MessageContext,
-     *      org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandlerStage)
-     */
-    @Override
-    public void logProcessingStage(MessageContext ctx, LoggingHandlerStage stage) throws ServiceException {
-    }
+   /**
+    * Log warning.
+    * 
+    * @param ctx
+    *           the ctx
+    * @param e
+    *           the e
+    * @throws ServiceException
+    *            the service exception
+    * @see org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler#logWarning(org.ebayopensource.turmeric.runtime.common.pipeline.MessageContext,
+    *      java.lang.Throwable)
+    */
+   @Override
+   public void logWarning(MessageContext ctx, Throwable e) throws ServiceException {
+      this.logError(ctx, e);
+   }
 
-    /**
-     * Log response resident error.
-     * 
-     * @param ctx
-     *            the ctx
-     * @param errorData
-     *            the error data
-     * @throws ServiceException
-     *             the service exception
-     * @see org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler#logResponseResidentError(org.ebayopensource.turmeric.runtime.common.pipeline.MessageContext,
-     *      org.ebayopensource.turmeric.common.v1.types.ErrorData)
-     */
-    @Override
-    public void logResponseResidentError(MessageContext ctx, ErrorData errorData) throws ServiceException {
-        List<? extends ErrorData> errorsToStore = Collections.singletonList(errorData);
-        String consumerName = this.retrieveConsumerName(ctx);
-        String serviceAdminName = ctx.getAdminName();
-        String operationName = ctx.getOperationName();
-        boolean serverSide = !ctx.getServiceId().isClientSide();
-        String serverName = this.getInetAddress();
-        long now = System.currentTimeMillis();
+   /**
+    * Persist errors.
+    * 
+    * @param errorsList
+    *           the errors to store
+    * @param serverName
+    *           the server name
+    * @param srvcAdminName
+    *           the srvc admin name
+    * @param opName
+    *           the op name
+    * @param serverSide
+    *           the server side
+    * @param consumerName
+    *           the consumer name
+    * @param timeStamp
+    *           the time stamp
+    * @throws ServiceException
+    *            the service exception
+    */
+   public void persistErrors(List<? extends ErrorData> errorsList, String serverName, String srvcAdminName,
+            String opName, boolean serverSide, String consumerName, long timeStamp) throws ServiceException {
+      try {
 
-        this.persistErrors(errorsToStore, serverName, serviceAdminName, operationName, serverSide, consumerName, now);
+         for (ErrorData errorData : errorsList) {
+            CommonErrorData commonErrorData = (CommonErrorData) errorData;
+            String errorMessage = commonErrorData.getMessage();
+            org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorById errorToSave = new ErrorById(
+                     commonErrorData);
+            ErrorValue errorValue = new ErrorValue(errorToSave, serverName, errorMessage, srvcAdminName, opName,
+                     consumerName, timeStamp, serverSide, 0, randomGenerator.nextInt());
+            String errorValueKey = errorValue.getKey();
 
-    }
+            errorDao.save(errorToSave.getErrorId(), errorToSave, timeStamp, errorValueKey);
 
-    /**
-     * Log warning.
-     * 
-     * @param ctx
-     *            the ctx
-     * @param e
-     *            the e
-     * @throws ServiceException
-     *             the service exception
-     * @see org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler#logWarning(org.ebayopensource.turmeric.runtime.common.pipeline.MessageContext,
-     *      java.lang.Throwable)
-     */
-    @Override
-    public void logWarning(MessageContext ctx, Throwable e) throws ServiceException {
-        this.logError(ctx, e);
-    }
+            // not good. What if 2 different error values for the same error occurs at the same time?
+            errorValueDao.save(errorValueKey, errorValue);
+            errorCountsDao.saveErrorCounts(errorToSave, errorValue, errorValueKey, timeStamp, 1);
+         }
 
-    /**
-     * Persist errors.
-     * 
-     * @param errorsList
-     *            the errors to store
-     * @param serverName
-     *            the server name
-     * @param srvcAdminName
-     *            the srvc admin name
-     * @param opName
-     *            the op name
-     * @param serverSide
-     *            the server side
-     * @param consumerName
-     *            the consumer name
-     * @param timeStamp
-     *            the time stamp
-     * @throws ServiceException
-     *             the service exception
-     */
-    public void persistErrors(List<? extends ErrorData> errorsList, String serverName, String srvcAdminName,
-                    String opName, boolean serverSide, String consumerName, long timeStamp) throws ServiceException {
-        try {
+      } catch (HectorException he) {
+         throw new ServiceException("Exception logging error in Cassandra cluster", he);
+      }
+   }
 
-            for (ErrorData errorData : errorsList) {
-                CommonErrorData commonErrorData = (CommonErrorData) errorData;
-                String errorMessage = commonErrorData.getMessage();
-                org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorById errorToSave = new ErrorById(
-                                commonErrorData);
-                ErrorValue errorValue = new ErrorValue(errorToSave, serverName, errorMessage, srvcAdminName, opName,
-                                consumerName, timeStamp, serverSide, 0, randomGenerator.nextInt());
-                String errorValueKey = errorValue.getKey();
-
-                errorDao.save(errorToSave.getErrorId(), errorToSave, timeStamp, errorValueKey);
-
-                // not good. What if 2 different error values for the same error occurs at the same time?
-                errorValueDao.save(errorValueKey, errorValue);
-                errorCountsDao.saveErrorCounts(errorToSave, errorValue, errorValueKey, timeStamp, 1);
-            }
-
-        }
-        catch (HectorException he) {
-            throw new ServiceException("Exception logging error in Cassandra cluster", he);
-        }
-    }
-
-    /**
-     * Retrieve consumer name.
-     * 
-     * @param ctx
-     *            the ctx
-     * @return the string
-     * @throws ServiceException
-     *             the service exception
-     */
-    private String retrieveConsumerName(MessageContext ctx) throws ServiceException {
-        String result = ctx.getRequestMessage().getTransportHeader(SOAHeaders.USECASE_NAME);
-        if (result == null)
-            result = SOAConstants.DEFAULT_USE_CASE;
-        return result;
-    }
+   /**
+    * Retrieve consumer name.
+    * 
+    * @param ctx
+    *           the ctx
+    * @return the string
+    * @throws ServiceException
+    *            the service exception
+    */
+   private String retrieveConsumerName(MessageContext ctx) throws ServiceException {
+      String result = ctx.getRequestMessage().getTransportHeader(SOAHeaders.USECASE_NAME);
+      if (result == null)
+         result = SOAConstants.DEFAULT_USE_CASE;
+      return result;
+   }
 
 }
