@@ -10,6 +10,7 @@ package org.ebayopensource.turmeric.runtime.error.cassandra.model;
 
 import static org.ebayopensource.turmeric.runtime.error.cassandra.handler.CassandraErrorLoggingHandler.KEY_SEPARATOR;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ErrorValue.
  */
@@ -39,7 +40,7 @@ public class ErrorValue {
     /** The name. */
     protected String name;
 
-    /** The operation name. */
+	/** The operation name. */
     protected String operationName;
 
     /** The organization. */
@@ -302,5 +303,23 @@ public class ErrorValue {
     public void setTimeStamp(long timeStamp) {
         this.tstamp = timeStamp;
     }
+    
+    /**
+     * Gets the name.
+     *
+     * @return the name
+     */
+    public String getName() {
+		return name;
+	}
+
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
 }
