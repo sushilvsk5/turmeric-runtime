@@ -266,15 +266,19 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
     */
    @Override
    public void logError(MessageContext ctx, Throwable e) throws ServiceException {
-      ServiceExceptionInterface serviceException = (ServiceExceptionInterface) e;
-      List<CommonErrorData> errorsToStore = serviceException.getErrorMessage().getError();
-      String consumerName = this.retrieveConsumerName(ctx);
-      String serviceAdminName = ctx.getAdminName();
-      String operationName = ctx.getOperationName();
-      boolean serverSide = !ctx.getServiceId().isClientSide();
-      String serverName = this.getInetAddress();
-      long now = System.currentTimeMillis();
-      this.persistErrors(errorsToStore, serverName, serviceAdminName, operationName, serverSide, consumerName, now);
+      if (e instanceof ServiceExceptionInterface) {
+         ServiceExceptionInterface serviceException = (ServiceExceptionInterface) e;
+         List<CommonErrorData> errorsToStore = serviceException.getErrorMessage().getError();
+         String consumerName = this.retrieveConsumerName(ctx);
+         String serviceAdminName = ctx.getAdminName();
+         String operationName = ctx.getOperationName();
+         boolean serverSide = !ctx.getServiceId().isClientSide();
+         String serverName = this.getInetAddress();
+         long now = System.currentTimeMillis();
+         this.persistErrors(errorsToStore, serverName, serviceAdminName, operationName, serverSide, consumerName, now);
+      } else {
+         // TODO: create an error data from the exception itself ?
+      }
 
    }
 
