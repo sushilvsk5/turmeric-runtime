@@ -211,6 +211,17 @@
 	      </repository>
 	   </repositories>
 	   <pluginRepositories>
+              <pluginRepository>
+                 <id>ebaythird-party</id>
+                 <name>eBayOpenSource Third Party Public</name>
+                 <url>http://www.ebayopensource.org/nexus/content/groups/public/</url>
+                 <releases>
+                    <enabled>true</enabled>
+                 </releases>
+                 <snapshots>
+                    <enabled>false</enabled>
+                 </snapshots>
+              </pluginRepository>
 	      <pluginRepository>
 		 <id>ebayopensource-releases</id>
 		 <name>eBayOpenSource Release Repository</name>
