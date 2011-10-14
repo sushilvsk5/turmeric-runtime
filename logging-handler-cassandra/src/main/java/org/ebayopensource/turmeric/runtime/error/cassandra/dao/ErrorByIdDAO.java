@@ -21,50 +21,50 @@ import org.ebayopensource.turmeric.utils.cassandra.dao.AbstractColumnFamilyDao;
  * The Class ErrorDAO.
  */
 public class ErrorByIdDAO extends
-                AbstractColumnFamilyDao<Long, org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorById> {
+         AbstractColumnFamilyDao<Long, org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorById> {
 
-    /**
-     * Instantiates a new error dao.
-     * 
-     * @param clusterName
-     *            the cluster name
-     * @param host
-     *            the host
-     * @param s_keyspace
-     *            the s_keyspace
-     * @param keyTypeClass
-     *            the key type class
-     * @param persistentClass
-     *            the persistent class
-     * @param columnFamilyName
-     *            the column family name
-     */
-    public ErrorByIdDAO(String clusterName, String host, String s_keyspace, Class<Long> keyTypeClass,
-                    Class<org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorById> persistentClass,
-                    String columnFamilyName) {
-        super(clusterName, host, s_keyspace, keyTypeClass, persistentClass, columnFamilyName);
-    }
+   /**
+    * Instantiates a new error dao.
+    * 
+    * @param clusterName
+    *           the cluster name
+    * @param host
+    *           the host
+    * @param s_keyspace
+    *           the s_keyspace
+    * @param keyTypeClass
+    *           the key type class
+    * @param persistentClass
+    *           the persistent class
+    * @param columnFamilyName
+    *           the column family name
+    */
+   public ErrorByIdDAO(String clusterName, String host, String s_keyspace, Class<Long> keyTypeClass,
+            Class<org.ebayopensource.turmeric.runtime.error.cassandra.model.ErrorById> persistentClass,
+            String columnFamilyName) {
+      super(clusterName, host, s_keyspace, keyTypeClass, persistentClass, columnFamilyName);
+   }
 
-    /**
-     * Save.
-     * 
-     * @param key
-     *            the key
-     * @param model
-     *            the model
-     * @param timestamp
-     *            the timestamp
-     * @param errorValueKey
-     *            the error value key
-     */
-    public void save(Long key, ErrorById model, long timestamp, String errorValueKey) {
-        super.save(key, model);
-        Mutator<Long> mutator = HFactory.createMutator(keySpace, LongSerializer.get());
-        HColumn<String, String> timestampColumn = HFactory.createColumn(timestamp + "", errorValueKey,
-                        StringSerializer.get(), StringSerializer.get());
+   /**
+    * Save.
+    * 
+    * @param key
+    *           the key
+    * @param model
+    *           the model
+    * @param timestamp
+    *           the timestamp
+    * @param errorValueKey
+    *           the error value key
+    */
+   public void save(Long key, ErrorById model, long timestamp, String errorValueKey) {
+      super.save(key, model);
+      Mutator<Long> mutator = HFactory.createMutator(keySpace, LongSerializer.get());
+      HColumn<String, String> timestampColumn = HFactory.createColumn(timestamp + "", errorValueKey,
+               StringSerializer.get(), StringSerializer.get());
 
-        mutator.addInsertion(key, columnFamilyName, timestampColumn);
-        mutator.execute();
-    }
+      mutator.addInsertion(key, columnFamilyName, timestampColumn);
+      mutator.execute();
+   }
 
 }
