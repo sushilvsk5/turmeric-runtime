@@ -77,53 +77,8 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
    /**
     * Creates the cf.
     * 
-    * @param kspace
-    *           the kspace
-    * @param columnFamilyName
-    *           the column family name
-    * @param cluster
-    *           the cluster
-    * @param isSuperColumn
-    *           the is super column
-    * @param superKeyValidator
-    *           the super key validator
-    * @param keyValidator
-    *           the key validator
-    * @param superComparator
-    *           the super comparator
-    * @param comparator
-    *           the comparator
+    * @return the cluster name
     */
-   // private void createCF(final String kspace, final String columnFamilyName, final Cluster cluster,
-   // boolean isSuperColumn, final ComparatorType superKeyValidator, final ComparatorType keyValidator,
-   // final ComparatorType superComparator, final ComparatorType comparator) {
-   //
-   // if (isSuperColumn) {
-   // ThriftCfDef cfDefinition = (ThriftCfDef) HFactory.createColumnFamilyDefinition(kspace, columnFamilyName,
-   // superComparator, new ArrayList<ColumnDefinition>());
-   // cfDefinition.setColumnType(ColumnType.SUPER);
-   // cfDefinition.setKeyValidationClass(superKeyValidator.getClassName());
-   // cfDefinition.setSubComparatorType(comparator);
-   // cluster.addColumnFamily(cfDefinition);
-   // }
-   // else {
-   // ColumnFamilyDefinition cfDefinition = new ThriftCfDef(kspace, columnFamilyName);
-   // cfDefinition.setKeyValidationClass(keyValidator.getClassName());
-   // if ("MetricValuesByIpAndDate".equals(columnFamilyName) || "MetricTimeSeries".equals(columnFamilyName)
-   // || "ServiceCallsByTime".equals(columnFamilyName)
-   // || "ErrorCountsByCategory".equals(columnFamilyName)
-   // || "ErrorCountsBySeverity".equals(columnFamilyName)) {
-   //
-   // ComparatorType comparator1 = this.getComparator(Long.class);
-   // cfDefinition.setComparatorType(comparator1);
-   // }
-   // else {
-   // cfDefinition.setComparatorType(comparator);
-   // }
-   //
-   // cluster.addColumnFamily(cfDefinition);
-   // }
-   // }
 
    /**
     * Gets the cluster name.
@@ -137,24 +92,8 @@ public class CassandraErrorLoggingHandler implements LoggingHandler {
    /**
     * Gets the comparator.
     * 
-    * @param keyTypeClass
-    *           the key type class
     * @return the comparator
     */
-   // private ComparatorType getComparator(Class<?> keyTypeClass) {
-   // if ((keyTypeClass != null) && String.class.isAssignableFrom(keyTypeClass)) {
-   // return ComparatorType.UTF8TYPE;
-   // } else if ((keyTypeClass != null) && Integer.class.isAssignableFrom(keyTypeClass)) {
-   // return ComparatorType.INTEGERTYPE;
-   // } else if ((keyTypeClass != null) && Long.class.isAssignableFrom(keyTypeClass)) {
-   // return ComparatorType.LONGTYPE;
-   // } else if ((keyTypeClass != null) && Date.class.isAssignableFrom(keyTypeClass)) {
-   // return ComparatorType.TIMEUUIDTYPE;
-   // } else {
-   // return ComparatorType.BYTESTYPE; // by default
-   // }
-   //
-   // }
 
    /**
     * Gets the embedded.
