@@ -190,5 +190,10 @@
       <version>1.0.3</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+    	<groupId>com.ebay.kernel</groupId>
+    	<artifactId>uKernel</artifactId>
+    	<version>1.75.689.2</version>
+    </dependency>
   </dependencies>
 </project>

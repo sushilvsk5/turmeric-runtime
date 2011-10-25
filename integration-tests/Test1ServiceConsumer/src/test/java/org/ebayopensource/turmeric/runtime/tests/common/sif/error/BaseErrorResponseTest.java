@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import org.apache.axis2.transport.http.HTTPConstants;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class BaseErrorResponseTest {
 	// HTTP prefix
@@ -144,6 +146,10 @@ public class BaseErrorResponseTest {
 		out.write(SEPARATOR);
 		return out.toByteArray();
 	}
-
+	@Test
+	public void DoNothingTest()
+	{
+		Assert.assertTrue(Boolean.TRUE);
+	}
 
 }

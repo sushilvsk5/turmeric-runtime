@@ -22,7 +22,7 @@
         
       </invocation-options>
       <transport name="HTTP11">
-         <class-name>com.ebay.soaframework.sif.impl.transport.http.HTTPSyncAsyncClientTransport
+         <class-name>org.ebayopensource.turmeric.runtime.sif.impl.transport.http.HTTPSyncAsyncClientTransport
          </class-name>
           <default-options>
                     <client-streaming>true</client-streaming>

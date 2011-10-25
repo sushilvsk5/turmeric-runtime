@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<client-config-list
+	xmlns="http://www.ebay.com/soaframework/common/config">
+	<client-config service-name="Test1Service"
+		xmlns="http://www.ebay.com/soaframework/common/config">
+		<service-interface-class-name>
+			org.ebayopensource.turmeric.runtime.tests.service1.sample.services.message.Test1Service
+		</service-interface-class-name>
+		<service-location>
+			http://proxyWillKnowWhatToDo/ws/spf
+		</service-location>
+		<wsdl-location>webservices/latest/eBaySvc.wsdl</wsdl-location>
+		<client-instance-config>
+			<invocation-options>
+				<preferred-transport name="MYHTTP11"></preferred-transport>
+				<request-data-binding>XML</request-data-binding>
+			</invocation-options>
+			<pipeline-config></pipeline-config>
+			<transport name="MYHTTP11">
+				<class-name>
+					org.ebayopensource.turmeric.runtime.sif.impl.transport.http.HTTPSyncAsyncClientTransport
+				</class-name>
+				<default-options>
+					<other-options>
+						<option name="PROXY_HOST">localhost</option>
+						<option name="PROXY_PORT">9889</option>
+						<option name="PROXY_ENABLED">true</option>
+					</other-options>
+				</default-options>
+			</transport>
+			 <protocol-processor version="1.2" name="SOAP12">
+                            <indicator>
+                                <URL-pattern>ws/spf/*</URL-pattern>
+                                <transport-header
+                                    name="X-EBAY-SOA-MESSAGE-PROTOCOL">
+                                    SOAP12
+                                </transport-header>
+                            </indicator>
+                            <class-name>
+                                org.ebayopensource.turmeric.runtime.sif.impl.protocolprocessor.soap.ClientSOAPProtocolProcessor
+                            </class-name>
+                        </protocol-processor>
+                        <protocol-processor version="1.1" name="SOAP11">
+                            <indicator>
+                                <URL-pattern>ws/spf/*</URL-pattern>
+                                <transport-header
+                                    name="X-EBAY-SOA-MESSAGE-PROTOCOL">
+                                    SOAP11
+                                </transport-header>
+                            </indicator>
+                            <class-name>
+                                org.ebayopensource.turmeric.runtime.sif.impl.protocolprocessor.soap.ClientSOAPProtocolProcessor
+                            </class-name>
+            </protocol-processor>
+
+		</client-instance-config>
+	</client-config>
+</client-config-list>
