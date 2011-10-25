@@ -9,6 +9,7 @@ import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.util.Properties;
 
+import org.ebayopensource.turmeric.junit.rules.MavenTestingRules;
 import org.ebayopensource.turmeric.junit.utils.MavenTestingUtils;
 import org.ebayopensource.turmeric.tools.codegen.exception.MissingInputOptionException;
 import org.junit.Assert;
@@ -39,14 +40,14 @@ public class SOA29FeatureTests extends AbstractServiceGeneratorTestCase {
 	public void init() throws Exception{
 		
 		
-		
+
 		
 		gen = new ServiceGenerator();
 		
 		destDir = testingdir.getDir();
 		
 		originalLoader = Thread.currentThread().getContextClassLoader();
-		URL [] urls = {new URL("file:/"+ destDir.getAbsolutePath()+"/bin/")};
+		URL [] urls = {new URL("file://"+ destDir.getAbsolutePath())};
 		setURLsInClassLoader(urls);	
 		
 		MavenTestingUtils.ensureEmpty(destDir);
