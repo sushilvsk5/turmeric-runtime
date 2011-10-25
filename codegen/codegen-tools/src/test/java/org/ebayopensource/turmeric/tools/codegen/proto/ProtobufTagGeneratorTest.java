@@ -32,6 +32,7 @@ import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.tag.Prot
 import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.tag.ProtobufMetadataWriter;
 import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.tag.ProtobufTagGenerator;
 import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.tag.QnameMapBuilder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.InputSource;
 
@@ -51,14 +52,14 @@ public class ProtobufTagGeneratorTest extends AbstractServiceGeneratorTestCase
 		return TestResourceUtil.getResource("org/ebayopensource/turmeric/test/tools/codegen/data/proto/"
 				+ name);
 	}
-
+    @Ignore
     @Test
     public void testDefaultProtobufTagGenerator_positive()
     {
         ProtobufTagGenerator generator = new DefaultProtobufTagGenerator(wsdlFile,protoFile);
         assertNotNull(generator);
     }
-    
+    @Ignore
     @Test
     public void testDefaultProtobufTagGenerator_negative()
     {
@@ -121,7 +122,7 @@ public class ProtobufTagGeneratorTest extends AbstractServiceGeneratorTestCase
         
         assertNull(generator);
     }
-
+    @Ignore
     @Test
     public void testGetTagsForType_testGetTagsToPersist_positive()
     {

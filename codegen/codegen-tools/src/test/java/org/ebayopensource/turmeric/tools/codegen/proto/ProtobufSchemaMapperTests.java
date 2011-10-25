@@ -26,6 +26,7 @@ import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.model.Pr
 import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.model.ProtobufSchema;
 import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.model.SchemaTypeName;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -42,7 +43,7 @@ public class ProtobufSchemaMapperTests extends AbstractServiceGeneratorTestCase 
 	}
 	
 
-
+	@Ignore
 	@Test
 
 	public void testDePolymorphizedFindItemServiceWsdl() throws Exception {

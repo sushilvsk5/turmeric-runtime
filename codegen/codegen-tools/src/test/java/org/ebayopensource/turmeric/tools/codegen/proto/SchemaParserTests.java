@@ -33,6 +33,7 @@ import org.ebayopensource.turmeric.tools.codegen.external.wsdl.parser.schema.Seq
 import org.ebayopensource.turmeric.tools.codegen.external.wsdl.parser.schema.SimpleContent;
 import org.ebayopensource.turmeric.tools.codegen.external.wsdl.parser.schema.SimpleType;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -78,7 +79,7 @@ public class SchemaParserTests extends AbstractServiceGeneratorTestCase {
 				+ name).getAbsolutePath();
 		
 	}
-	
+	@Ignore
 	@Test
 	
 	public void testEnumType() throws Exception {
@@ -113,7 +114,7 @@ public class SchemaParserTests extends AbstractServiceGeneratorTestCase {
 			}
 		}
 	}
-	
+	@Ignore
 	@Test
 	public void testSimpleType() throws Exception {
 		String enumTypeXsdPath = getPathOfFile("MySimpleTypeIntRest.xsd");
@@ -140,7 +141,7 @@ public class SchemaParserTests extends AbstractServiceGeneratorTestCase {
 			}
 		}
 	}
-
+	@Ignore
 	@Test
 
 	public void testSimpleTypeWithList() throws Exception {
@@ -165,7 +166,7 @@ public class SchemaParserTests extends AbstractServiceGeneratorTestCase {
 		}
 	}
 	
-	
+	@Ignore
 	@Test
 
 	public void testComplexType() throws Exception {
@@ -218,7 +219,7 @@ public class SchemaParserTests extends AbstractServiceGeneratorTestCase {
 	}
 	
 	
-	
+	@Ignore
 	@Test
 	public void testComplexTypeWithAttribute() throws Exception {
 		String enumTypeXsdPath = getPathOfFile("ComplexTypeWithAttr.xsd");
@@ -256,7 +257,7 @@ public class SchemaParserTests extends AbstractServiceGeneratorTestCase {
 			}
 		}
 	}
-
+	@Ignore
 	@Test
 	
 	public void testComplexTypeWithAttributeGroup() throws Exception {
@@ -312,7 +313,7 @@ public class SchemaParserTests extends AbstractServiceGeneratorTestCase {
 			}
 		}
 	}
-	
+	@Ignore
 	@Test
 
 	public void testComplexTypeWithChoice() throws Exception {
@@ -349,7 +350,7 @@ public class SchemaParserTests extends AbstractServiceGeneratorTestCase {
 			}
 		}
 	}
-
+	@Ignore
 	@Test
 	
 	public void testComplexTypeUsingGroup() throws Exception {
@@ -404,7 +405,7 @@ public class SchemaParserTests extends AbstractServiceGeneratorTestCase {
 		}
 	}
 	
-	
+	@Ignore
 	@Test
 
 	public void testComplexTypeUsingSimpleContent() throws Exception {
@@ -462,7 +463,7 @@ public class SchemaParserTests extends AbstractServiceGeneratorTestCase {
 		}
 	}
 	
-	
+	@Ignore
 	@Test
 	
 	public void testComplexTypeUsingComplexContent() throws Exception {
@@ -536,7 +537,7 @@ public class SchemaParserTests extends AbstractServiceGeneratorTestCase {
 			}
 		}
 	}
-
+	@Ignore
 	@SuppressWarnings("unchecked")
 	@Test
 

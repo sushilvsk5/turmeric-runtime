@@ -5,6 +5,7 @@ import java.io.File;
 import org.ebayopensource.turmeric.tools.TestResourceUtil;
 import org.ebayopensource.turmeric.tools.codegen.AbstractServiceGeneratorTestCase;
 import org.ebayopensource.turmeric.tools.codegen.util.CodeGenUtil;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class ProtoBufFullRun extends AbstractServiceGeneratorTestCase {
@@ -18,7 +19,7 @@ public class ProtoBufFullRun extends AbstractServiceGeneratorTestCase {
 
 
 
-	
+	@Ignore
 	@Test
 	
 	public void testComplexTypeWsdlFullFlow() throws Exception {

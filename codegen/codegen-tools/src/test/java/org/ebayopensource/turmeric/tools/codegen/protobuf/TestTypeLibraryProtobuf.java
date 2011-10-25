@@ -9,6 +9,7 @@ import org.ebayopensource.turmeric.tools.codegen.AbstractServiceGeneratorTestCas
 import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.validator.FastSerFormatNotSupportedException;
 import org.ebayopensource.turmeric.tools.codegen.util.CodeGenUtil;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestTypeLibraryProtobuf extends AbstractServiceGeneratorTestCase {
@@ -49,7 +50,7 @@ public void init() throws Exception{
 			+ name);
 	
 }
-
+	@Ignore
 	@Test(expected=FastSerFormatNotSupportedException.class)
 	public void testCase1() throws Exception{
 		
@@ -71,7 +72,7 @@ public void init() throws Exception{
 		
 		performDirectCodeGen(testArgs);
 	}
-	
+	@Ignore
 	@Test(expected=FastSerFormatNotSupportedException.class)
 	public void testCase2() throws Exception{
 		
@@ -95,7 +96,7 @@ public void init() throws Exception{
 		
 	}	
 	
-	
+	@Ignore
 	@Test(expected=FastSerFormatNotSupportedException.class)
 	public void testCase3() throws Exception{
 		
@@ -120,7 +121,7 @@ public void init() throws Exception{
 		
 	}
 	
-	
+	@Ignore
 	@Test(expected=FastSerFormatNotSupportedException.class)
 	public void testCase4() throws Exception{
 		
@@ -145,7 +146,7 @@ public void init() throws Exception{
 		
 		
 	}
-	
+	@Ignore
 	@Test(expected=FastSerFormatNotSupportedException.class)
 	public void testCase5() throws Exception{
 		
@@ -169,7 +170,7 @@ public void init() throws Exception{
 		
 		
 	}
-	
+	@Ignore
 	@Test
 	public void testCase6() throws Exception{
 		
@@ -192,7 +193,7 @@ public void init() throws Exception{
 		performDirectCodeGen(testArgs);
 		
 	}
-	
+	@Ignore
 	@Test
 	public void testCase7() throws Exception{
 		
@@ -216,7 +217,7 @@ public void init() throws Exception{
 		
 	}
 	
-	
+	@Ignore
 	@Test(expected=FastSerFormatNotSupportedException.class)
 	public void testCase8() throws Exception{
 		
@@ -241,7 +242,7 @@ public void init() throws Exception{
 		
 	}
 	
-	
+	@Ignore
 	@Test
 	public void testCase9() throws Exception{
 		

@@ -17,6 +17,7 @@ import org.ebayopensource.turmeric.tools.codegen.AbstractServiceGeneratorTestCas
 import org.ebayopensource.turmeric.tools.codegen.ServiceGenerator;
 import org.ebayopensource.turmeric.tools.codegen.util.CodeGenUtil;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class SequenceNumberConsistencyCheck extends AbstractServiceGeneratorTestCase {
@@ -29,6 +30,7 @@ public class SequenceNumberConsistencyCheck extends AbstractServiceGeneratorTest
     	//Therefore commenting out the old code which is based on JAXB 2.0 spec
     	return com.sun.tools.xjc.api.XJC.getDefaultPackageName(namespace);
     }
+    @Ignore
 	@Test
 	public void testSequenceNumberConsistency() throws Exception{
 		File destDir = testingdir.getDir();
