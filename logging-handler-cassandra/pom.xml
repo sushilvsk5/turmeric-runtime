@@ -55,6 +55,9 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-failsafe-plugin</artifactId>
+				<configuration>
+				<forkMode>always</forkMode>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>
@@ -64,22 +67,22 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>cassandra-maven-plugin</artifactId>
-				<version>0.8.0-1</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>start</goal>
-							<goal>stop</goal>
-						</goals>
-						<configuration>
-							<script>src/test/resources/schema-turmeric.txt</script>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.codehaus.mojo</groupId> -->
+<!-- 				<artifactId>cassandra-maven-plugin</artifactId> -->
+<!-- 				<version>0.8.0-1</version> -->
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<goals> -->
+<!-- 							<goal>start</goal> -->
+<!-- 							<goal>stop</goal> -->
+<!-- 						</goals> -->
+<!-- 						<configuration> -->
+<!-- 							<script>src/test/resources/schema-turmeric.txt</script> -->
+<!-- 						</configuration> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 			</plugin> -->
 		</plugins>
 	</build>
 </project>

@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Copyright (c) 2006-2011 eBay Inc. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *  
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *******************************************************************************/
 package org.ebayopensource.turmeric.runtime.error.utils;
 
 import java.nio.charset.Charset;
@@ -22,263 +30,307 @@ import org.ebayopensource.turmeric.runtime.common.types.ServiceAddress;
 
 public class MockMessageContextImpl implements MessageContext {
 
-    public boolean isElementOrderPreserved() {
-        // TODO Auto-generated method stub
-        return false;
+    @Override
+    public void addError(Throwable t) {
+
     }
 
-    public Charset getCharset() {
-        // TODO Auto-generated method stub
-        return null;
+    @Override
+    public void addResponseResidentError(CommonErrorData errorData) {
+
     }
 
-    public String getDefaultNamespace() {
-        // TODO Auto-generated method stub
-        return null;
+    @Override
+    public void addWarning(Throwable t) {
+
     }
 
-    public Map<String, List<String>> getNamespaceToPrefixMap() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public String getNsForJavaType(Class arg0) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public String getPayloadType() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public Map<String, String> getPrefixToNamespaceMap() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public Class getRootClass() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public DataElementSchema getRootElementSchema() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public QName getRootXMLName() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public String getSingleNamespace() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public ITypeConversionContext getTypeConversionContext() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public boolean isREST() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
+    @Override
     public String getAdminName() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
-    public QName getServiceQName() {
-        // TODO Auto-generated method stub
+    @Override
+    public Object getAuthenticatedUser() {
+
         return null;
     }
 
-    public ServiceId getServiceId() {
-        // TODO Auto-generated method stub
+    @Override
+    public Charset getCharset() {
+
         return null;
     }
 
-    public ServiceContext getServiceContext() {
-        // TODO Auto-generated method stub
+    @Override
+    public ServiceAddress getClientAddress() {
+
         return null;
     }
 
+    @Override
+    public String getDefaultNamespace() {
+
+        return null;
+    }
+
+    @Override
+    public Charset getEffectiveCharset() {
+
+        return null;
+    }
+
+    @Override
+    public ErrorDataProvider getErrorDataProvider() throws ServiceException {
+
+        return null;
+    }
+
+    @Override
+    public List<Throwable> getErrorList() {
+
+        return null;
+    }
+
+    @Override
+    public String getInvokerVersion() {
+
+        return null;
+    }
+
+    @Override
+    public String getMessageProtocol() {
+
+        return null;
+    }
+
+    @Override
+    public Map<String, List<String>> getNamespaceToPrefixMap() {
+
+        return null;
+    }
+
+    @Override
+    public String getNsForJavaType(Class arg0) {
+
+        return null;
+    }
+
+    @Override
     public ServiceOperationDesc getOperation() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
+    @Override
     public String getOperationName() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
+    @Override
+    public String getPayloadType() {
+
+        return null;
+    }
+
+    @Override
+    public Map<String, String> getPrefixToNamespaceMap() {
+
+        return null;
+    }
+
+    @Override
     public MessageProcessingStage getProcessingStage() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
+    @Override
+    public Object getProperty(String name) {
+
+        return null;
+    }
+
+    @Override
+    public String getRequestGuid() {
+
+        return null;
+    }
+
+    @Override
+    public String getRequestId() {
+
+        return null;
+    }
+
+    @Override
     public Message getRequestMessage() {
         return null;
     }
 
-    public Message getResponseMessage() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public Object getAuthenticatedUser() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public void setAuthenticatedUser(Object user) {
-        // TODO Auto-generated method stub
-
-    }
-
-    public String getMessageProtocol() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public ServiceAddress getServiceAddress() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public ServiceAddress getClientAddress() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public String getRequestId() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public String getRequestGuid() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+    @Override
     public String getRequestUri() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
-    public void setRequestId(String requestId, String requestGuid) throws ServiceException {
-        // TODO Auto-generated method stub
+    @Override
+    public Message getResponseMessage() {
 
-    }
-
-    public boolean hasErrors() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    public List<Throwable> getErrorList() {
-        // TODO Auto-generated method stub
         return null;
     }
 
-    public List<Throwable> getWarningList() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public boolean hasResponseResidentErrors() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
+    @Override
     public List<CommonErrorData> getResponseResidentErrorList() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
-    public void addResponseResidentError(CommonErrorData errorData) {
-        // TODO Auto-generated method stub
+    @Override
+    public Class getRootClass() {
 
-    }
-
-    public void addError(Throwable t) {
-        // TODO Auto-generated method stub
-
-    }
-
-    public void addWarning(Throwable t) {
-        // TODO Auto-generated method stub
-
-    }
-
-    public Object getProperty(String name) {
-        // TODO Auto-generated method stub
         return null;
     }
 
-    public void setProperty(String name, Object value) throws ServiceException {
-        // TODO Auto-generated method stub
+    @Override
+    public DataElementSchema getRootElementSchema() {
 
-    }
-
-    public Charset getEffectiveCharset() {
-        // TODO Auto-generated method stub
         return null;
     }
 
-    public String getInvokerVersion() {
-        // TODO Auto-generated method stub
+    @Override
+    public QName getRootXMLName() {
+
         return null;
     }
 
-    public String getServiceVersion() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+    @Override
     public SecurityContext getSecurityContext() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
+    @Override
+    public ServiceAddress getServiceAddress() {
+
+        return null;
+    }
+
+    @Override
+    public ServiceContext getServiceContext() {
+
+        return null;
+    }
+
+    @Override
+    public ServiceId getServiceId() {
+
+        return null;
+    }
+
+    @Override
     public String getServiceLayer() {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
-    public boolean isInboundRawMode() {
-        // TODO Auto-generated method stub
+    @Override
+    public QName getServiceQName() {
+
+        return null;
+    }
+
+    @Override
+    public String getServiceVersion() {
+
+        return null;
+    }
+
+    @Override
+    public String getSingleNamespace() {
+
+        return null;
+    }
+
+    @Override
+    public ITypeConversionContext getTypeConversionContext() {
+
+        return null;
+    }
+
+    @Override
+    public List<Throwable> getWarningList() {
+
+        return null;
+    }
+
+    @Override
+    public boolean hasErrors() {
+
         return false;
     }
 
-    public boolean isOutboundRawMode() {
-        // TODO Auto-generated method stub
+    @Override
+    public boolean hasResponseResidentErrors() {
+
         return false;
     }
 
-    public void setInboundRawMode(boolean b) {
-        // TODO Auto-generated method stub
-
-    }
-
-    public void setOutboundRawMode(boolean b) {
-        // TODO Auto-generated method stub
-
-    }
-
+    @Override
     public boolean isAsync() {
-        // TODO Auto-generated method stub
+
         return false;
     }
 
-    public ErrorDataProvider getErrorDataProvider() throws ServiceException {
-        // TODO Auto-generated method stub
-        return null;
+    @Override
+    public boolean isElementOrderPreserved() {
+
+        return false;
+    }
+
+    @Override
+    public boolean isInboundRawMode() {
+
+        return false;
+    }
+
+    @Override
+    public boolean isOutboundRawMode() {
+
+        return false;
+    }
+
+    @Override
+    public boolean isREST() {
+
+        return false;
+    }
+
+    @Override
+    public void setAuthenticatedUser(Object user) {
+
+    }
+
+    @Override
+    public void setInboundRawMode(boolean b) {
+
+    }
+
+    @Override
+    public void setOutboundRawMode(boolean b) {
+
+    }
+
+    @Override
+    public void setProperty(String name, Object value) throws ServiceException {
+
+    }
+
+    @Override
+    public void setRequestId(String requestId, String requestGuid) throws ServiceException {
+
     }
 
 }

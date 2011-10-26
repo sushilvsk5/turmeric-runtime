@@ -1,8 +1,17 @@
+/*******************************************************************************
+ * Copyright (c) 2006-2011 eBay Inc. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *  
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *******************************************************************************/
 package org.ebayopensource.turmeric.runtime.error.integration;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,8 +19,17 @@ import java.util.Map;
 import me.prettyprint.cassandra.serializers.LongSerializer;
 import me.prettyprint.cassandra.serializers.StringSerializer;
 import me.prettyprint.hector.api.Keyspace;
+import me.prettyprint.hector.api.Serializer;
 import me.prettyprint.hector.api.beans.ColumnSlice;
+import me.prettyprint.hector.api.beans.OrderedRows;
+import me.prettyprint.hector.api.beans.Row;
+import me.prettyprint.hector.api.factory.HFactory;
+import me.prettyprint.hector.api.mutation.Mutator;
+import me.prettyprint.hector.api.query.QueryResult;
+import me.prettyprint.hector.api.query.RangeSlicesQuery;
 
+import org.apache.cassandra.config.ConfigurationException;
+import org.apache.thrift.transport.TTransportException;
 import org.ebayopensource.turmeric.common.v1.types.CommonErrorData;
 import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
 import org.ebayopensource.turmeric.runtime.common.pipeline.LoggingHandler.InitContext;
@@ -22,96 +40,298 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CassandraErrorLoggingHandlerTestIT extends CassandraTestHelper{
-    CassandraErrorLoggingHandler logHandler = null;
-    Keyspace kspace = null;
+public class CassandraErrorLoggingHandlerTestIT extends CassandraTestHelper {
+   private static final Long ERROR_ID = Long.valueOf(0);
+   private static final Serializer<String> STR_SERIALIZER = StringSerializer.get();
+   String consumerName = "ConsumerName1";
+   InitContext ctx = null;
+   List<CommonErrorData> errorsToStore = null;
+   Keyspace kspace = null;
+   CassandraErrorLoggingHandler logHandler = null;
+   long now = System.currentTimeMillis();
+   String opName = "Operation1";
+   Map<String, String> options = null;
+   String serverName = "localhost";
+   boolean serverSide = true;
+   String srvcAdminName = "ServiceAdminName1";
 
-    @Before
-    public void setUp(){
-        
-        try {
-            logHandler = new CassandraErrorLoggingHandler();
-            kspace = new HectorManager().getKeyspace("Test Cluster", "127.0.0.1", "TurmericMonitoring", "Errors", false);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            fail();
-        }
-    }
+   private void cleanUpTestData() {
+      String[] columnFamilies = { "ErrorCountsByCategory", "ErrorCountsBySeverity", "ErrorsById", "ErrorValues" };
 
-    @After
-    public void tearDown(){
-        logHandler = null;
-        kspace = null;
-    }
+      for (String cf : columnFamilies) {
+         RangeSlicesQuery<String, String, String> rq = HFactory.createRangeSlicesQuery(kspace, STR_SERIALIZER,
+                  STR_SERIALIZER, STR_SERIALIZER);
+         rq.setColumnFamily(cf);
+         rq.setRange("", "", false, 1000);
+         QueryResult<OrderedRows<String, String, String>> qr = rq.execute();
+         OrderedRows<String, String, String> orderedRows = qr.get();
+         Mutator<String> deleteMutator = HFactory.createMutator(kspace, STR_SERIALIZER);
+         for (Row<String, String, String> row : orderedRows) {
+            deleteMutator.delete(row.getKey(), cf, null, STR_SERIALIZER);
+         }
+      }
 
-    @Test
-    public void testInit() throws ServiceException {
-        Map<String, String> options = createOptionsMap();
-        InitContext ctx = new MockInitContext(options);
-        logHandler.init(ctx);
-        assertEquals("Test Cluster", logHandler.getClusterName());
-        assertEquals("127.0.0.1", logHandler.getHostAddress());
-        assertEquals("TurmericMonitoring", logHandler.getKeyspaceName());
-    }
+   }
 
-    public Map<String, String> createOptionsMap() {
-        Map<String, String> options = new HashMap<String, String>();
-        options.put("cluster-name", "Test Cluster");
-        options.put("host-address", "127.0.0.1");
-        options.put("keyspace-name", "TurmericMonitoring");
-        return options;
-    }
+   public Map<String, String> createRegularOptionsMap() {
+      Map<String, String> options = new HashMap<String, String>();
+      options.put("cluster-name", "Test Cluster");
+      options.put("embedded", "true");
+      options.put("host-address", IP_ADDRESS);
+      options.put("keyspace-name", "TurmericMonitoring");
+      options.put("random-generator-class-name", "org.ebayopensource.turmeric.runtime.error.utils.MockRandom");
+      return options;
+   }
 
-    @Test
-    public void testPersistErrors() throws ServiceException {
+   @Before
+   public void setUp() throws TTransportException, IOException, InterruptedException, ConfigurationException {
+      initialize();
+      errorsToStore = this.createTestCommonErrorDataList(1);
+      options = this.createRegularOptionsMap();
+      ctx = new MockInitContext(options);
+      try {
+         logHandler = new CassandraErrorLoggingHandler();
+         kspace = new HectorManager().getKeyspace("Test Cluster", IP_ADDRESS, "TurmericMonitoring", "ErrorsById",
+                  false, null, String.class);
+      } catch (Exception e) {
+         e.printStackTrace();
+         fail();
+      }
+   }
 
-        List<CommonErrorData> errorsToStore = createTestCommonErrorDataList(1);
-        String serverName = "localhost";
-        String srvcAdminName = "ServiceAdminName1";
-        String opName = "Operation1";
-        boolean serverSide = true;
-        String consumerName = "ConsumerName1";
-        long now = System.currentTimeMillis();
-        Map<String, String> options = createOptionsMap();
-        InitContext ctx = new MockInitContext(options);
-        logHandler.init(ctx);
-        logHandler.persistErrors(errorsToStore, serverName, srvcAdminName, opName, serverSide, consumerName, now);
+   @After
+   public void tearDown() {
+      // this.cleanUpTestData();
+      logHandler = null;
+      kspace = null;
+   }
 
-        // now I need to retrieve the values. I use Hector for this.
-        ColumnSlice<Object, Object> errorColumnSlice = getColumnValues(kspace, "Errors",Long.valueOf(0), StringSerializer.get(),
-                        StringSerializer.get(), "name", "category", "severity", "domain", "subDomain", "organization");
-        assertValues(errorColumnSlice, "name", "TestErrorName", "organization", "TestOrganization", "domain",
-                        "TestDomain", "subDomain", "TestSubdomain", "severity", "ERROR", "category", "APPLICATION");
+   @Test
+   public void testEmptyConstructor() {
+      // seems foolish, but I need to make sure we don't remove the default,
+      // no param constructor
+      logHandler = new CassandraErrorLoggingHandler();
+   }
 
-        ColumnSlice<Object, Object> longColumnSlice = getColumnValues(kspace, "Errors", Long.valueOf(0), StringSerializer.get(),
-                        LongSerializer.get(), "errorId");
-        assertValues(longColumnSlice, "errorId",Long.valueOf(0));
+   @Test
+   public void testInit() throws ServiceException {
+      Map<String, String> options = this.createRegularOptionsMap();
+      InitContext ctx = new MockInitContext(options);
+      logHandler.init(ctx);
+      assertEquals("Test Cluster", logHandler.getClusterName());
+      assertEquals(IP_ADDRESS, logHandler.getHostAddress());
+      assertEquals("TurmericMonitoring", logHandler.getKeyspaceName());
+   }
 
-        // now, assert the count cf - first the category one
-        ColumnSlice<Object, Object> categoryCountColumnSlice = getColumnValues(kspace, "ErrorCountsByCategory",
-                        "localhost-ServiceAdminName1-Operation1-APPLICATION", LongSerializer.get(),
-                        StringSerializer.get(), Long.valueOf(now));
-        assertValues(categoryCountColumnSlice, now, "0-localhost-ServiceAdminName1-Operation1");
+   @Test
+   public void testInitEmbedded() throws ServiceException {
+      Map<String, String> options = this.createRegularOptionsMap();
+      // for the embeddedservie to start, we need to set the system proeprties
+      // log4j.configuration,cassandra.config
+      System.setProperty("log4j.configuration", "log4j.properties");
+      System.setProperty("cassandra.config", "cassandra.yaml");
+      InitContext ctx = new MockInitContext(options);
+      logHandler.init(ctx);
+      assertEquals("Test Cluster", logHandler.getClusterName());
+      assertEquals(IP_ADDRESS, logHandler.getHostAddress());
+      assertEquals("TurmericMonitoring", logHandler.getKeyspaceName());
+      assertEquals(true, logHandler.getEmbedded());
+   }
 
-        // now, assert the count cf - all ops
-        ColumnSlice<Object, Object> categoryCountAllOpsColumnSlice = getColumnValues(kspace, "ErrorCountsByCategory",
-                        "localhost-ServiceAdminName1-All-APPLICATION", LongSerializer.get(), StringSerializer.get(),
-                        Long.valueOf(now));
-        assertValues(categoryCountAllOpsColumnSlice, now, "0-localhost-ServiceAdminName1-Operation1");
+   @Test
+   public void testInitEmbeddedFalse() throws ServiceException {
+      Map<String, String> options = this.createRegularOptionsMap();
+      options.put("embedded", "false");
+      InitContext ctx = new MockInitContext(options);
+      logHandler.init(ctx);
+      assertEquals("Test Cluster", logHandler.getClusterName());
+      assertEquals(IP_ADDRESS, logHandler.getHostAddress());
+      assertEquals("TurmericMonitoring", logHandler.getKeyspaceName());
+      assertEquals(false, logHandler.getEmbedded());
+   }
 
-        // now, assert the count cf - then the severity one
-        ColumnSlice<Object, Object> severityCountColumnSlice = getColumnValues(kspace, "ErrorCountsBySeverity",
-                        "localhost-ServiceAdminName1-Operation1-ERROR", LongSerializer.get(), StringSerializer.get(),
-                        Long.valueOf(now));
-        assertValues(severityCountColumnSlice, now, "0-localhost-ServiceAdminName1-Operation1");
+   @Test(expected = ServiceException.class)
+   public void testInitNoParams() throws ServiceException {
+      Map<String, String> options = new HashMap<String, String>();
+      InitContext ctx = new MockInitContext(options);
+      logHandler.init(ctx);
+   }
 
-        // now, assert the count cf - all ops
-        ColumnSlice<Object, Object> severityCountAllOpsColumnSlice = getColumnValues(kspace, "ErrorCountsBySeverity",
-                        "localhost-ServiceAdminName1-All-ERROR", LongSerializer.get(), StringSerializer.get(),
-                        Long.valueOf(now));
-        assertValues(severityCountAllOpsColumnSlice, now, "0-localhost-ServiceAdminName1-Operation1");
+   @Test
+   public void testInitWithoutRandomGeneratorParam() throws ServiceException {
+      Map<String, String> options = this.createRegularOptionsMap();
 
-    }
+      InitContext ctx = new MockInitContext(options);
+      logHandler.init(ctx);
+   }
 
+   @Test
+   public void testPersistErrorCountsByCategoryCF() throws ServiceException {
+
+      logHandler.init(ctx);
+      logHandler.persistErrors(errorsToStore, serverName, srvcAdminName, opName, serverSide, consumerName, now);
+
+      ColumnSlice<Object, Object> categoryCountColumnSlice = this.getColumnValues(kspace, "ErrorCountsByCategory",
+               "localhost|ServiceAdminName1|ConsumerName1|Operation1|APPLICATION|true", LongSerializer.get(),
+               StringSerializer.get(), Long.valueOf(now));
+      this.assertValues(categoryCountColumnSlice, now, now + CassandraErrorLoggingHandler.KEY_SEPARATOR + "1");
+
+      // now, assert the count cf | all ops
+      ColumnSlice<Object, Object> categoryCountAllOpsColumnSlice = this.getColumnValues(kspace,
+               "ErrorCountsByCategory", "localhost|ServiceAdminName1|ConsumerName1|All|APPLICATION|true",
+               LongSerializer.get(), StringSerializer.get(), Long.valueOf(now));
+      this.assertValues(categoryCountAllOpsColumnSlice, now, now + CassandraErrorLoggingHandler.KEY_SEPARATOR + "1");
+
+      // now, assert the count cf | all ops
+      ColumnSlice<Object, Object> categoryCountAllConsumersColumnSlice = this.getColumnValues(kspace,
+               "ErrorCountsByCategory", "localhost|ServiceAdminName1|All|Operation1|APPLICATION|true",
+               LongSerializer.get(), StringSerializer.get(), Long.valueOf(now));
+      this.assertValues(categoryCountAllConsumersColumnSlice, now, now + CassandraErrorLoggingHandler.KEY_SEPARATOR
+               + "1");
+
+      // now, assert the count cf | all ops all consumernames
+      ColumnSlice<Object, Object> categoryCountAllOpsAllConsumerNamesColumnSlice = this.getColumnValues(kspace,
+               "ErrorCountsByCategory", "localhost|ServiceAdminName1|All|All|APPLICATION|true", LongSerializer.get(),
+               StringSerializer.get(), Long.valueOf(now));
+      this.assertValues(categoryCountAllOpsAllConsumerNamesColumnSlice, now, now
+               + CassandraErrorLoggingHandler.KEY_SEPARATOR + "1");
+
+      // now, assert the count cf | all ops all consumernames
+      ColumnSlice<Object, Object> categoryCountAllOpsAllConsumerNamesAllServerNamesColumnSlice = this.getColumnValues(
+               kspace, "ErrorCountsByCategory", "All|ServiceAdminName1|All|All|APPLICATION|true", LongSerializer.get(),
+               StringSerializer.get(), Long.valueOf(now));
+      this.assertValues(categoryCountAllOpsAllConsumerNamesAllServerNamesColumnSlice, now, now
+               + CassandraErrorLoggingHandler.KEY_SEPARATOR + "1");
+
+      // now, assert the count cf | all ops all consumernames
+      ColumnSlice<Object, Object> categoryCountAllServersAllConsumerNames = this.getColumnValues(kspace,
+               "ErrorCountsByCategory", "All|ServiceAdminName1|All|Operation1|APPLICATION|true", LongSerializer.get(),
+               StringSerializer.get(), Long.valueOf(now));
+      this.assertValues(categoryCountAllServersAllConsumerNames, now, now + CassandraErrorLoggingHandler.KEY_SEPARATOR
+               + "1");
+
+      // now, assert the count cf | all ops all consumernames
+      ColumnSlice<Object, Object> categoryCountAllServersSomeConsumerNamesSomeOp = this.getColumnValues(kspace,
+               "ErrorCountsByCategory", "All|ServiceAdminName1|ConsumerName1|Operation1|APPLICATION|true",
+               LongSerializer.get(), StringSerializer.get(), Long.valueOf(now));
+      this.assertValues(categoryCountAllServersSomeConsumerNamesSomeOp, now, now
+               + CassandraErrorLoggingHandler.KEY_SEPARATOR + "1");
+
+      // now, assert the count cf | all ops all consumernames
+      ColumnSlice<Object, Object> categoryCountAllServersAllConsumerNamesSomeOp = this.getColumnValues(kspace,
+               "ErrorCountsByCategory", "All|ServiceAdminName1|ConsumerName1|All|APPLICATION|true",
+               LongSerializer.get(), StringSerializer.get(), Long.valueOf(now));
+      this.assertValues(categoryCountAllServersAllConsumerNamesSomeOp, now, now
+               + CassandraErrorLoggingHandler.KEY_SEPARATOR + "1");
+
+   }
+
+   @Test
+   public void testPersistErrorCountsBySeverityCF() throws ServiceException {
+
+      long now = System.currentTimeMillis();
+      Map<String, String> options = this.createRegularOptionsMap();
+      InitContext ctx = new MockInitContext(options);
+      logHandler.init(ctx);
+      logHandler.persistErrors(errorsToStore, serverName, srvcAdminName, opName, serverSide, consumerName, now);
+
+      // now, assert the count cf | then the severity one
+      ColumnSlice<Object, Object> severityCountColumnSlice = this.getColumnValues(kspace, "ErrorCountsBySeverity",
+               "localhost|ServiceAdminName1|ConsumerName1|Operation1|ERROR|true", LongSerializer.get(),
+               StringSerializer.get(), Long.valueOf(now));
+      this.assertValues(severityCountColumnSlice, now, now + CassandraErrorLoggingHandler.KEY_SEPARATOR + "1");
+
+      // now, assert the count cf | all ops
+      ColumnSlice<Object, Object> severityCountAllOpsColumnSlice = this.getColumnValues(kspace,
+               "ErrorCountsBySeverity", "localhost|ServiceAdminName1|ConsumerName1|All|ERROR|true",
+               LongSerializer.get(), StringSerializer.get(), Long.valueOf(now));
+      this.assertValues(severityCountAllOpsColumnSlice, now, now + CassandraErrorLoggingHandler.KEY_SEPARATOR + "1");
+
+      // now, assert the count cf | all ops
+      ColumnSlice<Object, Object> severityCountAllConsumers = this.getColumnValues(kspace, "ErrorCountsBySeverity",
+               "localhost|ServiceAdminName1|All|Operation1|ERROR|true", LongSerializer.get(), StringSerializer.get(),
+               Long.valueOf(now));
+      this.assertValues(severityCountAllConsumers, now, now + CassandraErrorLoggingHandler.KEY_SEPARATOR + "1");
+
+      // now, assert the count cf | all ops all consumers
+      ColumnSlice<Object, Object> severityCountAllOpsAllConsumersColumnSlice = this.getColumnValues(kspace,
+               "ErrorCountsBySeverity", "localhost|ServiceAdminName1|All|All|ERROR|true", LongSerializer.get(),
+               StringSerializer.get(), Long.valueOf(now));
+      this.assertValues(severityCountAllOpsAllConsumersColumnSlice, now, now
+               + CassandraErrorLoggingHandler.KEY_SEPARATOR + "1");
+
+      // now, assert the count cf | all ops all consumers
+      ColumnSlice<Object, Object> severityCountAllServersAllConsumersAllOps = this.getColumnValues(kspace,
+               "ErrorCountsBySeverity", "All|ServiceAdminName1|All|All|ERROR|true", LongSerializer.get(),
+               StringSerializer.get(), Long.valueOf(now));
+      this.assertValues(severityCountAllServersAllConsumersAllOps, now, now
+               + CassandraErrorLoggingHandler.KEY_SEPARATOR + "1");
+
+      // now, assert the count cf | all ops all consumers
+      ColumnSlice<Object, Object> severityCountAllServersAllOps = this.getColumnValues(kspace, "ErrorCountsBySeverity",
+               "All|ServiceAdminName1|ConsumerName1|All|ERROR|true", LongSerializer.get(), StringSerializer.get(),
+               Long.valueOf(now));
+      this.assertValues(severityCountAllServersAllOps, now, now + CassandraErrorLoggingHandler.KEY_SEPARATOR + "1");
+
+      // now, assert the count cf | all ops all consumers
+      ColumnSlice<Object, Object> severityCountAllServersAllConsumers = this.getColumnValues(kspace,
+               "ErrorCountsBySeverity", "All|ServiceAdminName1|All|Operation1|ERROR|true", LongSerializer.get(),
+               StringSerializer.get(), Long.valueOf(now));
+      this.assertValues(severityCountAllServersAllConsumers, now, now + CassandraErrorLoggingHandler.KEY_SEPARATOR
+               + "1");
+
+      // now, assert the count cf | all ops all consumers
+      ColumnSlice<Object, Object> severityCountAllServers = this.getColumnValues(kspace, "ErrorCountsBySeverity",
+               "All|ServiceAdminName1|ConsumerName1|Operation1|ERROR|true", LongSerializer.get(),
+               StringSerializer.get(), Long.valueOf(now));
+      this.assertValues(severityCountAllServers, now, now + CassandraErrorLoggingHandler.KEY_SEPARATOR + "1");
+
+   }
+
+   @Test
+   public void testPersistErrorsByIdCF() throws ServiceException {
+
+      logHandler.init(ctx);
+      logHandler.persistErrors(errorsToStore, serverName, srvcAdminName, opName, serverSide, consumerName, now);
+
+      // now I need to retrieve the values. I use Hector for this.
+      ColumnSlice<Object, Object> errorColumnSlice = this.getColumnValues(kspace, "ErrorsById", ERROR_ID,
+               StringSerializer.get(), StringSerializer.get(), "name", "category", "severity", "domain", "subDomain",
+               "organization");
+      this.assertValues(errorColumnSlice, "name", "TestErrorName", "organization", "TestOrganization", "domain",
+               "TestDomain", "subDomain", "TestSubdomain", "severity", "ERROR", "category", "APPLICATION");
+
+      ColumnSlice<Object, Object> longColumnSlice = this.getColumnValues(kspace, "ErrorsById", ERROR_ID,
+               StringSerializer.get(), LongSerializer.get(), "errorId");
+      this.assertValues(longColumnSlice, "errorId", ERROR_ID);
+
+      ColumnSlice<Object, Object> timestampColumnSlice = this.getColumnValues(kspace, "ErrorsById", ERROR_ID,
+               StringSerializer.get(), StringSerializer.get(), now + "");
+      this.assertValues(timestampColumnSlice, now + "", now + CassandraErrorLoggingHandler.KEY_SEPARATOR + "1");
+
+   }
+
+   @Test
+   public void testPersistErrorValuesCF() throws ServiceException {
+
+      logHandler.init(ctx);
+      logHandler.persistErrors(errorsToStore, serverName, srvcAdminName, opName, serverSide, consumerName, now);
+
+      // now I need to retrieve the values. I use Hector for this.
+      String errorValueKey = now + CassandraErrorLoggingHandler.KEY_SEPARATOR + "1";
+      ColumnSlice<Object, Object> errorColumnSlice = this.getColumnValues(kspace, "ErrorValues", errorValueKey,
+               StringSerializer.get(), StringSerializer.get(), "name", "category", "severity", "domain", "subDomain",
+               "organization", "serverName", "errorMessage", "serviceAdminName", "operationName", "consumerName",
+               "serverSide");
+
+      this.assertValues(errorColumnSlice, "name", "TestErrorName", "organization", "TestOrganization", "domain",
+               "TestDomain", "subDomain", "TestSubdomain", "severity", "ERROR", "category", "APPLICATION",
+               "serverName", serverName, "errorMessage", "Error Message 0", "serviceAdminName", srvcAdminName,
+               "operationName", opName, "consumerName", consumerName, "serverSide", Boolean.toString(serverSide));
+
+      ColumnSlice<Object, Object> longColumnSlice = this.getColumnValues(kspace, "ErrorValues", errorValueKey,
+               StringSerializer.get(), LongSerializer.get(), "errorId", "tstamp", "aggregationPeriod");
+      this.assertValues(longColumnSlice, "errorId", ERROR_ID, "tstamp", now, "aggregationPeriod", 0l);
+
+   }
 }
