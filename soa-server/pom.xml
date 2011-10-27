@@ -87,11 +87,6 @@
          <version>${project.version}</version>
          <scope>test</scope>
       </dependency>
-      <dependency>
-      	<groupId>com.ebay.kernel</groupId>
-      	<artifactId>uKernel</artifactId>
-      	<version>1.75.689.2</version>
-      </dependency>
 <!--       <dependency> -->
 <!--       	<groupId>org.apache.mina</groupId> -->
 <!--       	<artifactId>mina-core</artifactId> -->
