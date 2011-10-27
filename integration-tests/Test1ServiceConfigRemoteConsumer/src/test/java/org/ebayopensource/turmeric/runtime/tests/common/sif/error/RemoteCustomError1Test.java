@@ -8,6 +8,7 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.runtime.tests.common.sif.error;
 
+import org.ebayopensource.turmeric.runtime.binding.BindingConstants;
 import org.ebayopensource.turmeric.runtime.common.exceptions.HTTPTransportException;
 import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceInvocationException;
 import org.ebayopensource.turmeric.runtime.errorlibrary.ErrorDataCollection;
@@ -35,8 +36,14 @@ public class RemoteCustomError1Test extends AbstractWithServerTest {
         test.setClientName("configremote");
         test.setServiceURL(jetty);
 
-        // Use known working formats
-        test.addAllPayloadFormats();
+      
+     // Use known working formats
+        test.addSymmetricPayloadFormats(
+                        BindingConstants.PAYLOAD_XML,
+                       // BindingConstants.PAYLOAD_FAST_INFOSET,
+                        BindingConstants.PAYLOAD_JSON
+                       // BindingConstants.PAYLOAD_NV
+                        );
 
         // Test all modes
         test.addAllTestModes();

@@ -18,6 +18,7 @@ import org.ebayopensource.turmeric.tools.codegen.fastserformat.FastSerFormatCode
 import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.validator.FastSerFormatNotSupportedException;
 import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.validator.FastSerFormatValidationHandler;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -61,7 +62,7 @@ public class FastSerFormatValidationTests extends AbstractServiceGeneratorTestCa
 				"-nonXSDFormats", "protobuf" };
 		return testArgs;
 	}
-	
+	@Ignore
 	@Test
 	public void validateService() throws Exception {
 		
@@ -158,6 +159,7 @@ public class FastSerFormatValidationTests extends AbstractServiceGeneratorTestCa
 				"-xsdPathsForValidation", "types/InValidTypeLibrary/ComplexTypeA.xsd,types/InValidTypeLibrary/ComplexTypeB.xsd"};
 		return testArgs;
 	}
+	@Ignore
 	@Test
 	public void testParsingXSds() {
 

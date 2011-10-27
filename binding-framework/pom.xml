@@ -48,10 +48,6 @@
     </dependency>
     <dependency>
       <groupId>com.ebay.kernel</groupId>
-      <artifactId>uKernel</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.ebay.kernel</groupId>
       <artifactId>uKernelCore</artifactId>
     </dependency>
     <dependency>

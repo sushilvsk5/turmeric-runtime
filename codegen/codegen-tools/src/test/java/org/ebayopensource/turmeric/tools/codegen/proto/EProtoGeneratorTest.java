@@ -28,6 +28,7 @@ import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.exceptio
 import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.model.ProtobufSchema;
 import org.ebayopensource.turmeric.tools.codegen.util.CodeGenConstants;
 import org.ebayopensource.turmeric.tools.codegen.util.CodeGenUtil;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class EProtoGeneratorTest extends AbstractServiceGeneratorTestCase{
@@ -224,6 +225,7 @@ public class EProtoGeneratorTest extends AbstractServiceGeneratorTestCase{
 			throw new CodeGenFailedException(exception.getMessage(), exception);
 		}
 	}
+	@Ignore
 	@Test
 	public void testDePolymorphizedFindItemServiceWsdl() throws Exception {
 		
@@ -252,7 +254,7 @@ public class EProtoGeneratorTest extends AbstractServiceGeneratorTestCase{
 		CodeGenUtil.deleteContentsOfDir(new File(context.getJavaSrcDestLocation()));
 	}
 	
-	
+	@Ignore
 	@Test	
 
 	public void testAllComplexTypeWsdlAWsdl() throws Exception {
@@ -293,7 +295,7 @@ public class EProtoGeneratorTest extends AbstractServiceGeneratorTestCase{
 		
 		CodeGenUtil.deleteContentsOfDir(new File(context.getJavaSrcDestLocation()));
 	}
-	
+	@Ignore
 	@Test
 	public void testComplexTypeWsdlFailure() throws Exception {
 		

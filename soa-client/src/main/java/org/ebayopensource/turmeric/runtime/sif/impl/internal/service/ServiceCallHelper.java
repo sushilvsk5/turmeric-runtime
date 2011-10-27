@@ -242,7 +242,7 @@ public final class ServiceCallHelper {
 	public static void checkState(ClientMessageContextImpl ctx, ClientServiceDesc clientSvcDesc, URL location){
 		AutoMarkdownStateFactory factory = clientSvcDesc.getAutoMarkdownStateFactory();
 		if(factory!=null){
-			SOAClientMarkdownStateManager mgr = SOAClientMarkdownStateManager.getInstance();
+			SOAClientMarkdownStateManager mgr = SOAClientMarkdownStateManager.getInstance();			
 			SOAClientMarkdownStateId id = mgr.createSoaStateId(ctx.getAdminName(), null, null, location.toString());
 			SOAClientMarkdownState state = mgr.getState(id);
 			// this will create the state if it wasnt there already

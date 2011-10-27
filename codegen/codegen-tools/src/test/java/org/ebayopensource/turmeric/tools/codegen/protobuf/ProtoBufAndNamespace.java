@@ -8,6 +8,7 @@ import junit.framework.Assert;
 
 import org.ebayopensource.turmeric.tools.codegen.AbstractServiceGeneratorTestCase;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -46,7 +47,7 @@ public class ProtoBufAndNamespace extends AbstractServiceGeneratorTestCase {
 			libProps.put("sipp_version","1.1");
 			
 		}	
-	
+	@Ignore
 	@Test
 	public void testWithMultiNS() throws Exception{
 		libProps.put("enableNamespaceFolding","true");
@@ -76,7 +77,7 @@ public class ProtoBufAndNamespace extends AbstractServiceGeneratorTestCase {
 		}
 			
 	}
-	
+	@Ignore
 	@Test
 	public void testWithMultiNSAndNSFfalse() throws Exception{
 		libProps.put("enableNamespaceFolding","false");
@@ -108,7 +109,7 @@ public class ProtoBufAndNamespace extends AbstractServiceGeneratorTestCase {
 	}
 	
 	
-	
+	@Ignore
 	@Test
 	public void testWithSingleNSAndNSFfalse() throws Exception{
 		libProps.put("enableNamespaceFolding","false");
@@ -140,7 +141,7 @@ public class ProtoBufAndNamespace extends AbstractServiceGeneratorTestCase {
 			
 	}
 	
-	
+	@Ignore
 	@Test
 	public void testWithSingleNSAndNSFtrue() throws Exception{
 		libProps.put("enableNamespaceFolding","false");

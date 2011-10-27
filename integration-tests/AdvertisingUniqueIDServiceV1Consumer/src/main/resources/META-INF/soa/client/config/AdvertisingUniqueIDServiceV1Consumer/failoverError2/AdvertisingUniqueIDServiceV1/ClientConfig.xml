@@ -27,7 +27,7 @@
         
         <retry-options>
 				<app-level-num-retries>2</app-level-num-retries>
-				<app-level-retry-handler>com.ebay.soaframework.sif.impl.pipeline.DefaultApplicationRetryHandler
+				<app-level-retry-handler>org.ebayopensource.turmeric.runtime.sif.impl.pipeline.DefaultApplicationRetryHandler
 				</app-level-retry-handler>
 				<retry-transport-status-code>404</retry-transport-status-code>
 			</retry-options>

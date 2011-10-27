@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<client-config-list xmlns="http://www.ebay.com/soaframework/common/config">
+	<client-config
+		service-name="test1"
+		xmlns="http://www.ebay.com/soaframework/common/config">
+		<service-interface-class-name>
+			org.ebayopensource.turmeric.runtime.tests.service1.sample.services.message.Test1Service
+		</service-interface-class-name>
+		<service-location>
+			http://localhost:8080/ws/spf
+		</service-location>
+		<wsdl-location>webservices/latest/eBaySvc.wsdl</wsdl-location>
+		<client-instance-config>
+			<invocation-options>
+				<request-data-binding>XML</request-data-binding>
+			</invocation-options>
+            <transport name="HTTP11">
+                <class-name>org.ebayopensource.turmeric.runtime.sif.impl.transport.http.HTTPSyncAsyncClientTransport</class-name>
+                <default-options>
+                    <client-streaming>true</client-streaming>
+                </default-options>
+            </transport>
+		</client-instance-config>
+	</client-config>
+</client-config-list>

@@ -23,6 +23,7 @@ import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.model.Pr
 import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.model.ProtobufFieldModifier;
 import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.model.ProtobufMessage;
 import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.model.ProtobufSchema;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class ProtoFileBasedTagGeneratorTest extends AbstractServiceGeneratorTestCase
@@ -298,7 +299,7 @@ public class ProtoFileBasedTagGeneratorTest extends AbstractServiceGeneratorTest
 
         return testArgs;
     }
-
+    @Ignore
     @Test
     public void testDotprotoGenerationForMasterWSDL() throws Exception
     {

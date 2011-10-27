@@ -88,7 +88,7 @@ public class ErrorBodyPropogationTest extends BaseErrorResponseTest {
 				// Read the server's responses
 				// and pass them back to the client.
 				try {
-					writeResponse(streamToClient, FILE_NOT_FOUND, XML_MIME_STUFF,
+					writeResponse(streamToClient,FILE_NOT_FOUND, XML_MIME_STUFF,
 							FILE_NOT_FOUND_MSG);
 					;
 					streamToClient.flush();
@@ -142,7 +142,8 @@ public class ErrorBodyPropogationTest extends BaseErrorResponseTest {
 							.getCause()
 							.getMessage()
 							.contains(
-									"<html><body>File not found</body></html>"));
+									"HTTP status code=404"));
+			
 		}
 	}
 

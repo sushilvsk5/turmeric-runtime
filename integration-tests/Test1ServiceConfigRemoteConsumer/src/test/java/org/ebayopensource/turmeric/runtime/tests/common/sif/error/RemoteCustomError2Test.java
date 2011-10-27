@@ -41,9 +41,10 @@ public class RemoteCustomError2Test extends AbstractWithServerTest {
         // Use known working formats
         test.addSymmetricPayloadFormats(
                         BindingConstants.PAYLOAD_XML,
-                        BindingConstants.PAYLOAD_FAST_INFOSET,
-                        BindingConstants.PAYLOAD_JSON,
-                        BindingConstants.PAYLOAD_NV);
+                       // BindingConstants.PAYLOAD_FAST_INFOSET,
+                        BindingConstants.PAYLOAD_JSON
+                       // BindingConstants.PAYLOAD_NV
+                        );
         
         // Test all modes
         test.addAllTestModes();

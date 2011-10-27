@@ -12,6 +12,7 @@ import java.util.Map;
 import org.ebayopensource.turmeric.runtime.codegen.common.FastSerFormatValidationError;
 import org.ebayopensource.turmeric.tools.codegen.AbstractServiceGeneratorTestCase;
 import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.validator.FastSerFormatNotSupportedException;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestForFailureCases extends AbstractServiceGeneratorTestCase {
@@ -22,7 +23,7 @@ public class TestForFailureCases extends AbstractServiceGeneratorTestCase {
     	//Therefore commenting out the old code which is based on JAXB 2.0 spec
     	return com.sun.tools.xjc.api.XJC.getDefaultPackageName(namespace);
     }
-	
+	@Ignore
 	@Test
 	public void testNegativeCases() throws MalformedURLException{
 		

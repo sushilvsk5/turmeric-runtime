@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <client-config-list
-	xmlns="http://www.ebayopensource.org/soaframework/common/config">
+	xmlns="http://www.ebayopensource.org/turmeric/common/config">
 	<client-config service-name="Test1Service"
-		xmlns="http://www.ebayopensource.org/soaframework/common/config">
+		xmlns="http://www.ebayopensource.org/turmeric/common/config">
 		<service-interface-class-name>
 			org.ebayopensource.turmeric.runtime.tests.service1.sample.services.message.Test1Service
 		</service-interface-class-name>

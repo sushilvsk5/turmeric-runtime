@@ -290,7 +290,7 @@ public final class ServiceFactory {
 	private static Service create(String serviceAdminName, String clientName,
 			URL serviceLocation, String serviceVersion, URL wsdlLocation,
 			String environmentName, boolean rawMode) throws ServiceException {
-		return create(serviceAdminName, clientName, serviceLocation, null, null, environmentName, rawMode, false);
+		return create(serviceAdminName, clientName, serviceLocation, serviceVersion, null, environmentName, rawMode, false);
 	}
 
 	private static Service create(String serviceAdminName, String clientName,

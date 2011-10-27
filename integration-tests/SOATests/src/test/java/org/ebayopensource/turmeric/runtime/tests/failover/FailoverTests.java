@@ -10,12 +10,13 @@ import junit.framework.TestCase;
 
 import org.ebayopensource.turmeric.runtime.sif.service.Service;
 import org.ebayopensource.turmeric.runtime.sif.service.ServiceFactory;
+import org.ebayopensource.turmeric.runtime.tests.common.sif.error.MarkdownTestHelper;
 
 public class FailoverTests extends TestCase {
 
 	public void setUp(){
 		
-	///	MarkdownTestHelper.markupClientManually("test1", null, null);
+		MarkdownTestHelper.markupClientManually("test1", null, null);
 	}
 	
 	public void testSimple() throws Exception{

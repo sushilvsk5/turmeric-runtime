@@ -13,6 +13,7 @@ import org.ebayopensource.turmeric.junit.utils.MavenTestingUtils;
 import org.ebayopensource.turmeric.tools.codegen.AbstractServiceGeneratorTestCase;
 import org.ebayopensource.turmeric.tools.codegen.ServiceGenerator;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class AddingOfTypesAndElementsCheck extends AbstractServiceGeneratorTestCase {
@@ -25,6 +26,7 @@ public class AddingOfTypesAndElementsCheck extends AbstractServiceGeneratorTestC
     	//Therefore commenting out the old code which is based on JAXB 2.0 spec
     	return com.sun.tools.xjc.api.XJC.getDefaultPackageName(namespace);
     }
+    @Ignore
 	@Test
 	public void testForAddedAndRemovedTypesOrElements() throws Exception{
 	

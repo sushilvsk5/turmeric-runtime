@@ -25,6 +25,7 @@ import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.model.Pr
 import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.model.ProtobufMessage;
 import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.model.ProtobufSchema;
 import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.model.SchemaTypeName;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -54,6 +55,7 @@ public class DotprotoGeneratorTests extends AbstractServiceGeneratorTestCase{
 		return testArgs;
 	}
 
+	@Ignore
 	@Test
 	public void testDotprotoGenerationForEmptyWSDL() throws Exception {
 		
@@ -112,7 +114,7 @@ public class DotprotoGeneratorTests extends AbstractServiceGeneratorTestCase{
 				"-nonXSDFormats", "protobuf" };
 		return testArgs;
 	}
-
+	@Ignore
 	@Test
 	public void testDotprotoGeneration() throws Exception {
 		

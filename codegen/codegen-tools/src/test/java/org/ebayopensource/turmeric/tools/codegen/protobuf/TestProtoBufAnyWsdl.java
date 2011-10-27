@@ -38,6 +38,7 @@ import org.ebayopensource.turmeric.tools.codegen.util.CodeGenUtil;
 import org.ebayopensource.turmeric.tools.codegen.util.JavacHelper;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.protobuf.ByteString;
@@ -186,7 +187,7 @@ public class TestProtoBufAnyWsdl extends AbstractServiceGeneratorTestCase{
     	
     }
     
-    
+    @Ignore
 	@Test
 	public void testEproto() throws Exception{
 	

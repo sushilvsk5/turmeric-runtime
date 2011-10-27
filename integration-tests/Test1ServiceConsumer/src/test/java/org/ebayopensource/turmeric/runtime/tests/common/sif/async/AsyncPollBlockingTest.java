@@ -156,23 +156,7 @@ public class AsyncPollBlockingTest extends AbstractWithServerTest {
 		debug(responseList);
 
     }
-    @Test
-    @SuppressWarnings("unchecked")
-    public void servicePoll_clientStreaming_blocking() throws Exception {
-        Service service = ServiceFactory.create("test1", "clientStreaming", null);
-        service.createDispatch("echoString").invokeAsync(ECHO_STRING + "service1");
-        List<Response<?>> responseList = service.poll(true, true);
-        for (Response element : responseList) {
-            AsyncResponse asyncResponse = (AsyncResponse) element;
-            System.out.println("element.get()=" + element.get());
-            Assert.assertFalse("Response input stream should not be ByteArrayInputStream when clientStreaming is on", 
-                    ByteArrayInputStream.class.isAssignableFrom(
-                            ((InboundMessageImpl) asyncResponse.getMessageContext()
-                                    .getResponseMessage()).getInputStreamClass()));
-        }
-        Assert.assertEquals("Unexpected response list size", 1, responseList.size());
-    }
-
+    
 	static List<Response<?>> getResponseList(
 			Map<Service, List<Response<?>>> respMap) {
 		LinkedList<Response<?>> respList = new LinkedList<Response<?>>();
