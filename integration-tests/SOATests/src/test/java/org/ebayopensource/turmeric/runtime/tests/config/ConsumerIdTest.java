@@ -31,7 +31,7 @@ public class ConsumerIdTest {
 //				"ConsumerId testConsumerId does not match ");
 		driver.doCall();
 	}
-
+	@Ignore
 	@Test
 	public void consumerIdTest_ConsumerIdUseCaseMismatch() throws Exception {
 		Test1Driver driver = createDriver("configtest5", "consumerid5",
@@ -40,7 +40,7 @@ public class ConsumerIdTest {
 		driver.setTransportHeader(SOAHeaders.CONSUMER_ID, "consumerId");
 		driver.doCall();
 	}
-
+	@Ignore
 	@Test
 	public void consumerIdTest_Exception() throws Exception {
 		Test1Driver driver = createDriver("configtest5", "consumerid3",
@@ -51,7 +51,7 @@ public class ConsumerIdTest {
 //				"No consumer-id present in");
 		driver.doCall();
 	}
-
+	@Ignore
 	@Test
 	public void consumerIdTest_ProviderSuccess() throws Exception {
 		Test1Driver driver = createDriver("configtest5", "consumerid4",
