@@ -7,6 +7,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.ebayopensource.turmeric.junit.utils.MavenTestingUtils;
@@ -46,7 +48,7 @@ public class SOA29FeatureTests extends AbstractServiceGeneratorTestCase {
 		destDir = testingdir.getDir();
 		
 		originalLoader = Thread.currentThread().getContextClassLoader();
-		URL [] urls = {new URL("file://"+ destDir.getAbsolutePath())};
+		URL [] urls = {destDir.toURI().toURL()};
 		setURLsInClassLoader(urls);	
 		
 		MavenTestingUtils.ensureEmpty(destDir);
@@ -105,7 +107,7 @@ public class SOA29FeatureTests extends AbstractServiceGeneratorTestCase {
 		intfProps.put("sipp_version","1.2");
 		fillProperties(intfProps, intfProperty);
 		
-		
+		List<String> list = new ArrayList<String>();
 		String [] testArgs = {"-serviceName","CalculatorService",
 				  "-mdest",destDir +"/meta-src",
 				  "-genType","ServiceFromWSDLIntf",
@@ -140,6 +142,7 @@ public class SOA29FeatureTests extends AbstractServiceGeneratorTestCase {
 			
 			if(m.getName().equals("setServiceLocation") || m.getName().equals("setAuthToken") || m.getName().equals("setCookies") || m.getName().equals("getServiceLocation") ||
 					 m.getName().equals("getAuthToken") ||  m.getName().equals("getCookies") ||   m.getName().equals("setHostName") || m.getName().equals("getHostName")){
+			
 				count = count+ 1;
 			}
 			
@@ -176,11 +179,11 @@ public class SOA29FeatureTests extends AbstractServiceGeneratorTestCase {
 		if(m.getName().equals("getServiceLocation")){
 			
 			URL serviceLocation = (URL) m.invoke(constructorObj);
-			Assert.assertEquals("http://d-sjc-00507487.corp.ebay.com/services/shipping/v1/ShippingService",serviceLocation.toString());
+			Assert.assertEquals("http://d-sjc-00507487.corp.ebay.com/services",serviceLocation.toString());
 		}
 		}
-		
-		Assert.assertTrue("one of the method is missing(setServiceLocation,setAuthToken,setCookies,getServiceLocation,getAuthToken,getCookies,setHostName,getHostName)",count == 9);
+
+		Assert.assertTrue("one of the method is missing(setServiceLocation,setAuthToken,setCookies,getServiceLocation,getAuthToken,getCookies,setHostName,getHostName)",count == 8);
 		
 	}
 	
@@ -231,7 +234,7 @@ public class SOA29FeatureTests extends AbstractServiceGeneratorTestCase {
 		if(m.getName().equals("getServiceLocation")){
 			
 			URL serviceLocation = (URL) m.invoke(constructorObj);
-			Assert.assertEquals("http://d-sjc-00507487.corp.ebay.com/services/shipping/v1/ShippingService",serviceLocation.toString());
+			Assert.assertEquals("http://www.ebay.com/services",serviceLocation.toString());
 		}
 		}
 		
@@ -610,11 +613,10 @@ public class SOA29FeatureTests extends AbstractServiceGeneratorTestCase {
 		fillProperties(intfProps, intfProperty);
 		
 		File wsdlFile = getProtobufRelatedInput("ShippingService.wsdl");
-		//File destDir = new File("generated");
+		
 	
 
 		String [] testArgs = {"-serviceName","CalculatorService",
-				  "-mdest",destDir +"/meta-src",
 				  "-genType","ServiceFromWSDLIntf",
 				  "-wsdl",wsdlFile.getAbsolutePath(),
 				  "-gip","com.ebay.marketplace.shipping.v1.services",
