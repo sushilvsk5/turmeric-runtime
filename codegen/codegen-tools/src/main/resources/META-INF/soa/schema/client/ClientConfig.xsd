@@ -28,7 +28,7 @@
 	<complexType name="ClientConfig">
 		<sequence>
     			<element name="service-interface-class-name" type="token" minOccurs="0" maxOccurs="1"/>
-    			<element name="service-location" type="anyURI" minOccurs="0" maxOccurs="1"/>
+    			<element name="service-location" type="anyURI" minOccurs="0" maxOccurs="unbounded"/>
     			<element name="service-location-mappings" type="ccg:ServiceLocationMappingList" minOccurs="0" maxOccurs="1"/>
     			<element name="wsdl-location" type="anyURI" minOccurs="0" maxOccurs="1"/>
 			<element name="client-instance-config" type="ccg:ClientGroupConfig"
