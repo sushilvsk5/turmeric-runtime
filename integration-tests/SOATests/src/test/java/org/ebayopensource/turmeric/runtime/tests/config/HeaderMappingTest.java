@@ -54,7 +54,7 @@ public class HeaderMappingTest extends AbstractWithServerTest {
 		request.addHeader("X-TURMERIC-SERVICE-NAME", "{" + SOAConstants.DEFAULT_SERVICE_NAMESPACE + "}" + serviceName);
 		request.addHeader("X-TURMERIC-REQUEST-DATA-FORMAT", "NV");
 		request.addHeader("X-TURMERIC-RESPONSE-DATA-FORMAT", "NV");
-		request.addParameter("Message", "Emeryville");
+		request.addParameter("Message(0)", "Emeryville");
 		request.setMethod(Request.POST);
 
 		return request;
@@ -69,7 +69,7 @@ public class HeaderMappingTest extends AbstractWithServerTest {
 		String body = response.getBody();
 		System.out.println("<><><>body: "+body);
 		Assert.assertThat(body, not(containsString("exception-id")));
-		Assert.assertThat(body, containsString("Message=\"Emeryville\""));
+		Assert.assertThat(body, containsString("Message(0)=\"Emeryville\""));
 	}
 
 	@Test

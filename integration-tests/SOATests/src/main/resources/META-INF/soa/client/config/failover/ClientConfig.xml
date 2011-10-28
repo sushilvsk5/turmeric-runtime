@@ -20,11 +20,11 @@
 					<app-level-num-retries>15</app-level-num-retries>
 					<retry-transport-status-code>404</retry-transport-status-code>
 					<retry-transport-status-code>500</retry-transport-status-code>
-				</retry-options>	
-				<custom-error-response-adapter>org.ebayopensource.turmeric.runtime.tests.service1.sample.errors.CustomErrorResponseAdapterImpl</custom-error-response-adapter>			
+				</retry-options>
+				<custom-error-response-adapter>org.ebayopensource.turmeric.runtime.tests.service1.sample.errors.CustomErrorResponseAdapterImpl</custom-error-response-adapter>
 				<markdown-options>
 					<enable-auto-markdown>true</enable-auto-markdown>
-					<state-factory>org.ebayopensource.turmeric.runtime.sif.impl.pipeline.DefaultAutoMarkdownStateFactory</state-factory>
+					<markdown-state-factory>org.ebayopensource.turmeric.runtime.sif.impl.pipeline.DefaultAutoMarkdownStateFactory</markdown-state-factory>
 					<error-count-threshold>10</error-count-threshold>
 				</markdown-options>
 			</invocation-options>
@@ -52,12 +52,12 @@
 					<retry-transport-status-code>404</retry-transport-status-code>
 					<retry-transport-status-code>500</retry-transport-status-code>
 				</retry-options>
-				<custom-error-response-adapter>org.ebayopensource.turmeric.runtime.tests.service1.sample.errors.CustomErrorResponseAdapterImpl</custom-error-response-adapter>
 				<markdown-options>
 					<enable-auto-markdown>true</enable-auto-markdown>
-					<state-factory>org.ebayopensource.turmeric.runtime.sif.impl.pipeline.DefaultAutoMarkdownStateFactory</state-factory>
+					<markdown-state-factory>org.ebayopensource.turmeric.runtime.sif.impl.pipeline.DefaultAutoMarkdownStateFactory</markdown-state-factory>
 					<error-count-threshold>2</error-count-threshold>
 				</markdown-options>				
+				<custom-error-response-adapter>org.ebayopensource.turmeric.runtime.tests.service1.sample.errors.CustomErrorResponseAdapterImpl</custom-error-response-adapter>
 			</invocation-options>
 			<pipeline-config></pipeline-config>
 		</client-instance-config>
@@ -79,12 +79,12 @@
 					<retry-transport-status-code>404</retry-transport-status-code>
 					<retry-transport-status-code>500</retry-transport-status-code>
 				</retry-options>
-				<custom-error-response-adapter>org.ebayopensource.turmeric.runtime.tests.service1.sample.errors.CustomErrorResponseAdapterImpl</custom-error-response-adapter>
 				<markdown-options>
 					<enable-auto-markdown>true</enable-auto-markdown>
-					<state-factory>org.ebayopensource.turmeric.runtime.sif.impl.pipeline.DefaultAutoMarkdownStateFactory</state-factory>
+					<markdown-state-factory>org.ebayopensource.turmeric.runtime.sif.impl.pipeline.DefaultAutoMarkdownStateFactory</markdown-state-factory>
 					<error-count-threshold>2</error-count-threshold>
 				</markdown-options>
+				<custom-error-response-adapter>org.ebayopensource.turmeric.runtime.tests.service1.sample.errors.CustomErrorResponseAdapterImpl</custom-error-response-adapter>
 			</invocation-options>
 			<pipeline-config></pipeline-config>
 		</client-instance-config>
@@ -104,5 +104,23 @@
 				</preferred-transport>
 			</invocation-options>
 		</client-instance-config>
-	</client-config>	
+	</client-config>
+	<client-config-list xmlns="http://www.ebayopensource.org/turmeric/common/config">
+	  <client-config
+		service-name="test1d"
+		group="SOAWebServiceClient"
+		xmlns="http://www.ebayopensource.org/turmeric/common/config">
+	    <service-interface-class-name>org.ebayopensource.turmeric.runtime.tests.service1.sample.services.message.Test1Service</service-interface-class-name>
+	    <service-location>http://localhost:9090/ws/spf</service-location>
+	    <client-instance-config>
+	       <invocation-options>
+	        <preferred-transport name="HTTP11" />
+	        <request-data-binding>XML</request-data-binding>
+	        <response-data-binding>XML</response-data-binding>
+	        <consumer-id>UniqueServiceConsmuerV1</consumer-id>
+	      </invocation-options>
+	    </client-instance-config>
+	  </client-config>
+	</client-config-list>
+	
 </client-config-list>
