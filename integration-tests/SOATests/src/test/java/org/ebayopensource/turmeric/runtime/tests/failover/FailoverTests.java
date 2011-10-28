@@ -1,5 +1,6 @@
 package org.ebayopensource.turmeric.runtime.tests.failover;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,13 +11,28 @@ import junit.framework.TestCase;
 
 import org.ebayopensource.turmeric.runtime.sif.service.Service;
 import org.ebayopensource.turmeric.runtime.sif.service.ServiceFactory;
+import org.ebayopensource.turmeric.runtime.tests.common.jetty.SimpleJettyServer;
 import org.ebayopensource.turmeric.runtime.tests.common.sif.error.MarkdownTestHelper;
 
 public class FailoverTests extends TestCase {
+	private static Thread serverThread;
+	static class RunPoxyServer implements Runnable {
 
-	public void setUp(){
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			SimpleJettyServer.main(null);
+		}
 		
+	}
+	public void setUp(){
+		serverThread = new Thread(new RunPoxyServer());
+		serverThread.start();
 		MarkdownTestHelper.markupClientManually("test1", null, null);
+	}
+	@Override
+	public void tearDown(){
+		serverThread.stop();
 	}
 	
 	public void testSimple() throws Exception{
