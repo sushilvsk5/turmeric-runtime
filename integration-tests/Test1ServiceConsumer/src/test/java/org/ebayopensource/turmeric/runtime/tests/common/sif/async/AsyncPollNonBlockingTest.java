@@ -64,7 +64,7 @@ public class AsyncPollNonBlockingTest extends AbstractWithServerTest {
 	public void servicePoll_NonBlocking_different_Operations_timeout()
 			throws Exception {
 		MyMessage msg = TestUtils.createTestMessage();
-		Service service = ServiceFactory.create("test1", "remote", null);
+		Service service = ServiceFactory.create("test1", "remote", serverUri.toURL());
 		service.createDispatch("echoString").invokeAsync(ECHO_STRING);
 		msg.setBody(msg.getBody());
 		service.createDispatch("myTestOperation").invokeAsync(msg);
