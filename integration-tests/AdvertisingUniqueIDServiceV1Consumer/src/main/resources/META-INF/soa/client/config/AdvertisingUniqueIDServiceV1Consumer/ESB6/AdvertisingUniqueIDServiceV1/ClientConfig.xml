@@ -22,8 +22,8 @@
          <transport name="LOCAL">
          <class-name>org.ebayopensource.turmeric.runtime.spf.impl.transport.local.LocalTransport</class-name>
          <header-options>
-               <option name="X-EBAY-SOA-REQUEST-DATA-FORMAT">testNegKnownSOARequestDataBindingHeader</option>
-               <option name="X-EBAY-SOA-TEST-header2">80</option>
+               <option name="X-TURMERIC-SOA-REQUEST-DATA-FORMAT">testNegKnownSOARequestDataBindingHeader</option>
+               <option name="X-TURMERIC-SOA-TEST-header2">80</option>
          </header-options>
       </transport>
     </client-instance-config>

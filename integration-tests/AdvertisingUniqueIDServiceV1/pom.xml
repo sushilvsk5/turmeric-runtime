@@ -42,6 +42,7 @@
 						<configuration>
 							<verbose>true</verbose>
 							 <serviceName>AdvertisingUniqueIDServiceV1</serviceName>
+							 <sharedConsumer>true</sharedConsumer>
 						</configuration>
 					</execution>
 				</executions>

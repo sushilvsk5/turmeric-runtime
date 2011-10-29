@@ -35,6 +35,7 @@ import org.ebayopensource.turmeric.advertising.v1.services.TestAttachment;
 import org.ebayopensource.turmeric.advertising.v1.services.TestAttachmentResponse;
 import org.ebayopensource.turmeric.advertisinguniqueidservicev1.gen.SharedAdvertisingUniqueIDServiceV1Consumer;
 import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
+import org.ebayopensource.turmeric.runtime.tests.common.jetty.AbstractWithServerTest;
 import org.ebayopensource.turmeric.runtime.tests.common.util.MetricUtil;
 import org.ebayopensource.turmeric.runtime.tests.gen.AdvertisingUniqueIDServiceV1Proxy;
 import org.junit.After;
@@ -44,7 +45,8 @@ import org.junit.Test;
 
 import com.ebay.kernel.util.FileUtils;
 
-public class AsyncClientStreamingAttachmentTests {
+@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
+public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest {
 	FileAttachmentType response = null;
 	
 	public static final long DEFAULT_SLEEP_TIME = 100;

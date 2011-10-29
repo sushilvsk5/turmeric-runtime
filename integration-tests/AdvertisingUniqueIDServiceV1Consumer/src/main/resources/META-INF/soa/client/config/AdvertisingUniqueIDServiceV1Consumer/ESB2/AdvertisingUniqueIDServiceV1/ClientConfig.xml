@@ -16,18 +16,18 @@
       <invocation-options>
         <preferred-transport name="LOCAL">
         <override-header-options>
-               <option name="X-EBAY-SOA-OCCTEST-HEADER1">BAR</option>
-               <option name="X-EBAY-SOA-OCCTEST-header2">90</option>
-               <option name="x-ebay-soa-occtest-header3">^%</option>
+               <option name="X-TURMERIC-SOA-OCCTEST-HEADER1">BAR</option>
+               <option name="X-TURMERIC-SOA-OCCTEST-header2">90</option>
+               <option name="x-turmeric-soa-occtest-header3">^%</option>
         </override-header-options>
         	</preferred-transport>
       </invocation-options>
          <transport name="LOCAL">
          <class-name>org.ebayopensource.turmeric.runtime.spf.impl.transport.local.LocalTransport</class-name>
          <header-options>
-               <option name="X-EBAY-SOA-CCTEST-HEADER1">FOO</option>
-               <option name="X-EBAY-SOA-CCTEST-header2">80</option>
-               <option name="x-ebay-soa-cctest-header3">true</option>
+               <option name="X-TURMERIC-SOA-CCTEST-HEADER1">FOO</option>
+               <option name="X-TURMERIC-SOA-CCTEST-header2">80</option>
+               <option name="x-turmeric-soa-cctest-header3">true</option>
          </header-options>
       </transport>
     </client-instance-config>
