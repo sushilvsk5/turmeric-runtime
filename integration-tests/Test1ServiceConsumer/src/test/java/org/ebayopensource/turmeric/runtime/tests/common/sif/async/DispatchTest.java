@@ -27,6 +27,7 @@ import org.ebayopensource.turmeric.runtime.tests.common.jetty.AbstractWithServer
 import org.ebayopensource.turmeric.runtime.tests.common.junit.NeedsConfig;
 import org.ebayopensource.turmeric.runtime.tests.common.sif.Test1Driver.TestMode;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -115,6 +116,8 @@ public class DispatchTest extends AbstractWithServerTest {
 		Assert.assertEquals(ECHO_STRING, outMessage);
 		Assert.assertTrue(handler.getRequest() == request);
 	}
+	//Ignoring Client Streaming test as the changes have been rolled back
+	@Ignore
     @Test
     @SuppressWarnings("unchecked")
     public void dispatchClientStreamingAsyncPush() throws Exception {
