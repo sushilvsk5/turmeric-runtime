@@ -35,6 +35,7 @@ import org.ebayopensource.turmeric.advertising.v1.services.TestAttachment;
 import org.ebayopensource.turmeric.advertising.v1.services.TestAttachmentResponse;
 import org.ebayopensource.turmeric.advertisinguniqueidservicev1.gen.SharedAdvertisingUniqueIDServiceV1Consumer;
 import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
+import org.ebayopensource.turmeric.runtime.tests.common.jetty.AbstractWithServerTest;
 import org.ebayopensource.turmeric.runtime.tests.common.util.MetricUtil;
 import org.ebayopensource.turmeric.runtime.tests.gen.AdvertisingUniqueIDServiceV1Proxy;
 import org.junit.After;
@@ -44,7 +45,8 @@ import org.junit.Test;
 
 import com.ebay.kernel.util.FileUtils;
 
-public class AsyncClientStreamingAttachmentTests {
+
+public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest {
 	FileAttachmentType response = null;
 	
 	public static final long DEFAULT_SLEEP_TIME = 100;
@@ -91,7 +93,8 @@ public class AsyncClientStreamingAttachmentTests {
 	
 	}
 	
-	@Test
+	@Test@
+	Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testAsyncPullClientStreamingTrue() throws Exception {
 		System.out.println("-- testAsyncPullClientStreamingTrue --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "ClientStreaming");
@@ -108,6 +111,7 @@ public class AsyncClientStreamingAttachmentTests {
 	}
 
 	@Test
+	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testAsyncPushClientStreamingTrue() throws Exception {
 		System.out.println("-- testAsyncPushClientStreamingTrue --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "ClientStreaming");
@@ -131,6 +135,7 @@ public class AsyncClientStreamingAttachmentTests {
 		System.out.println("-- testAsyncPushClientStreamingTrue --");
 	}
 	@Test
+	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testAsyncPollClientStreamingTrue() throws ServiceException, InterruptedException, ExecutionException {
 		System.out.println("-- testPollClientStreamingTrue --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
@@ -152,6 +157,7 @@ public class AsyncClientStreamingAttachmentTests {
 	}
 	
 	@Test
+	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testClientStreamingTrueChainedScenario() throws ServiceException {
 		System.out.println("-- testPushClientStreamingTrue --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
@@ -177,7 +183,8 @@ public class AsyncClientStreamingAttachmentTests {
 		System.out.println("-- testPushClientStreamingTrue --");
 	}
 	
-	@Ignore
+	@Test
+	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testAsyncPullClientStreamingTrueWith3GBAttachment() throws Exception {
 		System.out.println("-- testAsyncPullClientStreamingTrueWith3GBAttachment --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
@@ -202,7 +209,8 @@ public class AsyncClientStreamingAttachmentTests {
 		System.out.println("-- testAsyncPullClientStreamingTrueWith3GBAttachment --");
 	}
 	
-	@Ignore
+	@Test
+	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testAsyncPullClientStreamingTrueWith3MBAttachment() throws Exception {
 		System.out.println("-- testAsyncPullClientStreamingTrueWith3MBAttachment --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
@@ -228,7 +236,8 @@ public class AsyncClientStreamingAttachmentTests {
 	}
 
 
-	@Ignore
+	@Test
+	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testAsyncPushClientStreamingTrueWith3GBAttachment() throws Exception {
 		System.out.println("-- testAsyncPushClientStreamingTrueWith3GBAttachment --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
@@ -254,7 +263,8 @@ public class AsyncClientStreamingAttachmentTests {
 		System.out.println("-- testAsyncPushClientStreamingTrueWith3GBAttachment --");
 	}
 	
-	@Ignore
+	@Test
+	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testAsyncPushClientStreamingTrueWith3MBAttachment() throws ServiceException, InterruptedException, ExecutionException, IOException {
 		System.out.println("-- testAsyncPushClientStreamingTrueWith3MBAttachment --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "ClientStreaming");
@@ -298,7 +308,8 @@ public class AsyncClientStreamingAttachmentTests {
 	}
 
 
-	@Ignore
+	@Test
+	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testDefaultCaseWith3MBAttachmentRemote() throws Exception {
 		System.out.println("-- testDefaultCaseWith3MBAttachmentRemote --");
 		MAX_SIZE1 = f1.length();
@@ -318,7 +329,8 @@ public class AsyncClientStreamingAttachmentTests {
 		System.out.println("-- testDefaultCaseWith3MBAttachmentRemote --");
 
 	}
-	@Ignore
+	@Test
+	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testDefaultCaseWith3MBAttachmentLocal() throws Exception {
 		System.out.println("-- testDefaultCaseWith3MBAttachmentLocal --");
 		MAX_SIZE1 = f1.length();
@@ -338,7 +350,8 @@ public class AsyncClientStreamingAttachmentTests {
 		System.out.println("-- testDefaultCaseWith3MBAttachmentLocal --");
 
 	}
-	@Ignore
+	@Test
+	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testDefaultCaseWith3GBAttachmentLocal() throws Exception {
 		System.out.println("-- testDefaultCaseWith3GBAttachmentLocal --");
 		
@@ -359,7 +372,8 @@ public class AsyncClientStreamingAttachmentTests {
 		System.out.println("-- testDefaultCaseWith3GBAttachmentLocal --");
 	}
 	
-	@Ignore
+	@Test
+	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testDefaultCaseWith3GBAttachmentRemote() throws Exception {
 		System.out.println("-- testDefaultCaseWith3GBAttachmentRemote --");
 		MAX_SIZE2 = f4.length();

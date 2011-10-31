@@ -1,5 +1,6 @@
 package org.ebayopensource.turmeric.qajunittests.advertisinguniqueidservicev1.sif;
 
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,17 +10,25 @@ import org.ebayopensource.turmeric.advertising.v1.services.EchoMessageRequest;
 import org.ebayopensource.turmeric.advertisinguniqueidservicev1.gen.SharedAdvertisingUniqueIDServiceV1Consumer;
 import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
 import org.ebayopensource.turmeric.runtime.common.types.SOAConstants;
+import org.ebayopensource.turmeric.runtime.tests.common.jetty.AbstractWithServerTest;
 import org.ebayopensource.turmeric.runtime.tests.common.util.HttpTestClient;
 import org.ebayopensource.turmeric.runtime.tests.common.util.MetricUtil;
 import org.junit.Test;
 
 
-public class MultiClientConfigTests {
+public class MultiClientConfigTests extends AbstractWithServerTest {
 
 
 	@Test
 	public void testFeatureEnvt() throws ServiceException {
 		SharedAdvertisingUniqueIDServiceV1Consumer testClient1  = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "feature");
+		try {
+			testClient1.setHostName(serverUri.getHost()+":"+serverUri.getPort());
+			System.out.println(testClient1.getHostName());
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch blocks
+			e.printStackTrace();
+		}
 		EchoMessageRequest param0 = new EchoMessageRequest();
 		param0.setIn("MCC Test");
 		Assert.assertEquals(testClient1.echoMessage(param0).getOut(), " Echo Message = MCC Test");
@@ -171,7 +180,7 @@ public class MultiClientConfigTests {
 
 	/*
 	 *	When envtName is null, envMapper variable is not set
-	 *		BaseSOAAsyncMCCTestConsumer testClient = new BaseSOAAsyncMCCTestConsumer(“SOAAsyncServiceTestClient”, null);
+	 *		BaseSOAAsyncMCCTestConsumer testClient = new BaseSOAAsyncMCCTestConsumer(â€œSOAAsyncServiceTestClientâ€�, null);
 	 *	a.	Appropriate error message should be thrown
 	 */
 	@Test

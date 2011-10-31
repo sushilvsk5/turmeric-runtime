@@ -39,7 +39,7 @@ public class HttpTestClient {
 		m_config = createSvcConfig(port);
 
 		//set connection properties
-		m_config.createConnectionConfig(4, 8, 2000, 1);
+		m_config.createConnectionConfig(2000,2);
 
 		//set socket options
 		SocketConfig socketCfg = m_config.createSocketConfig(new Integer(10000), null, null, null, null, null);

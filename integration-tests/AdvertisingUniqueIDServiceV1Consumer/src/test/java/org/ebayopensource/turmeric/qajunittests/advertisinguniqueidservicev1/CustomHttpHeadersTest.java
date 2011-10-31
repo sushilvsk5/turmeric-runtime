@@ -12,18 +12,16 @@ package org.ebayopensource.turmeric.qajunittests.advertisinguniqueidservicev1;
 import java.util.List;
 import java.util.Map;
 
-import org.ebayopensource.turmeric.advertising.v1.services.ChainedTransportHeaders;
-import org.ebayopensource.turmeric.advertising.v1.services.EchoMessageRequest;
 import org.ebayopensource.turmeric.advertising.v1.services.GetTransportHeaders;
 import org.ebayopensource.turmeric.advertisinguniqueservicev1.AdvertisingUniqueIDServiceV1SharedConsumer;
 import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
 import org.ebayopensource.turmeric.runtime.sif.service.Service;
+import org.ebayopensource.turmeric.runtime.tests.common.jetty.AbstractWithServerTest;
 import org.junit.Assert;
 import org.junit.Test;
 
 
-public class CustomHttpHeadersTest { 
-//extends AbstractWithQEServerTest {
+public class CustomHttpHeadersTest extends AbstractWithServerTest{
 
 	
 	@Test
@@ -49,17 +47,17 @@ public class CustomHttpHeadersTest {
 		System.out.println("-- testPosWithOverrideHeaderOptionsInCC --");
 		AdvertisingUniqueIDServiceV1SharedConsumer client = new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "ESB2");
 		GetTransportHeaders param0 = new GetTransportHeaders();
-		param0.getIn().add(0, "X-EBAY-SOA-OCCTEST-HEADER1");
-		param0.getIn().add(1, "X-EBAY-SOA-OCCTEST-HEADER2");
-		param0.getIn().add(2, "X-EBAY-SOA-OCCTEST-HEADER3");
+		param0.getIn().add(0, "X-TURMERIC-SOA-OCCTEST-HEADER1");
+		param0.getIn().add(1, "X-TURMERIC-SOA-OCCTEST-HEADER2");
+		param0.getIn().add(2, "X-TURMERIC-SOA-OCCTEST-HEADER3");
 		client.getTransportHeaders(param0).getOut();
 //		System.out.println(client.getTransportHeaders(param0).getOut().get(0));
 //		System.out.println(client.getTransportHeaders(param0).getOut().get(1));
 //		System.out.println(client.getTransportHeaders(param0).getOut().get(2));
 		Map<String, String> respHeaders = client.getService().getResponseContext().getTransportHeaders();
-		Assert.assertEquals("BAR", respHeaders.get("X-EBAY-SOA-OCCTEST-HEADER1"));
-		Assert.assertEquals("90", respHeaders.get("X-EBAY-SOA-OCCTEST-HEADER2"));
-		Assert.assertEquals("^%", respHeaders.get("X-EBAY-SOA-OCCTEST-HEADER3"));
+		Assert.assertEquals("BAR", respHeaders.get("X-TURMERIC-SOA-OCCTEST-HEADER1"));
+		Assert.assertEquals("90", respHeaders.get("X-TURMERIC-SOA-OCCTEST-HEADER2"));
+		Assert.assertEquals("^%", respHeaders.get("X-TURMERIC-SOA-OCCTEST-HEADER3"));
 		System.out.println("-- testPosWithOverrideHeaderOptionsInCC --");
 	}
 	
@@ -294,7 +292,7 @@ public class CustomHttpHeadersTest {
 	public void testNegKnownSOARequestDataBindingHeader() throws ServiceException {
 		System.out.println("-- testNegKnownSOARequestDataBindingHeader --");
 		String header1 = "X-TURMERIC-REQUEST-DATA-FORMAT";
-		String header2 = "X-EBAY-SOA-TEST-HEADER2";
+		String header2 = "X-TURMERIC-SOA-TEST-HEADER2";
 		
 		AdvertisingUniqueIDServiceV1SharedConsumer client = new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "ESB6");
 		GetTransportHeaders param0 = new GetTransportHeaders();
@@ -304,7 +302,7 @@ public class CustomHttpHeadersTest {
 		param0.getIn().add(1, header2);
 		
 		svc.setSessionTransportHeader(header1, "testNegKnownSOARequestDataBindingHeader");
-		svc.setSessionTransportHeader(header2, "100");
+		svc.setSessionTransportHeader(header2, "80");
 		List<String> response = client.getTransportHeaders(param0).getOut();
 		Map<String, String> respHeaders = svc.getResponseContext().getTransportHeaders();
 
@@ -317,7 +315,7 @@ public class CustomHttpHeadersTest {
 	public void testNegKnownHTTPHeader() throws ServiceException {
 		System.out.println("-- testNegKnownHTTPHeader --");
 		String header1 = "CONTENT-TYPE";
-		String header2 = "X-EBAY-SOA-TEST-HEADER2";
+		String header2 = "X-TURMERIC-SOA-TEST-HEADER2";
 		
 		AdvertisingUniqueIDServiceV1SharedConsumer client = new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "ESB2");
 		GetTransportHeaders param0 = new GetTransportHeaders();

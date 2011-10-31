@@ -41,6 +41,7 @@ import org.ebayopensource.turmeric.advertising.v1.services.TestPrimitiveTypesReq
 import org.ebayopensource.turmeric.advertising.v1.services.TestPrimitiveTypesResponse;
 import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
 import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceRuntimeException;
+import org.ebayopensource.turmeric.runtime.common.registration.ClassLoaderRegistry;
 import org.ebayopensource.turmeric.runtime.common.types.Cookie;
 import org.ebayopensource.turmeric.runtime.common.types.SOAHeaders;
 import org.ebayopensource.turmeric.runtime.sif.service.Service;
@@ -57,7 +58,7 @@ import org.ebayopensource.turmeric.runtime.tests.AsyncAdvertisingUniqueIDService
 public class SharedAdvertisingUniqueIDServiceV1Consumer
     implements AsyncAdvertisingUniqueIDServiceV1
 {
-
+	private boolean m_useDefaultClientConfig;
     private URL m_serviceLocation = null;
     private final static String SVC_ADMIN_NAME = "AdvertisingUniqueIDServiceV1";
     private String m_clientName;
@@ -66,28 +67,88 @@ public class SharedAdvertisingUniqueIDServiceV1Consumer
     private String m_authToken = null;
     private Cookie[] m_cookies;
     private Service m_service = null;
+    private final static String HTTP_NON_SECURE = "http";
+    private String m_hostName;
+    private String m_urlPath;
+    private int m_port;
+    private String m_protocolScheme;
 
+    /**
+     * This constructor should be used, when a ClientConfig.xml is located in the 
+     * "client" bundle, so that a ClassLoader of this Shared Consumer can be used.
+     * 
+     * @param clientName
+     * @throws ServiceException
+     * 
+     */
     public SharedAdvertisingUniqueIDServiceV1Consumer(String clientName)
         throws ServiceException
     {
-        if (clientName == null) {
-            throw new ServiceException("clientName can not be null");
-        }
-        m_clientName = clientName;
+        this(clientName, null);
     }
 
+    /**
+     * This constructor should be used, when a ClientConfig.xml is located in the 
+     * "client" bundle, so that a ClassLoader of this Shared Consumer can be used.
+     * 
+     * @param clientName
+     * @param environment
+     * @throws ServiceException
+     * 
+     */
     public SharedAdvertisingUniqueIDServiceV1Consumer(String clientName, String environment)
         throws ServiceException
     {
-        if (environment == null) {
-            throw new ServiceException("environment can not be null");
-        }
+        this(clientName, environment, null, false);
+    }
+
+    /**
+     * This constructor should be used, when a ClientConfig.xml is located 
+     * in some application bundle. Shared Consumer then will call ClassLoaderRegistry 
+     * to register a ClassLoader of an application bundle.
+     * 
+     * @param clientName
+     * @param caller
+     * @param useDefaultClientConfig
+     * @throws ServiceException
+     * 
+     */
+    public SharedAdvertisingUniqueIDServiceV1Consumer(String clientName, Class caller, boolean useDefaultClientConfig)
+        throws ServiceException
+    {
+        this(clientName, null, caller, useDefaultClientConfig);
+    }
+
+    /**
+     * This constructor should be used, when a ClientConfig.xml is located 
+     * in some application bundle. Shared Consumer then will call ClassLoaderRegistry 
+     * to register a ClassLoader of an application bundle.
+     * 
+     * @param clientName
+     * @param environment
+     * @param caller
+     * @param useDefaultClientConfig
+     * @throws ServiceException
+     * 
+     */
+    public SharedAdvertisingUniqueIDServiceV1Consumer(String clientName, String environment, Class caller, boolean useDefaultClientConfig)
+        throws ServiceException
+    {
         if (clientName == null) {
             throw new ServiceException("clientName can not be null");
         }
         m_clientName = clientName;
-        m_environment = environment;
+        if (environment!= null) {
+            m_environment = environment;
+        }
+        m_environment = getDefaultEnvironmentName();
+        m_useDefaultClientConfig = useDefaultClientConfig;
+        ClassLoaderRegistry.instanceOf().registerServiceClient(m_clientName, m_environment, SVC_ADMIN_NAME, (SharedAdvertisingUniqueIDServiceV1Consumer.class), caller, m_useDefaultClientConfig);
+        URL targetLocation = getService().getServiceLocation();
+        setTargetLocationComponents(targetLocation);
     }
+
+   
 
     /**
      * Use this method to initialize ConsumerApp after creating a Consumer instance
@@ -99,14 +160,15 @@ public class SharedAdvertisingUniqueIDServiceV1Consumer
         getService();
     }
 
-    protected void setServiceLocation(String serviceLocation)
-        throws MalformedURLException
-    {
-        m_serviceLocation = new URL(serviceLocation);
-        if (m_service!= null) {
-            m_service.setServiceLocation(m_serviceLocation);
-        }
+    public void setServiceLocation(String serviceLocation)
+    throws MalformedURLException
+{
+    URL serviceLocationUrl = new URL(serviceLocation);
+    setTargetLocationComponents(serviceLocationUrl);
+    if (m_service!= null) {
+        m_service.setServiceLocation(serviceLocationUrl);
     }
+}
 
     private void setUserProvidedSecurityCredentials(Service service) {
         if (m_authToken!= null) {
@@ -167,6 +229,75 @@ public class SharedAdvertisingUniqueIDServiceV1Consumer
         setUserProvidedSecurityCredentials(m_service);
         return m_service;
     }
+    
+    protected String getDefaultEnvironmentName() {
+        return m_environment;
+    }
+
+    	
+    private void setTargetLocationComponents(URL targetLocation) {
+        if (targetLocation!= null) {
+            m_protocolScheme = targetLocation.getProtocol();
+            m_hostName = targetLocation.getHost();
+            m_urlPath = targetLocation.getPath();
+            m_port = targetLocation.getPort();
+        }
+        if (isEmptyString(m_protocolScheme)) {
+            m_protocolScheme = HTTP_NON_SECURE;
+        }
+        if (isEmptyString(m_hostName)) {
+            m_hostName = "localhost";
+        }
+        if (isEmptyString(m_urlPath)) {
+            m_urlPath = "";
+        }
+        if (m_port< 0) {
+            m_port = 0;
+        }
+    }
+    
+    public URL getServiceLocation()
+    throws MalformedURLException
+{
+    String location = getLocationFromComponents();
+    URL serviceLocationUrl = new URL(location);
+    return serviceLocationUrl;
+}
+
+    private static boolean isEmptyString(String givenString) {
+        return ((givenString == null)||(givenString.trim().length() == 0));
+    }
+    
+    /**
+     * @param hostName	Actual hostname of the end point location, 
+     * 			Can contain :<port> as well
+     * @param protocolScheme	specifies the transport protocol scheme
+     * 
+     */
+    public void setHostName(String hostName)
+        throws MalformedURLException
+    {
+        m_hostName = ((hostName!= null)?hostName:m_hostName);
+        String newURL = getLocationFromComponents();
+        setServiceLocation(newURL);
+    }
+
+    /**
+     * Returns the host name of the active end-point(from the servicelocation)
+     * 
+     */
+    public String getHostName()
+        throws MalformedURLException
+    {
+        URL targetLocation = getServiceLocation();
+        return ((targetLocation == null)?null:targetLocation.getHost());
+    }
+
+    private String getLocationFromComponents() {
+        String location = (m_protocolScheme + "://" + m_hostName + ((m_port> 0)? (":" + m_port) : "" ) + m_urlPath);
+        return location;
+    }
+    
     public Future<?> getRequestIDAsync(AsyncHandler<GetRequestIDResponse> param0) {
         Future<?> result = null;
         try {

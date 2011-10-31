@@ -9,7 +9,6 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.advertisinguniqueidservicev1.impl;
 
-import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
 
 public class AdvertisingServiceV2NestedClient { 
 //extends		SharedAdvertisingUniqueIDServiceV2Consumer {
