@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<service-config xmlns="http://www.ebayopensource.org/turmeric/common/config">
+<service-config xmlns="http://www.ebayopensource.org/turmeric/common/config" group="CommonSOAServiceGroup">
     <service-impl-class-name>org.ebayopensource.turmeric.example.v1.services.echoservice.impl.ExampleEchoServiceV1Impl</service-impl-class-name>
     <service-interface-class-name>org.ebayopensource.turmeric.example.v1.services.echoservice.ExampleEchoServiceV1</service-interface-class-name>
     <service-instance-config>
