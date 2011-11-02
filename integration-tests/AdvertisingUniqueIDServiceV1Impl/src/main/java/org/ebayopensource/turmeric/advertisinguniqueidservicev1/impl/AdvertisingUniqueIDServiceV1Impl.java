@@ -344,10 +344,13 @@ implements AdvertisingUniqueIDServiceV1
 	@Override
 	public TestEnhancedRestResponse testEnhancedRest(TestEnhancedRest arg0) {
 		TestEnhancedRestResponse response = new TestEnhancedRestResponse();
-		if (arg0.getIn().get(0) != null) 
-			response.setOut(arg0.getIn().get(0));
-		else 
-			response.setOut("Response");
+		if(!arg0.getIn().isEmpty()) {
+			if (arg0.getIn().get(0) != null) 
+				response.setOut(arg0.getIn().get(0));
+			else 
+				response.setOut("Response");
+		}else
+			response.setOut("test");
 
 		return response;
 	}

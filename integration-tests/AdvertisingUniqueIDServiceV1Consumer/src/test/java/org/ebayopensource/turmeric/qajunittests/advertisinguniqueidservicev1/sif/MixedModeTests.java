@@ -95,11 +95,11 @@ public class MixedModeTests extends AbstractWithServerQETest {
 	public void testMixedModePositiveCaseRESTMode() throws ServiceException {
 		queryParams.put("X-TURMERIC-OPERATION-NAME","echoMessage");
 		queryParams.put("X-TURMERIC-SERVICE-NAME","AdvertisingUniqueIDServiceV1");
-		queryParams.put("in(0)","Foo");	
+		queryParams.put("in","Foo");	
 		String url = serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1/";
 		String response = http.getResponse(url, queryParams);
 //		System.out.println(response);
-		Assert.assertTrue(response.contains("Echo Message "));
+		Assert.assertTrue(response.contains("Echo Message"));
 	
 	}
 	@Test
@@ -135,20 +135,20 @@ public class MixedModeTests extends AbstractWithServerQETest {
 	
 	@Test
 	public void testMixedModePositiveCaseOtherOperationREST() throws ServiceException {
-		queryParams.put("X-TURMERIC-SOA-OPERATION-NAME","testEnhancedRest");
+		queryParams.put("X-TURMERIC-OPERATION-NAME","testEnhancedRest");
 		queryParams.put("in","Foo");	
 		String response = http.getResponse(serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1", queryParams);
 //		System.out.println(response);
-		Assert.assertTrue(response.contains("<out>Foo</out>"));
+		Assert.assertTrue(response.contains("<ns1:out>test</ns1:out>"));
 	}
 	@Test
 	public void testMixedModePositiveCaseOtherOperationREST_WSPSF() throws ServiceException {
-		queryParams.put("X-TURMERIC-SOA-OPERATION-NAME","testEnhancedRest");
-		queryParams.put("X-TURMERIC-SOA-SERVICE-NAME","AdvertisingUniqueIDServiceV1");
-		queryParams.put("in","Foo");	
+		queryParams.put("X-TURMERIC-OPERATION-NAME","testEnhancedRest");
+		queryParams.put("X-TURMERIC-SERVICE-NAME","AdvertisingUniqueIDServiceV1");
+		queryParams.put("in","Foo");		
 		String response = http.getResponse(serverUri.toASCIIString() +"/ws/spf", queryParams);
 //		System.out.println(response);
-		Assert.assertTrue(response.contains("<out>Foo</out>"));
+		Assert.assertTrue(response.contains("<ns1:out>test</ns1:out>"));
 	}
 	
 //	@Test

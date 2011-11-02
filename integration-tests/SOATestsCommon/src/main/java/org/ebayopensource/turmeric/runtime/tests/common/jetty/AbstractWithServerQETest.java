@@ -13,7 +13,6 @@ import java.net.URI;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.ebayopensource.turmeric.runtime.spf.pipeline.SPFServlet;
-import org.ebayopensource.turmeric.runtime.tests.common.AbstractTurmericTestCase;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 

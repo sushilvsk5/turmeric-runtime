@@ -15,7 +15,7 @@
      <provider-options>
      
     
-<!--
+
       <header-mapping-options>
 			<option name="X-TURMERIC-OPERATION-NAME">path[+1]</option>
 			<option name="X-TURMERIC-REQUEST-DATA-FORMAT">query[reqformat]</option>
@@ -24,10 +24,10 @@
 		<operation-mapping-options>
   			<operation name="testEnhancedRest">enhanced</operation>
   		</operation-mapping-options>
-  		-->
+  		
     <request-params-mapping>
 			<operation name="testEnhancedRest">
-				<option name="in(1)" alias="input" type="string">path[4]</option>
+				<option name="in" alias="input" type="string">path[4]</option>
 			</operation>
 
 			<operation name="testSchemaValidationWithUPA">
