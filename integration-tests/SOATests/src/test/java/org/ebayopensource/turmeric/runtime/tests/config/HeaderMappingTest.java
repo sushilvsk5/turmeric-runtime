@@ -69,7 +69,7 @@ public class HeaderMappingTest extends AbstractWithServerTest {
 		String body = response.getBody();
 		System.out.println("<><><>body: "+body);
 		Assert.assertThat(body, not(containsString("exception-id")));
-		Assert.assertThat(body, containsString("Message0=\"Emeryville\""));
+		Assert.assertThat(body, containsString("Message=\"Emeryville\""));
 	}
 
 	@Test
