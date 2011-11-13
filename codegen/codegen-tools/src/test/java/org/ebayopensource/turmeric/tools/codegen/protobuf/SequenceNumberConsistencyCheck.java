@@ -53,7 +53,7 @@ public class SequenceNumberConsistencyCheck extends AbstractServiceGeneratorTest
 		CodeGenUtil.deleteContentsOfDir(new File(file.getParent()));
 		generateJaxbClasses(wsdlpath.getAbsolutePath(), destDir.getAbsolutePath(),bin);
 
-		ProtoFileParser parser = new ProtoFileParser(file);
+		ProtoFileParser parser = ProtoFileParser.newInstance(file);
 		List<Message> msg = parser.parse();
 	
 	
@@ -66,7 +66,7 @@ public class SequenceNumberConsistencyCheck extends AbstractServiceGeneratorTest
 		for(int i=0; i < 5;i++) { 
 		
 		
-						 parser = new ProtoFileParser(file);
+						 parser =ProtoFileParser.newInstance(file);
 						 msg = parser.parse();
 					
 					
@@ -76,7 +76,7 @@ public class SequenceNumberConsistencyCheck extends AbstractServiceGeneratorTest
 					generateJaxbClasses(wsdlpath.getAbsolutePath(), destDir.getAbsolutePath(),bin);
 					
 					
-					ProtoFileParser parser1 = new ProtoFileParser(file);
+					ProtoFileParser parser1 = ProtoFileParser.newInstance(file);
 					List<Message> msg2 = parser1.parse();
 					
 					msgMap2 = getMessageInfo(msg);
@@ -132,7 +132,8 @@ public class SequenceNumberConsistencyCheck extends AbstractServiceGeneratorTest
 			List<String> list = new ArrayList<String>();
 			List<Field> fields = m.getFields();
 			for(Field f :fields){
-				String fsn = f.getFieldName().trim()+f.getSequenceNumber().trim();
+				ProtoField pf = (ProtoField)f;
+				String fsn = f.getFieldName().trim()+pf.getSequenceNumber().trim();
 				list.add(fsn);
 			}
 			msgFields.put(msName,list);

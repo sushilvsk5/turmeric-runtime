@@ -18,14 +18,23 @@ public class ProtoFileParser {
 	
 	
 	String packageName;
-	File fileLocation;
+	private static File fileLocation;
+	private static ProtoFileParser parser= null;
+	
 	HashMap<String,String> options = new HashMap<String,String>();
 	List<Message> messages = new ArrayList<Message>();
 	List<String> enums = new ArrayList<String>();
 	
-	public ProtoFileParser(File location) {
-		
-		fileLocation = location;
+	private ProtoFileParser(File file){
+		fileLocation =file;
+	}
+	
+	
+	public static ProtoFileParser newInstance(File file){
+		if(parser == null){
+			return (new ProtoFileParser(file));
+		}
+		return parser;
 	}
 	
 	
@@ -372,7 +381,7 @@ public class ProtoFileParser {
 				
 				 String [] foptions = rest.split("=");
 				 String [] options = foptions[0].split(" ");
-				 Field f = new Field();
+				 ProtoField f = new ProtoField();
 				 f.setSequenceNumber(foptions[1].trim().substring(0));
 				 f.setFieldName(options[2].trim());
 				 f.setFieldRestriction(options[0].trim());
@@ -406,7 +415,7 @@ public class ProtoFileParser {
 				 continue;
 			 }
 			 String [] options = foptions[0].split(" ");
-			 Field f = new Field();
+			 ProtoField f = new ProtoField();
 			 f.setSequenceNumber(foptions[1]);
 			 f.setFieldName(options[2].trim());
 			 f.setFieldRestriction(options[0].trim());

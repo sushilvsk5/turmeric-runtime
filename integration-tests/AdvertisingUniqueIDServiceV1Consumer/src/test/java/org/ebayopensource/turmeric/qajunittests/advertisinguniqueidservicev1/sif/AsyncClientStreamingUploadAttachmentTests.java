@@ -60,8 +60,8 @@ public class AsyncClientStreamingUploadAttachmentTests {
 		if (f3mbServer.exists()) f3mbServer.delete();
 		if (f3gbServer.exists()) f3gbServer.delete();
 	}
-
-	@Ignore
+	@Test
+	@Ignore("client streaming not supported in opensource")
 	public void testAsyncPullClientStreamingTrueUploadWith3GBAttachment() throws Exception {
 		System.out.println("-- testAsyncPullClientStreamingTrueUploadWith3GBAttachment --");
 
@@ -90,6 +90,7 @@ public class AsyncClientStreamingUploadAttachmentTests {
 	}
 
 	@Test
+	@Ignore("client streaming not supported in opensource")
 	public void testAsyncPullClientStreamingTrueUploadWith3MBAttachment() throws Exception {
 		System.out.println("-- testAsyncPullClientStreamingTrueWith3MBAttachment --");
 
@@ -118,7 +119,8 @@ public class AsyncClientStreamingUploadAttachmentTests {
 	}
 
 
-	@Ignore
+	@Test
+	@Ignore("client streaming not supported in opensource")
 	public void testAsyncPushUploadClientStreamingTrueWith3GBAttachment() throws Exception {
 		System.out.println("-- testAsyncPushClientStreamingTrueWith3GBAttachment --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
@@ -147,6 +149,7 @@ public class AsyncClientStreamingUploadAttachmentTests {
 	}
 
 	@Test
+	@Ignore("client streaming not supported in opensource")
 	public void testAsyncPushClientStreamingTrueWith3MBAttachment() throws ServiceException, InterruptedException, ExecutionException, IOException {
 		System.out.println("-- testAsyncPushClientStreamingTrueWith3MBAttachment --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "ClientStreaming");
@@ -184,6 +187,7 @@ public class AsyncClientStreamingUploadAttachmentTests {
 
 
 	@Test
+	@Ignore("client streaming not supported in opensource")
 	public void testSynchWith3MBAttachmentRemote() throws Exception {
 		System.out.println("-- testSynchWith3MBAttachmentRemote --");
 
@@ -205,6 +209,7 @@ public class AsyncClientStreamingUploadAttachmentTests {
 
 	}
 	@Test
+	@Ignore("client streaming not supported in opensource")
 	public void testSynchWith3MBAttachmentLocal() throws Exception {
 		System.out.println("-- testSynchWith3MBAttachmentLocal --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
@@ -225,7 +230,8 @@ public class AsyncClientStreamingUploadAttachmentTests {
 		System.out.println("-- testSynchWith3MBAttachmentLocal --");
 
 	}
-	@Ignore
+	@Test
+	@Ignore("client streaming not supported in opensource")
 	public void testSynchWith3GBAttachmentLocal() throws Exception {
 		System.out.println("-- testSynchWith3GBAttachmentLocal --");
 
@@ -248,7 +254,8 @@ public class AsyncClientStreamingUploadAttachmentTests {
 		System.out.println("-- testSynchWith3GBAttachmentLocal --");
 	}
 
-	@Ignore
+	@Test
+	@Ignore("client streaming not supported in opensource")
 	public void testSynchWith3GBAttachmentRemote() throws Exception {
 		System.out.println("-- testSynchWith3GBAttachmentRemote --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 

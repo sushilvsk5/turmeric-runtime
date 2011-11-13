@@ -9,14 +9,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.ebayopensource.turmeric.junit.utils.MavenTestingUtils;
 import org.ebayopensource.turmeric.tools.codegen.AbstractServiceGeneratorTestCase;
 import org.ebayopensource.turmeric.tools.codegen.ServiceGenerator;
+import org.ebayopensource.turmeric.tools.codegen.util.CodeGenUtil;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class AddingOfTypesAndElementsCheck extends AbstractServiceGeneratorTestCase {
+public class TestAddingOfTypesAndElementsCheck extends AbstractServiceGeneratorTestCase {
 	
 	
   
@@ -26,8 +26,9 @@ public class AddingOfTypesAndElementsCheck extends AbstractServiceGeneratorTestC
     	//Therefore commenting out the old code which is based on JAXB 2.0 spec
     	return com.sun.tools.xjc.api.XJC.getDefaultPackageName(namespace);
     }
-    @Ignore
 	@Test
+	
+	@Ignore("protobuf tests are not included for opensource since the proto compilation logic doest not work in linux env")
 	public void testForAddedAndRemovedTypesOrElements() throws Exception{
 	
 		File destDir = testingdir.getDir();
@@ -35,6 +36,7 @@ public class AddingOfTypesAndElementsCheck extends AbstractServiceGeneratorTestC
 		
 		System.out.println(bin.getAbsoluteFile());
 		File gensrc = new File(destDir,"gen-src");
+		File genmetasrc = new File(destDir,"gen-meta-src");
 		
 		
 		URL [] urls = {new URL("file:/"+ destDir.getAbsolutePath()+"/bin/"),destDir.toURI().toURL(),gensrc.toURI().toURL()};
@@ -49,10 +51,11 @@ public class AddingOfTypesAndElementsCheck extends AbstractServiceGeneratorTestC
 
 		File file = new File(destDir.getAbsolutePath()+"/meta-src/META-INF/soa/services/proto/CalculatorService/CalculatorService.proto");
 		
-		MavenTestingUtils.ensureEmpty(file.getParentFile());
+		CodeGenUtil.deleteContentsOfDir(gensrc);
+		CodeGenUtil.deleteContentsOfDir(genmetasrc);
 		generateJaxbClasses(wsdlpath.getAbsolutePath(), destDir.getAbsolutePath());
 
-		ProtoFileParser parser = new ProtoFileParser(file);
+		ProtoFileParser parser = ProtoFileParser.newInstance(file);
 		List<Message> msg = parser.parse();
 		
 		List<String> listofMessageName = getMessageNameList(msg);
@@ -61,9 +64,8 @@ public class AddingOfTypesAndElementsCheck extends AbstractServiceGeneratorTestC
 		
 		Map<String,List<String>> msgMap1  = pmdInfoForAllMessages(file, listofMessageName, parser);
 		
-		File genmetasrc = new File(destDir,"gen-meta-src");
 		
-		MavenTestingUtils.ensureEmpty(genmetasrc);
+		CodeGenUtil.deleteContentsOfDir(genmetasrc);
 		
 		wsdlpath = getProtobufRelatedInput("ModifiedTestWsdlComplexType.wsdl");
 		generateJaxbClasses(wsdlpath.getAbsolutePath(), destDir.getAbsolutePath());
@@ -119,7 +121,7 @@ public class AddingOfTypesAndElementsCheck extends AbstractServiceGeneratorTestC
 	
 	public Map<String,List<String>> getParamSqequenceInfoForAllMessages(File file){
 		
-		ProtoFileParser parser1 = new ProtoFileParser(file);
+		ProtoFileParser parser1 = ProtoFileParser.newInstance(file);
 		List<Message> msg = parser1.parse();
 		
 		return getMessageInfo(msg);
@@ -175,10 +177,11 @@ public Map<String,List<String>> pmdInfoForAllMessages(File file,List<String> lis
 				continue;
 			}
 			for(Field f : m.getFields()){
-				if(f.getFieldRestriction().equals("repeated") || f.getFieldRestriction().equals("required")){
+				ProtoField pf = (ProtoField)f;
+				if(pf.getFieldRestriction().equals("repeated") || pf.getFieldRestriction().equals("required")){
 					repFieldCount++;
 				}
-				if(f.getFieldRestriction().equals("optional")){
+				if(pf.getFieldRestriction().equals("optional")){
 					optFieldCount++;
 				}
 			}
@@ -205,10 +208,11 @@ public Map<String,List<String>> pmdInfoForAllMessages(File file,List<String> lis
 					  }
 					  if( i >= 11){
 						  for(Field f : m.getFields()){
-							  if(Integer.valueOf(f.getSequenceNumber().trim()) == i){
+							  ProtoField pf = (ProtoField)f;
+							  if(Integer.valueOf(pf.getSequenceNumber().trim()) == i){
 								  assigned =true;
 								  if(repFieldCount < 10)
-								  Assert.assertTrue("Tag value "+ i+ " is assigned to other than optional field ",f.getFieldRestriction().equals("optional"));
+								  Assert.assertTrue("Tag value "+ i+ " is assigned to other than optional field ",pf.getFieldRestriction().equals("optional"));
 							  }
 						  }
 						  Assert.assertTrue("Tag value " + i + " is not assigned",assigned);
@@ -216,9 +220,11 @@ public Map<String,List<String>> pmdInfoForAllMessages(File file,List<String> lis
 						  continue;
 					  }
 					  for(Field f : m.getFields()){
-						  if(Integer.valueOf(f.getSequenceNumber().trim()) == i){
+						  
+						  ProtoField pf = (ProtoField)f;
+						  if(Integer.valueOf(pf.getSequenceNumber().trim()) == i){
 							  assigned =true;
-							  Assert.assertTrue("Tag value "+ i+ " is assigned to other than repeated or required field ",f.getFieldRestriction().equals("repeated") || f.getFieldRestriction().equals("required"));
+							  Assert.assertTrue("Tag value "+ i+ " is assigned to other than repeated or required field ",pf.getFieldRestriction().equals("repeated") || pf.getFieldRestriction().equals("required"));
 						  }
 					  }
 					  Assert.assertTrue("Tag value " + i + " is not assigned",assigned);
@@ -241,7 +247,8 @@ public Map<String,List<String>> pmdInfoForAllMessages(File file,List<String> lis
 			List<String> list = new ArrayList<String>();
 			List<Field> fields = m.getFields();
 			for(Field f :fields){
-				String fsn = f.getFieldName().trim()+f.getSequenceNumber().trim();
+				ProtoField pf = (ProtoField)f;
+				String fsn = f.getFieldName().trim()+pf.getSequenceNumber().trim();
 				list.add(fsn);
 			}
 			msgFields.put(msName,list);

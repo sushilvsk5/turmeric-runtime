@@ -14,8 +14,14 @@
     <service-instance-config>
      <provider-options>
      
+      <!-- <header-mapping-options>
+			<option name="X-TURMERIC-OPERATION-NAME">path[+1]</option>
+	  </header-mapping-options>-->
+	<operation-mapping-options>
+  			<operation name="testEnhancedRest">enhanced</operation>
+  	</operation-mapping-options>
     
-
+ <!-- 
       <header-mapping-options>
 			<option name="X-TURMERIC-OPERATION-NAME">path[+1]</option>
 			<option name="X-TURMERIC-REQUEST-DATA-FORMAT">query[reqformat]</option>
@@ -24,6 +30,8 @@
 		<operation-mapping-options>
   			<operation name="testEnhancedRest">enhanced</operation>
   		</operation-mapping-options>
+  		 -->
+  		 
   		
     <request-params-mapping>
 			<operation name="testEnhancedRest">

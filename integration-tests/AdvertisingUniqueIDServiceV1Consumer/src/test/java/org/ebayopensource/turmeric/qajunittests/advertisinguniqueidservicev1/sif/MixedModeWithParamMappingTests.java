@@ -23,7 +23,7 @@ public class MixedModeWithParamMappingTests extends AbstractWithServerQETest{
 	public void testRegularScenario1WithValidPayload() throws org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException, MalformedURLException {
 		System.out.println(" ** testRegularScenario1WithValidPayload ** ");
 		Request request = new Request(
-				serverUri.toASCIIString()+"/services/advertise/UniqueIDService/v2/testSchemaValidationWithUPA/2/1230/foo");
+				serverUri.toASCIIString()+"/services/advertise/UniqueIDService/v1/testSchemaValidationWithUPA/2/1230/foo");
 		String body = "<?xml version='1.0' encoding='UTF-8'?>" + 
 			"<testSchemaValidationWithUPA xmlns=\"http://www.ebay.com/marketplace/advertising/v1/services\">" +
 			"<clientId>schemavalidation</clientId><siteId>0</siteId><language>us-ENG</language>" + 
@@ -39,7 +39,7 @@ public class MixedModeWithParamMappingTests extends AbstractWithServerQETest{
 	public void testRegularScenarioWithMissingValuesInPayload() throws ServiceException, MalformedURLException {
 		System.out.println(" ** testRegularScenarioWithMissingValuesInPayload ** ");
 		Request request = new Request(
-				serverUri.toASCIIString()+"/services/advertise/UniqueIDService/v2/testSchemaValidationWithUPA/2/1230/foo");
+				serverUri.toASCIIString()+"/services/advertise/UniqueIDService/v1/testSchemaValidationWithUPA/2/1230/foo");
 		String body = "<?xml version='1.0' encoding='UTF-8'?>" + 
 			"<testSchemaValidationWithUPA xmlns=\"http://www.ebay.com/marketplace/advertising/v1/services\">" +
 			"<clientId></clientId><siteId></siteId><language></language>" + 
@@ -60,11 +60,11 @@ public class MixedModeWithParamMappingTests extends AbstractWithServerQETest{
 		" xmlns:ns2=\"http://www.ebay.com/soa/test/payment\"" +
 		" xmlns=\"http://www.ebay.com/marketplace/advertising/v1/services\">" +
 		" <in>hello</in></testEnhancedRest>";
-		Request request = new Request(serverUri.toASCIIString()+"/services/advertise/UniqueIDService/v1/ePo/foo");
+		Request request = new Request(serverUri.toASCIIString()+"/services/advertise/UniqueIDService/v1/enhanced/foo");
 		Response response = http.getResponse(
 				request, queryParams, body,  "POST");
 		System.out.println("test" + response.getBody());
-		Assert.assertTrue(response.getBody().contains("<out>foo</out>"));
+		Assert.assertTrue(response.getBody().contains("<ns1:out>test</ns1:out>"));
 		
 	}
 	
@@ -82,7 +82,7 @@ public class MixedModeWithParamMappingTests extends AbstractWithServerQETest{
 		Response response = http.getResponse(
 				request, queryParams, body,  "POST");
 		System.out.println("test" + response.getBody());
-		Assert.assertTrue(response.getBody().contains("<out>foo</out>"));
+		Assert.assertTrue(response.getBody().contains("<ns1:out>test</ns1:out>"));
 		
 	}
 	
