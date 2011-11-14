@@ -39,6 +39,7 @@ import org.ebayopensource.turmeric.runtime.sif.service.ServiceInvokerOptions;
 import org.ebayopensource.turmeric.runtime.spf.impl.internal.config.ServiceConfigManager;
 import org.ebayopensource.turmeric.runtime.tests.common.jetty.AbstractWithServerTest;
 import org.ebayopensource.turmeric.runtime.tests.common.junit.NeedsConfig;
+import org.ebayopensource.turmeric.runtime.tests.common.sif.error.MarkdownTestHelper;
 import org.ebayopensource.turmeric.runtime.tests.common.util.NVAssert;
 import org.junit.Assert;
 import org.junit.Before;
@@ -107,6 +108,7 @@ public class RawModeTest extends AbstractWithServerTest {
 		// tracer.setFailOnMultiResourceEntry(true);
 		m_headers = new HashMap<String, String>();
 		m_headers.put(SOAHeaders.SERVICE_OPERATION_NAME, "echoString");
+		MarkdownTestHelper.markupClientManually("test1", null, null);
 
 	}
 
