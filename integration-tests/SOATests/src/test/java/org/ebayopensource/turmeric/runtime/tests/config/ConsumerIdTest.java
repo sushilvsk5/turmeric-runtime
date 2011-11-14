@@ -7,6 +7,7 @@ import org.ebayopensource.turmeric.runtime.common.types.SOAHeaders;
 import org.ebayopensource.turmeric.runtime.spf.impl.internal.config.ServiceConfigManager;
 import org.ebayopensource.turmeric.runtime.tests.common.sif.Test1Driver;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -15,58 +16,64 @@ import org.junit.Test;
  * 
  */
 public class ConsumerIdTest {
-
-	@Ignore
-	// Ignored because of the removal of the getConsumerID from
-	// ClientServerContext
-	@Test
-	public void consumerIdTest_ConsumerIdAppNameMismatch() throws Exception {
-		Test1Driver driver = createDriver("configtest5", "consumerid2",
-				"consumerid2");
-		//driver.setTransportHeader(SOAHeaders.AUTH_APPNAME, "appName");
-//		driver.setExpectedError(
-//				ErrorConstant.SVC_RT_CONSUMERID_SECURITY_APPNAME_MISMATCH
-//						.getId(), ServiceInvocationException.class,
-//				ServiceInvocationRuntimeException.class,
-//				"ConsumerId testConsumerId does not match ");
-		driver.doCall();
-	}
-	@Ignore
-	@Test
-	public void consumerIdTest_ConsumerIdUseCaseMismatch() throws Exception {
-		Test1Driver driver = createDriver("configtest5", "consumerid5",
-				"consumerid5");
-		driver.setTransportHeader(SOAHeaders.USECASE_NAME, "useCase");
-		driver.setTransportHeader(SOAHeaders.CONSUMER_ID, "consumerId");
-		driver.doCall();
-	}
-	@Ignore
-	@Test
-	public void consumerIdTest_Exception() throws Exception {
-		Test1Driver driver = createDriver("configtest5", "consumerid3",
-				"consumerid3");
-//		driver.setExpectedError(ErrorConstant.SVC_CLIENT_MISSING_CONSUMER_ID
-//				.getId(), ServiceInvocationException.class,
-//				ServiceInvocationRuntimeException.class,
-//				"No consumer-id present in");
-		driver.doCall();
-	}
-	@Ignore
-	@Test
-	public void consumerIdTest_ProviderSuccess() throws Exception {
-		Test1Driver driver = createDriver("configtest5", "consumerid4",
-				"consumerid4");
-		driver.doCall();
-	}
-
-	@Ignore
-	// Ignored because of the removal of the getConsumerID from
-	// ClientServerContext
+	//Removing consumer ID Tests since Consumer Id handler is absent
+	
+	
+	
+//	@Ignore
+//	// Ignored because of the removal of the getConsumerID from
+//	// ClientServerContext
+//	@Test
+//	public void consumerIdTest_ConsumerIdAppNameMismatch() throws Exception {
+//		Test1Driver driver = createDriver("configtest5", "consumerid2",
+//				"consumerid2");
+//		//driver.setTransportHeader(SOAHeaders.AUTH_APPNAME, "appName");
+////		driver.setExpectedError(
+////				ErrorConstant.SVC_RT_CONSUMERID_SECURITY_APPNAME_MISMATCH
+////						.getId(), ServiceInvocationException.class,
+////				ServiceInvocationRuntimeException.class,
+////				"ConsumerId testConsumerId does not match ");
+//		driver.doCall();
+//	}
+//	@Ignore
+//	@Test
+//	public void consumerIdTest_ConsumerIdUseCaseMismatch() throws Exception {
+//		Test1Driver driver = createDriver("configtest5", "consumerid5",
+//				"consumerid5");
+//		driver.setTransportHeader(SOAHeaders.USECASE_NAME, "useCase");
+//		driver.setTransportHeader(SOAHeaders.CONSUMER_ID, "consumerId");
+//		driver.doCall();
+//	}
+//	@Ignore
+//	@Test
+//	public void consumerIdTest_Exception() throws Exception {
+//		Test1Driver driver = createDriver("configtest5", "consumerid3",
+//				"consumerid3");
+////		driver.setExpectedError(ErrorConstant.SVC_CLIENT_MISSING_CONSUMER_ID
+////				.getId(), ServiceInvocationException.class,
+////				ServiceInvocationRuntimeException.class,
+////				"No consumer-id present in");
+//		driver.doCall();
+//	}
+//	@Ignore
+//	@Test
+//	public void consumerIdTest_ProviderSuccess() throws Exception {
+//		Test1Driver driver = createDriver("configtest5", "consumerid4",
+//				"consumerid4");
+//		driver.doCall();
+//	}
+//
+//	@Ignore
+//	// Ignored because of the removal of the getConsumerID from
+//	// ClientServerContext
 	@Test
 	public void consumerIdTest_Success() throws Exception {
-		Test1Driver driver = createDriver("configtest5", "consumerid2",
-				"consumerid2");
-		driver.doCall();
+//		Test1Driver driver = createDriver("configtest5", "consumerid2",
+//				"consumerid2");
+//		driver.doCall();
+		//Removing consumer ID Tests since Consumer Id handler is absent, 
+		//but keeping one callable test method with dummy test so that it can be modified later
+		Assert.assertTrue(true);
 	}
 
 	protected Test1Driver createDriver(String config) throws Exception {
