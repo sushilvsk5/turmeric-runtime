@@ -1,39 +1,40 @@
 package org.ebayopensource.turmeric.tools.codegen.protobuf;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Message {
 	
 	String messageName;
 	
-	List<Field> fields;
+	String namespace;
 	
-	List<Message> nestedMessages;
+	List<Field> fields = new ArrayList<Field>();;
 	
-	public String getMessageName() {
-		return messageName;
-	}
-
-	public void setMessageName(String messageName) {
-		this.messageName = messageName;
-	}
-
 	public List<Field> getFields() {
+		
 		return fields;
 	}
 
 	public void setFields(List<Field> fields) {
 		this.fields = fields;
 	}
-
-	public List<Message> getNestedMessages() {
-		return nestedMessages;
+	
+	public String getNamespace() {
+		return namespace;
 	}
 
-	public void setNestedMessages(List<Message> nestedMessages) {
-		this.nestedMessages = nestedMessages;
+	public void setNamespace(String namespace) {
+		this.namespace = namespace;
+	}
+	public String getMessageName() {
+		return messageName;
+	}
+	public void setMessageName(String messageName) {
+		this.messageName = messageName;
 	}
 
+	
 	
 
 }

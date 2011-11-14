@@ -331,7 +331,7 @@ public class CustomHttpHeadersTest extends AbstractWithServerTest{
 		System.out.println(response.get(1));
 		Map<String, String> respHeaders = svc.getResponseContext().getTransportHeaders();
 		
-		Assert.assertEquals("testNegKnownHTTPHeader", respHeaders.get(header1));
+		Assert.assertEquals("text/xml; charset=UTF-8", respHeaders.get(header1));
 		Assert.assertEquals("100", respHeaders.get(header2));
 		System.out.println("-- testNegKnownHTTPHeader --");
 			

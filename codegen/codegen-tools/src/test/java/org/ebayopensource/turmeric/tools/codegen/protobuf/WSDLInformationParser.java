@@ -15,40 +15,46 @@ public class WSDLInformationParser {
 		wsdlInfoFile = file;
 	}
 	
-	public List<MessageInformation> parse(){
+	public List<Message> parse(){
 		
 		List<String> lines = FileUtil.readFileAsLines(wsdlInfoFile);
-		List<MessageInformation> msg =new ArrayList<MessageInformation>();
-		MessageInformation msgInfo = null;
+		List<Message> msg =new ArrayList<Message>();
+		Message msgInfo = null;
 		for(String str :lines){
 			
 			String [] info = str.split("=");
 			if(info.length == 2){
 				
-				msgInfo = new MessageInformation();
-				msg.add(msgInfo);
+				msgInfo = new Message();
+				
 				msgInfo.setMessageName(info[1]);
 				msgInfo.setNamespace(info[0]);
+				msg.add(msgInfo);
 				
 			}
 			if(info.length == 4){
 				
 				if(info[3].startsWith("enum")){
-					msgInfo.setEnums(true);
+					EnumMessage enumMsgInfo = new EnumMessage();
+					enumMsgInfo.setMessageName(msgInfo.getMessageName());
+					enumMsgInfo.setNamespace(msgInfo.getNamespace());
+					
 					String values = info[3].substring(info[3].indexOf("[") +1, info[3].length()-1);
 					String vals [] = values.split(",");
-					for(String s : vals){
-					msgInfo.getEnumList().add(s);
+					for(int i=0;i < vals.length;i++){
+						enumMsgInfo.getValues().put(vals[i], i);
 					}
+					msg.remove(msgInfo);
+					msg.add(enumMsgInfo);
 					continue;
 				}
-				ElementInformation ele = new ElementInformation();
-				ele.setElementName(info[0]);
+				XsdField ele = new XsdField();
+				ele.setFieldName(info[0]);
 				ele.setJaxbName(info[1]);
 				if(info[2].contains("Enum.")){
 					ele.setEnums(true);
 				}
-				ele.setDataType(info[2]);
+				ele.setFieldType(info[2]);
 				
 				if(info[3].trim().toLowerCase().equals("optional")){
 					
@@ -59,7 +65,9 @@ public class WSDLInformationParser {
 					
 					ele.setList(true);
 				}
-				msgInfo.getElementInfo().add(ele);
+				msgInfo.getFields().add(ele);
+				
+				
 				
 			}
 			
@@ -68,12 +76,12 @@ public class WSDLInformationParser {
 		
 		}
 		
-		for(MessageInformation m :msg){
+		for(Message m :msg){
 			System.out.println(m.getMessageName());
 			System.out.println(m.getNamespace());
 			
-			for(ElementInformation e :m.getElementInfo()){
-				System.out.println(e);
+			for(Field e :m.getFields()){
+				System.out.println(e.getFieldName());
 			}
 		}
 		return msg;

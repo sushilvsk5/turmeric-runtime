@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 
 import org.ebayopensource.turmeric.junit.logging.UKernelLoggingUtils;
 import org.ebayopensource.turmeric.runtime.common.types.SOAConstants;
-import org.ebayopensource.turmeric.runtime.spf.servlet.TurmericConsoleFrontController;
 import org.ebayopensource.turmeric.runtime.tests.common.logging.SimpleConsoleHandler;
 import org.junit.Assert;
 import org.mortbay.jetty.Connector;
@@ -107,7 +106,8 @@ public class SimpleJettyServer {
 	
 
 	public void start() throws Exception {
-		wrapHandlers(new DebugHandler());
+		DebugHandler debug = new DebugHandler();
+		wrapHandlers(debug);
 		
 		if(accessLog) {
 			wrapHandlers(new AccessLoggingHandler());

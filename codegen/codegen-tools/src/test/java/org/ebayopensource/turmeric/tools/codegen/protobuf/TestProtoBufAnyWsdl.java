@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -34,8 +36,10 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.namespace.QName;
 
 import org.ebayopensource.turmeric.tools.codegen.AbstractServiceGeneratorTestCase;
+import org.ebayopensource.turmeric.tools.codegen.ServiceGenerator;
+import org.ebayopensource.turmeric.tools.codegen.handler.UserResponseHandler;
+import org.ebayopensource.turmeric.tools.codegen.util.CodeGenClassLoader;
 import org.ebayopensource.turmeric.tools.codegen.util.CodeGenUtil;
-import org.ebayopensource.turmeric.tools.codegen.util.JavacHelper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -46,8 +50,12 @@ import com.google.protobuf.ByteString;
 
 public class TestProtoBufAnyWsdl extends AbstractServiceGeneratorTestCase{
 	
+	
+	static Set<String> compiledTypes = new HashSet<String>();
 	File destDir = null;
-	String name =null;
+	String nam =null;
+	ProtoFileParser parser = null;
+	List<String> protoMessageList = new ArrayList<String>();
 	
     public static String getPackageFromNamespace(String namespace) {
     	
@@ -56,31 +64,40 @@ public class TestProtoBufAnyWsdl extends AbstractServiceGeneratorTestCase{
     	return com.sun.tools.xjc.api.XJC.getDefaultPackageName(namespace);
     }
     List<String> wsdlFileName = new ArrayList<String>();
+    File protoFile = null;
     Map<String,String> xsdToProtoType = new HashMap<String,String>();
     Map<String,String> xsdToJaxbType = new HashMap<String,String>();
     @Before
     public void init(){
     	destDir = testingdir.getDir();
-    	CodeGenUtil.deleteContentsOfDir(destDir);
-    	//wsdlFileName.add("auth");
     	
+    	
+    	/*
+    	 * Add wsdl which needs to be tested for protobuf to the list
+    	 * Make sure you also add the expected text result file for the wsdl. 
+    	 */
+    	wsdlFileName.add("TestWsdlXsdTypes");
+    	//wsdlFileName.add("TestWsdlBug19005");
+    	//wsdlFileName.add("TestWsdlComplexType");
+    	//wsdlFileName.add("TestWsdlComplexTypeExtended");
     	//wsdlFileName.add("TestWsdlIDNotSupported");
     	//wsdlFileName.add("authentication");
+    	//wsdlFileName.add("FindingService");
     	//wsdlFileName.add("TestWsdlBug");
-    	//wsdlFileName.add("TestWsdlXsdTypes");
+    	
     	//wsdlFileName.add("TestKeywordsAsNames");
-    	CodeGenUtil.deleteContentsOfDir(destDir);
     	//wsdlFileName.add("TestAllVariationsWsdl");
+    	//wsdlFileName.add("TestWsdlEnum");
     	//wsdlFileName.add("TestWsdlChoiceAttrGroup");
-    	 //wsdlFileName.add("IntOps");
+    	//wsdlFileName.add("IntOps");
     	//wsdlFileName.add("TestWsdlChoiceAttrGroup");
-    	 //wsdlFileName.add("TestWsdlComplexType");
+    	
     	//wsdlFileName.add("TestWsdlComplexTypeCC");
     	//wsdlFileName.add("test");
-    	 //wsdlFileName.add("TestWsdlComplexTypeExtended");
+    	 
     	//wsdlFileName.add("TestWsdlOtherTypes");
-    	 wsdlFileName.add("TestWsdlListTypes");
-    	 //wsdlFileName.add("TestWsdlBug19005");
+    	 //wsdlFileName.add("TestWsdlListTypes");
+    	 
     	 
     	//wsdlFileName.add("TestWsdlComplexTypeSC1");
     	//wsdlFileName.add("TestWsdlComplexTypeSC2");
@@ -88,6 +105,10 @@ public class TestProtoBufAnyWsdl extends AbstractServiceGeneratorTestCase{
     	//wsdlFileName.add("TestWsdlBug19094");
     	
     	//wsdlFileName.add("TestingBugs");
+    	
+    	/*
+    	 * List for xsd types conversion to protobuf.
+    	 */
     	
     	xsdToProtoType.put("int","sint32");
     	xsdToProtoType.put("integer","sint32");
@@ -136,7 +157,9 @@ public class TestProtoBufAnyWsdl extends AbstractServiceGeneratorTestCase{
     	xsdToProtoType.put("normalizedString","string");
     	xsdToProtoType.put("ENTITIES","string");
 
-    	
+    	/*
+    	 * List for xsd types conversion to jaxb.
+    	 */
     	
     	xsdToJaxbType.put("int","integer");
     	xsdToJaxbType.put("byte","byte");
@@ -187,67 +210,63 @@ public class TestProtoBufAnyWsdl extends AbstractServiceGeneratorTestCase{
     	
     }
     
-    @Ignore
-	@Test
-	public void testEproto() throws Exception{
-	
-		File wsdlpath = null;
-		File fileExp = null;
-		File bin = new File(destDir.getAbsolutePath() + "/bin/");
-	
-		System.out.println(bin.getAbsoluteFile());
-		File gensrc = new File(destDir,"gen-src");
+    private void cleanDestination(File wsdlpath,String name1){
+    	compiledTypes.clear();
+    	CodeGenUtil.deleteContentsOfDir(new File(destDir +"/gen-src"));
+		CodeGenUtil.deleteContentsOfDir(new File(destDir +"/gen-meta-src"));
+		CodeGenUtil.deleteContentsOfDir(new File(destDir +"/meta-src"));
+		CodeGenUtil.deleteContentsOfDir(new File(destDir +"/bin"));
 		
-		
-		URL [] urls = {new URL("file:/"+ destDir.getAbsolutePath()+"/bin/"),destDir.toURI().toURL(),gensrc.toURI().toURL()};
-		URLClassLoader loader = new URLClassLoader(urls,Thread.currentThread().getContextClassLoader());
-		
-		
-		
-		for(String name1 : wsdlFileName){
-			CodeGenUtil.deleteContentsOfDir(new File(destDir +"/gen-src"));
-			CodeGenUtil.deleteContentsOfDir(new File(destDir +"/gen-meta-src"));
-			CodeGenUtil.deleteContentsOfDir(new File(destDir +"/meta-src"));
-			CodeGenUtil.deleteContentsOfDir(new File(destDir +"/bin"));
-		wsdlpath = getProtobufRelatedInput(name1+".wsdl");
-		
-		fileExp = getProtobufRelatedInput(name1 +".txt");
-		
-		
-		name = name1;
-		String wsdlNSToPkg = getPackageFromNamespace("http://codegen.tools.soaframework.test.ebay.com");
-		//String wsdlNSToPkg = getPackageFromNamespace("http://www.ebay.com/marketplace/search/v1/services");
-		//String wsdlNSToPkg = getPackageFromNamespace("http://www.ebay.com/marketplace/shipping/v1/services");
-		//String wsdlNSToPkg = "com.ebay.marketplace.search.v1.services";
-		//wsdlNSToPkg = getPackageFromNamespace("http://codegen.tools.soaframework.test.ebay.com");
-		
-		//ensureClean(destDir +"/gen-meta-src/soa/services/wsdl");
-		//ensureClean(destDir +"/meta-src");
-		generateJaxbClasses(wsdlpath.getAbsolutePath(), destDir.getAbsolutePath(),bin,name);
-		
+    }
+    
+    private void setClassloader(URL [] urls){
+    	URLClassLoader loader = new URLClassLoader(urls,Thread.currentThread().getContextClassLoader());
 		Thread.currentThread().setContextClassLoader(loader);
+    }
+    
+    private File getProtoFilePath(String adminName){
+    	protoFile = new File(destDir,"meta-src/META-INF/soa/services/proto/" +adminName+"/"+adminName+".proto");
+    	
+    	return protoFile;
+    }
+    
+    private void getProtoMessages(){
+   
+    	parser = ProtoFileParser.newInstance(getProtoFilePath(nam));
+		protoMsg = parser.parse();
 		
-		Class<?> protoClass = Thread.currentThread().getContextClassLoader().loadClass(wsdlNSToPkg +".proto." +name);
-		
-		File file = new File(destDir,"meta-src/META-INF/soa/services/proto/" +name+"/"+name+".proto");
-		ProtoFileParser parser = new ProtoFileParser(file);
-		List<Message> msg = parser.parse();
-		assertTagAssignment(msg);
-		
-		List<String> listofMessageName = new ArrayList<String>();
-		for(Message m : msg){
+    }
+    
+    List<Message> protoMsg = null;
+    
+    /*
+     * Adding the message name to a list. Enum message is appended with _e.
+     */
+    
+    private List<String> addToMessageList(){
+    	
+    	for(Message m : protoMsg){
 			if(m.getClass().getName().contains("Enum")){
 				EnumMessage em = (EnumMessage)m;
-				listofMessageName.add(em.getEnumName()+"_e");
+				protoMessageList.add(em.getEnumName()+"_e");
 				continue;
 			}
-			listofMessageName.add(m.getMessageName());
+			protoMessageList.add(m.getMessageName());
 		}
-		
-		Map<String,List<String>> msgMap1 = pmdInfoForAllMessages(file, listofMessageName, parser);
-	
-		Map<String,List<String>> msgMap2 = getParamSqequenceInfoForAllMessages(file);
-		for(String msgName : listofMessageName){
+    	
+    	return protoMessageList;
+    }
+    
+    /*
+     * assert if the tags assigned to PMD information at the bottom of the proto file is correct and same as the one in the 
+     * message section of the proto file
+     */
+    private void assertTagAssignedToPMDInfo(){
+    	
+    	Map<String,List<String>> msgMap1 = pmdInfoForAllMessages(protoFile, protoMessageList, parser);
+    	
+		Map<String,List<String>> msgMap2 = getParamSqequenceInfoForAllMessages(protoFile);
+		for(String msgName : protoMessageList){
 			
 			List<String> pmdInfo1 = msgMap1.get(msgName);
 			List<String> pmdInfoNew = new ArrayList<String>(); 
@@ -272,34 +291,72 @@ public class TestProtoBufAnyWsdl extends AbstractServiceGeneratorTestCase{
 			
 		}
 		
+    }
+    
+	@Test
+	@Ignore("protobuf tests are not included for opensource since the proto compilation logic doest not work in linux env")
+	public void testEproto() throws Exception{
+	
+		File wsdlpath = null;
+		File fileExp = null;
+		File gensrc = new File(destDir,"gen-src");
+		File bin = new File(destDir,"bin");
+		
+		URL [] urls = {new URL("file:/"+ destDir.getAbsolutePath()+"/bin/"),destDir.toURI().toURL(),gensrc.toURI().toURL()};
+		
+		
+		setClassloader(urls);
+		
+		for(String name1 : wsdlFileName){
+			
+		cleanDestination(wsdlpath, name1);
+		nam = name1;
+		
+		String wsdlNSToPkg = getPackageFromNamespace("http://codegen.tools.soaframework.test.ebay.com");
+		//wsdlNSToPkg = getPackageFromNamespace("http://www.ebay.com/marketplace/search/v1/services");
+		
+		
+		wsdlpath = getProtobufRelatedInput(name1+".wsdl");
+		generateJaxbClasses(wsdlpath.getAbsolutePath(), destDir.getAbsolutePath(),bin,nam);
+				
+		
+		getProtoMessages();
+		assertTagAssignment();
+		
+		addToMessageList();
+		//This method needs to be included.
+		//assertTagAssignedToPMDInfo();
 		
 		
 		
 		
 		
+		fileExp = getProtobufRelatedInput(name1 +".txt");
 		
+		Class<?> protoClass = Thread.currentThread().getContextClassLoader().loadClass(wsdlNSToPkg +".proto." +nam);
 		
 		
 		Class<?> eprotoClass  = null;
 		Class<?> jaxbClass =null;
 		List<Message> enumMessagesGen = new ArrayList<Message>();
 		List<Message> typeMessagesGen = new ArrayList<Message>();
-		for(Message m : msg){
+		for(Message m : protoMsg){
 			if(m.getClass().getName().contains("Enum")){
 				enumMessagesGen.add(m);
 				continue;
 			}
 			typeMessagesGen.add(m);	
 		}
-		List<MessageInformation> enumMessagesExp = new ArrayList<MessageInformation>();
-		List<MessageInformation> typeMessagesExp = new ArrayList<MessageInformation>();
+		List<Message> enumMessagesExp = new ArrayList<Message>();
+		List<Message> typeMessagesExp = new ArrayList<Message>();
 		
 		
 		WSDLInformationParser info = new WSDLInformationParser(fileExp);
-		List<MessageInformation> msgInfo = info.parse();	
 		
-		for(MessageInformation ms : msgInfo){
-			if(ms.isEnums()){
+		List<Message> msgInfo = info.parse();	
+		
+		for(Message ms : msgInfo){
+			if(ms.getClass().getName().contains("Enum")){
 				enumMessagesExp.add(ms);
 				continue;
 			}
@@ -318,11 +375,11 @@ public class TestProtoBufAnyWsdl extends AbstractServiceGeneratorTestCase{
 			for(Message m : enumMessagesGen){
 				
 				if(m.getClass().getName().contains("EnumMessage")){
-					for(MessageInformation ms : enumMessagesExp){
-					 if(m.getMessageName().equals(ms.getMessageName()+"Enum")){
+					for(Message ms : enumMessagesExp){
+					 if(m.getMessageName().equals(ms.getMessageName())){
 						 hasEnumMsg = true;
 						 EnumMessage em = (EnumMessage)m;
-						 Assert.assertTrue(ms.getEnumList().size() == em.getValues().size());
+						 Assert.assertTrue(((EnumMessage)ms).getValues().size() == em.getValues().size());
 					 }
 					}
 					Assert.assertTrue("Enum message " + m.getMessageName() + " is not found in exp",hasEnumMsg);
@@ -332,7 +389,7 @@ public class TestProtoBufAnyWsdl extends AbstractServiceGeneratorTestCase{
 			}
 			
 		} else{
-			Assert.assertTrue("No of enum message is not equal in genenerated file and expexted file ", false);
+			Assert.assertTrue("No of enum message is not equal in genenerated file and expexted file. For wsdl "+nam , false);
 		}
 		
 		if(typeMessagesGen.size() == typeMessagesExp.size() ){
@@ -346,31 +403,33 @@ public class TestProtoBufAnyWsdl extends AbstractServiceGeneratorTestCase{
 				
 				String messageName = m.getMessageName();
 				hasMsg = false;
-				for(MessageInformation ms : typeMessagesExp){
+				for(Message ms : typeMessagesExp){
 					if(ms.getMessageName().equals(messageName)){
 						hasMsg = true;
-						if(m.getFields().size() == ms.getElementInfo().size()){
-							for(ElementInformation el :ms.getElementInfo()){
+						if(m.getFields().size() == ms.getFields().size()){
+							for(Field el :ms.getFields()){
+								XsdField xel = (XsdField)el;
 								hasEle = false;
-								for(Field f :m.getFields()){
-									if(f.getFieldName().equalsIgnoreCase(el.getJaxbName())){
+								for(Field f : m.getFields()){
+									ProtoField pf =  (ProtoField)f;
+									if(f.getFieldName().equalsIgnoreCase(xel.getJaxbName())){
 										hasEle = true;
-										Assert.assertTrue(f.getFieldName().equalsIgnoreCase(el.getJaxbName()));
+										Assert.assertTrue(pf.getFieldName().equalsIgnoreCase(xel.getJaxbName()));
 										if(el.isOptional())
-										Assert.assertTrue("field restriction optional is wrong for" +m.getMessageName() + " and field name" +f.getFieldName(), f.getFieldRestriction().equals("optional"));
+										Assert.assertTrue("field restriction optional is wrong for" +m.getMessageName() + " and field name" +pf.getFieldName(), pf.getFieldRestriction().equals("optional"));
 										if(el.isList())
-										Assert.assertTrue("field restriction repeated is wrong for" +m.getMessageName() + " and field name" +f.getFieldName(),f.getFieldRestriction().equals("repeated"));
+										Assert.assertTrue("field restriction repeated is wrong for" +m.getMessageName() + " and field name" +pf.getFieldName(),pf.getFieldRestriction().equals("repeated"));
 										if(!el.isList() && !el.isOptional())
-										 Assert.assertTrue("field restriction is wrong for" +m.getMessageName() + " and field name" +f.getFieldName(),f.getFieldRestriction().equals("required"));	
+										 Assert.assertTrue("field restriction is wrong for" +m.getMessageName() + " and field name" +pf.getFieldName(),pf.getFieldRestriction().equals("required"));	
 										try{
-										Assert.assertTrue("Data type is wrong for" +m.getMessageName() + " and field name" +f.getFieldName(),xsdToProtoType.get(el.getDataType()).equals(f.getFieldType()));
+										Assert.assertTrue("Data type is wrong for" +m.getMessageName() + " and field name" +pf.getFieldName(),xsdToProtoType.get(xel.getFieldType()).equals(pf.getFieldType()));
 										}catch(Exception e){
 											System.out.println(f.getFieldName());
 										}
 										break;
 									}
 								}
-								Assert.assertTrue(ms.getMessageName() +" message "+ el.getJaxbName() + "element is not found in exp",hasEle);
+								Assert.assertTrue(ms.getMessageName() +" message "+ xel.getJaxbName() + "element is not found in exp",hasEle);
 							}
 							break;
 						}else{
@@ -389,7 +448,7 @@ public class TestProtoBufAnyWsdl extends AbstractServiceGeneratorTestCase{
 			System.out.println("Mismatch found in the number of message"); 
 		boolean found = false;	
 		  for(Message m : typeMessagesGen){
-			  for(MessageInformation mi : typeMessagesExp){
+			  for(Message mi : typeMessagesExp){
 				  
 				  if(m.getMessageName().equals(mi.getMessageName())){
 					  found = true;
@@ -403,7 +462,7 @@ public class TestProtoBufAnyWsdl extends AbstractServiceGeneratorTestCase{
 			  found =false;	  
 		  }
 		  
-		  for(MessageInformation mi : typeMessagesExp){
+		  for(Message mi : typeMessagesExp){
 			  for(Message m : typeMessagesGen){
 				  
 				  if(m.getMessageName().equals(mi.getMessageName())){
@@ -421,9 +480,9 @@ public class TestProtoBufAnyWsdl extends AbstractServiceGeneratorTestCase{
 			
 		}
 		Set<String> setTypes = xsdToProtoType.keySet();
-		for(MessageInformation ms : msgInfo){
+		for(Message ms : msgInfo){
 			String messageName = ms.getMessageName();
-			if(ms.isEnums() && messageName.contains("Enum")){
+			if(ms.getClass().getName().contains("Enum") && messageName.contains("Enum")){
 				messageName = messageName.trim().substring(0,messageName.length()-4);
 			}
 			String eprotoPath =destDir.getAbsolutePath()+"/gen-src/"+ packagetoDirPath(wsdlNSToPkg)+"/proto/extended/E" +messageName+".java";
@@ -437,11 +496,11 @@ public class TestProtoBufAnyWsdl extends AbstractServiceGeneratorTestCase{
 		
 		
 		
-		for(MessageInformation ms : msgInfo){
+		for(Message ms : msgInfo){
 			
 			String messageName = ms.getMessageName();
 			
-			if(ms.isEnums() && messageName.contains("Enum")){
+			if(ms.getClass().getName().contains("Enum") && messageName.contains("Enum")){
 				messageName = messageName.trim().substring(0,messageName.length()-4);
 			}
 			/*String eprotoPath ="generated/gen-src/"+ packagetoDirPath(wsdlNSToPkg)+"/proto/extended/E" +messageName+".java";
@@ -457,9 +516,11 @@ public class TestProtoBufAnyWsdl extends AbstractServiceGeneratorTestCase{
 			eprotoClass = Thread.currentThread().getContextClassLoader().loadClass(wsdlNSToPkg +".proto.extended.E" +messageName);
 			
 			
-			if(ms.isEnums()){
-				for(String s : ms.getEnumList()){
-					invokeEnumNewInstance(jaxbClass, eprotoClass, s);
+			if(ms.getClass().getName().contains("Enum")){
+				EnumMessage ems = (EnumMessage) ms;
+				Iterator<String> it  = ems.getValues().keySet().iterator();
+				for(;it.hasNext();){
+					invokeEnumNewInstance(jaxbClass, eprotoClass,it.next());
 				}
 				continue;
 			}
@@ -468,10 +529,10 @@ public class TestProtoBufAnyWsdl extends AbstractServiceGeneratorTestCase{
 			
 		}
 			
-		for(MessageInformation ms : msgInfo){
+		for(Message ms : msgInfo){
 			String messageName = ms.getMessageName();
 			
-			if(ms.isEnums() && messageName.contains("Enum")){
+			if(ms.getClass().getName().contains("Enum") && messageName.contains("Enum")){
 				messageName = messageName.substring(0,messageName.length()-4);
 			}
 			
@@ -479,33 +540,37 @@ public class TestProtoBufAnyWsdl extends AbstractServiceGeneratorTestCase{
 			String methodPrefix = "get";
 			
 			eprotoClass = Thread.currentThread().getContextClassLoader().loadClass(wsdlNSToPkg +".proto.extended.E" +messageName);
-			if(ms.isEnums()){
-				continue;
-				/*for(int i=0;i < ms.getEnumList().size();i++){
-				invokeEnumGetter(eprotoClass, protoClass,i,messageName+"Enum");
-				}*/
+			if(ms.getClass().getName().contains("Enum")){
 				
+				
+				invokeEnumGetter(eprotoClass, protoClass,11,messageName+"Enum");
+				
+				continue;
 			}
 			Object obj = makeProtoObject(msgInfo,ms, wsdlNSToPkg);
-			for(ElementInformation ele : ms.getElementInfo()) {
-				if(ele.getDataType().equals("boolean") && !ele.isList()){
+			for(Field ele : ms.getFields()) {
+				if(ele.getFieldType().equals("boolean") && !ele.isList()){
 					methodPrefix ="is";
 				}
-				invokeGetters( eprotoClass, eprotoClass,methodPrefix + firstLetterUpperCase(ele.getElementName()),messageName, obj);
+				invokeGetters( eprotoClass, eprotoClass,methodPrefix + firstLetterUpperCase(ele.getFieldName()),messageName, obj);
 				methodPrefix="get";
 			}
 		
 		}
 	
 		
-		for(MessageInformation m : msgInfo){
+		for(Message m : msgInfo){
 			
+			String messageName = m.getMessageName();
+			
+			if(m.getClass().getName().contains("Enum")){
+				messageName = messageName.substring(0,(messageName.length()-4));
+			}
 		
-		
-			eprotoClass = Thread.currentThread().getContextClassLoader().loadClass(wsdlNSToPkg +".proto.extended.E" +m.getMessageName());
+			eprotoClass = Thread.currentThread().getContextClassLoader().loadClass(wsdlNSToPkg +".proto.extended.E" +messageName);
 			
 			
-			jaxbClass = Thread.currentThread().getContextClassLoader().loadClass(wsdlNSToPkg +"." +m.getMessageName());
+			jaxbClass = Thread.currentThread().getContextClassLoader().loadClass(wsdlNSToPkg +"." +messageName);
 			
 			
 			//code to check if the jaxb getter methods are overriden and return types are same:
@@ -531,6 +596,27 @@ public class TestProtoBufAnyWsdl extends AbstractServiceGeneratorTestCase{
 			}
 			// end of code
 			
+		}
+		
+		for(Message ms : msgInfo){
+			boolean hasParseMtd = false;
+			String messageName = ms.getMessageName();
+			
+			if(ms.getClass().getName().contains("Enum")){
+				continue;
+			}
+			
+			eprotoClass = Thread.currentThread().getContextClassLoader().loadClass(wsdlNSToPkg +".proto.extended.E" +messageName);
+			
+			
+			for(Method parse :eprotoClass.getDeclaredMethods()){
+				
+				if(parse.getName().equals("parseFrom")){
+					hasParseMtd =true;
+				}
+				
+			}
+			//Assert.assertTrue("parse From method is not found in "+ms.getMessageName(), hasParseMtd);
 		}
 			
 			
@@ -560,7 +646,7 @@ public class TestProtoBufAnyWsdl extends AbstractServiceGeneratorTestCase{
 	
 public Map<String,List<String>> getParamSqequenceInfoForAllMessages(File file){
 		
-		ProtoFileParser parser1 = new ProtoFileParser(file);
+		ProtoFileParser parser1 = ProtoFileParser.newInstance(getProtoFilePath(nam));
 		List<Message> msg = parser1.parse();
 		
 		return getMessageInfo(msg);
@@ -588,9 +674,11 @@ public Map<String,List<String>> getMessageInfo(List<Message> msg){
 		}
 			
 		
+
 		List<Field> fields = m.getFields();
 		for(Field f :fields){
-			String fsn = f.getFieldName().trim()+f.getSequenceNumber().trim();
+			ProtoField pf = (ProtoField)f;
+			String fsn = f.getFieldName().trim()+pf.getSequenceNumber().trim();
 			list.add(fsn);
 		}
 		msgFields.put(msName,list);
@@ -633,7 +721,7 @@ public Map<String,List<String>> pmdInfoForAllMessages(File file,List<String> lis
 		return msgMap3;
 	}
 	
-public void assertTagAssignment(List<Message> msg){
+public void assertTagAssignment(){
 		
 		int repFieldCount = 0;
 		int optFieldCount = 0;
@@ -641,16 +729,17 @@ public void assertTagAssignment(List<Message> msg){
 		int highSequenceNo = 0;
 		
 		
-		for(Message  m: msg){
+		for(Message  m: protoMsg){
 			
 			if( m.getClass().getName().contains("EnumMessage")){
 				continue;
 			}
 			for(Field f : m.getFields()){
-				if(f.getFieldRestriction().equals("repeated") || f.getFieldRestriction().equals("required")){
+				ProtoField pf = (ProtoField)f;
+				if(pf.getFieldRestriction().equals("repeated") || pf.getFieldRestriction().equals("required")){
 					repFieldCount++;
 				}
-				if(f.getFieldRestriction().equals("optional")){
+				if(pf.getFieldRestriction().equals("optional")){
 					optFieldCount++;
 				}
 			}
@@ -680,10 +769,11 @@ public void assertTagAssignment(List<Message> msg){
 					  }
 					  if( i >= 11){
 						  for(Field f : m.getFields()){
-							  if(Integer.valueOf(f.getSequenceNumber().trim()) == i){
+							  ProtoField pf = (ProtoField)f;
+							  if(Integer.valueOf(pf.getSequenceNumber().trim()) == i){
 								  assigned =true;
 								  if(repFieldCount < 10)
-								  Assert.assertTrue("Tag value "+ i+ " is assigned to other than optional field in message "+m.getMessageName(),f.getFieldRestriction().equals("optional"));
+								  Assert.assertTrue("Tag value "+ i+ " is assigned to other than optional field in message "+m.getMessageName(),pf.getFieldRestriction().equals("optional"));
 							  }
 						  }
 						  Assert.assertTrue("Tag value " + i + " is not assigned for message "+ m.getMessageName() ,assigned);
@@ -691,9 +781,11 @@ public void assertTagAssignment(List<Message> msg){
 						  continue;
 					  }
 					  for(Field f : m.getFields()){
-						  if(Integer.valueOf(f.getSequenceNumber().trim()) == i){
+						  
+						  ProtoField pf = (ProtoField)f;
+						  if(Integer.valueOf(pf.getSequenceNumber().trim()) == i){
 							  assigned =true;
-							  Assert.assertTrue("Tag value "+ i+ " is assigned to other than repeated or required field in message " +m.getMessageName(),f.getFieldRestriction().equals("repeated") || f.getFieldRestriction().equals("required"));
+							  Assert.assertTrue("Tag value "+ i+ " is assigned to other than repeated or required field in message " +m.getMessageName(),pf.getFieldRestriction().equals("repeated") || pf.getFieldRestriction().equals("required"));
 						  }
 					  }
 					  Assert.assertTrue("Tag value " + i + " is not assigned for message "+ m.getMessageName(),assigned);
@@ -707,23 +799,32 @@ public void assertTagAssignment(List<Message> msg){
 		
 	}
 	
-	public void compile(List<MessageInformation> msg,String eprotoPath,File bin,Set<String> setTypes,String wsdlNSToPkg,String msgName ) throws Exception{
+	
+	public void compile(List<Message> msg,String eprotoPath,File bin,Set<String> setTypes,String wsdlNSToPkg,String msgName ) throws Exception{
 		
-		for(MessageInformation m : msg){
+		for(Message m : msg){
+			if(compiledTypes.contains(msgName))
+				continue;
 		 if(m.getMessageName().equals(msgName)){
-			 for(ElementInformation el : m.getElementInfo()){
-					if(el.getDataType().equals("Enum.")){
-						String  [] str = el.getDataType().split(".");
-						eprotoPath =destDir.getAbsolutePath()+"/gen-src/"+ packagetoDirPath(wsdlNSToPkg)+"/proto/extended/E" +str[0].trim().substring(0,m.getMessageName().length()-4)+".java";
+			 for(Field el : m.getFields()){
+				 	if(el.getFieldType().equals(msgName))
+				 		continue;
+				 	if(compiledTypes.contains(el.getFieldType()))
+						continue;
+					if(el.getFieldType().contains("Enum.")){
+						String  [] str = el.getFieldType().split("Enum.");
+						eprotoPath =destDir.getAbsolutePath()+"/gen-src/"+ packagetoDirPath(wsdlNSToPkg)+"/proto/extended/E" +str[0].trim()+".java";
 						compileEproto(eprotoPath, bin);
+						compiledTypes.add(el.getFieldType());
 					}
-					if(!setTypes.contains(el.getDataType())){
-						eprotoPath =destDir.getAbsolutePath()+"/gen-src/"+ packagetoDirPath(wsdlNSToPkg)+"/proto/extended/E" +el.getDataType()+".java";
-						compile(msg, eprotoPath, bin, setTypes, wsdlNSToPkg,el.getDataType());
+					if(!setTypes.contains(el.getFieldType()) && !el.getFieldType().contains("Enum.")){
+						eprotoPath =destDir.getAbsolutePath()+"/gen-src/"+ packagetoDirPath(wsdlNSToPkg)+"/proto/extended/E" +el.getFieldType()+".java";
+						compile(msg, eprotoPath, bin, setTypes, wsdlNSToPkg,el.getFieldType());
 					}
 			 }
 			 eprotoPath =destDir.getAbsolutePath()+"/gen-src/"+ packagetoDirPath(wsdlNSToPkg)+"/proto/extended/E" +m.getMessageName()+".java";
 			 compileEproto(eprotoPath, bin);
+			 compiledTypes.add(m.getMessageName());
 			 return;
 		 }
 		}
@@ -737,17 +838,24 @@ public void assertTagAssignment(List<Message> msg){
 	
 	public void compileEproto(String eprotoPath,File bin) throws Exception{
 		
+		String [] inclPackagePrefixes = new String[1];
+		String [] exclPackagePrefixes = new String[1];
+		String [] exclClasses = new String[1];
 		List<String> files = new ArrayList<String>();
 		File f = new File(eprotoPath);
 		files.add(f.getAbsolutePath());
-		JavacHelper helper = new JavacHelper(System.out);
-		helper.compileJavaSource(files,bin.getAbsolutePath() );
+		ClassLoader current = Thread.currentThread().getContextClassLoader();
+		CodeGenClassLoader cgc = new CodeGenClassLoader(current,current.getParent(), inclPackagePrefixes, exclPackagePrefixes, exclClasses);
+		Object abc = Class.forName("com.ebay.turmeric.tools.codegen.util.JavacHelper",true,cgc).getConstructor(OutputStream.class).newInstance(System.out);
+		abc.getClass().getMethod("compileJavaSource", List.class, String.class).invoke(abc, files, bin.getAbsolutePath());
+//		JavacHelper helper = new JavacHelper(System.out);
+//		helper.compileJavaSource(files,bin.getAbsolutePath() );
 		
 	}
 	
-	public Object makeProtoObject(List<MessageInformation> msgList,MessageInformation ms,String wsdlNSToPkg) throws ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException{
+	public Object makeProtoObject(List<Message> msgList,Message ms,String wsdlNSToPkg) throws ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException{
 		
-		Class<?> protoClass = Thread.currentThread().getContextClassLoader().loadClass(wsdlNSToPkg +".proto."+ name);
+		Class<?> protoClass = Thread.currentThread().getContextClassLoader().loadClass(wsdlNSToPkg +".proto."+ nam);
 		Object builderObj = null;
 
 		Object builtObj = null;
@@ -757,8 +865,9 @@ public void assertTagAssignment(List<Message> msg){
 		Object descriptorObj = null;
 		Class<?> bc = builderObj.getClass();
 		Method [] mthd = bc.getDeclaredMethods();
-		for(ElementInformation el :ms.getElementInfo()){
+		for(Field el :ms.getFields()){
 			
+			XsdField xel = (XsdField)el;
 			/*Class<?> bc = builderObj.getClass();
 			Method [] mthd = bc.getDeclaredMethods();
 				for(Method m: mthd){
@@ -781,7 +890,7 @@ public void assertTagAssignment(List<Message> msg){
 					
 					
 				}*/
-				settingFieldValue(msgList,ms,builderObj, el,wsdlNSToPkg);
+				settingFieldValue(msgList,ms,builderObj, xel,wsdlNSToPkg);
 				
 				
 				
@@ -799,25 +908,25 @@ public void assertTagAssignment(List<Message> msg){
 	
 	}
 	
-	public void settingFieldValue(List<MessageInformation> msgList,MessageInformation ms,Object builderObj,ElementInformation el,String wsdlNSToPkg) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, ClassNotFoundException{
+	public void settingFieldValue(List<Message> msgList,Message ms,Object builderObj,XsdField el,String wsdlNSToPkg) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, ClassNotFoundException{
 		String methodPrefix ="set";
 		if(el.isList()){
 			methodPrefix ="add";
 	 	}
-		String dataType = xsdToProtoType.get(el.getDataType());
+		String dataType = xsdToProtoType.get(el.getFieldType());
 		if(dataType == null)
-			dataType = el.getDataType();
+			dataType = el.getFieldType();
 		Method [] mtds =  builderObj.getClass().getDeclaredMethods();
 		for(Method m : mtds){
 			
 			
-			if(m.getName().equalsIgnoreCase(methodPrefix+ firstLetterUpperCase(el.getElementName()))){
+			if(m.getName().equalsIgnoreCase(methodPrefix+ firstLetterUpperCase(el.getFieldName()))){
 				
 				 if(el.isEnums()){
-					 Class<?> protoClass = Thread.currentThread().getContextClassLoader().loadClass(wsdlNSToPkg +".proto."+name);
+					 Class<?> protoClass = Thread.currentThread().getContextClassLoader().loadClass(wsdlNSToPkg +".proto."+nam);
 					 Class<?> eprotoClass = Thread.currentThread().getContextClassLoader().loadClass(wsdlNSToPkg +".proto.extended.E" +ms.getMessageName());
 					 
-					 String [] enumMessage = el.getDataType().split("Enum.");
+					 String [] enumMessage = el.getFieldType().split("Enum.");
 					 
 					 m.invoke(builderObj,invokeEnum(eprotoClass,protoClass, 11,enumMessage[0]));
 					 continue;
@@ -891,7 +1000,7 @@ public void assertTagAssignment(List<Message> msg){
 						break;
 				 }
 				 else {
-						for(MessageInformation mi :msgList){
+						for(Message mi :msgList){
 							if(mi.getMessageName().equals(dataType)){
 								if(el.isList()){
 							 		
@@ -910,7 +1019,7 @@ public void assertTagAssignment(List<Message> msg){
 		}
 	}
 	
-	public Object createBuilder(MessageInformation ms,Class<?> [] innerClasses,Object builderObj) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
+	public Object createBuilder(Message ms,Class<?> [] innerClasses,Object builderObj) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
 		
 		for(Class<?> cls : innerClasses){
 			if(cls.getName().contains(ms.getMessageName()+"OrBuilder")){
@@ -940,14 +1049,14 @@ public void assertTagAssignment(List<Message> msg){
 		return builderObj;
 	}
 	
-	public Object makeObject(MessageInformation ms,List<MessageInformation> listMsg,String wsdlNSToPkg,Map<String,String> xsdToJaxbType) throws ClassNotFoundException, IllegalAccessException, InstantiationException, DatatypeConfigurationException{
+	public Object makeObject(Message ms,List<Message> listMsg,String wsdlNSToPkg,Map<String,String> xsdToJaxbType) throws ClassNotFoundException, IllegalAccessException, InstantiationException, DatatypeConfigurationException{
 		
 		Class<?> jaxbClass = Thread.currentThread().getContextClassLoader().loadClass(wsdlNSToPkg +"." +ms.getMessageName());
 		Object obj = jaxbClass.newInstance();
-		for(ElementInformation el : ms.getElementInfo()){
-			
+		for(Field el : ms.getFields()){
+			XsdField xel = (XsdField)el;
 			try {
-				invokeMtd(ms,listMsg,el,obj,wsdlNSToPkg,xsdToJaxbType);
+				invokeMtd(ms,listMsg,xel,obj,wsdlNSToPkg,xsdToJaxbType);
 				
 				
 			} catch (IllegalArgumentException e) {
@@ -970,12 +1079,16 @@ public void assertTagAssignment(List<Message> msg){
 		String str = Character.toString(ch[0]).toUpperCase() + word.substring(1);
 		return str;
 	}
-	public void invokeMtd(MessageInformation ms,List<MessageInformation> listMsg,ElementInformation el,Object jaxbObj,String wsdlNSToPkg,Map<String,String> xsdToJaxbType) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, ClassNotFoundException, InstantiationException, DatatypeConfigurationException{
+	public void invokeMtd(Message ms,List<Message> listMsg,XsdField el,Object jaxbObj,String wsdlNSToPkg,Map<String,String> xsdToJaxbType) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, ClassNotFoundException, InstantiationException, DatatypeConfigurationException{
 		String methodPrefix = "set"; 
 		Method []  mths = jaxbObj.getClass().getMethods();
-		 String dataType = xsdToJaxbType.get(el.getDataType());
+		 String dataType = xsdToJaxbType.get(el.getFieldType());
 		 if(dataType == null)
-			 dataType = el.getDataType();
+			 dataType = el.getFieldType();
+		 
+		 
+		 
+		 
 		 for(Method m : mths){
 			 	 if(el.isList()){
 			 		methodPrefix ="get";
@@ -1089,7 +1202,7 @@ public void assertTagAssignment(List<Message> msg){
 									 	break;
 								 }
 								 else{
-									 for(MessageInformation info : listMsg){
+									 for(Message info : listMsg){
 										 if(info.getMessageName().equals(dataType)){
 											
 											 mthd.invoke(obj,makeObject(info,listMsg,wsdlNSToPkg,xsdToJaxbType));
@@ -1106,6 +1219,34 @@ public void assertTagAssignment(List<Message> msg){
 			 	 }
 				 
 				 if((methodPrefix + firstLetterUpperCase(el.getJaxbName())).equalsIgnoreCase(m.getName())){
+					 
+					 if(dataType.contains("Enum.")){
+						 
+						 Class<?> jaxbClass = Thread.currentThread().getContextClassLoader().loadClass(wsdlNSToPkg +"." + getEnumClassNamFromDataType(el.getFieldType()));
+						 Method mtd = null;
+						try {
+							mtd = jaxbClass.getMethod("fromValue",String.class);
+						} catch (SecurityException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (NoSuchMethodException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						 for(Message msg :listMsg){
+							 
+							 if(msg.getMessageName().equals(getEnumClassNamFromDataType(el.getFieldType())+"Enum")){
+								 EnumMessage ems = (EnumMessage) msg;
+									Iterator<String> it  = ems.getValues().keySet().iterator();
+									
+									Object obj =mtd.invoke(null,it.next().trim().toLowerCase());
+									m.invoke(jaxbObj, obj);
+									break;
+							 }
+						 }
+						 
+					 }
+					 
 					 if(dataType.equals("string")){
 						 
 					 m.invoke(jaxbObj,"3456");
@@ -1181,7 +1322,7 @@ public void assertTagAssignment(List<Message> msg){
 						 break;
 					 }			 	
 					 else {
-						 for(MessageInformation info : listMsg){
+						 for(Message info : listMsg){
 							 if(info.getMessageName().equals(dataType)){
 								 m.invoke(jaxbObj,makeObject(info,listMsg,wsdlNSToPkg,xsdToJaxbType));
 							 }
@@ -1195,7 +1336,9 @@ public void assertTagAssignment(List<Message> msg){
 		
 	}
 	
-	public void loadEproto(List<URI> paths){
+	private String getEnumClassNamFromDataType(String dataType){
+		
+		return dataType.split("Enum.")[1];
 		
 	}
 	
@@ -1227,22 +1370,33 @@ public void assertTagAssignment(List<Message> msg){
 		}
 	}
 	
+	public class TestResponseHandler implements UserResponseHandler {
+
+		@Override
+		public boolean getBooleanResponse(String promptMsg) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+		
+	}
+	
 	public void generateJaxbClasses(String path,String destDir,File binDir,String serviceName) throws Exception{
+		
 		String [] testArgs = {"-serviceName",serviceName,
-				  "-genType","ClientNoConfig",	
+				  "-genType","ServiceFromWSDLIntf",	
 				  "-wsdl",path,
-				  "-mdest",destDir+"/gen-meta-src",
+				  "-mdest",destDir+"/meta-src",
 				  "-gip","com.ebay.test.soaframework.tools.codegen",
 				  "-dest",destDir,
 				  "-src",destDir,
-				  "-bin",destDir+"/bin",
+				  "-bin",binDir.getAbsolutePath(),
 				  "-slayer","INTERMEDIATE",
 				  "-nonXSDFormats","protobuf",
 				  "-enabledNamespaceFolding",
 				  "-scv","1.0.0",
 				  "-pr",destDir};
-		
-		performDirectCodeGen(testArgs, binDir);
+		ServiceGenerator sgen = new ServiceGenerator();
+		sgen.startCodeGen(testArgs);
 		
 	}
 	
@@ -1403,40 +1557,63 @@ public void assertTagAssignment(List<Message> msg){
 		try {
 			
 			Class<?> innerClasses [] =  protoClass.getDeclaredClasses();
+		
+			
 			
 			for(Class<?> cl : innerClasses){
 				if(!cl.getName().contains("OrBuilder"))
 				if(cl.getName().contains(typeName)){
 					classForType = cl;
+					break;
 				}
 			
 			}
 			
-			Class<?> [] inner  = classForType.getDeclaredClasses();
+			for(Class<?> enumcls : classForType.getDeclaredClasses()){
+				if(!enumcls.getName().contains("Builder"))
+				if(enumcls.getName().contains(typeName)){
+					classEnum = enumcls;
+					break;
+				}
+			}
 			
-			for(Class<?> cls : innerClasses){
+			Object builder = null;
+			
+			for(Method m :classForType.getDeclaredMethods()){
 				
-				if(!cls.getName().contains("builder"))
-				if(cls.getName().contains(typeName)){
-					classForEnum = cls;
-					break;
-				}
-			
-			}
-			if(typeName.contains("Enum"))
-			typeName = typeName.substring(0,typeName.length()-4);
-			for(Class<?> c : classForEnum.getDeclaredClasses()){
-				if(!c.getName().contains("Builder"))
-				if(c.getName().contains(typeName)){
-					classEnum = c;
+				if(m.getName().equals("newBuilder")){
+				builder =	m.invoke(null);
 					break;
 				}
 			}
 			
-			Method method =eprotoClass.getDeclaredMethod("getValue",classEnum);
-			Method mt =  classEnum.getDeclaredMethod("valueOf");
-			obj = method .invoke(null,mt.invoke(null,index));
+			Object protoenum = null;
+			Class<?> buildercls = builder.getClass();
 			
+			for(Method build : buildercls.getDeclaredMethods()){
+				
+				if(build.getName().equals("build")){
+					protoenum = build.invoke(builder);
+					break;
+				}
+			}
+			
+			Object enumObj = null;
+		
+				Method val = classEnum.getDeclaredMethod("valueOf",Integer.TYPE);
+			
+					enumObj = 	val.invoke(null,new Integer(11));
+			
+			
+			
+			
+			
+			
+			
+			Method method =eprotoClass.getDeclaredMethod("getEnum",classEnum);
+		
+			obj = method .invoke(null,enumObj);
+		
 			
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
@@ -1453,7 +1630,7 @@ public void assertTagAssignment(List<Message> msg){
 		} catch (InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 		return obj.getClass().getName();
 	}
 	
@@ -1646,3 +1823,4 @@ public String invokeGetters(Class<?> eprotoClass,Class<?> protoClass,String meth
 	}
 
 }
+
