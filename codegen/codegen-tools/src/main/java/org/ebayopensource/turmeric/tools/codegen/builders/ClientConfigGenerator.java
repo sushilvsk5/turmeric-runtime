@@ -171,7 +171,8 @@ public class ClientConfigGenerator implements SourceGenerator {
 				contents = CodeGenConfigUtil.replaceTemplate(contents, CONFIG_SERVICE_NAME, clientConfig.getServiceName(), CONFIG_SERVICE_NAME_ATTR);
 				contents = CodeGenConfigUtil.replaceTemplate(contents, SERVICE_INT_NAME, clientConfig.getServiceInterfaceClassName(), SERVICE_INT_NAME_NODE);
 				contents = CodeGenConfigUtil.replaceTemplate(contents, WSDL_LOCATION, clientConfig.getWsdlLocation(), WSDL_LOCATION_NODE);
-				contents = CodeGenConfigUtil.replaceTemplate(contents, SERVICE_LOCATION, clientConfig.getServiceLocation(), SERVICE_LOCATION_NODE);
+				String serviceLocation = clientConfig.getServiceLocation().get(0);
+				contents = CodeGenConfigUtil.replaceTemplate(contents, SERVICE_LOCATION, serviceLocation, SERVICE_LOCATION_NODE);
 				
 				ClientGroupConfig clientInstanceConfig = clientConfig.getClientInstanceConfig();
 				InvocationOptionConfig invocationOptions = null;
@@ -225,11 +226,11 @@ public class ClientConfigGenerator implements SourceGenerator {
 			CodeGenUtil.toQualifiedClassName(codeGenCtx.getServiceInterfaceClassName());
 		clientConfig.setServiceInterfaceClassName(svcInterfaceName);
 		if (inputOptions.getSvcCodeGenDefType() == null) {
-			clientConfig.setServiceLocation(inputOptions.getServiceLocation());
+			clientConfig.getServiceLocation().add(inputOptions.getServiceLocation());
 			clientConfig.setWsdlLocation(inputOptions.getWSDLLocation());
 		} else {
 			ServiceCodeGenDefType svcCodeGenDef = inputOptions.getSvcCodeGenDefType();
-			clientConfig.setServiceLocation(svcCodeGenDef.getServiceInfo().getServiceLocation());
+			clientConfig.getServiceLocation().add(svcCodeGenDef.getServiceInfo().getServiceLocation());
 			clientConfig.setWsdlLocation(svcCodeGenDef.getServiceInfo().getWsdlLocation());
 		}
 

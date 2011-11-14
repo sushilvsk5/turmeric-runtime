@@ -24,7 +24,7 @@
 				<custom-error-response-adapter>org.ebayopensource.turmeric.runtime.tests.service1.sample.errors.CustomErrorResponseAdapterImpl</custom-error-response-adapter>
 				<markdown-options>
 					<enable-auto-markdown>true</enable-auto-markdown>
-					<markdown-state-factory>org.ebayopensource.turmeric.runtime.sif.impl.pipeline.DefaultAutoMarkdownStateFactory</markdown-state-factory>
+					<state-factory>org.ebayopensource.turmeric.runtime.sif.impl.pipeline.DefaultAutoMarkdownStateFactory</state-factory>
 					<error-count-threshold>10</error-count-threshold>
 				</markdown-options>
 			</invocation-options>
