@@ -22,6 +22,7 @@ import org.ebayopensource.turmeric.runtime.sif.service.ServiceFactory;
 import org.ebayopensource.turmeric.runtime.sif.service.ServiceInvokerOptions;
 import org.ebayopensource.turmeric.runtime.tests.common.jetty.AbstractWithServerTest;
 import org.ebayopensource.turmeric.runtime.tests.common.junit.NeedsConfig;
+import org.ebayopensource.turmeric.runtime.tests.common.sif.error.MarkdownTestHelper;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -54,6 +55,7 @@ public class RawModeTypeMappingsTest extends AbstractWithServerTest {
 		//super.setUp();
 		m_headers = new HashMap<String, String>();
 		m_headers.put(SOAHeaders.SERVICE_OPERATION_NAME, "echoString");
+		MarkdownTestHelper.markupClientManually("test1", null, null);
 	}
 	
 	@Test
