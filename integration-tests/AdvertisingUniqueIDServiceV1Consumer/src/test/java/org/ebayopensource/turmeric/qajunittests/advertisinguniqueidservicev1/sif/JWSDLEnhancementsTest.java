@@ -16,15 +16,24 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.ebayopensource.turmeric.runtime.common.types.SOAHeaders;
 import org.ebayopensource.turmeric.runtime.tests.common.jetty.AbstractWithServerQETest;
+import org.ebayopensource.turmeric.runtime.tests.common.sif.error.MarkdownTestHelper;
 import org.ebayopensource.turmeric.runtime.tests.common.util.HttpTestClient;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.ebay.kernel.service.invocation.client.http.Request;
 import com.ebay.kernel.service.invocation.client.http.Response;
 
 public class JWSDLEnhancementsTest extends AbstractWithServerQETest{
+	
+	@Before
+	public void setUp() throws Exception {
+		MarkdownTestHelper.markupClientManually("AdvertisingUniqueIDServiceV1", null, null);
+	}
+	
 	
 	@Test
 	public void wsdlContentDisplay1() throws Exception {

@@ -11,13 +11,19 @@ import org.ebayopensource.turmeric.advertisinguniqueidservicev1.gen.SharedAdvert
 import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
 import org.ebayopensource.turmeric.runtime.common.types.SOAConstants;
 import org.ebayopensource.turmeric.runtime.tests.common.jetty.AbstractWithServerTest;
+import org.ebayopensource.turmeric.runtime.tests.common.sif.error.MarkdownTestHelper;
 import org.ebayopensource.turmeric.runtime.tests.common.util.HttpTestClient;
 import org.ebayopensource.turmeric.runtime.tests.common.util.MetricUtil;
+import org.junit.Before;
 import org.junit.Test;
 
 
 public class MultiClientConfigTests extends AbstractWithServerTest {
 
+	@Before
+	public void setUp() throws Exception {
+		MarkdownTestHelper.markupClientManually("AdvertisingUniqueIDServiceV1", null, null);
+	}
 
 	@Test
 	public void testFeatureEnvt() throws ServiceException {
