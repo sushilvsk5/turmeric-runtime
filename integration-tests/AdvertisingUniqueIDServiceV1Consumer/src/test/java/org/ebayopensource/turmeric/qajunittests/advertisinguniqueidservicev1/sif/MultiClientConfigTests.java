@@ -20,11 +20,6 @@ import org.junit.Test;
 
 public class MultiClientConfigTests extends AbstractWithServerTest {
 
-	@Before
-	public void setUp() throws Exception {
-		MarkdownTestHelper.markupClientManually("AdvertisingUniqueIDServiceV1", null, null);
-	}
-
 	@Test
 	public void testFeatureEnvt() throws ServiceException {
 		SharedAdvertisingUniqueIDServiceV1Consumer testClient1  = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "feature");
