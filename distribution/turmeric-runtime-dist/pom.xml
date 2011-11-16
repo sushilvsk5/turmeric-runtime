@@ -77,12 +77,6 @@
                         <classifier>javadoc</classifier>
 		</dependency>
 		<dependency>
-			<groupId>org.ebayopensource.turmeric.runtime</groupId>
-			<artifactId>echoservice-example</artifactId>
-	        <version>${project.version}</version>
-			<type>war</type>
-		</dependency>
-		<dependency>
 			<groupId>org.ebayopensource.turmeric.client</groupId>
 			<artifactId>ExampleEchoServiceConsumer</artifactId>
 	        <version>${project.version}</version>
