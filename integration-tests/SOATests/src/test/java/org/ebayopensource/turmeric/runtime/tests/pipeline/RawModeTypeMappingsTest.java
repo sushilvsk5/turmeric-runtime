@@ -55,7 +55,8 @@ public class RawModeTypeMappingsTest extends AbstractWithServerTest {
 		//super.setUp();
 		m_headers = new HashMap<String, String>();
 		m_headers.put(SOAHeaders.SERVICE_OPERATION_NAME, "echoString");
-		MarkdownTestHelper.markupClientManually("test1", null, null);
+		MarkdownTestHelper.markupClientManually("test1", "remote", "echoString");
+		
 	}
 	
 	@Test
