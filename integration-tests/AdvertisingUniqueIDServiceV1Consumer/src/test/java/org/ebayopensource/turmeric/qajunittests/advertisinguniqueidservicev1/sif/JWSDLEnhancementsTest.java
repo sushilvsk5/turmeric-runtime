@@ -29,12 +29,6 @@ import com.ebay.kernel.service.invocation.client.http.Response;
 
 public class JWSDLEnhancementsTest extends AbstractWithServerQETest{
 	
-	@Before
-	public void setUp() throws Exception {
-		MarkdownTestHelper.markupClientManually("AdvertisingUniqueIDServiceV1", null, null);
-	}
-	
-	
 	@Test
 	public void wsdlContentDisplay1() throws Exception {
 		System.out.println("testWsdlContentDisplay1()");

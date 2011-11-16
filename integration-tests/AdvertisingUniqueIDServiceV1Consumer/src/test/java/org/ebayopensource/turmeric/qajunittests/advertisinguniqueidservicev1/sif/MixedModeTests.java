@@ -28,13 +28,7 @@ public class MixedModeTests extends AbstractWithServerQETest {
 	public static String testURL = "";
 	public Map<String, String> queryParams = new HashMap<String, String>();
 	String response = null;
-	
-	@Before
-	public void setUp() throws Exception {
-		MarkdownTestHelper.markupClientManually("AdvertisingUniqueIDServiceV1", null, null);
-	}
-	
-	
+
 	@Test
 	public void testMixedModePositiveCaseRemoteMode_2()  {
 		try {
