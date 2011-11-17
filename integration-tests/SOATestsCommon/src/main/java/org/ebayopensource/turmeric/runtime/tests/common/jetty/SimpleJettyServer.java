@@ -52,7 +52,7 @@ public class SimpleJettyServer {
 
 	private void setup(int port, String servletName, String serviceAdminName) {
 		JavaUtilLog.init("SimpleJettyServer");
-		server = new Server(port);
+		server = new Server(8080);
 
 		// Create contexts handler for holding servlets.
 		ContextHandlerCollection contexts = new ContextHandlerCollection();
