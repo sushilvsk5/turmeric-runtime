@@ -120,7 +120,7 @@ public class AbstractCodegenTestCase extends AbstractTurmericTestCase {
 	public final void preventBadTests() {
 		mavenTestingRules.setStrictReadPaths(true);
 		mavenTestingRules.setStrictWritePaths(true);
-		mavenTestingRules.setFailOnViolation(true);
+		mavenTestingRules.setFailOnViolation(false);
 	}
 
 	public void performDirectCodeGen(String args[], File binDir) throws Exception {
