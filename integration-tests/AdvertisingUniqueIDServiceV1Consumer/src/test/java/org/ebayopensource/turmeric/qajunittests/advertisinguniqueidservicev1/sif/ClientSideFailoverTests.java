@@ -294,7 +294,7 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 	@Test
 	public void testMissingServiceLocations2() throws ServiceException {
 		AdvertisingUniqueIDServiceV1SharedConsumer client = 
-			new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "failovererror2");
+			new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "failoverError2");
 		
 		EchoMessageRequest req = new EchoMessageRequest();
 		req.setIn("vasu");
