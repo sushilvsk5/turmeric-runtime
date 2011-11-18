@@ -195,7 +195,7 @@ public class SOA29FeatureTests extends AbstractServiceGeneratorTestCase {
 		
 		
 		
-		String [] testArgs = {"-serviceName","CalculatorService",
+		String [] testArgs = {"-serviceName","calculatorservice",
 				  "-mdest",destDir +"/meta-src",
 				  "-genType","ServiceFromWSDLIntf",
 				  "-wsdl",wsdlFile.getAbsolutePath(),
@@ -247,7 +247,7 @@ public class SOA29FeatureTests extends AbstractServiceGeneratorTestCase {
 		intfProps.put("sipp_version","1.2");
 		fillProperties(intfProps, intfProperty);
 		
-		String [] testArgs = {"-serviceName","CalculatorService",
+		String [] testArgs = {"-serviceName","calculatorservice",
 				  "-mdest",destDir +"/meta-src",
 				  "-genType","ServiceFromWSDLIntf",
 				  "-wsdl",wsdlFile.getAbsolutePath(),
