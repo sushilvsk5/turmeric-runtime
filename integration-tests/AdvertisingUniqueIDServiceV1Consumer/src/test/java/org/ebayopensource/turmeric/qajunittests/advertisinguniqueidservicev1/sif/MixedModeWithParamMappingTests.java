@@ -24,6 +24,8 @@ public class MixedModeWithParamMappingTests extends AbstractWithServerQETest{
 		System.out.println(" ** testRegularScenario1WithValidPayload ** ");
 		Request request = new Request(
 				serverUri.toASCIIString()+"/services/advertise/UniqueIDService/v1/testSchemaValidationWithUPA/2/1230/foo");
+		request.addHeader("X-TURMERIC-OPERATION-NAME", "testSchemaValidationWithUPA");
+		//queryParams.put("X-TURMERIC-OPERATION-NAME", "testSchemaValidationWithUPA");
 		String body = "<?xml version='1.0' encoding='UTF-8'?>" + 
 			"<testSchemaValidationWithUPA xmlns=\"http://www.ebay.com/marketplace/advertising/v1/services\">" +
 			"<clientId>schemavalidation</clientId><siteId>0</siteId><language>us-ENG</language>" + 
@@ -40,6 +42,8 @@ public class MixedModeWithParamMappingTests extends AbstractWithServerQETest{
 		System.out.println(" ** testRegularScenarioWithMissingValuesInPayload ** ");
 		Request request = new Request(
 				serverUri.toASCIIString()+"/services/advertise/UniqueIDService/v1/testSchemaValidationWithUPA/2/1230/foo");
+		request.addHeader("X-TURMERIC-OPERATION-NAME", "testSchemaValidationWithUPA");
+		//queryParams.put("X-TURMERIC-OPERATION-NAME", "testSchemaValidationWithUPA");
 		String body = "<?xml version='1.0' encoding='UTF-8'?>" + 
 			"<testSchemaValidationWithUPA xmlns=\"http://www.ebay.com/marketplace/advertising/v1/services\">" +
 			"<clientId></clientId><siteId></siteId><language></language>" + 
@@ -61,10 +65,12 @@ public class MixedModeWithParamMappingTests extends AbstractWithServerQETest{
 		" xmlns=\"http://www.ebay.com/marketplace/advertising/v1/services\">" +
 		" <in>hello</in></testEnhancedRest>";
 		Request request = new Request(serverUri.toASCIIString()+"/services/advertise/UniqueIDService/v1/enhanced/foo");
+		//request.addHeader("X-TURMERIC-OPERATION-NAME", "testEnhancedRest");
+		queryParams.put("X-TURMERIC-OPERATION-NAME", "testEnhancedRest");
 		Response response = http.getResponse(
 				request, queryParams, body,  "POST");
 		System.out.println("test" + response.getBody());
-		Assert.assertTrue(response.getBody().contains("<ns1:out>test</ns1:out>"));
+		Assert.assertTrue(response.getBody().contains("<ns2:out>test</ns2:out>"));
 		
 	}
 	
@@ -79,10 +85,12 @@ public class MixedModeWithParamMappingTests extends AbstractWithServerQETest{
 		" xmlns=\"http://www.ebay.com/marketplace/advertising/v1/services\">" +
 		" <in>hello</in></testEnhancedRest>";
 		Request request = new Request(serverUri.toASCIIString()+"/services/advertise/UniqueIDService/v1/enhanced/foo");
+		//request.addHeader("X-TURMERIC-OPERATION-NAME", "testEnhancedRest");
+		queryParams.put("X-TURMERIC-OPERATION-NAME", "testEnhancedRest");
 		Response response = http.getResponse(
 				request, queryParams, body,  "POST");
 		System.out.println("test" + response.getBody());
-		Assert.assertTrue(response.getBody().contains("<ns1:out>test</ns1:out>"));
+		Assert.assertTrue(response.getBody().contains("<ns2:out>test</ns2:out>"));
 		
 	}
 	

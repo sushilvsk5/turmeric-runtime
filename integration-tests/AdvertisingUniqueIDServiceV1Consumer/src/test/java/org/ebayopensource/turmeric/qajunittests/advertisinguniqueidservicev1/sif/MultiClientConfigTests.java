@@ -15,6 +15,7 @@ import org.ebayopensource.turmeric.runtime.tests.common.sif.error.MarkdownTestHe
 import org.ebayopensource.turmeric.runtime.tests.common.util.HttpTestClient;
 import org.ebayopensource.turmeric.runtime.tests.common.util.MetricUtil;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -84,7 +85,7 @@ public class MultiClientConfigTests extends AbstractWithServerTest {
 			SharedAdvertisingUniqueIDServiceV1Consumer testClient4  = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", null);
 			testClient4.getServiceInvokerOptions().setTransportName(SOAConstants.TRANSPORT_LOCAL);
 			Assert.assertEquals(testClient4.echoMessage(param0).getOut(), " Echo Message = MCC Test");
-			Assert.assertEquals(testClient4.getService().getResponseContext().getTransportHeader("X-EBAY-SOA-RESPONSE-DATA-FORMAT"), "NV");
+			Assert.assertEquals(testClient4.getService().getResponseContext().getTransportHeader("X-TURMERIC-RESPONSE-DATA-FORMAT"), "NV");
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			Assert.assertTrue(e.getMessage().contains("environment can not be null"));
@@ -177,8 +178,6 @@ public class MultiClientConfigTests extends AbstractWithServerTest {
 			Assert.assertTrue(e.getMessage().contains(errorMessage));
 		}
 	}
-
-
 	/*
 	 *	When envtName is null, envMapper variable is not set
 	 *		BaseSOAAsyncMCCTestConsumer testClient = new BaseSOAAsyncMCCTestConsumer(â€œSOAAsyncServiceTestClientâ€�, null);
@@ -192,13 +191,14 @@ public class MultiClientConfigTests extends AbstractWithServerTest {
 				"ClientConfig.xml";
 		try {
 			testClient8 = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", null);
+			testClient8.getService().getInvokerOptions();
 			EchoMessageRequest req = new EchoMessageRequest();
 			req.setIn("test");
-			Assert.assertEquals(testClient8.echoMessage(req).getOut(), "Test");
-			Assert.assertTrue("consumer creation should fail and throw exception" , false);
+			Assert.assertEquals(testClient8.echoMessage(req).getOut(), " Echo Message = test");
+			//Assert.assertTrue("consumer creation should fail and throw exception" , false);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
- 			Assert.assertTrue(e.getMessage().contains(errorMessage));
+ 			Assert.fail("Should not reach here ..." + e.getMessage());
 		}
 	}
 	/*
@@ -217,12 +217,12 @@ public class MultiClientConfigTests extends AbstractWithServerTest {
 			 testClient8 = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "production");
 			EchoMessageRequest req = new EchoMessageRequest();
 			req.setIn("test");
-			Assert.assertEquals(testClient8.echoMessage(req).getOut(), "Test");
-			Assert.assertTrue("consumer creation should fail and throw exception" , false);
+			Assert.assertEquals(testClient8.echoMessage(req).getOut(), " Echo Message = test");
+			//Assert.assertTrue("consumer creation should fail and throw exception" , false);
 		} catch (Exception e) {
 
 			System.out.println(e.getMessage());
-			Assert.assertTrue(e.getMessage().contains(errorMessage));
+			Assert.fail("Should not reach here..." + e.getMessage());
 		}
 
 
@@ -243,12 +243,12 @@ public class MultiClientConfigTests extends AbstractWithServerTest {
 			testClient8 = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "production");
 			EchoMessageRequest req = new EchoMessageRequest();
 			req.setIn("test");
-			Assert.assertEquals(testClient8.echoMessage(req).getOut(), "Test");
-			Assert.assertTrue("consumer creation should fail and throw exception" , false);
+			Assert.assertEquals(testClient8.echoMessage(req).getOut(), " Echo Message = test");
+			//Assert.assertTrue("consumer creation should fail and throw exception" , false);
 		} catch (Exception e) {
 
 			System.out.println(e.getMessage());
-    		Assert.assertTrue(e.getMessage().contains(errorMessage));
+    		Assert.fail("Should not reach here ..." +e.getMessage().contains(errorMessage));
 
 		}
 	}
@@ -266,6 +266,7 @@ public class MultiClientConfigTests extends AbstractWithServerTest {
 	 * Related to BUGDB00651611
 	 */
 	@Test
+	@Ignore
 	public void testWithClientConfigBean() {
 		HttpTestClient http = HttpTestClient.getInstance();
 		Map<String, String> queryParams = new HashMap<String, String>();
@@ -298,4 +299,3 @@ public class MultiClientConfigTests extends AbstractWithServerTest {
 		response = MetricUtil.invokeHttpClient(queryParams, "update");
 	}
 }
-

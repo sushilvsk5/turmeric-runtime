@@ -142,7 +142,7 @@ public class MixedModeTests extends AbstractWithServerQETest {
 		queryParams.put("in","Foo");	
 		String response = http.getResponse(serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1", queryParams);
 //		System.out.println(response);
-		Assert.assertTrue(response.contains("<ns1:out>test</ns1:out>"));
+		Assert.assertTrue(response.contains("<ns2:out>test</ns2:out>"));
 	}
 	@Test
 	public void testMixedModePositiveCaseOtherOperationREST_WSPSF() throws ServiceException {
@@ -151,7 +151,7 @@ public class MixedModeTests extends AbstractWithServerQETest {
 		queryParams.put("in","Foo");		
 		String response = http.getResponse(serverUri.toASCIIString() +"/ws/spf", queryParams);
 //		System.out.println(response);
-		Assert.assertTrue(response.contains("<ns1:out>test</ns1:out>"));
+		Assert.assertTrue(response.contains("<ns2:out>test</ns2:out>"));
 	}
 	
 //	@Test

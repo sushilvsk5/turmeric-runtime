@@ -17,6 +17,7 @@ import org.ebayopensource.turmeric.runtime.tests.common.jetty.AbstractWithServer
 import org.ebayopensource.turmeric.runtime.tests.common.util.HttpTestClient;
 import org.ebayopensource.turmeric.runtime.tests.common.util.MetricUtil;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class ClientSideFailoverTests extends AbstractWithServerTest{
@@ -36,6 +37,7 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 		try {
 			client.setHostName(serverUri.getHost()+":"+serverUri.getPort());
 			System.out.println(client.getHostName());
+			System.out.println("client.getServiceInvokerOptions() " + client.getServiceInvokerOptions().getTransportName());
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch blocks
 			e.printStackTrace();
@@ -57,6 +59,12 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 	public void testValidScenario2() throws ServiceException {
 		AdvertisingUniqueIDServiceV1SharedConsumer client = 
 			new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "failover1");
+		try {
+			client.setHostName(serverUri.getHost()+":"+serverUri.getPort());
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		client.getServiceInvokerOptions().setTransportName(SOAConstants.TRANSPORT_LOCAL);
 		EchoMessageRequest req = new EchoMessageRequest();
 		req.setIn("vasu");
@@ -180,6 +188,9 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 			// TODO Auto-generated catch blocks
 			e.printStackTrace();
 		}
+<<<<<<< HEAD
+		client.getService().getRequestContext().setTransportHeader("CLIENT-FAILOVER", "");
+=======
 		
 		List<URL> sl = new ArrayList<URL> ();
 		sl.add(new URL("http://"+serverUri.getHost()+":"+serverUri.getPort()+"/foo"));
@@ -188,16 +199,22 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 		client.getService().setServiceLocations(sl);
 		
 		client.getService().getRequestContext().setTransportHeader("CLIENT-FAILOVER", "failover");
+>>>>>>> 2ea6273801289e26f840051e056c1572542f1663
 		GetRequestIDResponse res = client.getReqID("HTTP10");
 		System.out.println(res.getRequestID());
 		Assert.assertTrue(res.getRequestID().contains("AdvertisingUniqueIDServiceV1"));
 	}
 
 	@Test
+<<<<<<< HEAD
+	@Ignore
+	public void testViewConfigBean() throws ServiceException {
+=======
 	public void testViewConfigBean() throws ServiceException, MalformedURLException {
+>>>>>>> 2ea6273801289e26f840051e056c1572542f1663
 		AdvertisingUniqueIDServiceV1SharedConsumer client1 = 
 			new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "failover1");
-		client1.getService().getRequestContext().setTransportHeader("CLIENT-FAILOVER", "failover");
+		client1.getService().getRequestContext().setTransportHeader("CLIENT-FAILOVER", "");
 		try {
 			client1.setHostName(serverUri.getHost()+":"+serverUri.getPort());
 			System.out.println(client1.getHostName());
@@ -230,11 +247,16 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 
 	}
 	@Test
+<<<<<<< HEAD
+	@Ignore
+	public void testUpdateConfigBean() throws ServiceException  {
+=======
 	public void testUpdateConfigBean() throws ServiceException, MalformedURLException  {
+>>>>>>> 2ea6273801289e26f840051e056c1572542f1663
 		AdvertisingUniqueIDServiceV1SharedConsumer client2 = 
 			new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "failover1");
 
-		client2.getService().getRequestContext().setTransportHeader("CLIENT-FAILOVER", "failover");
+		client2.getService().getRequestContext().setTransportHeader("CLIENT-FAILOVER", "");
 		try {
 			client2.setHostName(serverUri.getHost()+":"+serverUri.getPort());
 			System.out.println(client2.getHostName());
@@ -284,7 +306,10 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 	public void testMissingServiceLocations1() throws ServiceException {
 		AdvertisingUniqueIDServiceV1SharedConsumer client = 
 			new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "failoverError1");
+<<<<<<< HEAD
+=======
 		
+>>>>>>> 2ea6273801289e26f840051e056c1572542f1663
 		EchoMessageRequest req = new EchoMessageRequest();
 		req.setIn("vasu");
 		String response = client.echoMessage(req).getOut();
@@ -295,7 +320,11 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 	public void testMissingServiceLocations2() throws ServiceException {
 		AdvertisingUniqueIDServiceV1SharedConsumer client = 
 			new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "failoverError2");
+<<<<<<< HEAD
+
+=======
 		
+>>>>>>> 2ea6273801289e26f840051e056c1572542f1663
 		EchoMessageRequest req = new EchoMessageRequest();
 		req.setIn("vasu");
 		String response = client.echoMessage(req).getOut();
