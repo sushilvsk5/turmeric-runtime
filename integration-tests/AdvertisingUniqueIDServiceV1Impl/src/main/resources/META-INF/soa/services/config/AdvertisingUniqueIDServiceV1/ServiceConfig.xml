@@ -43,9 +43,9 @@
 				<option name="siteId" type="string">path[+3]</option>
 				<option name="clientId" type="string">path[+4]</option>
 			</operation>
-			<operation name="echoMessage">
+			<!--  <operation name="echoMessage">
 				<option name="in" alias="lang" type="string">path[+2]</option>
-			</operation>
+			</operation>-->
 		</request-params-mapping>
 	</provider-options>
            <pipeline-config>
