@@ -178,9 +178,11 @@ public class MultiClientConfigTests extends AbstractWithServerTest {
 			Assert.assertTrue(e.getMessage().contains(errorMessage));
 		}
 	}
+
+
 	/*
 	 *	When envtName is null, envMapper variable is not set
-	 *		BaseSOAAsyncMCCTestConsumer testClient = new BaseSOAAsyncMCCTestConsumer(â€œSOAAsyncServiceTestClientâ€�, null);
+	 *		BaseSOAAsyncMCCTestConsumer testClient = new BaseSOAAsyncMCCTestConsumer(“SOAAsyncServiceTestClient�?, null);
 	 *	a.	Appropriate error message should be thrown
 	 */
 	@Test
@@ -274,12 +276,12 @@ public class MultiClientConfigTests extends AbstractWithServerTest {
 		System.out.println(" ** testWithClientConfigBean ** ");
 		try {
 			queryParams.clear();
-			String testURL="http://localhost:8080/ws/spf?X-TURMERIC-SOA-SERVICE-NAME=AdvertisingUniqueIDServiceV1&X-EBAY-SOA-OPERATION-NAME=getRequestID";
+			String testURL="http://"+serverUri.getHost()+":"+serverUri.getPort()+"/ws/spf?X-TURMERIC-SOA-SERVICE-NAME=AdvertisingUniqueIDServiceV1&X-EBAY-SOA-OPERATION-NAME=getRequestID";
 			response = http.getResponse(testURL , queryParams);
 //			http://localhost:8080/ws/spf?X-EBAY-SOA-SERVICE-NAME=AdvertisingUniqueIDServiceV1&X-EBAY-SOA-OPERATION-NAME=getRequestID
 			queryParams.put("X-TURMERIC-SOA-SERVICE-NAME", "AdvertisingUniqueIDServiceV1");
 			queryParams.put("X-TURMERIC-SOA-OPERATION-NAME", "getRequestID");
-			http.getResponse("http://localhost:8080/ws/spf", queryParams);
+			http.getResponse("http://"+serverUri.getHost()+":"+serverUri.getPort()+"/ws/spf", queryParams);
 			queryParams.clear();
 			queryParams.put("id","com.ebay.soa.client.AdvertisingUniqueIDServiceV2.UniqueIDServiceV2Client.dev.Invoker");
 			queryParams.put("REQUEST_BINDING", "JSON");
@@ -299,3 +301,4 @@ public class MultiClientConfigTests extends AbstractWithServerTest {
 		response = MetricUtil.invokeHttpClient(queryParams, "update");
 	}
 }
+

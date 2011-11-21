@@ -13,7 +13,7 @@
     <service-interface-class-name>org.ebayopensource.turmeric.runtime.tests.AdvertisingUniqueIDServiceV1</service-interface-class-name>
     <service-location>
 		</service-location>
-		<service-location>http://localhost:8080/services/advertise/UniqueIDService/v1
+		<service-location>http://localhost/services/advertise/UniqueIDService/v1
 		</service-location>
     <client-instance-config>
       <invocation-options>

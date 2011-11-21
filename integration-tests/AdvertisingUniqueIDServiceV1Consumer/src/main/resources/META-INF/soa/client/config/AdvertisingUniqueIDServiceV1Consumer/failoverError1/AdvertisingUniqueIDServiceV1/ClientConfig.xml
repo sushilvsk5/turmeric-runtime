@@ -11,7 +11,7 @@
 <client-config-list xmlns="http://www.ebayopensource.org/turmeric/common/config">
   <client-config>
     <service-interface-class-name>org.ebayopensource.turmeric.runtime.tests.AdvertisingUniqueIDServiceV1</service-interface-class-name>
-    <service-location>http://localhost:8080/services/advertise/UniqueIDService/v1
+    <service-location>http://localhost/services/advertise/UniqueIDService/v1
 		</service-location>
 		<alternate-service-location>
 		</alternate-service-location>

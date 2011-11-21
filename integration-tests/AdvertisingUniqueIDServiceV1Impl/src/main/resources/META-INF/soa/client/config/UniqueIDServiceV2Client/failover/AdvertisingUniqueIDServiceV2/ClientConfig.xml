@@ -5,8 +5,8 @@
 		</service-interface-class-name>
 		<service-location>http://localhost:9090/services/advertise/UniqueIDService/v2</service-location>
      
-		<service-location>http://localhost:8080/services/advertise/UniqueIDService/v2</service-location>
-		<service-location>http://localhost:8080/foo</service-location>
+		<service-location>http://localhost/services/advertise/UniqueIDService/v2</service-location>
+		<service-location>http://localhost/foo</service-location>
 		<client-instance-config>
 			<invocation-options>
 				<preferred-transport name="LOCAL" />

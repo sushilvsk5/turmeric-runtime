@@ -31,7 +31,7 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 	 * <service-location>http://localhost:8080/services/advertise/UniqueIDService/v1</service-location>
 	 */
 	@Test
-	public void testValidScenario1() throws ServiceException, MalformedURLException {
+	public void testValidScenario1() throws ServiceException {
 		AdvertisingUniqueIDServiceV1SharedConsumer client = 
 			new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "failover1");
 		try {
@@ -42,12 +42,6 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 			// TODO Auto-generated catch blocks
 			e.printStackTrace();
 		}
-		
-		List<URL> sl = new ArrayList<URL> ();
-		sl.add(new URL("http://"+serverUri.getHost()+":"+serverUri.getPort()+"/foo"));
-		sl.add(new URL("http://"+serverUri.getHost()+":9091/services/advertise/UniqueIDService/v1"));
-		sl.add(new URL("http://"+serverUri.getHost()+":"+serverUri.getPort()+"/services/advertise/UniqueIDService/v1"));
-		client.getService().setServiceLocations(sl);
 		
 		EchoMessageRequest req = new EchoMessageRequest();
 		req.setIn("vasu");
@@ -163,13 +157,6 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 			// TODO Auto-generated catch blocks
 			e.printStackTrace();
 		}
-		
-		List<URL> sl = new ArrayList<URL> ();
-		sl.add(new URL("http://"+serverUri.getHost()+":"+serverUri.getPort()+"/foo"));
-		sl.add(new URL("http://"+serverUri.getHost()+"/services/advertise/UniqueIDService/v1"));
-		sl.add(new URL("http://"+serverUri.getHost()+":"+serverUri.getPort()+"/services/advertise/UniqueIDService/v1"));
-		client.getService().setServiceLocations(sl);
-	
 		EchoMessageRequest req = new EchoMessageRequest();
 		req.setIn("vasu");
 		String response = client.echoMessage(req).getOut();
@@ -178,7 +165,7 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 	}
 
 	@Test
-	public void testChainedServiceConfig() throws ServiceException, MalformedURLException {
+	public void testChainedServiceConfig() throws ServiceException {
 		AdvertisingUniqueIDServiceV1SharedConsumer client = 
 			new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "failover1");
 		try {
@@ -189,14 +176,6 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 			e.printStackTrace();
 		}
 		client.getService().getRequestContext().setTransportHeader("CLIENT-FAILOVER", "");
-		
-		List<URL> sl = new ArrayList<URL> ();
-		sl.add(new URL("http://"+serverUri.getHost()+":"+serverUri.getPort()+"/foo"));
-		sl.add(new URL("http://"+serverUri.getHost()+":9091/services/advertise/UniqueIDService/v1"));
-		sl.add(new URL("http://"+serverUri.getHost()+":"+serverUri.getPort()+"/services/advertise/UniqueIDService/v1"));
-		client.getService().setServiceLocations(sl);
-		
-		client.getService().getRequestContext().setTransportHeader("CLIENT-FAILOVER", "failover");
 		GetRequestIDResponse res = client.getReqID("HTTP10");
 		System.out.println(res.getRequestID());
 		Assert.assertTrue(res.getRequestID().contains("AdvertisingUniqueIDServiceV1"));
@@ -204,7 +183,7 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 
 	@Test
 	@Ignore
-	public void testViewConfigBean() throws ServiceException, MalformedURLException {
+	public void testViewConfigBean() throws ServiceException {
 		AdvertisingUniqueIDServiceV1SharedConsumer client1 = 
 			new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "failover1");
 		client1.getService().getRequestContext().setTransportHeader("CLIENT-FAILOVER", "");
@@ -215,12 +194,6 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 			// TODO Auto-generated catch blocks
 			e.printStackTrace();
 		}
-		List<URL> sl = new ArrayList<URL> ();
-		sl.add(new URL("http://"+serverUri.getHost()+":"+serverUri.getPort()+"/foo"));
-		sl.add(new URL("http://"+serverUri.getHost()+":9091/services/advertise/UniqueIDService/v1"));
-		sl.add(new URL("http://"+serverUri.getHost()+":"+serverUri.getPort()+"/services/advertise/UniqueIDService/v1"));
-		client1.getService().setServiceLocations(sl);
-		
 		GetRequestIDResponse res = client1.getReqID("HTTP10");
 		Assert.assertTrue(res.getRequestID().contains("AdvertisingUniqueIDServiceV1"));
 		try {
@@ -241,7 +214,7 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 	}
 	@Test
 	@Ignore
-	public void testUpdateConfigBean() throws ServiceException, MalformedURLException  {
+	public void testUpdateConfigBean() throws ServiceException  {
 		AdvertisingUniqueIDServiceV1SharedConsumer client2 = 
 			new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "failover1");
 
@@ -253,13 +226,6 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 			// TODO Auto-generated catch blocks
 			e.printStackTrace();
 		}
-		
-		List<URL> sl = new ArrayList<URL> ();
-		sl.add(new URL("http://"+serverUri.getHost()+":"+serverUri.getPort()+"/foo"));
-		sl.add(new URL("http://"+serverUri.getHost()+":9091/services/advertise/UniqueIDService/v1"));
-		sl.add(new URL("http://"+serverUri.getHost()+":"+serverUri.getPort()+"/services/advertise/UniqueIDService/v1"));
-		client2.getService().setServiceLocations(sl);
-		
 		GetRequestIDResponse res = client2.getReqID("HTTP10");
 		Assert.assertTrue(res.getRequestID().contains("AdvertisingUniqueIDServiceV1"));
 
@@ -292,9 +258,10 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 
 
 	@Test
-	public void testMissingServiceLocations1() throws ServiceException {
+	public void testMissingServiceLocations1() throws ServiceException, MalformedURLException {
 		AdvertisingUniqueIDServiceV1SharedConsumer client = 
 			new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "failoverError1");
+		client.setHostName(serverUri.getHost()+":"+serverUri.getPort());
 		EchoMessageRequest req = new EchoMessageRequest();
 		req.setIn("vasu");
 		String response = client.echoMessage(req).getOut();
@@ -302,9 +269,11 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 	}
 
 	@Test
-	public void testMissingServiceLocations2() throws ServiceException {
+	public void testMissingServiceLocations2() throws ServiceException, MalformedURLException {
 		AdvertisingUniqueIDServiceV1SharedConsumer client = 
 			new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "failoverError2");
+		
+		client.setHostName(serverUri.getHost()+":"+serverUri.getPort());
 		EchoMessageRequest req = new EchoMessageRequest();
 		req.setIn("vasu");
 		String response = client.echoMessage(req).getOut();
@@ -349,7 +318,7 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 			List<URL> locations = new ArrayList<URL> ();
 			locations.add(new URL(""));
 			locations.add(new URL("http://localhost:9080/services/advertise/UniqueIDService/v1"));
-			locations.add(new URL("http://localhost:8080/services/advertise/UniqueIDService/v1"));
+			locations.add(new URL("http://"+ serverUri.getHost()+":"+serverUri.getPort()+"/services/advertise/UniqueIDService/v1"));
 			client.getService().setServiceLocations(locations);
 			EchoMessageRequest req = new EchoMessageRequest();
 			req.setIn("vasu");
@@ -374,3 +343,4 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 	}
 
 }
+

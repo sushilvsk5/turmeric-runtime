@@ -31,7 +31,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 	@BeforeClass
 	public static void setup() throws IOException {
 		currentDir = System.getProperty("user.dir");
-		f = new File(currentDir + "\\attachmentcache");
+		f = new File(currentDir + File.separator + "attachmentcache");
 	
 	/*	if (QEFileUtils.deleteDir(f)){
 			System.out.println("done* in Setup*************");
@@ -48,9 +48,9 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 	@Test
 	public void testCacheONDefaultLimit1KbFile() throws Exception {
 		System.out.println(" ** testCacheONDefaultLimit1KbFile ** ");
-		f1 = new File(currentDir + "\\1kbAttachment.txt");
-		fClient = new File(currentDir + "\\Client1kbAttachment.txt");
-		fServer = new File(currentDir + "\\Server1kbAttachment.txt");
+		f1 = new File(currentDir + File.separator + "1kbAttachment.txt");
+		fClient = new File(currentDir + File.separator + "Client1kbAttachment.txt");
+		fServer = new File(currentDir + File.separator + "Server1kbAttachment.txt");
 		if (!f1.exists())
 			QEFileUtils.createFileForTest(Integer.valueOf(1024), f1);
 		MAX_SIZE = f1.length();
@@ -63,7 +63,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		TestAttachment param0 = new TestAttachment();
 		FileAttachmentType value = new FileAttachmentType();
 		value.setData(dh);
-		value.setFilePath(currentDir + "\\");
+		value.setFilePath(currentDir + File.separator + "");
 		value.setFileName("1kbAttachment.txt");
 		value.setSize(MAX_SIZE);
 		param0.setIn(value);
@@ -93,9 +93,9 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 	@Test
 	public void testCacheON0kbLimit1KbFile() throws Exception {
 		System.out.println(" ** testCacheON0kbLimit1KbFile ** ");
-		f1 = new File(currentDir + "\\1kbAttachment.txt");
-		fClient = new File(currentDir + "\\Client1kbAttachment.txt");
-		fServer = new File(currentDir + "\\Server1kbAttachment.txt");
+		f1 = new File(currentDir + File.separator + "1kbAttachment.txt");
+		fClient = new File(currentDir + File.separator + "Client1kbAttachment.txt");
+		fServer = new File(currentDir + File.separator + "Server1kbAttachment.txt");
 		if (!f1.exists())
 			QEFileUtils.createFileForTest(Integer.valueOf(1024), f1);
 		MAX_SIZE = f1.length();
@@ -108,7 +108,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		TestAttachment param0 = new TestAttachment();
 		FileAttachmentType value = new FileAttachmentType();
 		value.setData(dh);
-		value.setFilePath(currentDir + "\\");
+		value.setFilePath(currentDir + File.separator + "");
 		value.setFileName("1kbAttachment.txt");
 		value.setSize(MAX_SIZE);
 		param0.setIn(value);
@@ -120,9 +120,9 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 	@Test
 	public void testCacheOFFDefaultLimit1KbFile() throws Exception {
 		System.out.println(" ** testCacheOFFDefaultLimit1KbFile ** ");
-		f1 = new File(currentDir + "\\1kbAttachment.txt");
-		fClient = new File(currentDir + "\\Client1kbAttachment.txt");
-		fServer = new File(currentDir + "\\Server1kbAttachment.txt");
+		f1 = new File(currentDir + File.separator + "1kbAttachment.txt");
+		fClient = new File(currentDir + File.separator + "Client1kbAttachment.txt");
+		fServer = new File(currentDir + File.separator + "Server1kbAttachment.txt");
 
 		if (f1.exists())
 			QEFileUtils.createFileForTest(Integer.valueOf(1024), f1);
@@ -136,7 +136,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		TestAttachment param0 = new TestAttachment();
 		FileAttachmentType value = new FileAttachmentType();
 		value.setData(dh);
-		value.setFilePath(currentDir + "\\");
+		value.setFilePath(currentDir + File.separator + "");
 		value.setFileName("1kbAttachment.txt");
 		value.setSize(MAX_SIZE);
 		param0.setIn(value);
@@ -148,9 +148,9 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 	@Test
 	public void testCacheOFFDefaultLimit2KbFile() throws Exception {
 		System.out.println(" ** testCacheOFFDefaultLimit2KbFile ** ");
-		f1 = new File(currentDir + "\\2kbAttachment.txt");
-		fClient = new File(currentDir + "\\Client2kbAttachment.txt");
-		fServer = new File(currentDir + "\\Server2kbAttachment.txt");
+		f1 = new File(currentDir + File.separator + "2kbAttachment.txt");
+		fClient = new File(currentDir + File.separator + "Client2kbAttachment.txt");
+		fServer = new File(currentDir + File.separator + "Server2kbAttachment.txt");
 		if (!f1.exists())
 			QEFileUtils.createFileForTest(Integer.valueOf(2 * 1024), f1);
 		MAX_SIZE = f1.length();
@@ -163,7 +163,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		TestAttachment param0 = new TestAttachment();
 		FileAttachmentType value = new FileAttachmentType();
 		value.setData(dh);
-		value.setFilePath(currentDir + "\\");
+		value.setFilePath(currentDir + File.separator + "");
 		value.setFileName("2kbAttachment.txt");
 		value.setSize(MAX_SIZE);
 		param0.setIn(value);
@@ -175,9 +175,9 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 	@Test
 	public void testCacheOFFDefaultLimit3KbFile() throws Exception {
 		System.out.println(" ** testCacheOFFDefaultLimit3KbFile ** ");
-		f1 = new File(currentDir + "\\3kbAttachment.txt");
-		fClient = new File(currentDir + "\\Client3kbAttachment.txt");
-		fServer = new File(currentDir + "\\Server3kbAttachment.txt");
+		f1 = new File(currentDir + File.separator + "3kbAttachment.txt");
+		fClient = new File(currentDir + File.separator + "Client3kbAttachment.txt");
+		fServer = new File(currentDir + File.separator + "Server3kbAttachment.txt");
 		if (!f1.exists())
 			QEFileUtils.createFileForTest(Integer.valueOf(3 * 1024), f1);
 		MAX_SIZE = f1.length();
@@ -190,7 +190,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		TestAttachment param0 = new TestAttachment();
 		FileAttachmentType value = new FileAttachmentType();
 		value.setData(dh);
-		value.setFilePath(currentDir + "\\");
+		value.setFilePath(currentDir + File.separator + "");
 		value.setFileName("3kbAttachment.txt");
 		value.setSize(MAX_SIZE);
 		param0.setIn(value);
@@ -202,9 +202,9 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 	@Test
 	public void testCacheOFF100bLimit1KbFile() throws Exception {
 		System.out.println(" ** testCacheOFFDefaultLimit1KbFile ** ");
-		f1 = new File(currentDir + "\\1kbAttachment.txt");
-		fClient = new File(currentDir + "\\Client1kbAttachment.txt");
-		fServer = new File(currentDir + "\\Server1kbAttachment.txt");
+		f1 = new File(currentDir + File.separator + "1kbAttachment.txt");
+		fClient = new File(currentDir + File.separator + "Client1kbAttachment.txt");
+		fServer = new File(currentDir + File.separator + "Server1kbAttachment.txt");
 
 		if (f1.exists())
 			QEFileUtils.createFileForTest(Integer.valueOf(1024), f1);
@@ -218,7 +218,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		TestAttachment param0 = new TestAttachment();
 		FileAttachmentType value = new FileAttachmentType();
 		value.setData(dh);
-		value.setFilePath(currentDir + "\\");
+		value.setFilePath(currentDir + File.separator + "");
 		value.setFileName("1kbAttachment.txt");
 		value.setSize(MAX_SIZE);
 		param0.setIn(value);
@@ -230,8 +230,8 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 	@Test
 	public void testCacheOFF100bLimit2KbFile() throws Exception {
 		System.out.println(" ** testCacheOFFDefaultLimit2KbFile ** ");
-		f1 = new File(currentDir + "\\2kbAttachment.txt");
-		fClient = new File(currentDir + "\\Client2kbAttachment.txt");
+		f1 = new File(currentDir + File.separator + "2kbAttachment.txt");
+		fClient = new File(currentDir + File.separator + "Client2kbAttachment.txt");
 		fServer = new File(currentDir + "\\Server2kbAttachment.txt");
 		if (!f1.exists())
 			QEFileUtils.createFileForTest(Integer.valueOf(2 * 1024), f1);
@@ -245,7 +245,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		TestAttachment param0 = new TestAttachment();
 		FileAttachmentType value = new FileAttachmentType();
 		value.setData(dh);
-		value.setFilePath(currentDir + "\\");
+		value.setFilePath(currentDir + File.separator + "");
 		value.setFileName("2kbAttachment.txt");
 		value.setSize(MAX_SIZE);
 		param0.setIn(value);
@@ -276,13 +276,13 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 	
 	@Test
 	public void testCacheONDefaultLimit2KbFile() throws Exception {
-		File f30 = new File(currentDir + "\\attachmentcache");
+		File f30 = new File(currentDir + File.separator + "attachmentcache");
 		f30.mkdir();
 		System.out.println("-- testCacheONDefaultLimit2KbFile --");
 		response = null;
-		f1 = new File(f30.getCanonicalFile() + "\\2kbAttachment.txt");
-		fClient = new File(f30.getCanonicalFile() + "\\Client2kbAttachment.txt");
-		fServer = new File(f30.getCanonicalFile() + "\\Server2kbAttachment.txt");
+		f1 = new File(f30.getCanonicalFile() + File.separator + "2kbAttachment.txt");
+		fClient = new File(f30.getCanonicalFile() + File.separator + "Client2kbAttachment.txt");
+		fServer = new File(f30.getCanonicalFile() + File.separator + "Server2kbAttachment.txt");
 		if (!f1.exists())
 			QEFileUtils.createFileForTest(Integer.valueOf(2048), f1);
 
@@ -297,7 +297,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		TestAttachment param0 = new TestAttachment();
 		FileAttachmentType value = new FileAttachmentType();
 		value.setData(dh);
-		value.setFilePath(currentDir + "\\");
+		value.setFilePath(currentDir + File.separator + "");
 		value.setFileName("2kbAttachment.txt");
 		value.setSize(MAX_SIZE);
 		param0.setIn(value);
@@ -308,13 +308,13 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 	}
 	@Test
 	public void testCacheONDefaultLimit3KbFile() throws Exception {
-		File f20 = new File(currentDir + "\\attachmentcache\\test");
+		File f20 = new File(currentDir + File.separator + "attachmentcache" + File.separator + "test");
 		f20.mkdir();
 		response = null;
 		System.out.println("-- testCacheONDefaultLimit3KbFile --");
-		f1 = new File(f20.getCanonicalFile() + "\\3kbAttachment.txt");
-		fClient = new File(f20.getCanonicalFile() + "\\Client3kbAttachment.txt");
-		fServer = new File(f20.getCanonicalFile() + "\\Server3kbAttachment.txt");
+		f1 = new File(f20.getCanonicalFile() + File.separator + "3kbAttachment.txt");
+		fClient = new File(f20.getCanonicalFile() + File.separator + "Client3kbAttachment.txt");
+		fServer = new File(f20.getCanonicalFile() + File.separator + "Server3kbAttachment.txt");
 		if (!f1.exists())
 			QEFileUtils.createFileForTest(Integer.valueOf(3072), f1);
 		MAX_SIZE = f1.length();
@@ -327,7 +327,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		TestAttachment param0 = new TestAttachment();
 		FileAttachmentType value = new FileAttachmentType();
 		value.setData(dh);
-		value.setFilePath(currentDir + "\\");
+		value.setFilePath(currentDir + File.separator + "");
 		value.setFileName("3kbAttachment.txt");
 		value.setSize(MAX_SIZE);
 		param0.setIn(value);
@@ -346,14 +346,14 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 
 	@Test
 	public void testCacheON100bLimit1kbFile() throws Exception {
-		File f10 = new File(currentDir + "\\attachmentcache");
+		File f10 = new File(currentDir + File.separator + "attachmentcache");
 		f10.mkdir();
 		response = null;
 		System.out.println("-- testCacheON4KbLimit1KbFile --");
 
-		f1 = new File(f10.getCanonicalFile() + "\\1kbAttachment.txt");
-		fClient = new File(f10.getCanonicalFile() + "\\Client1kbAttachment.txt");
-		fServer = new File(f10.getCanonicalFile() + "\\Server1kbAttachment.txt");
+		f1 = new File(f10.getCanonicalFile() + File.separator + "1kbAttachment.txt");
+		fClient = new File(f10.getCanonicalFile() + File.separator + "Client1kbAttachment.txt");
+		fServer = new File(f10.getCanonicalFile() + File.separator + "Server1kbAttachment.txt");
 		if (!f1.exists())
 			QEFileUtils.createFileForTest(Integer.valueOf(1024), f1);
 		MAX_SIZE = f1.length();
@@ -366,7 +366,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		TestAttachment param0 = new TestAttachment();
 		FileAttachmentType value = new FileAttachmentType();
 		value.setData(dh);
-		value.setFilePath(currentDir + "\\");
+		value.setFilePath(currentDir + File.separator + "");
 		value.setFileName("1kbAttachment.txt");
 		value.setSize(MAX_SIZE);
 		param0.setIn(value);
@@ -377,6 +377,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		      String[] files = f10.list();
 		      boolean success = f10.delete();
 		}
+		System.out.println("-- testCacheON4KbLimit1KbFile --");
 	}
 	
 	
