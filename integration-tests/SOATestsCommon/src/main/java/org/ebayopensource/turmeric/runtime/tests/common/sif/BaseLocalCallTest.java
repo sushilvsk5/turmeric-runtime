@@ -57,7 +57,7 @@ public abstract class BaseLocalCallTest extends AbstractTurmericTestCase {
 		 * So lets use the junit Assume class and flag this test as
 		 * Ignored in this situation.
 		 */ 
-		Assume.assumeNotNull(m_clientName);
+	//	Assume.assumeNotNull(m_clientName);
 		
 		// Assume passes, let the test continue.
 		println("Creating Driver");
