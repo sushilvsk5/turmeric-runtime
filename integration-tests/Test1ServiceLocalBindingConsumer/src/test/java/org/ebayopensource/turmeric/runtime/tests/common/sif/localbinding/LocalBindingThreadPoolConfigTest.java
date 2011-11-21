@@ -53,6 +53,10 @@ public class LocalBindingThreadPoolConfigTest extends BaseLocalBindingTestCase {
 		cm.setAttributeValue(tpConf.getConfigCategoryId(), attribute);
 		long newKeepAliveValue = tpConf.getKeepAliveTimeInSec(); 
 
+		// revert to old value
+		ConfigurationAttribute attribute1 = new ConfigurationAttribute(propName, oldKeepAliveValue);
+		cm.setAttributeValue(tpConf.getConfigCategoryId(), attribute1);
+		
 		assertEquals(newKeepAliveValue, oldKeepAliveValue+1);
 	}
 }

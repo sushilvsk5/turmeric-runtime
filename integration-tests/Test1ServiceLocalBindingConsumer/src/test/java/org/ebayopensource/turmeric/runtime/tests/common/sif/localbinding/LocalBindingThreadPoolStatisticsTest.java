@@ -28,6 +28,7 @@ public class LocalBindingThreadPoolStatisticsTest extends BaseLocalBindingTestCa
 
 	// Implementation of Callable.call() method
 	public MessageContext call(){
+		
 		ThreadPoolStats tpStats = LocalBindingThreadPool.getInstance().getStatistics();
 		
 		int newActiveCount = tpStats.getActiveCount();
@@ -35,7 +36,8 @@ public class LocalBindingThreadPoolStatisticsTest extends BaseLocalBindingTestCa
 		m_oldIdleThreadCount = tpStats.getIdleThreadCount();
 		
 		assertEquals(newActiveCount, m_oldActiveCount+1);
-		assertEquals(newPoolSize, m_oldPoolSize+1);
+		assertTrue(newPoolSize >= m_oldPoolSize);
+		
 		return null;
 	}
 	
@@ -48,7 +50,7 @@ public class LocalBindingThreadPoolStatisticsTest extends BaseLocalBindingTestCa
 		ThreadPoolStats tpStats = LocalBindingThreadPool.getInstance().getStatistics();
 		m_oldActiveCount = tpStats.getActiveCount();
 		m_oldPoolSize = tpStats.getPoolSize();
-
+		
 		Future<MessageContext> future = LocalBindingThreadPool.getInstance().execute(this);
 		future.get();
 		
@@ -65,12 +67,13 @@ public class LocalBindingThreadPoolStatisticsTest extends BaseLocalBindingTestCa
 	
 	@Test
 	public void localBindingThreadPoolKeepAlive()  throws Exception {
+
 		ThreadPoolConfig tpConf = LocalBindingThreadPool.getInstance().getConfiguration();
 		ThreadPoolStats tpStats = LocalBindingThreadPool.getInstance().getStatistics();
-		
+
 		Long keepAliveFromConf = tpConf.getKeepAliveTimeInSec();
 		Long keepAliveFromStats = tpStats.getKeepAliveTimeInSecs();
-		
+
 		assertEquals(keepAliveFromConf, keepAliveFromStats);
 	}
 }
