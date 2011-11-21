@@ -182,7 +182,7 @@ public class MultiClientConfigTests extends AbstractWithServerTest {
 
 	/*
 	 *	When envtName is null, envMapper variable is not set
-	 *		BaseSOAAsyncMCCTestConsumer testClient = new BaseSOAAsyncMCCTestConsumer(â€œSOAAsyncServiceTestClientâ€?, null);
+	 *		BaseSOAAsyncMCCTestConsumer testClient = new BaseSOAAsyncMCCTestConsumer("", null);
 	 *	a.	Appropriate error message should be thrown
 	 */
 	@Test
