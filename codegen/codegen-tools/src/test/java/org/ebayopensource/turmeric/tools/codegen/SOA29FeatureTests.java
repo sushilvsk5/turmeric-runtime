@@ -96,10 +96,7 @@ public class SOA29FeatureTests extends AbstractServiceGeneratorTestCase {
 		 String xml = readFileAsString(path);
 		 Assert.assertTrue(xml.contains("<option name=\"KEEP_ALIVE\">true</option>"));
 		 
-	}
-	
-	
-	
+	}	
 	
 	@Test
 	public void testAddedSettersChangedAccessModifiers() throws Exception{
@@ -121,7 +118,7 @@ public class SOA29FeatureTests extends AbstractServiceGeneratorTestCase {
 				  "-bin",destDir.getAbsolutePath(),
 				  "-slayer","INTERMEDIATE",
 				  "-scv","1.0.0",
-				  "-dest",destDir.getAbsolutePath(),
+				  "-dest",destDir.getCanonicalPath(),
 				 
 				 };
 		performDirectCodeGen(testArgs, destDir);
@@ -189,107 +186,122 @@ public class SOA29FeatureTests extends AbstractServiceGeneratorTestCase {
 	
 	@Test
 	public void testServiceLocationFromConfigFile() throws Exception{
-		File wsdlFile = getProtobufRelatedInput("ShippingService.wsdl");
-		intfProps.put("sipp_version","1.2");
-		fillProperties(intfProps, intfProperty);
-		
-		
-		
-		String [] testArgs = {"-serviceName","calculatorservice",
-				  "-mdest",destDir +"/meta-src",
-				  "-genType","ServiceFromWSDLIntf",
-				  "-wsdl",wsdlFile.getAbsolutePath(),
-				  "-gip","com.ebay.marketplace.shipping.v1.services",
-				  "-adminname","calculatorservice",
-				  "-slayer","BUSINESS",
-				  "-jdest",destDir +"/gen-src",
-				  "-namespace","http://www.ebay.com/marketplace/shipping/v1/services",
-				  "-dest",destDir.getAbsolutePath(),
-				  "-bin",destDir.getAbsolutePath(),
-				  "-slayer","INTERMEDIATE",
-				  "-scv","1.0.0",
-				  "-pr",destDir.getAbsolutePath()
-				 };
-		performDirectCodeGen(testArgs, destDir);
-		
-		Constructor<?> constr = null;
-	    Class<?> cls = loadClass("com.ebay.marketplace.shipping.v1.services.calculatorservice.gen.SharedCalculatorServiceConsumer");
-		
-	    Thread.currentThread().setContextClassLoader(originalLoader);
-	    
-	    Method []  mtds = cls.getDeclaredMethods();
-		boolean present = false;
-		int count =0;
-		
-		for(Constructor<?> c: cls.getDeclaredConstructors() ){
-		 if(c.getParameterTypes().length ==1){
-			 constr = c;
-		 }
-		}
-		Object constructorObj =null;
-		constructorObj = constr.newInstance(new String("dummy"));	
+		final String path = System.getProperty("java.io.tmpdir");
+		System.setProperty("java.io.tmpdir", System.getProperty("user.dir"));
+		try {
+			File wsdlFile = getProtobufRelatedInput("ShippingService.wsdl");
+			intfProps.put("sipp_version","1.2");
+			fillProperties(intfProps, intfProperty);			
 			
-		
-		for(Method m : mtds){
-		if(m.getName().equals("getServiceLocation")){
-			
-			URL serviceLocation = (URL) m.invoke(constructorObj);
-			Assert.assertEquals("http://www.ebay.com/services",serviceLocation.toString());
-		}
+			String [] testArgs = {"-serviceName","calculatorservice",
+					  "-mdest",destDir +"/meta-src",
+					  "-genType","ServiceFromWSDLIntf",
+					  "-wsdl",wsdlFile.getCanonicalPath(),
+					  "-gip","com.ebay.marketplace.shipping.v1.services",
+					  "-adminname","calculatorservice",
+					  "-slayer","BUSINESS",
+					  "-jdest",destDir +"/gen-src",
+					  "-namespace","http://www.ebay.com/marketplace/shipping/v1/services",
+					  "-dest",destDir.getCanonicalPath(),
+					  "-bin",destDir.getCanonicalPath(),
+					  "-slayer","INTERMEDIATE",
+					  "-scv","1.0.0",
+					  "-pr",destDir.getCanonicalPath()
+					 };
+			System.out.println("*******" + System.getProperty("java.io.tmpdir")+"*******");
+			performDirectCodeGen(testArgs, destDir);
+
+			Constructor<?> constr = null;
+			Class<?> cls = loadClass("com.ebay.marketplace.shipping.v1.services.calculatorservice.gen.SharedCalculatorServiceConsumer");
+
+			Thread.currentThread().setContextClassLoader(originalLoader);
+
+			Method []  mtds = cls.getDeclaredMethods();
+			boolean present = false;
+			int count =0;
+
+			for(Constructor<?> c: cls.getDeclaredConstructors() ){
+			 if(c.getParameterTypes().length ==1){
+				 constr = c;
+			 }
+			}
+			Object constructorObj =null;
+			constructorObj = constr.newInstance(new String("dummy"));
+
+			for(Method m : mtds){
+			if(m.getName().equals("getServiceLocation")){
+
+				URL serviceLocation = (URL) m.invoke(constructorObj);
+				Assert.assertEquals("http://www.ebay.com/services",serviceLocation.toString());
+			}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+			System.setProperty("java.io.tmpdir", path);
 		}
 		
 		
 	}
 	@Test
-	public void testServiceLocationFromSharedConsumer() throws Exception{
-		File wsdlFile = getProtobufRelatedInput("ShippingService.wsdl");
-		
-		intfProps.put("sipp_version","1.2");
-		fillProperties(intfProps, intfProperty);
-		
-		String [] testArgs = {"-serviceName","calculatorservice",
-				  "-mdest",destDir +"/meta-src",
-				  "-genType","ServiceFromWSDLIntf",
-				  "-wsdl",wsdlFile.getAbsolutePath(),
-				  "-gip","com.ebay.marketplace.shipping.v1.services",
-				  "-adminname","calculatorservice",
-				  "-slayer","BUSINESS",
-				  "-jdest",destDir +"/gen-src",
-				  "-namespace","http://www.ebay.com/marketplace/shipping/v1/services",
-				  "-dest",destDir.getAbsolutePath(),
-				  "-bin",destDir.getAbsolutePath(),
-				  "-slayer","INTERMEDIATE",
-				  "-scv","1.0.0",
-				  "-pr",destDir.getAbsolutePath()
-				 };
-		performDirectCodeGen(testArgs, destDir);
-		
-		Constructor<?> constr = null;
-	    Class<?> cls = loadClass("com.ebay.marketplace.shipping.v1.services.calculatorservice.gen.SharedCalculatorServiceConsumer");
-		
-	    Thread.currentThread().setContextClassLoader(originalLoader);
-	    Method []  mtds = cls.getDeclaredMethods();
+	public void testServiceLocationFromSharedConsumer() {
+		final String path = System.getProperty("java.io.tmpdir");
+		System.setProperty("java.io.tmpdir", System.getProperty("user.dir"));
+		try {
+			File wsdlFile = getProtobufRelatedInput("ShippingService.wsdl");
+			
+			intfProps.put("sipp_version","1.2");
+			fillProperties(intfProps, intfProperty);
+			
+			String [] testArgs = {"-serviceName","calculatorservice",
+					  "-mdest",destDir +"/meta-src",
+					  "-genType","ServiceFromWSDLIntf",
+					  "-wsdl",wsdlFile.getCanonicalPath(),
+					  "-gip","com.ebay.marketplace.shipping.v1.services",
+					  "-adminname","calculatorservice",
+					  "-slayer","BUSINESS",
+					  "-jdest",destDir +"/gen-src",
+					  "-namespace","http://www.ebay.com/marketplace/shipping/v1/services",
+					  "-dest",destDir.getCanonicalPath(),
+					  "-bin",destDir.getCanonicalPath(),
+					  "-slayer","INTERMEDIATE",
+					  "-scv","1.0.0",
+					  "-pr",destDir.getCanonicalPath()
+					 };
+			performDirectCodeGen(testArgs, destDir);
+			
+			Constructor<?> constr = null;
+			Class<?> cls = loadClass("com.ebay.marketplace.shipping.v1.services.calculatorservice.gen.SharedCalculatorServiceConsumer");
+			
+			Thread.currentThread().setContextClassLoader(originalLoader);
+			Method []  mtds = cls.getDeclaredMethods();
 
-		for(Constructor<?> c: cls.getDeclaredConstructors() ){
-		 if(c.getParameterTypes().length ==1){
-			 constr = c;
-		 }
-		}
-		Object constructorObj =null;
-		constructorObj = constr.newInstance(new String("dummy"));	
-			
-		for(Method m : mtds){
-			if(m.getName().equals("setServiceLocation")){
+			for(Constructor<?> c: cls.getDeclaredConstructors() ){
+			 if(c.getParameterTypes().length ==1){
+				 constr = c;
+			 }
+			}
+			Object constructorObj =null;
+			constructorObj = constr.newInstance(new String("dummy"));	
 				
-				 m.invoke(constructorObj,"http://localhost:8080/service/test");
+			for(Method m : mtds){
+				if(m.getName().equals("setServiceLocation")){
+					
+					 m.invoke(constructorObj,"http://localhost:8080/service/test");
+				}
+				}
+			for(Method m : mtds){
+			if(m.getName().equals("getServiceLocation")){
+				
+				URL serviceLocation = (URL) m.invoke(constructorObj);
+				Assert.assertEquals("http://localhost:8080/service/test",serviceLocation.toString());
 			}
 			}
-		for(Method m : mtds){
-		if(m.getName().equals("getServiceLocation")){
-			
-			URL serviceLocation = (URL) m.invoke(constructorObj);
-			Assert.assertEquals("http://localhost:8080/service/test",serviceLocation.toString());
-		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally{
+			System.setProperty("java.io.tmpdir", path);
 		}
 		
 		
