@@ -308,41 +308,47 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 	}
 	@Test
 	public void testCacheONDefaultLimit3KbFile() throws Exception {
-		File f20 = new File(currentDir + File.separator + "attachmentcache" + File.separator + "test");
-		f20.mkdir();
-		response = null;
-		System.out.println("-- testCacheONDefaultLimit3KbFile --");
-		f1 = new File(f20.getCanonicalFile() + File.separator + "3kbAttachment.txt");
-		fClient = new File(f20.getCanonicalFile() + File.separator + "Client3kbAttachment.txt");
-		fServer = new File(f20.getCanonicalFile() + File.separator + "Server3kbAttachment.txt");
-		if (!f1.exists())
-			QEFileUtils.createFileForTest(Integer.valueOf(3072), f1);
-		MAX_SIZE = f1.length();
-		SharedAdvertisingUniqueIDServiceV1Consumer client = new SharedAdvertisingUniqueIDServiceV1Consumer(
-				"AdvertisingUniqueIDServiceV1Consumer", "attachmentcache4");
-		client.setServiceLocation("http://" + serverUri.getHost() + ":"
-				+ serverUri.getPort()
-				+ "/services/advertise/UniqueIDService/v1");
-		DataHandler dh = new DataHandler(new FileDataSource(f1));
-		TestAttachment param0 = new TestAttachment();
-		FileAttachmentType value = new FileAttachmentType();
-		value.setData(dh);
-		value.setFilePath(currentDir + File.separator + "");
-		value.setFileName("3kbAttachment.txt");
-		value.setSize(MAX_SIZE);
-		param0.setIn(value);
-		response = client.testAttachment(param0).getOut();
-		
-		assertOnResponse(response, 1, MAX_SIZE,f20);
-		
-		if (f20.isDirectory()) {
-			  String[] files = f20.list();
-		      boolean success1 = f20.delete();
-		}
-		// Assert on the temp location
-		System.out.println("-- testCacheONDefaultLimit3KbFile --");
-		
-	}
+        File f20 = new File(currentDir + File.separator + "attachmentcache" + File.separator);
+        if(f20.exists()){
+              QEFileUtils.deleteDir(f20);
+        }           
+        f20.mkdir();
+        response = null;
+        System.out.println("-- testCacheONDefaultLimit3KbFile --");
+        f1 = new File(f20.getCanonicalFile() + File.separator + "3kbAttachment.txt");       
+        fClient = new File(f20.getCanonicalFile() + File.separator + "Client3kbAttachment.txt");
+        fServer = new File(f20.getCanonicalFile() + File.separator + "Server3kbAttachment.txt");
+        if (!f1.exists()) {
+              QEFileUtils.createFileForTest(Integer.valueOf(3072), f1);
+        }
+        System.out.println("third line of trace "+f1.getAbsolutePath());
+        MAX_SIZE = f1.length();
+        SharedAdvertisingUniqueIDServiceV1Consumer client = new SharedAdvertisingUniqueIDServiceV1Consumer(
+                    "AdvertisingUniqueIDServiceV1Consumer", "attachmentcache4");
+        client.setServiceLocation("http://" + serverUri.getHost() + ":"
+                    + serverUri.getPort()
+                    + "/services/advertise/UniqueIDService/v1");
+        DataHandler dh = new DataHandler(new FileDataSource(f1));
+        TestAttachment param0 = new TestAttachment();
+        FileAttachmentType value = new FileAttachmentType();
+        value.setData(dh);
+        value.setFilePath(currentDir + File.separator + "");
+        value.setFileName("3kbAttachment.txt");
+        value.setSize(MAX_SIZE);
+        param0.setIn(value);
+        response = client.testAttachment(param0).getOut();
+        
+        assertOnResponse(response, 1, MAX_SIZE,f20);
+        
+        if (f20.isDirectory()) {
+                String[] files = f20.list();
+              boolean success1 = f20.delete();
+        }
+        // Assert on the temp location
+        System.out.println("-- testCacheONDefaultLimit3KbFile --");
+        
+  }
+
 
 	@Test
 	public void testCacheON100bLimit1kbFile() throws Exception {
