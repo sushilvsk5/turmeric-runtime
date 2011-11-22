@@ -191,8 +191,11 @@ public class MultiClientConfigTests extends AbstractWithServerTest {
 		String errorMessage = "Unable to load file: META-INF/soa/client/config/" +
 				"SOAAsyncMCCTestServiceConsumer1_Client/myErrorEnvt/SOAAsyncService/" +
 				"ClientConfig.xml";
+
+
 		try {
 			testClient8 = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", null);
+			testClient8.setHostName(serverUri.getHost()+":"+serverUri.getPort());
 			testClient8.getService().getInvokerOptions();
 			EchoMessageRequest req = new EchoMessageRequest();
 			req.setIn("test");
@@ -217,6 +220,8 @@ public class MultiClientConfigTests extends AbstractWithServerTest {
 				"ClientConfig.xml";
 		try {
 			 testClient8 = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "production");
+			 testClient8.setHostName(serverUri.getHost()+":"+serverUri.getPort());
+
 			EchoMessageRequest req = new EchoMessageRequest();
 			req.setIn("test");
 			Assert.assertEquals(testClient8.echoMessage(req).getOut(), " Echo Message = test");
@@ -243,6 +248,7 @@ public class MultiClientConfigTests extends AbstractWithServerTest {
 				"ClientConfig.xml";
 		try {
 			testClient8 = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "production");
+			testClient8.setHostName(serverUri.getHost()+":"+serverUri.getPort());
 			EchoMessageRequest req = new EchoMessageRequest();
 			req.setIn("test");
 			Assert.assertEquals(testClient8.echoMessage(req).getOut(), " Echo Message = test");

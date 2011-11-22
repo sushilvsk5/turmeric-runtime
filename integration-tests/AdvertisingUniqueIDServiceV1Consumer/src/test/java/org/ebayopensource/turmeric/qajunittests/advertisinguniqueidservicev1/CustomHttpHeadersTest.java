@@ -57,7 +57,7 @@ public class CustomHttpHeadersTest extends AbstractWithServerTest{
 		Map<String, String> respHeaders = client.getService().getResponseContext().getTransportHeaders();
 		Assert.assertEquals("BAR", respHeaders.get("X-TURMERIC-SOA-OCCTEST-HEADER1"));
 		Assert.assertEquals("90", respHeaders.get("X-TURMERIC-SOA-OCCTEST-HEADER2"));
-		Assert.assertEquals("^%", respHeaders.get("X-TURMERIC-SOA-OCCTEST-HEADER3"));
+		Assert.assertEquals("true", respHeaders.get("X-TURMERIC-SOA-OCCTEST-HEADER3"));
 		System.out.println("-- testPosWithOverrideHeaderOptionsInCC --");
 	}
 	
