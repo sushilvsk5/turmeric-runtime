@@ -155,18 +155,21 @@ public class SOA29FeatureTests extends AbstractServiceGeneratorTestCase {
 			
 				Assert.assertTrue(Modifier.isPublic(m.getModifiers()));
 			}
-			
+			int flag =0;
 			if(m.getName().equals("setHostName") && m.getParameterTypes().length==1){
 				
 				constructorObj = constr.newInstance(new String("dummy"));
 				m.invoke(constructorObj,"dummyhostname");
+				flag=1;
 				
 			}
 			
 			if(m.getName().equals("getHostName")){
-				
+				if(m !=null && constructorObj !=null && flag==1)
+				{
 				String host = (String) m.invoke(constructorObj);
 				Assert.assertEquals("dummyhostname",host);
+				}
 			}
 			
 			
