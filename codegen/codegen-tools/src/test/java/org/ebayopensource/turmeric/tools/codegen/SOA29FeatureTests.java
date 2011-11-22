@@ -100,92 +100,105 @@ public class SOA29FeatureTests extends AbstractServiceGeneratorTestCase {
 	
 	@Test
 	public void testAddedSettersChangedAccessModifiers() throws Exception{
-		File wsdlFile = getProtobufRelatedInput("ShippingService.wsdl");
-		intfProps.put("sipp_version","1.2");
-		fillProperties(intfProps, intfProperty);
-		
-		List<String> list = new ArrayList<String>();
-		String [] testArgs = {"-serviceName","CalculatorService",
-				  "-mdest",destDir +"/meta-src",
-				  "-genType","ServiceFromWSDLIntf",
-				  "-wsdl",wsdlFile.getCanonicalPath(),
-				  "-gip","com.ebay.marketplace.shipping.v1.services",
-				  "-adminname","CalculatorService",
-				  "-slayer","BUSINESS",
-				  "-jdest",destDir +"/gen-src",
-				  "-namespace","http://www.ebay.com/marketplace/shipping/v1/services",
-				  "-pr",destDir.getCanonicalPath(),
-				  "-bin",destDir.getCanonicalPath(),
-				  "-slayer","INTERMEDIATE",
-				  "-scv","1.0.0",
-				  "-dest",destDir.getCanonicalPath(),
-				 
-				 };
-		performDirectCodeGen(testArgs, destDir);
-		
-		Constructor<?> constr = null;
-	    Class<?> cls = loadClass("com.ebay.marketplace.shipping.v1.services.calculatorservice.gen.SharedCalculatorServiceConsumer");
-		Method []  mtds = cls.getDeclaredMethods();
-		boolean present = false;
-		int count =0;
-		
-		for(Constructor<?> c: cls.getDeclaredConstructors() ){
-		 if(c.getParameterTypes().length ==1){
-			 constr = c;
-		 }
-		}
-		Object constructorObj =null;
-		for(Method m : mtds){
-			
-			if(m.getName().equals("setServiceLocation") || m.getName().equals("setAuthToken") || m.getName().equals("setCookies") || m.getName().equals("getServiceLocation") ||
-					 m.getName().equals("getAuthToken") ||  m.getName().equals("getCookies") ||   m.getName().equals("setHostName") || m.getName().equals("getHostName")){
-			
-				count = count+ 1;
-			}
-			
-			if(m.getName().equals("setServiceLocation")){
-			
-				Assert.assertTrue(Modifier.isPublic(m.getModifiers()));
-			}
-			if(m.getName().equals("setAuthToken")){
-			
-				Assert.assertTrue(Modifier.isPublic(m.getModifiers()));
-			}
-			if(m.getName().equals("setCookies")){
-			
-				Assert.assertTrue(Modifier.isPublic(m.getModifiers()));
-			}
-			int flag =0;
-			if(m.getName().equals("setHostName") && m.getParameterTypes().length==1){
-				
-				constructorObj = constr.newInstance(new String("dummy"));
-				m.invoke(constructorObj,"dummyhostname");
-				flag=1;
-				
-			}
-			
-			if(m.getName().equals("getHostName")){
-				if(m !=null && constructorObj !=null && flag==1)
-				{
-				String host = (String) m.invoke(constructorObj);
-				Assert.assertEquals("dummyhostname",host);
-				}
-			}
-			
-			
-			
-		}
-		for(Method m : mtds){
-		if(m.getName().equals("getServiceLocation")){
-			
-			URL serviceLocation = (URL) m.invoke(constructorObj);
-			Assert.assertEquals("http://dummyhostname/services",serviceLocation.toString());
-		}
-		}
+        final String path = System.getProperty("java.io.tmpdir");
+        System.setProperty("java.io.tmpdir", System.getProperty("user.dir"));
+        try {
+              File wsdlFile = getProtobufRelatedInput("ShippingService.wsdl");
+              intfProps.put("sipp_version","1.2");
+              fillProperties(intfProps, intfProperty);
+              
+              List<String> list = new ArrayList<String>();
+              String [] testArgs = {"-serviceName","CalculatorService",
+                            "-mdest",destDir +"/meta-src",
+                            "-genType","ServiceFromWSDLIntf",
+                            "-wsdl",wsdlFile.getCanonicalPath(),
+                            "-gip","com.ebay.marketplace.shipping.v1.services",
+                            "-adminname","CalculatorService",
+                            "-slayer","BUSINESS",
+                            "-jdest",destDir +"/gen-src",
+                            "-namespace","http://www.ebay.com/marketplace/shipping/v1/services",
+                            "-pr",destDir.getCanonicalPath(),
+                            "-bin",destDir.getCanonicalPath(),
+                            "-slayer","INTERMEDIATE",
+                            "-scv","1.0.0",
+                            "-dest",destDir.getCanonicalPath(),
+                          
+                           };
+              performDirectCodeGen(testArgs, destDir);
+              
+              Constructor<?> constr = null;
+              Class<?> cls = loadClass("com.ebay.marketplace.shipping.v1.services.calculatorservice.gen.SharedCalculatorServiceConsumer");
+              Method []  mtds = cls.getDeclaredMethods();
+              boolean present = false;
+              int count =0;
+              
+              for(Constructor<?> c: cls.getDeclaredConstructors() ){
+              if(c.getParameterTypes().length ==1){
+                    constr = c;
+              }
+              }
+              Object constructorObj =null;
+              for(Method m : mtds){
+                    
+                    if(m.getName().equals("setServiceLocation") || m.getName().equals("setAuthToken") || m.getName().equals("setCookies") || m.getName().equals("getServiceLocation") ||
+                                m.getName().equals("getAuthToken") ||  m.getName().equals("getCookies") ||   m.getName().equals("setHostName") || m.getName().equals("getHostName")){
+                    
+                          count = count+ 1;
+                    }
+                    
+                    if(m.getName().equals("setServiceLocation")){
+                    
+                          Assert.assertTrue(Modifier.isPublic(m.getModifiers()));
+                    }
+                    if(m.getName().equals("setAuthToken")){
+                    
+                          Assert.assertTrue(Modifier.isPublic(m.getModifiers()));
+                    }
+                    if(m.getName().equals("setCookies")){
+                    
+                          Assert.assertTrue(Modifier.isPublic(m.getModifiers()));
+                    }
+                    
+                    if(m.getName().equals("setHostName") && m.getParameterTypes().length==1){
+                          
+                          constructorObj = constr.newInstance(new String("dummy"));
+                          m.invoke(constructorObj,"d-sjc-00507487.corp.ebay.com");
+                          
+                    }
+                    
+                    if(m.getName().equals("getHostName")){
+                          String host = null;
+                          if(constructorObj == null){
+                                constructorObj = constr.newInstance(new String("dummy"));
+                                host = (String) m.invoke(constructorObj);
+                                Assert.assertEquals("www.ebay.com",host);
+                          } else{
+                                host = (String) m.invoke(constructorObj);
+                                Assert.assertEquals("d-sjc-00507487.corp.ebay.com",host);
+                          }
+                    }
+                    
+                    
+                    
+              }
+              for(Method m : mtds){
+              if(m.getName().equals("getServiceLocation")){
+                    
+                    URL serviceLocation = (URL) m.invoke(constructorObj);
+                    Assert.assertEquals("http://d-sjc-00507487.corp.ebay.com/services",serviceLocation.toString());
+              }
+              }
 
-		Assert.assertTrue("one of the method is missing(setServiceLocation,setAuthToken,setCookies,getServiceLocation,getAuthToken,getCookies,setHostName,getHostName)",count == 8);
-		
-	}
+              Assert.assertTrue("one of the method is missing(setServiceLocation,setAuthToken,setCookies,getServiceLocation,getAuthToken,getCookies,setHostName,getHostName)",count == 8);
+        } catch (Exception e) {
+              // TODO Auto-generated catch block
+              e.printStackTrace();
+        } finally{
+              System.setProperty("java.io.tmpdir", path);
+        }
+        
+  }
+
 	
 	@Test
 	public void testServiceLocationFromConfigFile() throws Exception{
