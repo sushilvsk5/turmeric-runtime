@@ -108,14 +108,14 @@ public class SOA29FeatureTests extends AbstractServiceGeneratorTestCase {
 		String [] testArgs = {"-serviceName","CalculatorService",
 				  "-mdest",destDir +"/meta-src",
 				  "-genType","ServiceFromWSDLIntf",
-				  "-wsdl",wsdlFile.getAbsolutePath(),
+				  "-wsdl",wsdlFile.getCanonicalPath(),
 				  "-gip","com.ebay.marketplace.shipping.v1.services",
 				  "-adminname","CalculatorService",
 				  "-slayer","BUSINESS",
 				  "-jdest",destDir +"/gen-src",
 				  "-namespace","http://www.ebay.com/marketplace/shipping/v1/services",
-				  "-pr",destDir.getAbsolutePath(),
-				  "-bin",destDir.getAbsolutePath(),
+				  "-pr",destDir.getCanonicalPath(),
+				  "-bin",destDir.getCanonicalPath(),
 				  "-slayer","INTERMEDIATE",
 				  "-scv","1.0.0",
 				  "-dest",destDir.getCanonicalPath(),
@@ -159,14 +159,14 @@ public class SOA29FeatureTests extends AbstractServiceGeneratorTestCase {
 			if(m.getName().equals("setHostName") && m.getParameterTypes().length==1){
 				
 				constructorObj = constr.newInstance(new String("dummy"));
-				m.invoke(constructorObj,"d-sjc-00507487.corp.ebay.com");
+				m.invoke(constructorObj,"dummyhostname");
 				
 			}
 			
 			if(m.getName().equals("getHostName")){
 				
 				String host = (String) m.invoke(constructorObj);
-				Assert.assertEquals("d-sjc-00507487.corp.ebay.com",host);
+				Assert.assertEquals("dummyhostname",host);
 			}
 			
 			
@@ -176,7 +176,7 @@ public class SOA29FeatureTests extends AbstractServiceGeneratorTestCase {
 		if(m.getName().equals("getServiceLocation")){
 			
 			URL serviceLocation = (URL) m.invoke(constructorObj);
-			Assert.assertEquals("http://d-sjc-00507487.corp.ebay.com/services",serviceLocation.toString());
+			Assert.assertEquals("http://dummyhostname/services",serviceLocation.toString());
 		}
 		}
 
@@ -198,7 +198,7 @@ public class SOA29FeatureTests extends AbstractServiceGeneratorTestCase {
 					  "-genType","ServiceFromWSDLIntf",
 					  "-wsdl",wsdlFile.getCanonicalPath(),
 					  "-gip","com.ebay.marketplace.shipping.v1.services",
-					  "-adminname","calculatorservice",
+					  "-adminname","CalculatorService",
 					  "-slayer","BUSINESS",
 					  "-jdest",destDir +"/gen-src",
 					  "-namespace","http://www.ebay.com/marketplace/shipping/v1/services",
@@ -259,7 +259,7 @@ public class SOA29FeatureTests extends AbstractServiceGeneratorTestCase {
 					  "-genType","ServiceFromWSDLIntf",
 					  "-wsdl",wsdlFile.getCanonicalPath(),
 					  "-gip","com.ebay.marketplace.shipping.v1.services",
-					  "-adminname","calculatorservice",
+					  "-adminname","CalculatorService",
 					  "-slayer","BUSINESS",
 					  "-jdest",destDir +"/gen-src",
 					  "-namespace","http://www.ebay.com/marketplace/shipping/v1/services",
