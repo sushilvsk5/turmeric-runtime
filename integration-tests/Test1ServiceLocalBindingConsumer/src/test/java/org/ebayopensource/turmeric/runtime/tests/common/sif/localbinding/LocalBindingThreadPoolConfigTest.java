@@ -13,6 +13,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.ebayopensource.turmeric.runtime.common.utils.ThreadPoolConfig;
 import org.ebayopensource.turmeric.runtime.sif.impl.internal.pipeline.LocalBindingThreadPool;
+import org.ebayopensource.turmeric.runtime.tests.common.sif.Test1Driver;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -58,5 +59,16 @@ public class LocalBindingThreadPoolConfigTest extends BaseLocalBindingTestCase {
 		cm.setAttributeValue(tpConf.getConfigCategoryId(), attribute1);
 		
 		assertEquals(newKeepAliveValue, oldKeepAliveValue+1);
+	}
+	
+	@Test
+	public void testNormalCalls() throws Exception {
+		
+		// Assume passes, let the test continue.
+		println("Creating Driver");
+		Test1Driver driver = 
+				new Test1Driver(Test1Driver.TEST1_ADMIN_NAME, "detached", CONFIG_ROOT, LOCAL_TRANSPORT);
+		println("Calling Driver");
+		driver.doCall();
 	}
 }

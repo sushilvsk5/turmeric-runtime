@@ -107,4 +107,15 @@ public class DetachedLocalBindingTest extends BaseLocalBindingTestCase {
 			 */
 		}
 	}
+	
+	@Test
+	public void testNormalCalls() throws Exception {
+		
+		// Assume passes, let the test continue.
+		println("Creating Driver");
+		Test1Driver driver = 
+				new Test1Driver(Test1Driver.TEST1_ADMIN_NAME, "detached", CONFIG_ROOT, LOCAL_TRANSPORT);
+		println("Calling Driver");
+		driver.doCall();
+	}
 }
