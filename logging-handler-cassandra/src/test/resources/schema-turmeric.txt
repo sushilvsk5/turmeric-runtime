@@ -1,86 +1,91 @@
 create keyspace TurmericMonitoring
     with strategy_options=[{replication_factor:1}]
     and placement_strategy = 'SimpleStrategy';
-
+ 
 use TurmericMonitoring;
-
+ 
 create column family ErrorCountsByCategory
     with comparator = LongType
     and key_validation_class=UTF8Type;
-
+ 
 create column family ErrorCountsBySeverity
     with comparator = LongType
     and key_validation_class=UTF8Type;
-
-create column family Errors
-	with key_validation_class = LongType
-	and comparator = UTF8Type
-	and  column_metadata = [
-		{column_name : errorId, validation_class: LongType},
-		{column_name : name, validation_class: UTF8Type},
-		{column_name : category, validation_class: UTF8Type},
-		{column_name : severity, validation_class: UTF8Type},
-		{column_name : domain, validation_class: UTF8Type},
-		{column_name : subDomain, validation_class: UTF8Type},
-		{column_name : organization, validation_class: UTF8Type}];
+ 
+create column family ErrorsById
+    with key_validation_class = LongType
+    and comparator = UTF8Type
+    and  column_metadata = [
+        {column_name : errorId, validation_class: LongType},
+        {column_name : name, validation_class: UTF8Type},
+        {column_name : category, validation_class: UTF8Type},
+        {column_name : severity, validation_class: UTF8Type},
+        {column_name : domain, validation_class: UTF8Type},
+        {column_name : subDomain, validation_class: UTF8Type},
+        {column_name : organization, validation_class: UTF8Type}];
 
 create column family ErrorValues
-	with key_validation_class = UTF8Type
-	and comparator = UTF8Type
-	and  column_metadata = [
-		{column_name : errorId, validation_class: LongType},
-		{column_name : name, validation_class: UTF8Type},
-		{column_name : category, validation_class: UTF8Type},
-		{column_name : severity, validation_class: UTF8Type},
-		{column_name : domain, validation_class: UTF8Type},
-		{column_name : subDomain, validation_class: UTF8Type},
-		{column_name : organization, validation_class: UTF8Type}];
-
+    with key_validation_class = UTF8Type
+    and comparator = UTF8Type
+    and  column_metadata = [
+	{column_name : aggregationPeriod, validation_class: LongType},
+	{column_name : tstamp, validation_class: LongType},
+	{column_name : consumerName, validation_class: UTF8Type},
+	{column_name : operationName, validation_class: UTF8Type},
+	{column_name : errorMessage, validation_class: UTF8Type},
+	{column_name : key, validation_class: UTF8Type},
+	{column_name : serverName, validation_class: UTF8Type},
+	{column_name : serverSide, validation_class: UTF8Type},
+	{column_name : serviceAdminName, validation_class: UTF8Type},
+	{column_name : randomNumber, validation_class: IntegerType},
+        {column_name : errorId, validation_class: LongType},
+        {column_name : name, validation_class: UTF8Type},
+        {column_name : category, validation_class: UTF8Type},
+        {column_name : severity, validation_class: UTF8Type},
+        {column_name : domain, validation_class: UTF8Type},
+        {column_name : subDomain, validation_class: UTF8Type},
+        {column_name : organization, validation_class: UTF8Type}];
+ 
 create column family MetricIdentifier
-	with key_validation_class = UTF8Type
-	and comparator = UTF8Type
-	and  column_metadata = [
-		{column_name : metricName, validation_class: UTF8Type},
-		{column_name : serviceAdminName, validation_class: UTF8Type},
-		{column_name : operationName, validation_class: UTF8Type} ];
-
+    with key_validation_class = UTF8Type
+    and comparator = UTF8Type
+    and  column_metadata = [
+        {column_name : metricName, validation_class: UTF8Type},
+        {column_name : serviceAdminName, validation_class: UTF8Type},
+        {column_name : operationName, validation_class: UTF8Type} ];
+ 
 create column family MetricTimeSeries
     with key_validation_class = UTF8Type
     and column_type = Super
     and key_validation_class=UTF8Type;
-    
+     
 create column family ServiceConsumerByIp
-	with key_validation_class = UTF8Type
-	and column_type = Super
+    with key_validation_class = UTF8Type
+    and column_type = Super
     and subcomparator = UTF8Type;
-    
+     
 create column family MetricValues
     with comparator = UTF8Type
     and key_validation_class=UTF8Type;
-    
+     
 create column family ServiceOperationByIp
-	with key_validation_class = UTF8Type
-	and column_type = Super
+    with key_validation_class = UTF8Type
+    and column_type = Super
     and subcomparator = UTF8Type;
-    
+     
 create column family ServiceCallsByTime
-	with key_validation_class = UTF8Type
-	and column_type = Super
-	and comparator = LongType
-    and subcomparator = UTF8Type;
-    
-create column family MetricValuesByIpAndDate
-	with key_validation_class = UTF8Type
-	and column_type = Super
+    with key_validation_class = UTF8Type
+    and column_type = Super
     and comparator = LongType
     and subcomparator = UTF8Type;
-    
- create column family IpPerDayAndServiceName
-	with key_validation_class = UTF8Type
-	and column_type = Super
+     
+create column family MetricValuesByIpAndDate
+    with key_validation_class = UTF8Type
+    and column_type = Super
+    and comparator = LongType
     and subcomparator = UTF8Type;
-    
-
-
-    
-;
+     
+ create column family IpPerDayAndServiceName
+    with key_validation_class = UTF8Type
+    and column_type = Super
+    and subcomparator = UTF8Type;

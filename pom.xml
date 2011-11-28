@@ -143,8 +143,7 @@
          and 'it' builds when doing releases. -->
     <module>examples</module>
     <module>archetype</module>
-    <module>turmeric-runtime-dist-war</module>
-    <module>turmeric-runtime-dist</module>
+    <module>distribution/turmeric-runtime-dist</module>
     <module>logging-handler-cassandra</module>
   </modules>
   <profiles>
