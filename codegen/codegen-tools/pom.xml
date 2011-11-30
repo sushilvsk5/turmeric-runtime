@@ -143,7 +143,7 @@
     <dependency>
       <groupId>org.ebayopensource.turmeric.errorlib</groupId>
       <artifactId>runtime-error-library</artifactId>
-      <version>${project.version}</version> 
+      <version>1.0.0</version>
     </dependency>
     <dependency>
       <groupId>org.ebayopensource.turmeric.runtime</groupId>
@@ -153,7 +153,8 @@
     <dependency>
       <groupId>org.ebayopensource.turmeric.typelib</groupId>
       <artifactId>common-type-library</artifactId>
-      <version>${project.version}</version> 
+<!--      <ve${project.version}version}</version> -->
+      <version>1.0.0</version>
     </dependency>
     
     <dependency>
