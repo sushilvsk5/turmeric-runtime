@@ -255,9 +255,9 @@ public final class HTTPCommonUtils {
 			aliasName = h.getKey();
 			headerName = h.getValue();
 			if (headerName != null && aliasName != null) {
-				if (result.containsKey(aliasName)) {
-					headerValue = result.remove(aliasName);
-					addTransportHeader(headerName, headerValue, result, true, false, errors);
+				if (result.containsKey(headerName)) {
+					headerValue = result.remove(headerName);
+					addTransportHeader(aliasName, headerValue, result, true, false, errors);
 				}
 			}
 		}
