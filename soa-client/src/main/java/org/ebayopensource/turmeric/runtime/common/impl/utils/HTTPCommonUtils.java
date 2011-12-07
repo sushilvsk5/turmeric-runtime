@@ -92,10 +92,10 @@ public final class HTTPCommonUtils {
 			return;
 		}
 
-		buf.append("$Version=\"");
+		buf.append("$Version=");
 		buf.append(0);
 		//buf.append(cookies[0].getVersion());
-		buf.append("\"; ");
+		buf.append("; ");
 
 		for (int i = 0; i < cookies.length; i++) {
 			if (i > 0) {
@@ -110,9 +110,8 @@ public final class HTTPCommonUtils {
 		validateCookieName(name);
 
 		buf.append(name);
-		buf.append("=\"");
-		buf.append(cookie.getValue());
-		buf.append("\"");
+		buf.append("=");
+		buf.append(cookie.getValue());		
 
 		/*if (cookie.getDomain() != null) {
 			buf.append("; $Domain=\"");
