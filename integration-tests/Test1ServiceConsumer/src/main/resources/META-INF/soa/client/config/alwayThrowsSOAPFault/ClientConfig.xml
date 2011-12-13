@@ -12,7 +12,13 @@
 		<wsdl-location>webservices/latest/eBaySvc.wsdl</wsdl-location>
 		<client-instance-config>
 			<invocation-options>
-				<preferred-transport name="MYHTTP11"></preferred-transport>
+				<preferred-transport name="MYHTTP11">
+					<override-options>
+						<socket-connect-timeout-msec>200000</socket-connect-timeout-msec>
+						<socket-read-timeout-msec>200000</socket-read-timeout-msec>
+						<num-connect-retries>2</num-connect-retries>
+					</override-options>
+				</preferred-transport>
 				<request-data-binding>XML</request-data-binding>
 			</invocation-options>
 			<pipeline-config></pipeline-config>
@@ -21,6 +27,10 @@
 					org.ebayopensource.turmeric.runtime.sif.impl.transport.http.HTTPSyncAsyncClientTransport
 				</class-name>
 				<default-options>
+					<socket-connect-timeout-msec>100000</socket-connect-timeout-msec>
+					<socket-read-timeout-msec>100000</socket-read-timeout-msec>
+					<invocation-timeout-msec>200000</invocation-timeout-msec>
+ 
 					<other-options>
 						<option name="PROXY_HOST">localhost</option>
 						<option name="PROXY_PORT">9889</option>
