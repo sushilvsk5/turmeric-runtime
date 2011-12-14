@@ -26,7 +26,7 @@ public class CustomHttpHeadersTest extends AbstractWithServerTest{
 	
 	@Test
 	public void testPosWithHeaderOptionsInCC() throws ServiceException {
-		System.out.println("-- testPosWithHeaderOptionsInCC --");
+		logger.debug("-- testPosWithHeaderOptionsInCC --");
 		AdvertisingUniqueIDServiceV1SharedConsumer client = new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "ESB1");
 		GetTransportHeaders param0 = new GetTransportHeaders();
 		param0.getIn().add(0, "X-EBAY-SOA-CCTEST-HEADER1");
@@ -34,36 +34,36 @@ public class CustomHttpHeadersTest extends AbstractWithServerTest{
 		param0.getIn().add(2, "X-EBAY-SOA-CCTEST-HEADER3");
 		client.getTransportHeaders(param0).getOut();
 		Map<String, String> respHeaders = client.getService().getResponseContext().getTransportHeaders();
-//		System.out.println(respHeaders.get("X-EBAY-SOA-CCTEST-HEADER1"));
+		logger.debug(respHeaders.get("X-EBAY-SOA-CCTEST-HEADER1"));
 		Assert.assertEquals("BAR", respHeaders.get("X-EBAY-SOA-CCTEST-HEADER1"));
 		Assert.assertEquals("80", respHeaders.get("X-EBAY-SOA-CCTEST-HEADER2"));
 		Assert.assertEquals("true", respHeaders.get("X-EBAY-SOA-CCTEST-HEADER3"));
-		System.out.println("-- testPosWithHeaderOptionsInCC --");
+		logger.debug("-- testPosWithHeaderOptionsInCC --");
 		
 	}
 	
 	@Test
 	public void testPosWithOverrideHeaderOptionsInCC() throws ServiceException {
-		System.out.println("-- testPosWithOverrideHeaderOptionsInCC --");
+		logger.debug("-- testPosWithOverrideHeaderOptionsInCC --");
 		AdvertisingUniqueIDServiceV1SharedConsumer client = new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "ESB2");
 		GetTransportHeaders param0 = new GetTransportHeaders();
 		param0.getIn().add(0, "X-TURMERIC-SOA-OCCTEST-HEADER1");
 		param0.getIn().add(1, "X-TURMERIC-SOA-OCCTEST-HEADER2");
 		param0.getIn().add(2, "X-TURMERIC-SOA-OCCTEST-HEADER3");
 		client.getTransportHeaders(param0).getOut();
-//		System.out.println(client.getTransportHeaders(param0).getOut().get(0));
-//		System.out.println(client.getTransportHeaders(param0).getOut().get(1));
-//		System.out.println(client.getTransportHeaders(param0).getOut().get(2));
+		logger.debug(client.getTransportHeaders(param0).getOut().get(0));
+		logger.debug(client.getTransportHeaders(param0).getOut().get(1));
+		logger.debug(client.getTransportHeaders(param0).getOut().get(2));
 		Map<String, String> respHeaders = client.getService().getResponseContext().getTransportHeaders();
 		Assert.assertEquals("BAR", respHeaders.get("X-TURMERIC-SOA-OCCTEST-HEADER1"));
 		Assert.assertEquals("90", respHeaders.get("X-TURMERIC-SOA-OCCTEST-HEADER2"));
 		Assert.assertEquals("true", respHeaders.get("X-TURMERIC-SOA-OCCTEST-HEADER3"));
-		System.out.println("-- testPosWithOverrideHeaderOptionsInCC --");
+		logger.debug("-- testPosWithOverrideHeaderOptionsInCC --");
 	}
 	
 	@Test
 	public void testPosWithTransportHeadersInSessionHeader() throws ServiceException {
-		System.out.println("-- testPosWithTransportHeadersInSessionHeader --");
+		logger.debug("-- testPosWithTransportHeadersInSessionHeader --");
 		String header1 = "X-EBAY-SOA-SESSIONTEST-HEADER1";
 		String header2 = "X-EBAY-SOA-SESSIONTEST-HEADER2";
 		String header3 = "X-EBAY-SOA-SESSIONTEST-HEADER3";
@@ -81,12 +81,12 @@ public class CustomHttpHeadersTest extends AbstractWithServerTest{
 		Assert.assertEquals("Session", respHeaders.get(header1));
 		Assert.assertEquals("100", respHeaders.get(header2));
 		Assert.assertEquals("@#!", respHeaders.get(header3));
-		System.out.println("-- testPosWithTransportHeadersInSessionHeader --");
+		logger.debug("-- testPosWithTransportHeadersInSessionHeader --");
 	}
 	
 	@Test
 	public void testPosWithTransportHeaderInRequestContext() throws ServiceException {
-		System.out.println("-- testPosWithTransportHeaderInRequestContext --");
+		logger.debug("-- testPosWithTransportHeaderInRequestContext --");
 		String header1 = "X-EBAY-SOA-SESSIONTEST-HEADER1";
 		String header2 = "X-EBAY-SOA-SESSIONTEST-HEADER2";
 		String header3 = "X-EBAY-SOA-SESSIONTEST-HEADER3";
@@ -115,7 +115,7 @@ public class CustomHttpHeadersTest extends AbstractWithServerTest{
 		Assert.assertEquals("RequestContext", respHeaders.get(header4));
 		Assert.assertEquals("150", respHeaders.get(header5));
 		Assert.assertEquals("&(", respHeaders.get(header6));
-		System.out.println("-- testPosWithTransportHeaderInRequestContext --");
+		logger.debug("-- testPosWithTransportHeaderInRequestContext --");
 	}
 	
 	
@@ -189,7 +189,7 @@ public class CustomHttpHeadersTest extends AbstractWithServerTest{
 	
 	@Test
 	public void testNegEmptyHeaderValueInConfig() throws ServiceException {
-		System.out.println("-- testNegEmptyHeaderValueInConfig --");
+		logger.debug("-- testNegEmptyHeaderValueInConfig --");
 		AdvertisingUniqueIDServiceV1SharedConsumer client = new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "ESB3");
 		GetTransportHeaders param0 = new GetTransportHeaders();
 		param0.getIn().add(0, "X-EBAY-SOA-CCTEST-HEADER1");
@@ -202,7 +202,7 @@ public class CustomHttpHeadersTest extends AbstractWithServerTest{
 	
 	@Test
 	public void testNegEmptyHeaderInConfig() {
-		System.out.println("-- testNegEmptyHeaderInConfig --");
+		logger.debug("-- testNegEmptyHeaderInConfig --");
 		AdvertisingUniqueIDServiceV1SharedConsumer client;
 		String errorMsg = "Missing option name in option list: 'header-options'";
 		try {
@@ -219,7 +219,7 @@ public class CustomHttpHeadersTest extends AbstractWithServerTest{
 	
 	@Test
 	public void testNegNullHeader() {
-		System.out.println("-- testNegNullHeader --");
+		logger.debug("-- testNegNullHeader --");
 		String header1 = "X-EBAY-SOA-TEST-HEADER1";
 		String header2 = "X-EBAY-SOA-TEST-HEADER2";
 		
@@ -237,16 +237,15 @@ public class CustomHttpHeadersTest extends AbstractWithServerTest{
 			List<String> response = client.getTransportHeaders(param0).getOut();
 			Assert.assertTrue("Test should throw NPE", false);
 		} catch (Exception e) {
-			Assert.assertTrue(true);
 			
 		}
-		System.out.println("-- testNegNullHeader --");
+		logger.debug("-- testNegNullHeader --");
 		
 	}
 	
 	@Test
 	public void testNegNullHeaderValue() throws ServiceException {
-		System.out.println("-- testNegNullHeaderValue --");
+		logger.debug("-- testNegNullHeaderValue --");
 		String header1 = "X-EBAY-SOA-TEST-HEADER1";
 		String header2 = "X-EBAY-SOA-TEST-HEADER3";
 		
@@ -262,16 +261,16 @@ public class CustomHttpHeadersTest extends AbstractWithServerTest{
 		List<String> response = client.getTransportHeaders(param0).getOut();
 		
 		Map<String, String> respHeaders = svc.getResponseContext().getTransportHeaders();
-//		System.out.println(response.get(0));
-//		System.out.println(response.get(1));
+		logger.debug(response.get(0));
+		logger.debug(response.get(1));
 		Assert.assertNull(respHeaders.get("NULL"));
 		Assert.assertEquals("150", respHeaders.get(header2));
-		System.out.println("-- testNegNullHeaderValue --");
+		logger.debug("-- testNegNullHeaderValue --");
 	}
 	
 	@Test
 	public void testNegKnownSOAServiceNameHeader() throws ServiceException {
-		System.out.println("-- testNegKnownSOAServiceNameHeader --");
+		logger.debug("-- testNegKnownSOAServiceNameHeader --");
 		String header1 = "X-EBAY-SOA-SERVICE-NAME";
 		String header2 = "X-EBAY-SOA-TEST-HEADER2";
 		AdvertisingUniqueIDServiceV1SharedConsumer client = new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "ESB5");
@@ -285,12 +284,12 @@ public class CustomHttpHeadersTest extends AbstractWithServerTest{
 		
 		Assert.assertEquals("testNegKnownSOAServiceNameHeader", respHeaders.get(header1));
 		Assert.assertEquals("80", respHeaders.get(header2));	
-		System.out.println("-- testNegKnownSOAServiceNameHeader --");
+		logger.debug("-- testNegKnownSOAServiceNameHeader --");
 	}
 	
 	@Test
 	public void testNegKnownSOARequestDataBindingHeader() throws ServiceException {
-		System.out.println("-- testNegKnownSOARequestDataBindingHeader --");
+		logger.debug("-- testNegKnownSOARequestDataBindingHeader --");
 		String header1 = "X-TURMERIC-REQUEST-DATA-FORMAT";
 		String header2 = "X-TURMERIC-SOA-TEST-HEADER2";
 		
@@ -308,12 +307,12 @@ public class CustomHttpHeadersTest extends AbstractWithServerTest{
 
 		Assert.assertEquals("XML", respHeaders.get(header1));
 		Assert.assertEquals("80", respHeaders.get(header2));	
-		System.out.println("-- testNegKnownSOARequestDataBindingHeader --");
+		logger.debug("-- testNegKnownSOARequestDataBindingHeader --");
 	}
 	
 	@Test
 	public void testNegKnownHTTPHeader() throws ServiceException {
-		System.out.println("-- testNegKnownHTTPHeader --");
+		logger.debug("-- testNegKnownHTTPHeader --");
 		String header1 = "CONTENT-TYPE";
 		String header2 = "X-TURMERIC-SOA-TEST-HEADER2";
 		
@@ -327,32 +326,32 @@ public class CustomHttpHeadersTest extends AbstractWithServerTest{
 		svc.setSessionTransportHeader(header1, "testNegKnownHTTPHeader");
 		svc.setSessionTransportHeader(header2, "100");
 		List<String> response = client.getTransportHeaders(param0).getOut();
-		System.out.println(response.get(0));
-		System.out.println(response.get(1));
+		logger.debug(response.get(0));
+		logger.debug(response.get(1));
 		Map<String, String> respHeaders = svc.getResponseContext().getTransportHeaders();
 		
 		Assert.assertEquals("text/xml; charset=UTF-8", respHeaders.get(header1));
 		Assert.assertEquals("100", respHeaders.get(header2));
-		System.out.println("-- testNegKnownHTTPHeader --");
+		logger.debug("-- testNegKnownHTTPHeader --");
 			
 	}
 	
 	@Test
 	public void testNegURLEncodedHeaderValue() throws ServiceException {
-		System.out.println("-- testNegURLEncodedHeaderValue --");	
+		logger.debug("-- testNegURLEncodedHeaderValue --");	
 		AdvertisingUniqueIDServiceV1SharedConsumer client = new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "ESB8");
 		GetTransportHeaders param0 = new GetTransportHeaders();
 		param0.getIn().add(0, "X-EBAY-SOA-CCTEST-HEADER1");
 		param0.getIn().add(1, "X-EBAY-SOA-CCTEST-HEADER2");
 		param0.getIn().add(2, "X-EBAY-SOA-CCTEST-HEADER3");
-		System.out.println(client.getTransportHeaders(param0).getOut().get(0));
-		System.out.println(client.getTransportHeaders(param0).getOut().get(1));
-		System.out.println(client.getTransportHeaders(param0).getOut().get(2));
+		logger.debug(client.getTransportHeaders(param0).getOut().get(0));
+		logger.debug(client.getTransportHeaders(param0).getOut().get(1));
+		logger.debug(client.getTransportHeaders(param0).getOut().get(2));
 		Map<String, String> respHeaders = client.getService().getResponseContext().getTransportHeaders();
 		Assert.assertEquals("&", respHeaders.get("X-EBAY-SOA-CCTEST-HEADER1"));
 		Assert.assertEquals("80", respHeaders.get("X-EBAY-SOA-CCTEST-HEADER2"));
 		Assert.assertEquals("true", respHeaders.get("X-EBAY-SOA-CCTEST-HEADER3"));		
-		System.out.println("-- testNegURLEncodedHeaderValue --");
+		logger.debug("-- testNegURLEncodedHeaderValue --");
 	}
 	
 	

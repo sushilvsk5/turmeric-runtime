@@ -51,6 +51,10 @@
   </build>
   <dependencies>
     <dependency>
+    	<groupId>org.slf4j</groupId>
+    	<artifactId>slf4j-simple</artifactId>
+    </dependency>
+    <dependency>
     	<groupId>org.ebayopensource.turmeric.runtime.tests</groupId>
     	<artifactId>jetty-common-tests</artifactId>
     	<version>${project.version}</version>

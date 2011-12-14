@@ -14,6 +14,8 @@ import java.net.URL;
 import org.ebayopensource.turmeric.junit.asserts.ClassLoaderAssert;
 import org.ebayopensource.turmeric.junit.utils.MavenTestingUtils;
 import org.junit.BeforeClass;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Top level test case for all test within Turmeric.
@@ -24,6 +26,7 @@ public abstract class AbstractTurmericTestCase extends org.ebayopensource.turmer
 	 * the embedded jetty server.
 	 */
 	protected static final URL LOCAL_TRANSPORT = null;
+	protected final Logger logger = LoggerFactory.getLogger(AbstractTurmericTestCase.class);
 
 	/**
 	 * Quick sanity checks for various resources that should be

@@ -12,6 +12,8 @@ import org.ebayopensource.turmeric.runtime.tests.common.util.HttpTestClient;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ebay.kernel.service.invocation.client.http.Request;
 import com.ebay.kernel.service.invocation.client.http.Response;
@@ -21,6 +23,7 @@ public class OperationNameMismatchTest {
 	public Map<String, String> queryParams = new HashMap<String, String>();
 	Response response;
 	String body;
+	protected final Logger logger = LoggerFactory.getLogger(OperationNameMismatchTest.class);
 
 	@BeforeClass
 	public static void setUp() throws ServiceException {
@@ -31,7 +34,7 @@ public class OperationNameMismatchTest {
 	}
 	@Test
 	public void testXMLIncorrectMethod() {
-		System.out.println("--- testXML ---");
+		logger.debug("--- testXML ---");
 /*
 		try {
 			queryParams.put("X-TURMERIC-SERVICE-NAME", "{http://www.ebay.com/marketplace/advertising/v1/services}UniqueIDService");
@@ -48,13 +51,13 @@ public class OperationNameMismatchTest {
 			assertTrue("Error - No Exception should be thrown ", false);
 		}
 		*/
-		System.out.println("--- testXML ---");
+		logger.debug("--- testXML ---");
 
 	}
 
 	@Test
 	public void testIncorrectPayload() {
-		System.out.println("--- testIncorrectPayload ---");
+		logger.debug("--- testIncorrectPayload ---");
 /*
 		try {
 			queryParams.put("X-EBAY-SOA-SERVICE-NAME", "{http://www.ebay.com/marketplace/advertising/v1/services}UniqueIDService");
@@ -73,11 +76,11 @@ public class OperationNameMismatchTest {
 		} catch (Exception e) {
 			assertTrue("Error - No Exception should be thrown ", false);
 		}*/
-		System.out.println("--- testIncorrectPayload ---");
+		logger.debug("--- testIncorrectPayload ---");
 	}
 	@Test
 	public void testJSON() {
-		System.out.println("--- testJSON ---");
+		logger.debug("--- testJSON ---");
 		/*try {
 			queryParams.put("X-EBAY-SOA-SERVICE-NAME", "{http://www.ebay.com/marketplace/advertising/v1/services}UniqueIDService");
 			queryParams.put("X-EBAY-SOA-OPERATION-NAME","getTransportHeaders");
@@ -92,7 +95,7 @@ public class OperationNameMismatchTest {
 		} catch (Exception e) {
 			assertTrue("Error - No Exception should be thrown ", false);
 		}*/
-		System.out.println("--- testJSON ---");
+		logger.debug("--- testJSON ---");
 
 	}
 }

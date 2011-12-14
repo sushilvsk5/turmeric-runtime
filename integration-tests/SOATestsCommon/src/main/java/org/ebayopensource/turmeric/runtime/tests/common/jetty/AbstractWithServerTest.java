@@ -17,12 +17,16 @@ import org.ebayopensource.turmeric.runtime.tests.common.AbstractTurmericTestCase
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
+import com.ebay.kernel.logger.Logger;
+
 /**
  * For testing against {@link SPFServlet} with Embedded Jetty Server.
  */
 public abstract class AbstractWithServerTest extends AbstractTurmericTestCase {
 	protected static SimpleJettyServer jetty;
 	protected static URI serverUri;
+	protected Logger logger = Logger.getInstance("AbstractWithServerTest");  
+
 
 	@BeforeClass
 	public static void startServer() throws Exception {

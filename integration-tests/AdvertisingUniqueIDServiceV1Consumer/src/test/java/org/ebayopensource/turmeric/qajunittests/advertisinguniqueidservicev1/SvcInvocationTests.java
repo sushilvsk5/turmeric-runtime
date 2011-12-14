@@ -20,6 +20,7 @@ import org.ebayopensource.turmeric.advertising.v1.services.TestPrimitiveTypesReq
 import org.ebayopensource.turmeric.advertisinguniqueservicev1.AdvertisingUniqueIDServiceV1SharedConsumer;
 import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
 import org.ebayopensource.turmeric.runtime.tests.common.jetty.AbstractWithServerQETest;
+import org.ebayopensource.turmeric.runtime.tests.common.jetty.JavaUtilLog;
 import org.junit.Test;
 
 public class SvcInvocationTests extends AbstractWithServerQETest {
@@ -28,7 +29,7 @@ public class SvcInvocationTests extends AbstractWithServerQETest {
 	public void testRemoteMode1() throws ServiceException, MalformedURLException {
 //		ServiceConfigManager.getInstance().setConfigTestCase("testConfig");
 		AdvertisingUniqueIDServiceV1SharedConsumer client = new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "production");
-		System.out.println("uri VASU" + serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1/");
+		logger.debug("uri VASU" + serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1/");
 		client.getService().setServiceLocation(new URL(serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1/"));
 		EchoMessageRequest param0 = new EchoMessageRequest();
 		param0.setIn("Foo");
@@ -46,12 +47,12 @@ public class SvcInvocationTests extends AbstractWithServerQETest {
 		
 //		/		ServiceConfigManager.getInstance().setConfigTestCase("testConfig");
 		AdvertisingUniqueIDServiceV1SharedConsumer client = new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "production");
-		System.out.println("uri VASU" + serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1/");
+		logger.debug("uri VASU" + serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1/");
 		client.getService().setServiceLocation(new URL(serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1/"));
 		TestPrimitiveTypesRequest request = new TestPrimitiveTypesRequest();
 		byte b = 12;
 		request.setTypeByte(b);
-		System.out.println(client.testPrimitiveTypes(request).getOut());
+		logger.debug(client.testPrimitiveTypes(request).getOut());
 		Assert.assertEquals("From Server 12", client.testPrimitiveTypes(request).getOut());
 	}
 
@@ -60,7 +61,7 @@ public class SvcInvocationTests extends AbstractWithServerQETest {
 	public void testRemoteMode() throws ServiceException, MalformedURLException {
 //		ServiceConfigManager.getInstance().setConfigTestCase("testConfig");
 		AdvertisingUniqueIDServiceV1SharedConsumer client = new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "production");
-		System.out.println("uri VASU" + serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1/");
+		logger.debug("uri VASU" + serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1/");
 		client.getService().setServiceLocation(new URL(serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1/"));
 //		EchoMessageRequest param0 = new EchoMessageRequest();
 //		param0.setIn("Foo");
@@ -68,8 +69,6 @@ public class SvcInvocationTests extends AbstractWithServerQETest {
 		TestPrimitiveTypesRequest request = new TestPrimitiveTypesRequest();
 		byte b = 12;
 		request.setTypeByte(b);
-		System.out.println(client.testPrimitiveTypes(request).getOut());
-	
-		
+		logger.debug(client.testPrimitiveTypes(request).getOut());
 	}
 }

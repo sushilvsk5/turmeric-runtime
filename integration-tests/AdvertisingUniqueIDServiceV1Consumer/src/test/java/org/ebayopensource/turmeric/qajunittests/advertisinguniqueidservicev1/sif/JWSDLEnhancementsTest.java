@@ -31,43 +31,42 @@ public class JWSDLEnhancementsTest extends AbstractWithServerQETest{
 	
 	@Test
 	public void wsdlContentDisplay1() throws Exception {
-		System.out.println("testWsdlContentDisplay1()");
+		logger.debug("testWsdlContentDisplay1()");
 		HttpTestClient httpClient = HttpTestClient.getInstance();
 		httpClient.port = serverUri.toASCIIString().substring(17);
 		
 		Map queryParams = new HashMap();
 		String url = serverUri.toASCIIString() + "/ws/spf?wsdl&X-TURMERIC-SERVICE-NAME=AdvertisingUniqueIDServiceV1";
-		System.out.println(url);
+		logger.debug(url);
 		String wsdlFileContent = httpClient.getResponse(url, queryParams);
-		System.out.println("browser content=" +wsdlFileContent);
+		logger.debug("browser content=" +wsdlFileContent);
 		CharSequence wsdlCharset = "wsdl:definitions xmlns:wsdl=";
 		assertTrue("Expected string - '" + wsdlCharset +"' NOT found", wsdlFileContent.contains(wsdlCharset));
 		wsdlCharset = "wsdl:service name=\"AdvertisingUniqueIDServiceV1\"";
 		assertTrue("Expected string - '" + wsdlCharset +"' NOT found", wsdlFileContent.contains(wsdlCharset));		
-		System.out.println("testWsdlContentDisplay1()");
+		logger.debug("testWsdlContentDisplay1()");
 	}
 	
 	@Test
 	public void wsdlContentDisplay2() throws Exception {
-		System.out.println("testWsdlContentDisplay2()");
+		logger.debug("testWsdlContentDisplay2()");
 		HttpTestClient httpClient = HttpTestClient.getInstance();
 		httpClient.port = serverUri.toASCIIString().substring(17);
 		
 		Map queryParams = new HashMap();
 		String url = serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1?wsdl";
-//		System.out.println(url);
 		String wsdlFileContent = httpClient.getResponse(url, queryParams);
-//		System.out.println("browser content=" +wsdlFileContent);
+		logger.debug("browser content=" +wsdlFileContent);
 		CharSequence wsdlCharset = "wsdl:definitions xmlns:wsdl=";
 		assertTrue("Expected string - '" + wsdlCharset +"' NOT found", wsdlFileContent.contains(wsdlCharset));
 		wsdlCharset = "wsdl:service name=\"AdvertisingUniqueIDServiceV1\"";
 		assertTrue("Expected string - '" + wsdlCharset +"' NOT found", wsdlFileContent.contains(wsdlCharset));		
-		System.out.println("testWsdlContentDisplay2()");
+		logger.debug("testWsdlContentDisplay2()");
 	}
 	
 	@Test
 	public void wsdlContentDisplay3() throws Exception {
-		System.out.println("testWsdlContentDisplay2()");
+		logger.debug("testWsdlContentDisplay2()");
 		HttpTestClient httpClient = HttpTestClient.getInstance();
 		httpClient.port = serverUri.toASCIIString().substring(17);
 		
@@ -75,16 +74,17 @@ public class JWSDLEnhancementsTest extends AbstractWithServerQETest{
 		String body ="{\"greet\":[\"Test\"],}";
 		String url1 = serverUri.toASCIIString() + "/ws/spf/foo/asdb?wsdl&X-TURMERIC-SERVICE-NAME=AdvertisingUniqueIDServiceV1";
 		Response response = httpClient.getResponseDB(new Request(url1), queryParams, body, "POST");
-//		System.out.println("browser content=" + response);
+		logger.debug("browser content=" + response);
 		CharSequence wsdlCharset = "wsdl:definitions xmlns:wsdl=";
 		assertTrue("Expected string - '" + wsdlCharset +"' NOT found", response.getBody().contains(wsdlCharset));
 		wsdlCharset = "wsdl:service name=\"AdvertisingUniqueIDServiceV1\"";
 		assertTrue("Expected string - '" + wsdlCharset +"' NOT found", response.getBody().contains(wsdlCharset));		
-		System.out.println("testWsdlContentDisplay2()");
+		logger.debug("testWsdlContentDisplay2()");
 	}
+	
 	@Test
 	public void wsdlContentDisplay4() throws Exception {
-		System.out.println("testWsdlContentDisplay2()");
+		logger.debug("testWsdlContentDisplay2()");
 		Response response = null;
 		HttpTestClient httpClient = HttpTestClient.getInstance();
 		httpClient.port = serverUri.toASCIIString().substring(17);
@@ -93,13 +93,13 @@ public class JWSDLEnhancementsTest extends AbstractWithServerQETest{
 			String body ="{\"greet\":[\"Test\"],}";
 			String url = serverUri.toASCIIString() + "/services/abc/UniqueIDService/v1?wsdl";
 			response = httpClient.getResponseDB(new Request(url), queryParams, body, "POST");
-//			System.out.println(response.getBody());
+			logger.debug(response.getBody());
 			Assert.assertEquals(response.getStatusCode(), 404);
 		} catch(Exception ex){
-			System.out.println("Error - Expected string - '" + response +"' NOT found");
-			fail();
+			logger.debug("Error - Expected string - '" + response +"' NOT found");
+			fail("Error - Expected string - '" + response + "' NOT found'");
 		}
-		System.out.println("testWsdlContentDisplay2()");
+		logger.debug("testWsdlContentDisplay2()");
 	}
 		
 }

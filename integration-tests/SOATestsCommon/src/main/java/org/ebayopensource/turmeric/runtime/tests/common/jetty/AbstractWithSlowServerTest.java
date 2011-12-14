@@ -14,9 +14,13 @@ import org.ebayopensource.turmeric.runtime.tests.common.AbstractTurmericTestCase
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
+import com.ebay.kernel.logger.Logger;
+
 public abstract class AbstractWithSlowServerTest extends AbstractTurmericTestCase {
 	protected static SimpleJettyServer jetty;
 	protected static URI serverUri;
+	protected Logger logger = Logger.getInstance("AbstractWithSlowServerTest");  
+
 
 	@BeforeClass
 	public static void startServer() throws Exception {
