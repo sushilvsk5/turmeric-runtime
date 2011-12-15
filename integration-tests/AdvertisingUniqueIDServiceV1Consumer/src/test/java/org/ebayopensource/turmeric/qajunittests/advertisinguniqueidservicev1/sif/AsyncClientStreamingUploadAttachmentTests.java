@@ -2,6 +2,7 @@ package org.ebayopensource.turmeric.qajunittests.advertisinguniqueidservicev1.si
 
 import static org.junit.Assert.assertNull;
 
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,6 +29,8 @@ import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AsyncClientStreamingUploadAttachmentTests {
 	
@@ -40,11 +43,12 @@ public class AsyncClientStreamingUploadAttachmentTests {
 	BufferedInputStream br = null;
 	FileOutputStream out = null;
 	static String currentDir;
+	Logger logger = LoggerFactory.getLogger(AsyncClientStreamingUploadAttachmentTests.class);
+	
 
 	@BeforeClass
 	public static void setUp() throws Exception {
 		currentDir = System.getProperty("user.dir");
-		System.out.println("user.dir=" + currentDir);
 		f3mbServer = new File(currentDir + "\\Server3mbAttachment.txt");
 		f3gbServer = new File(currentDir + "\\Server3gbAttachment.txt");
 		f1 = new File(currentDir + "\\3mbAttachment.txt");
@@ -63,7 +67,7 @@ public class AsyncClientStreamingUploadAttachmentTests {
 	@Test
 	@Ignore("client streaming not supported in opensource")
 	public void testAsyncPullClientStreamingTrueUploadWith3GBAttachment() throws Exception {
-		System.out.println("-- testAsyncPullClientStreamingTrueUploadWith3GBAttachment --");
+		logger.debug("-- testAsyncPullClientStreamingTrueUploadWith3GBAttachment --");
 
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
 			new SharedAdvertisingUniqueIDServiceV1Consumer(
@@ -81,18 +85,18 @@ public class AsyncClientStreamingUploadAttachmentTests {
 		while (!resp.isDone()) { // take a nap
 			Thread.sleep(1000L);
 		}
-		System.out.println("isDone is true, now process response.");
+		logger.debug("isDone is true, now process response.");
 
 		response = resp.get().getOut();
 //		assertOnResponseAttachment(f3gbServer, MAX_SIZE2);
 
-		System.out.println("-- testAsyncPullClientStreamingTrueUploadWith3GBAttachment --");
+		logger.debug("-- testAsyncPullClientStreamingTrueUploadWith3GBAttachment --");
 	}
 
 	@Test
 	@Ignore("client streaming not supported in opensource")
 	public void testAsyncPullClientStreamingTrueUploadWith3MBAttachment() throws Exception {
-		System.out.println("-- testAsyncPullClientStreamingTrueWith3MBAttachment --");
+		logger.debug("-- testAsyncPullClientStreamingTrueWith3MBAttachment --");
 
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
 			new SharedAdvertisingUniqueIDServiceV1Consumer(
@@ -110,19 +114,19 @@ public class AsyncClientStreamingUploadAttachmentTests {
 		while (!resp.isDone()) {
 			Thread.sleep(5000);
 		}
-		System.out.println("isDone is true, now process response.");
+		logger.debug("isDone is true, now process response.");
 
 		response = resp.get().getOut();
 		assertOnResponseAttachment(f3mbServer, MAX_SIZE1);
 
-		System.out.println("-- testAsyncPullClientStreamingTrueWith3MBAttachment --");
+		logger.debug("-- testAsyncPullClientStreamingTrueWith3MBAttachment --");
 	}
 
 
 	@Test
 	@Ignore("client streaming not supported in opensource")
 	public void testAsyncPushUploadClientStreamingTrueWith3GBAttachment() throws Exception {
-		System.out.println("-- testAsyncPushClientStreamingTrueWith3GBAttachment --");
+		logger.debug("-- testAsyncPushClientStreamingTrueWith3GBAttachment --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
 			new SharedAdvertisingUniqueIDServiceV1Consumer(
 					"AdvertisingUniqueIDServiceV1Consumer", "ClientStreaming");
@@ -145,13 +149,13 @@ public class AsyncClientStreamingUploadAttachmentTests {
 		
 		assertOnResponseAttachment(f3gbServer, MAX_SIZE2);
 
-		System.out.println("-- testAsyncPushClientStreamingTrueWith3GBAttachment --");
+		logger.debug("-- testAsyncPushClientStreamingTrueWith3GBAttachment --");
 	}
 
 	@Test
 	@Ignore("client streaming not supported in opensource")
 	public void testAsyncPushClientStreamingTrueWith3MBAttachment() throws ServiceException, InterruptedException, ExecutionException, IOException {
-		System.out.println("-- testAsyncPushClientStreamingTrueWith3MBAttachment --");
+		logger.debug("-- testAsyncPushClientStreamingTrueWith3MBAttachment --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "ClientStreaming");
 		AttachmentAsyncHandler<TestAttachmentResponse> attHandler = new AttachmentAsyncHandler<TestAttachmentResponse>();
 		Future<?> attFutureObj = null;
@@ -177,19 +181,19 @@ public class AsyncClientStreamingUploadAttachmentTests {
 				// Ignore
 			}
 		}
-		System.out.println(attHandler.resp.get().getOut().getFileName());
+		logger.debug(attHandler.resp.get().getOut().getFileName());
 		response = attHandler.resp.get().getOut();
 		out = new FileOutputStream(new File(response.getFilePath() + response.getFileName()));
 		assertOnResponseAttachment(f3mbServer, MAX_SIZE1);
 
-		System.out.println("-- testAsyncPushClientStreamingTrueWith3MBAttachment --");
+		logger.debug("-- testAsyncPushClientStreamingTrueWith3MBAttachment --");
 	}
 
 
 	@Test
 	@Ignore("client streaming not supported in opensource")
 	public void testSynchWith3MBAttachmentRemote() throws Exception {
-		System.out.println("-- testSynchWith3MBAttachmentRemote --");
+		logger.debug("-- testSynchWith3MBAttachmentRemote --");
 
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
 			new SharedAdvertisingUniqueIDServiceV1Consumer(
@@ -205,13 +209,13 @@ public class AsyncClientStreamingUploadAttachmentTests {
 		response = client.testAttachment(param0).getOut();
 		assertOnResponseAttachment(f3mbServer, MAX_SIZE1);
 
-		System.out.println("-- testSynchWith3MBAttachmentRemote --");
+		logger.debug("-- testSynchWith3MBAttachmentRemote --");
 
 	}
 	@Test
 	@Ignore("client streaming not supported in opensource")
 	public void testSynchWith3MBAttachmentLocal() throws Exception {
-		System.out.println("-- testSynchWith3MBAttachmentLocal --");
+		logger.debug("-- testSynchWith3MBAttachmentLocal --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
 			new SharedAdvertisingUniqueIDServiceV1Consumer(
 					"AdvertisingUniqueIDServiceV1Consumer", "local");
@@ -227,13 +231,13 @@ public class AsyncClientStreamingUploadAttachmentTests {
 		response = client.testAttachment(param0).getOut();
 		assertOnResponseAttachment(f3mbServer, MAX_SIZE1);
 
-		System.out.println("-- testSynchWith3MBAttachmentLocal --");
+		logger.debug("-- testSynchWith3MBAttachmentLocal --");
 
 	}
 	@Test
 	@Ignore("client streaming not supported in opensource")
 	public void testSynchWith3GBAttachmentLocal() throws Exception {
-		System.out.println("-- testSynchWith3GBAttachmentLocal --");
+		logger.debug("-- testSynchWith3GBAttachmentLocal --");
 
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
 			new SharedAdvertisingUniqueIDServiceV1Consumer(
@@ -251,13 +255,13 @@ public class AsyncClientStreamingUploadAttachmentTests {
 		response = client.testAttachment(param0).getOut();
 		assertOnResponseAttachment(f3gbServer, MAX_SIZE2);
 
-		System.out.println("-- testSynchWith3GBAttachmentLocal --");
+		logger.debug("-- testSynchWith3GBAttachmentLocal --");
 	}
 
 	@Test
 	@Ignore("client streaming not supported in opensource")
 	public void testSynchWith3GBAttachmentRemote() throws Exception {
-		System.out.println("-- testSynchWith3GBAttachmentRemote --");
+		logger.debug("-- testSynchWith3GBAttachmentRemote --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
 			new SharedAdvertisingUniqueIDServiceV1Consumer(
 					"AdvertisingUniqueIDServiceV1Consumer", "ClientStreaming");
@@ -274,14 +278,14 @@ public class AsyncClientStreamingUploadAttachmentTests {
 		out = new FileOutputStream(new File(response.getFilePath() + response.getFileName()));
 		assertOnResponseAttachment(f3gbServer, MAX_SIZE2);
 
-		System.out.println("-- testSynchWith3GBAttachmentRemote --");
+		logger.debug("-- testSynchWith3GBAttachmentRemote --");
 	}
 
 	private void assertOnResponseAttachment(
 			File serverFile, long size)
 	throws FileNotFoundException, IOException {
 		// assert on server file
-		System.out.println("Server file size = " + serverFile.length());
+		logger.debug("Server file size = " + serverFile.length());
 		Assert.assertEquals("Unexpected output file size", serverFile.length(), size);
 		Assert.assertTrue("Output file " + serverFile.getAbsolutePath() + " doesn't exist", serverFile.exists());
 		// assert on Response
@@ -298,13 +302,13 @@ public class AsyncClientStreamingUploadAttachmentTests {
 		public void handleResponse(Response<T> resp) {
 			this.resp = resp;
 			String currThreadNm = Thread.currentThread().getName();
-			System.out.println("AttachmentAsyncHandler:handleResponse:Executing thread " + currThreadNm);
+			logger.debug("AttachmentAsyncHandler:handleResponse:Executing thread " + currThreadNm);
 			try {
-//				System.out.println("AttachmentAsyncHandler:handleResponse:");
-				System.out.println(this.resp.get());
+//				logger.debug("AttachmentAsyncHandler:handleResponse:");
+				logger.debug(this.resp.get().toString());
 //				TestAttachmentResponse response = (TestAttachmentResponse)this.resp.get();
-//				System.out.println(response.getOut().getFileName());
-//				System.out.println(response.getOut().getSize());
+//				logger.debug(response.getOut().getFileName());
+//				logger.debug(response.getOut().getSize());
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} catch (ExecutionException e) {

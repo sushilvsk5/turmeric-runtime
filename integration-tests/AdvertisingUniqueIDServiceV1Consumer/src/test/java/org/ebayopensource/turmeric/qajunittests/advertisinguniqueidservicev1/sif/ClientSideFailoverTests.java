@@ -16,9 +16,11 @@ import org.ebayopensource.turmeric.runtime.common.types.SOAConstants;
 import org.ebayopensource.turmeric.runtime.tests.common.jetty.AbstractWithServerTest;
 import org.ebayopensource.turmeric.runtime.tests.common.util.HttpTestClient;
 import org.ebayopensource.turmeric.runtime.tests.common.util.MetricUtil;
-import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import com.ebay.kernel.logger.LogLevel;
 
 public class ClientSideFailoverTests extends AbstractWithServerTest{
 	public static HttpTestClient http = HttpTestClient.getInstance();
@@ -36,8 +38,8 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 			new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "failover1");
 		try {
 			client.setHostName(serverUri.getHost()+":"+serverUri.getPort());
-			System.out.println(client.getHostName());
-			System.out.println("client.getServiceInvokerOptions() " + client.getServiceInvokerOptions().getTransportName());
+			logger.debug(client.getHostName());
+			logger.debug("client.getServiceInvokerOptions() " + client.getServiceInvokerOptions().getTransportName());
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch blocks
 			e.printStackTrace();
@@ -46,7 +48,7 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 		EchoMessageRequest req = new EchoMessageRequest();
 		req.setIn("vasu");
 		String response = client.echoMessage(req).getOut();
-		Assert.assertEquals(" Echo Message = vasu", response);
+		assertEquals(" Echo Message = vasu", response);
 	}
 
 	@Test
@@ -63,7 +65,7 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 		EchoMessageRequest req = new EchoMessageRequest();
 		req.setIn("vasu");
 		String response = client.echoMessage(req).getOut();
-		Assert.assertEquals(" Echo Message = vasu", response);
+		assertEquals(" Echo Message = vasu", response);
 	}
 
 	@Test
@@ -72,7 +74,7 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 			new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "failover1");
 		try {
 			client.setHostName(serverUri.getHost()+":"+serverUri.getPort());
-			System.out.println(client.getHostName());
+			logger.debug(client.getHostName());
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch blocks
 			e.printStackTrace();
@@ -82,7 +84,7 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 		EchoMessageRequest req = new EchoMessageRequest();
 		req.setIn("vasu");
 		String response = client.echoMessage(req).getOut();
-		Assert.assertEquals(" Echo Message = vasu", response);
+		assertEquals(" Echo Message = vasu", response);
 	}
 
 	@Test
@@ -94,17 +96,16 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 			new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "failover1");
 		try {
 			client.setHostName(serverUri.getHost()+":"+serverUri.getPort());
-			System.out.println(client.getHostName());
+			logger.debug(client.getHostName());
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch blocks
-			e.printStackTrace();
+			logger.log(LogLevel.DEBUG, e);
 		}
 		client.getService().setServiceLocations(sl);
 		
 		EchoMessageRequest req = new EchoMessageRequest();
 		req.setIn("vasu");
 		String response = client.echoMessage(req).getOut();
-		Assert.assertEquals(" Echo Message = vasu", response);
+		assertEquals(" Echo Message = vasu", response);
 	}
 
 	@Test
@@ -113,17 +114,16 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 			new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "failover1");
 		try {
 			client.setHostName(serverUri.getHost()+":"+serverUri.getPort());
-			System.out.println(client.getHostName());
+			logger.debug(client.getHostName());
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch blocks
-			e.printStackTrace();
+			logger.log(LogLevel.DEBUG, e);
 		}
 		client.getService().setServiceLocation(new URL("http://"+serverUri.getHost()+":"+serverUri.getPort()+"/ws/spf?X-EBAY-SOA-SERVICE-VERSION=1.0.0"));
 		
 		EchoMessageRequest req = new EchoMessageRequest();
 		req.setIn("vasu");
 		String response = client.echoMessage(req).getOut();
-		Assert.assertEquals(" Echo Message = vasu", response);
+		assertEquals(" Echo Message = vasu", response);
 	}
 
 	@Test
@@ -135,16 +135,15 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 			new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "failover1");
 		try {
 			client.setHostName(serverUri.getHost()+":"+serverUri.getPort());
-			System.out.println(client.getHostName());
+			logger.debug(client.getHostName());
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch blocks
-			e.printStackTrace();
+			logger.log(LogLevel.DEBUG, e);
 		}
 		client.getService().setServiceLocations(sl);
 		EchoMessageRequest req = new EchoMessageRequest();
 		req.setIn("vasu");
 		String response = client.echoMessage(req).getOut();
-		Assert.assertEquals(" Echo Message = vasu", response);
+		assertEquals(" Echo Message = vasu", response);
 	}
 	@Test
 	public void testValidScenario7() throws ServiceException, MalformedURLException {
@@ -152,16 +151,14 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 			new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "failover2");
 		try {
 			client.setHostName(serverUri.getHost()+":"+serverUri.getPort());
-			System.out.println(client.getHostName());
+			logger.debug(client.getHostName());
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch blocks
-			e.printStackTrace();
+			logger.log(LogLevel.DEBUG, e);
 		}
 		EchoMessageRequest req = new EchoMessageRequest();
 		req.setIn("vasu");
 		String response = client.echoMessage(req).getOut();
-		Assert.assertEquals(" Echo Message = vasu", response);
-		///	MarkdownTestHelper.markupClientManually("test1", null, null);
+		assertEquals(" Echo Message = vasu", response);
 	}
 
 	@Test
@@ -170,15 +167,14 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 			new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "failover1");
 		try {
 			client.setHostName(serverUri.getHost()+":"+serverUri.getPort());
-			System.out.println(client.getHostName());
+			logger.debug(client.getHostName());
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch blocks
-			e.printStackTrace();
+			logger.log(LogLevel.DEBUG, e);
 		}
 		client.getService().getRequestContext().setTransportHeader("CLIENT-FAILOVER", "");
 		GetRequestIDResponse res = client.getReqID("HTTP10");
-		System.out.println(res.getRequestID());
-		Assert.assertTrue(res.getRequestID().contains("AdvertisingUniqueIDServiceV1"));
+		logger.debug(res.getRequestID());
+		assertTrue(res.getRequestID().contains("AdvertisingUniqueIDServiceV1"));
 	}
 
 	@Test
@@ -189,26 +185,25 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 		client1.getService().getRequestContext().setTransportHeader("CLIENT-FAILOVER", "");
 		try {
 			client1.setHostName(serverUri.getHost()+":"+serverUri.getPort());
-			System.out.println(client1.getHostName());
+			logger.debug(client1.getHostName());
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch blocks
 			e.printStackTrace();
 		}
 		GetRequestIDResponse res = client1.getReqID("HTTP10");
-		Assert.assertTrue(res.getRequestID().contains("AdvertisingUniqueIDServiceV1"));
+		assertTrue(res.getRequestID().contains("AdvertisingUniqueIDServiceV1"));
 		try {
 			queryParams.put("id",
 			"com.ebay.soa.client.AdvertisingUniqueIDServiceV2.UniqueIDServiceV2Client.failover.Invoker");
 			queryParams.put("forceXml","true");
 			String response = MetricUtil.invokeHttpClient(queryParams, "view");
-			System.out.println("Response - " + response);
-			Assert.assertTrue(response.contains("name=\"SERVICE_URL\""));
-			Assert.assertTrue(response.contains("http:"+serverUri.getHost()+":"+serverUri.getPort()+"/services/advertise/UniqueIDService/v2"));
-			Assert.assertTrue(response.contains("http:"+serverUri.getHost()+":"+serverUri.getPort()+"/services/advertise/UniqueIDService/v2"));
-			Assert.assertTrue(response.contains("http:"+serverUri.getHost()+":"+serverUri.getPort()+"/foo"));
+			logger.debug("Response - " + response);
+			assertTrue(response.contains("name=\"SERVICE_URL\""));
+			assertTrue(response.contains("http:"+serverUri.getHost()+":"+serverUri.getPort()+"/services/advertise/UniqueIDService/v2"));
+			assertTrue(response.contains("http:"+serverUri.getHost()+":"+serverUri.getPort()+"/services/advertise/UniqueIDService/v2"));
+			assertTrue(response.contains("http:"+serverUri.getHost()+":"+serverUri.getPort()+"/foo"));
 		} catch (Exception se) {
-			se.printStackTrace();
-			Assert.assertTrue("Error - No Exception should be thrown ", false);
+			logger.log(LogLevel.DEBUG, se);
+			assertTrue("Error - No Exception should be thrown ", false);
 		} 
 
 	}
@@ -221,35 +216,34 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 		client2.getService().getRequestContext().setTransportHeader("CLIENT-FAILOVER", "");
 		try {
 			client2.setHostName(serverUri.getHost()+":"+serverUri.getPort());
-			System.out.println(client2.getHostName());
+			logger.debug(client2.getHostName());
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch blocks
 			e.printStackTrace();
 		}
 		GetRequestIDResponse res = client2.getReqID("HTTP10");
-		Assert.assertTrue(res.getRequestID().contains("AdvertisingUniqueIDServiceV1"));
+		assertTrue(res.getRequestID().contains("AdvertisingUniqueIDServiceV1"));
 
 		try {
 			queryParams.put("id","com.ebay.soa.client.AdvertisingUniqueIDServiceV2.UniqueIDServiceV2Client.failover.Invoker");
 			queryParams.put("SERVICE_URL", "http://localhost:9090/services/advertise/UniqueIDService/v2,http://localhost:9090/foo");
 			String response = MetricUtil.invokeHttpClient(queryParams, "update");
-			System.out.println("Response - " + response);
-			Assert.assertTrue(response.contains("SERVICE_URL"));
-			Assert.assertTrue(response.
+			logger.debug("Response - " + response);
+			assertTrue(response.contains("SERVICE_URL"));
+			assertTrue(response.
 					contains("http://localhost:9090/services/advertise/UniqueIDService/v2"));
-			Assert.assertFalse(response.
+			assertFalse(response.
 					contains("http://localhost:8080/services/advertise/UniqueIDService/v2"));
-			Assert.assertTrue(response.
+			assertTrue(response.
 					contains("http://localhost:9090/foo"));
 		} catch (Exception se) {
-			se.printStackTrace();
-//			Assert.assertTrue("Error - No Exception should be thrown ", false);
+			logger.log(LogLevel.DEBUG, se);
 		} 
 		finally {
 		queryParams.put("id","com.ebay.soa.client.AdvertisingUniqueIDServiceV2.UniqueIDServiceV2Client.failover.Invoker");
 		queryParams.put("SERVICE_URL", "http://localhost:9090/services/advertise/UniqueIDService/v2,http://localhost:8080/foo," +
 				"http://localhost:8080/services/advertise/UniqueIDService/v2");
-		String response = MetricUtil.invokeHttpClient(queryParams, "update");
+		MetricUtil.invokeHttpClient(queryParams, "update");
 		} 
 
 	}
@@ -265,7 +259,7 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 		EchoMessageRequest req = new EchoMessageRequest();
 		req.setIn("vasu");
 		String response = client.echoMessage(req).getOut();
-		Assert.assertEquals(" Echo Message = vasu", response);
+		assertEquals(" Echo Message = vasu", response);
 	}
 
 	@Test
@@ -277,7 +271,7 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 		EchoMessageRequest req = new EchoMessageRequest();
 		req.setIn("vasu");
 		String response = client.echoMessage(req).getOut();
-		Assert.assertEquals(" Echo Message = vasu", response);
+		assertEquals(" Echo Message = vasu", response);
 	}
 
 
@@ -292,24 +286,22 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 			EchoMessageRequest req = new EchoMessageRequest();
 			req.setIn("vasu");
 			String response = client.echoMessage(req).getOut();
-			System.out.println(response);
+			logger.debug(response);
 		} catch (ServiceInvocationRuntimeException e) {
 			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
-			Assert.assertTrue(e.getMessage().contains("No service address defined for invocation of service"));
-			e.printStackTrace();
+			logger.debug(e.getMessage());
+			assertTrue(e.getMessage().contains("No service address defined for invocation of service"));
+			logger.log(LogLevel.DEBUG, e);
 
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(LogLevel.DEBUG, e);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(LogLevel.DEBUG, e);
 		}	
 	}
 
 	@Test
-	public void testNullCheck2() {
+	public void testNullCheck2() throws ServiceInvocationRuntimeException{
 
 		AdvertisingUniqueIDServiceV1SharedConsumer client;
 		try {
@@ -323,22 +315,14 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 			EchoMessageRequest req = new EchoMessageRequest();
 			req.setIn("vasu");
 			String response = client.echoMessage(req).getOut();
-			System.out.println(response);
-			Assert.assertEquals(" Echo Message = vasu", response);
-		} catch (ServiceInvocationRuntimeException e) {
-			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-			Assert.assertTrue("Should not throw an exception", false);
+			logger.debug(response);
+			assertEquals(" Echo Message = vasu", response);
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(LogLevel.DEBUG, e);
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(LogLevel.DEBUG, e);
 		}catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(LogLevel.DEBUG, e);
 		}	
 	}
 

@@ -4,47 +4,50 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.Assert;
-
 import org.ebayopensource.turmeric.advertising.v1.services.EchoMessageRequest;
 import org.ebayopensource.turmeric.advertisinguniqueidservicev1.gen.SharedAdvertisingUniqueIDServiceV1Consumer;
 import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
 import org.ebayopensource.turmeric.runtime.common.types.SOAConstants;
 import org.ebayopensource.turmeric.runtime.tests.common.jetty.AbstractWithServerTest;
-import org.ebayopensource.turmeric.runtime.tests.common.sif.error.MarkdownTestHelper;
 import org.ebayopensource.turmeric.runtime.tests.common.util.HttpTestClient;
 import org.ebayopensource.turmeric.runtime.tests.common.util.MetricUtil;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
+import static org.junit.Assert.*;
 
 public class MultiClientConfigTests extends AbstractWithServerTest {
 
 	@Test
 	public void testFeatureEnvt() throws ServiceException {
-		SharedAdvertisingUniqueIDServiceV1Consumer testClient1  = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "feature");
+		SharedAdvertisingUniqueIDServiceV1Consumer testClient1 = new SharedAdvertisingUniqueIDServiceV1Consumer(
+				"AdvertisingUniqueIDServiceV1Consumer", "feature");
 		try {
-			testClient1.setHostName(serverUri.getHost()+":"+serverUri.getPort());
-			System.out.println(testClient1.getHostName());
+			testClient1.setHostName(serverUri.getHost() + ":"
+					+ serverUri.getPort());
+			logger.debug(testClient1.getHostName());
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch blocks
-			e.printStackTrace();
+
 		}
 		EchoMessageRequest param0 = new EchoMessageRequest();
 		param0.setIn("MCC Test");
-		Assert.assertEquals(testClient1.echoMessage(param0).getOut(), " Echo Message = MCC Test");
-		Assert.assertEquals(testClient1.getService().getResponseContext().getTransportHeader("X-TURMERIC-RESPONSE-DATA-FORMAT"), "XML");
+		assertEquals(testClient1.echoMessage(param0).getOut(),
+				" Echo Message = MCC Test");
+		assertEquals(testClient1.getService().getResponseContext()
+				.getTransportHeader("X-TURMERIC-RESPONSE-DATA-FORMAT"), "XML");
 	}
 
 	@Test
 	public void testProductionEnvt() throws ServiceException {
-		SharedAdvertisingUniqueIDServiceV1Consumer testClient1  = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "production");
+		SharedAdvertisingUniqueIDServiceV1Consumer testClient1 = new SharedAdvertisingUniqueIDServiceV1Consumer(
+				"AdvertisingUniqueIDServiceV1Consumer", "production");
 		EchoMessageRequest param0 = new EchoMessageRequest();
 		param0.setIn("MCC Test");
-		testClient1.getServiceInvokerOptions().setTransportName(SOAConstants.TRANSPORT_LOCAL);
-		Assert.assertEquals(testClient1.echoMessage(param0).getOut(), " Echo Message = MCC Test");
-		Assert.assertEquals(testClient1.getService().getResponseContext().getTransportHeader("X-TURMERIC-RESPONSE-DATA-FORMAT"), "NV");
+		testClient1.getServiceInvokerOptions().setTransportName(
+				SOAConstants.TRANSPORT_LOCAL);
+		assertEquals(testClient1.echoMessage(param0).getOut(),
+				" Echo Message = MCC Test");
+		assertEquals(testClient1.getService().getResponseContext()
+				.getTransportHeader("X-TURMERIC-RESPONSE-DATA-FORMAT"), "NV");
 	}
 
 	/*
@@ -52,43 +55,52 @@ public class MultiClientConfigTests extends AbstractWithServerTest {
 	 */
 	@Test
 	public void testDefaultEnvt() throws ServiceException {
-		SharedAdvertisingUniqueIDServiceV1Consumer testClient1  = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer");
+		SharedAdvertisingUniqueIDServiceV1Consumer testClient1 = new SharedAdvertisingUniqueIDServiceV1Consumer(
+				"AdvertisingUniqueIDServiceV1Consumer");
 		EchoMessageRequest param0 = new EchoMessageRequest();
 		param0.setIn("MCC Test");
-		testClient1.getServiceInvokerOptions().setTransportName(SOAConstants.TRANSPORT_LOCAL);
-		Assert.assertEquals(testClient1.echoMessage(param0).getOut(), " Echo Message = MCC Test");
-		Assert.assertEquals(testClient1.getService().getResponseContext().getTransportHeader("X-TURMERIC-RESPONSE-DATA-FORMAT"), "NV");
+		testClient1.getServiceInvokerOptions().setTransportName(
+				SOAConstants.TRANSPORT_LOCAL);
+		assertEquals(testClient1.echoMessage(param0).getOut(),
+				" Echo Message = MCC Test");
+		assertEquals(testClient1.getService().getResponseContext()
+				.getTransportHeader("X-TURMERIC-RESPONSE-DATA-FORMAT"), "NV");
 	}
 
 	/*
 	 * Custom Environment { myTestEnvt Setup }
-	 *
 	 */
 	@Test
 	public void testCustomEnvt() throws ServiceException {
-		SharedAdvertisingUniqueIDServiceV1Consumer testClient3  = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "MixedMode2");
+		SharedAdvertisingUniqueIDServiceV1Consumer testClient3 = new SharedAdvertisingUniqueIDServiceV1Consumer(
+				"AdvertisingUniqueIDServiceV1Consumer", "MixedMode2");
 		EchoMessageRequest param0 = new EchoMessageRequest();
 		param0.setIn("MCC Test");
-		testClient3.getServiceInvokerOptions().setTransportName(SOAConstants.TRANSPORT_LOCAL);
-		Assert.assertEquals(testClient3.echoMessage(param0).getOut(), " Echo Message = MCC Test");
-		Assert.assertEquals(testClient3.getService().getResponseContext().getTransportHeader("X-TURMERIC-RESPONSE-DATA-FORMAT"), "XML");
+		testClient3.getServiceInvokerOptions().setTransportName(
+				SOAConstants.TRANSPORT_LOCAL);
+		assertEquals(testClient3.echoMessage(param0).getOut(),
+				" Echo Message = MCC Test");
+		assertEquals(testClient3.getService().getResponseContext()
+				.getTransportHeader("X-TURMERIC-RESPONSE-DATA-FORMAT"), "XML");
 	}
 
-
-
 	@Test
-	public void testNullEnvtValue()  {
+	public void testNullEnvtValue() {
 
 		EchoMessageRequest param0 = new EchoMessageRequest();
 		param0.setIn("MCC Test");
 		try {
-			SharedAdvertisingUniqueIDServiceV1Consumer testClient4  = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", null);
-			testClient4.getServiceInvokerOptions().setTransportName(SOAConstants.TRANSPORT_LOCAL);
-			Assert.assertEquals(testClient4.echoMessage(param0).getOut(), " Echo Message = MCC Test");
-			Assert.assertEquals(testClient4.getService().getResponseContext().getTransportHeader("X-TURMERIC-RESPONSE-DATA-FORMAT"), "NV");
+			SharedAdvertisingUniqueIDServiceV1Consumer testClient4 = new SharedAdvertisingUniqueIDServiceV1Consumer(
+					"AdvertisingUniqueIDServiceV1Consumer", null);
+			testClient4.getServiceInvokerOptions().setTransportName(
+					SOAConstants.TRANSPORT_LOCAL);
+			assertEquals(testClient4.echoMessage(param0).getOut(),
+					" Echo Message = MCC Test");
+			assertEquals(testClient4.getService().getResponseContext()
+					.getTransportHeader("X-TURMERIC-RESPONSE-DATA-FORMAT"),
+					"NV");
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			Assert.assertTrue(e.getMessage().contains("environment can not be null"));
+			assertTrue(e.getMessage().contains("environment can not be null"));
 		}
 
 	}
@@ -96,69 +108,71 @@ public class MultiClientConfigTests extends AbstractWithServerTest {
 	/* Negative Cases */
 
 	/*
-	 *	Missing client config folder from the envt.with below folder structure.
-	 *		SOAAsyncMCCTestConsumer/meta-src/META-INF/soa/client/config/SOAAsyncMCCTestConsumer_client/staging/
-	 *	a.	Appropriate error message should be thrown
+	 * Missing client config folder from the envt.with below folder structure.
+	 * SOAAsyncMCCTestConsumer
+	 * /meta-src/META-INF/soa/client/config/SOAAsyncMCCTestConsumer_client
+	 * /staging/ a. Appropriate error message should be thrown
 	 */
 	@Test
 	public void testMissingCCFolder() {
 		SharedAdvertisingUniqueIDServiceV1Consumer testClient5;
 
-//		SharedSOAAsyncServiceConsumerEnvMapper testClient5;
-		String errorMessage = "Unable to load file: META-INF/soa/client/config/" +
-		"AdvertisingUniqueIDServiceV1Consumer/staging/AdvertisingUniqueIDServiceV1/" +
-		"ClientConfig.xml";
+		// SharedSOAAsyncServiceConsumerEnvMapper testClient5;
+		String errorMessage = "Unable to load file: META-INF/soa/client/config/"
+				+ "AdvertisingUniqueIDServiceV1Consumer/staging/AdvertisingUniqueIDServiceV1/"
+				+ "ClientConfig.xml";
 		try {
-			testClient5 = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "staging");
+			testClient5 = new SharedAdvertisingUniqueIDServiceV1Consumer(
+					"AdvertisingUniqueIDServiceV1Consumer", "staging");
 			EchoMessageRequest param0 = new EchoMessageRequest();
 			param0.setIn("MCC Test");
-			Assert.assertEquals(testClient5.echoMessage(param0).getOut(), " Echo Message = MCC Test");
+			assertEquals(testClient5.echoMessage(param0).getOut(),
+					" Echo Message = MCC Test");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			Assert.assertTrue(e.getMessage().contains(errorMessage));
+			assertTrue(e.getMessage().contains(errorMessage));
 		}
 	}
 
 	/*
-	 *	Missing client config folder from the envt.with below folder structure.
-	 *		SOAAsyncMCCTestConsumer/meta-src/META-INF/soa/client/config/ SOAAsyncMCCTestConsumer_client/sandbox/ SOAAsyncService/
-	 *	a.	Appropriate error message should be thrown
+	 * Missing client config folder from the envt.with below folder structure.
+	 * SOAAsyncMCCTestConsumer/meta-src/META-INF/soa/client/config/
+	 * SOAAsyncMCCTestConsumer_client/sandbox/ SOAAsyncService/ a. Appropriate
+	 * error message should be thrown
 	 */
 	@Test
 	public void testMissingCC() {
 		SharedAdvertisingUniqueIDServiceV1Consumer testClient6;
-		String errorMessage = "Unable to load file: META-INF/soa/client/config/" +
-		"AdvertisingUniqueIDServiceV1Consumer/sandbox/AdvertisingUniqueIDServiceV1/" +
-		"ClientConfig.xml";
+		String errorMessage = "Unable to load file: META-INF/soa/client/config/"
+				+ "AdvertisingUniqueIDServiceV1Consumer/sandbox/AdvertisingUniqueIDServiceV1/"
+				+ "ClientConfig.xml";
 		try {
-			testClient6 = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "sandbox");
+			testClient6 = new SharedAdvertisingUniqueIDServiceV1Consumer(
+					"AdvertisingUniqueIDServiceV1Consumer", "sandbox");
 			EchoMessageRequest param0 = new EchoMessageRequest();
 			param0.setIn("MCC Test");
-			Assert.assertEquals(testClient6.echoMessage(param0).getOut(), " Echo Message = MCC Test");
+			assertEquals(testClient6.echoMessage(param0).getOut(),
+					" Echo Message = MCC Test");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			Assert.assertTrue(e.getMessage().contains(errorMessage));
+			assertTrue(e.getMessage().contains(errorMessage));
 		}
 
 	}
 
-
 	/*
-	 *	Invalid client name
-	 *	a.	Appropriate error message should be thrown
+	 * Invalid client name a. Appropriate error message should be thrown
 	 */
 	@Test
 	public void testMissingClientName() {
 		SharedAdvertisingUniqueIDServiceV1Consumer testClient7;
-		String errorMessage = "Unable to load file: META-INF/soa/client/config/" +
-		"AdvertisingUniqueIDServiceV1Consumer_1/feature/AdvertisingUniqueIDServiceV1/" +
-		"ClientConfig.xml";
+		String errorMessage = "Unable to load file: META-INF/soa/client/config/"
+				+ "AdvertisingUniqueIDServiceV1Consumer_1/feature/AdvertisingUniqueIDServiceV1/"
+				+ "ClientConfig.xml";
 		try {
-			testClient7 = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer_1", "feature");
-			Assert.assertEquals(testClient7.testEnhancedRest(null).getOut(), "10");
+			testClient7 = new SharedAdvertisingUniqueIDServiceV1Consumer(
+					"AdvertisingUniqueIDServiceV1Consumer_1", "feature");
+			assertEquals(testClient7.testEnhancedRest(null).getOut(), "10");
 		} catch (Exception e) {
-			Assert.assertTrue(e.getMessage().contains(errorMessage));
-
+			assertTrue(e.getMessage().contains(errorMessage));
 		}
 
 	}
@@ -166,145 +180,132 @@ public class MultiClientConfigTests extends AbstractWithServerTest {
 	@Test
 	public void testMissingEnvt() {
 		SharedAdvertisingUniqueIDServiceV1Consumer testClient8;
-		String errorMessage = "Unable to load file: META-INF/soa/client/config/" +
-				"AdvertisingUniqueIDServiceV1Consumer/myErrorEnvt/AdvertisingUniqueIDServiceV1/" +
-				"ClientConfig.xml";
+		String errorMessage = "Unable to load file: META-INF/soa/client/config/"
+				+ "AdvertisingUniqueIDServiceV1Consumer/myErrorEnvt/AdvertisingUniqueIDServiceV1/"
+				+ "ClientConfig.xml";
 		try {
-			testClient8 = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "myErrorEnvt");
-			Assert.assertEquals(testClient8.testEnhancedRest(null).getOut(), "10");
-			Assert.assertTrue("consumer creation should fail and throw exception" , false);
+			testClient8 = new SharedAdvertisingUniqueIDServiceV1Consumer(
+					"AdvertisingUniqueIDServiceV1Consumer", "myErrorEnvt");
+			assertEquals(testClient8.testEnhancedRest(null).getOut(), "10");
+			assertTrue("consumer creation should fail and throw exception",
+					false);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			Assert.assertTrue(e.getMessage().contains(errorMessage));
+			assertTrue(e.getMessage().contains(errorMessage));
 		}
 	}
 
-
 	/*
-	 *	When envtName is null, envMapper variable is not set
-	 *		BaseSOAAsyncMCCTestConsumer testClient = new BaseSOAAsyncMCCTestConsumer("", null);
-	 *	a.	Appropriate error message should be thrown
+	 * When envtName is null, envMapper variable is not set
+	 * BaseSOAAsyncMCCTestConsumer testClient = new
+	 * BaseSOAAsyncMCCTestConsumer("", null); a. Appropriate error message
+	 * should be thrown
 	 */
 	@Test
-	public void testNullEnvtWhenEnvtMapperVariableisNotSet() {
+	public void testNullEnvtWhenEnvtMapperVariableisNotSet() throws Exception {
 		SharedAdvertisingUniqueIDServiceV1Consumer testClient8;
-		String errorMessage = "Unable to load file: META-INF/soa/client/config/" +
-				"SOAAsyncMCCTestServiceConsumer1_Client/myErrorEnvt/SOAAsyncService/" +
-				"ClientConfig.xml";
 
-
-		try {
-			testClient8 = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", null);
-			testClient8.setHostName(serverUri.getHost()+":"+serverUri.getPort());
-			testClient8.getService().getInvokerOptions();
-			EchoMessageRequest req = new EchoMessageRequest();
-			req.setIn("test");
-			Assert.assertEquals(testClient8.echoMessage(req).getOut(), " Echo Message = test");
-			//Assert.assertTrue("consumer creation should fail and throw exception" , false);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
- 			Assert.fail("Should not reach here ..." + e.getMessage());
-		}
+		testClient8 = new SharedAdvertisingUniqueIDServiceV1Consumer(
+				"AdvertisingUniqueIDServiceV1Consumer", null);
+		testClient8
+				.setHostName(serverUri.getHost() + ":" + serverUri.getPort());
+		testClient8.getService().getInvokerOptions();
+		EchoMessageRequest req = new EchoMessageRequest();
+		req.setIn("test");
+		assertEquals(testClient8.echoMessage(req).getOut(),
+				" Echo Message = test");
+		// Assert.assertTrue("consumer creation should fail and throw exception"
+		// , false);
 	}
+
 	/*
-	 *	Client Name is null  WhenEnvtMapperVariableisNotSet
-	 *		BaseSOAAsyncMCCTestConsumer testClient = new BaseSOAAsyncMCCTestConsumer(null, "production");
-	 *	a.	Appropriate error message should be thrown
-	 *
+	 * Client Name is null WhenEnvtMapperVariableisNotSet
+	 * BaseSOAAsyncMCCTestConsumer testClient = new
+	 * BaseSOAAsyncMCCTestConsumer(null, "production"); a. Appropriate error
+	 * message should be thrown
 	 */
 	@Test
-	public void testNullClientNameWhenEnvtMapperVariableisNotSet() {
+	public void testNullClientNameWhenEnvtMapperVariableisNotSet()
+			throws Exception {
 		SharedAdvertisingUniqueIDServiceV1Consumer testClient8;
-		String errorMessage = "Unable to load file: META-INF/soa/client/config/" +
-				"SOAAsyncMCCTestServiceConsumer1_Client/myErrorEnvt/SOAAsyncService/" +
-				"ClientConfig.xml";
-		try {
-			 testClient8 = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "production");
-			 testClient8.setHostName(serverUri.getHost()+":"+serverUri.getPort());
+		testClient8 = new SharedAdvertisingUniqueIDServiceV1Consumer(
+				"AdvertisingUniqueIDServiceV1Consumer", "production");
+		testClient8
+				.setHostName(serverUri.getHost() + ":" + serverUri.getPort());
 
-			EchoMessageRequest req = new EchoMessageRequest();
-			req.setIn("test");
-			Assert.assertEquals(testClient8.echoMessage(req).getOut(), " Echo Message = test");
-			//Assert.assertTrue("consumer creation should fail and throw exception" , false);
-		} catch (Exception e) {
-
-			System.out.println(e.getMessage());
-			Assert.fail("Should not reach here..." + e.getMessage());
-		}
-
+		EchoMessageRequest req = new EchoMessageRequest();
+		req.setIn("test");
+		assertEquals(testClient8.echoMessage(req).getOut(),
+				" Echo Message = test");
 
 	}
+
 	/*
-	 *	Client Name is null When EnvtMapper Variable is Set
-	 *		BaseSOAAsyncMCCTestConsumer testClient = new BaseSOAAsyncMCCTestConsumer(null, "production");
-	 *	a.	Appropriate error message should be thrown
+	 * Client Name is null When EnvtMapper Variable is Set
+	 * BaseSOAAsyncMCCTestConsumer testClient = new
+	 * BaseSOAAsyncMCCTestConsumer(null, "production"); a. Appropriate error
+	 * message should be thrown
 	 * http://quickbugstage.arch.ebay.com/show_bug.cgi?id=8279
 	 */
 	@Test
-	public void testNullClientNameWhenEnvtMapperVariableisSet() {
+	public void testNullClientNameWhenEnvtMapperVariableisSet()
+			throws Exception {
 		SharedAdvertisingUniqueIDServiceV1Consumer testClient8;
-		String errorMessage = "Unable to load file: META-INF/soa/client/config/" +
-				"SOAAsyncMCCTestServiceConsumer1_Client/myErrorEnvt/SOAAsyncService/" +
-				"ClientConfig.xml";
-		try {
-			testClient8 = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "production");
-			testClient8.setHostName(serverUri.getHost()+":"+serverUri.getPort());
-			EchoMessageRequest req = new EchoMessageRequest();
-			req.setIn("test");
-			Assert.assertEquals(testClient8.echoMessage(req).getOut(), " Echo Message = test");
-			//Assert.assertTrue("consumer creation should fail and throw exception" , false);
-		} catch (Exception e) {
-
-			System.out.println(e.getMessage());
-    		Assert.fail("Should not reach here ..." +e.getMessage().contains(errorMessage));
-
-		}
+		String errorMessage = "Unable to load file: META-INF/soa/client/config/"
+				+ "SOAAsyncMCCTestServiceConsumer1_Client/myErrorEnvt/SOAAsyncService/"
+				+ "ClientConfig.xml";
+		testClient8 = new SharedAdvertisingUniqueIDServiceV1Consumer(
+				"AdvertisingUniqueIDServiceV1Consumer", "production");
+		testClient8
+				.setHostName(serverUri.getHost() + ":" + serverUri.getPort());
+		EchoMessageRequest req = new EchoMessageRequest();
+		req.setIn("test");
+		assertEquals(testClient8.echoMessage(req).getOut(),
+				" Echo Message = test");
 	}
-	/*
-	@Test
-	public void BUGDB00644700() throws ServiceException {
-		BaseAdaptivePaymentsConsumer testClient = new BaseAdaptivePaymentsConsumer("SOAAsyncMCCTestServiceConsumer1_Client", "production");
-		RefundRequest param0 = new RefundRequest();
-		param0.setCurrencyCode("INR");
-		Assert.assertEquals(testClient.refund(param0).getCurrencyCode(), " USD INR");
-		Assert.assertEquals(testClient.getService().getResponseContext().getTransportHeader("X-EBAY-SOA-RESPONSE-DATA-FORMAT"), "NV");
-	}
-	*/
+
 	/*
 	 * Related to BUGDB00651611
 	 */
 	@Test
 	@Ignore
-	public void testWithClientConfigBean() {
+	public void testWithClientConfigBean() throws Exception {
 		HttpTestClient http = HttpTestClient.getInstance();
 		Map<String, String> queryParams = new HashMap<String, String>();
 		String response = null;
-		System.out.println(" ** testWithClientConfigBean ** ");
-		try {
-			queryParams.clear();
-			String testURL="http://"+serverUri.getHost()+":"+serverUri.getPort()+"/ws/spf?X-TURMERIC-SOA-SERVICE-NAME=AdvertisingUniqueIDServiceV1&X-EBAY-SOA-OPERATION-NAME=getRequestID";
-			response = http.getResponse(testURL , queryParams);
-//			http://localhost:8080/ws/spf?X-EBAY-SOA-SERVICE-NAME=AdvertisingUniqueIDServiceV1&X-EBAY-SOA-OPERATION-NAME=getRequestID
-			queryParams.put("X-TURMERIC-SOA-SERVICE-NAME", "AdvertisingUniqueIDServiceV1");
-			queryParams.put("X-TURMERIC-SOA-OPERATION-NAME", "getRequestID");
-			http.getResponse("http://"+serverUri.getHost()+":"+serverUri.getPort()+"/ws/spf", queryParams);
-			queryParams.clear();
-			queryParams.put("id","com.ebay.soa.client.AdvertisingUniqueIDServiceV2.UniqueIDServiceV2Client.dev.Invoker");
-			queryParams.put("REQUEST_BINDING", "JSON");
-			response = MetricUtil.invokeHttpClient(queryParams, "update");
-			queryParams.put("forceXml","true");
-			response = MetricUtil.invokeHttpClient(queryParams, "view");
-			System.out.println("Response - " + response);
-			Assert.assertTrue("Error - Request Binding is not updated to JSON ",
-					MetricUtil.parseXML(response, "REQUEST_BINDING").contentEquals("JSON"));
-			System.out.println(" ** testWithClientConfigBean ** ");
-		} catch (Exception se) {
-			Assert.assertTrue("Error - No Exception should be thrown ", false);
-		}
+		logger.debug(" ** testWithClientConfigBean ** ");
 		queryParams.clear();
-		queryParams.put("id","com.ebay.soa.client.AdvertisingUniqueIDServiceV2.UniqueIDServiceV2Client.dev.Invoker");
+		String testURL = "http://"
+				+ serverUri.getHost()
+				+ ":"
+				+ serverUri.getPort()
+				+ "/ws/spf?X-TURMERIC-SOA-SERVICE-NAME=AdvertisingUniqueIDServiceV1&X-EBAY-SOA-OPERATION-NAME=getRequestID";
+		response = http.getResponse(testURL, queryParams);
+		// http://localhost:8080/ws/spf?X-EBAY-SOA-SERVICE-NAME=AdvertisingUniqueIDServiceV1&X-EBAY-SOA-OPERATION-NAME=getRequestID
+		queryParams.put("X-TURMERIC-SOA-SERVICE-NAME",
+				"AdvertisingUniqueIDServiceV1");
+		queryParams.put("X-TURMERIC-SOA-OPERATION-NAME", "getRequestID");
+		http.getResponse(
+				"http://" + serverUri.getHost() + ":" + serverUri.getPort()
+						+ "/ws/spf", queryParams);
+		queryParams.clear();
+		queryParams
+				.put("id",
+						"com.ebay.soa.client.AdvertisingUniqueIDServiceV2.UniqueIDServiceV2Client.dev.Invoker");
+		queryParams.put("REQUEST_BINDING", "JSON");
+		response = MetricUtil.invokeHttpClient(queryParams, "update");
+		queryParams.put("forceXml", "true");
+		response = MetricUtil.invokeHttpClient(queryParams, "view");
+		logger.debug("Response - " + response);
+		assertTrue(
+				"Error - Request Binding is not updated to JSON ",
+				MetricUtil.parseXML(response, "REQUEST_BINDING").contentEquals(
+						"JSON"));
+		logger.debug(" ** testWithClientConfigBean ** ");
+		queryParams.clear();
+		queryParams
+				.put("id",
+						"com.ebay.soa.client.AdvertisingUniqueIDServiceV2.UniqueIDServiceV2Client.dev.Invoker");
 		queryParams.put("REQUEST_BINDING", "XML");
 		response = MetricUtil.invokeHttpClient(queryParams, "update");
 	}
 }
-
