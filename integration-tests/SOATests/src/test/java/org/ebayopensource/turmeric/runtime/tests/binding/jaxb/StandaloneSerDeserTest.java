@@ -131,31 +131,7 @@ public class StandaloneSerDeserTest extends BaseSerDeserTest {
 		"'?><MyObject xmlns=\"urn:default\"><id>12345</id></MyObject>");
 	}
 
-/*	private static final String GOLD_JaxbXmlCharacterEscaping = "<?xml version='1.0' encoding='" +
-		Charset.defaultCharset().displayName() +
-		"'?>";
-	@Test	
-	public void testJaxbXmlCharacterEscaping() throws Exception {
-		System.out.println("**** Starting testJaxbXmlCharacterEscaping");
-		MyObject msg = new MyObject();
-		byte[] charsBytes = new byte[257];
-		for (int i=1; i<256; i++) {
-			charsBytes[i] = (byte) (i);
-		}
-		charsBytes[256] = 0;
-		String charsUpto255 = new String(charsBytes, "ISO-8859-1");
-		msg.setNames(new String[]{charsUpto255});
 
-		ISerializerFactory serFactory = new XMLSerializerFactory();
-		serFactory.init(new TestSerInitContext());
-		IDeserializerFactory deserFactory = new XMLDeserializerFactory();
-		deserFactory.init(new TestDeserInitContext());
-
-		doTest(msg, BindingConstants.PAYLOAD_XML, SOAConstants.MIME_XML,
-				serFactory, deserFactory, GOLD_JaxbXmlCharacterEscaping);
-		System.out.println("**** Ending testJaxbXmlCharacterEscaping");
-	}
-*/
 	@Test	
 	public void testJaxbNVOutOfProcess() throws Exception {
 		MyObject msg = createTestObject();
@@ -484,19 +460,19 @@ public class StandaloneSerDeserTest extends BaseSerDeserTest {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		BindingFacade.serialize(serCtx, serFactory, out, msg);
 		String xml1 = out.toString();
-		System.out.println("payload='" + xml1 + "'");
+		logger.debug("payload='" + xml1 + "'");
 		if (goodPayload != null) {
 			Assert.assertEquals(goodPayload, xml1);
 		}
 		Object msg1 = BindingFacade.deserialize(deserCtx, deserFactory, xml1);
 		out = new ByteArrayOutputStream();
 		BindingFacade.serialize(serCtx, serFactory, out, msg1);
-		System.out.println("payload='" + out.toString() + "'");
+		logger.debug("payload='" + out.toString() + "'");
 		msg1 = BindingFacade.deserialize(deserCtx, deserFactory, out.toString());
 		out = new ByteArrayOutputStream();
 		BindingFacade.serialize(serCtx, serFactory, out, msg1);
 		String xml2 = out.toString();
-		System.out.println("payload='" + xml2 + "'");
+		logger.debug("payload='" + xml2 + "'");
 		Assert.assertEquals(msg, msg1);
 	}
 		

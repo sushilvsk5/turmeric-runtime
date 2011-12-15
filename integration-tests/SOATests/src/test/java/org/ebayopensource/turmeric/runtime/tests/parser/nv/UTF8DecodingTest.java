@@ -34,82 +34,73 @@ import org.ebayopensource.turmeric.runtime.binding.utils.URLDecoderInputStream;
 import org.ebayopensource.turmeric.runtime.common.impl.internal.schema.DataElementSchemaImpl;
 import org.junit.Ignore;
 import org.junit.Test;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UTF8DecodingTest {
+
+	private final Logger logger = LoggerFactory
+			.getLogger(UTF8DecodingTest.class);
 
 	/**
 	 * @param args
 	 */
 	@Test
 	public void payPalIinput() throws Exception {
-		System.out.println("Starting payPalIinput");
+		logger.debug("Starting payPalIinput");
 		doTest("%CE%B5%CE%BB%CE%BB%CE%B7%CE%BD%CE%B9%CE%BA%CE%AE");
-		System.out.println("Finishing payPalIinput");
+		logger.debug("Finishing payPalIinput");
 	}
-	
-	
-	/*@Test
-	@Ignore
-	//This is a bug in java.net.URLDecoder where currectly it throws 
-	// java.lang.IllegalArgumentException: URLDecoder: Illegal hex characters in escape (%) pattern - For input string: "%%"
-	public void doublePresentageSignsFollowsByEncodedChar() throws Exception {
-		
-		System.out.println("Starting doublePresentageSignsFollowsByEncodedChar");
-		doTest("%%%2C+");
-		System.out.println("Finishing doublePresentageSignsFollowsByEncodedChar");
-	}*/
-	
+
 	private static final String UNENCODED = "a%\u03a3\u304b";
 	private static final String ENCODED = "a%25%CE%A3%E3%81%8B";
 	private static final String ENCODING = "UTF-8";
 	private static final String NS = "http://foo.com";
 	private static final String LOCAL_NAME = "message";
 
-
 	@Test
 	public void encodeTest() throws Exception {
-		System.out.println("Starting encodeTest");
+		logger.debug("Starting encodeTest");
 		String nvEncoded = nvEncode(UNENCODED);
 		String javaNative = UNENCODED;
 		String javaEncoded = URLEncoder.encode(UNENCODED, ENCODING);
-		System.out.println("Encode Test");
-		System.out.println("  Original:   " + nativeToAscii(UNENCODED));
-		System.out.println("  NV Encode:  " + nativeToAscii(nvEncoded));
-		System.out.println("  URLEncoder: " + nativeToAscii(javaEncoded));
-		System.out.println("  Expected:   " + nativeToAscii(ENCODED));
+		logger.debug("Encode Test");
+		logger.debug("  Original:   " + nativeToAscii(UNENCODED));
+		logger.debug("  NV Encode:  " + nativeToAscii(nvEncoded));
+		logger.debug("  URLEncoder: " + nativeToAscii(javaEncoded));
+		logger.debug("  Expected:   " + nativeToAscii(ENCODED));
 		assertEquals(nativeToAscii(ENCODED), nativeToAscii(nvEncoded));
-		System.out.println("Finishing encodeTest");
+		logger.debug("Finishing encodeTest");
 	}
 
 	@Test
 	public void decodeTest() throws Exception {
-		System.out.println("Starting decodeTest");
+		logger.debug("Starting decodeTest");
 		String nvDecoded = nvDecode(ENCODED);
 		String javaDecoded = URLDecoder.decode(ENCODED, ENCODING);
-		System.out.println("Decode Test");
-		System.out.println("  Original:   " + nativeToAscii(ENCODED));
-		System.out.println("  NV Decode:  " + nativeToAscii(nvDecoded));
-		System.out.println("  URLDecoder: " + nativeToAscii(javaDecoded));
-		System.out.println("  Expected:   " + nativeToAscii(UNENCODED));
+		logger.debug("Decode Test");
+		logger.debug("  Original:   " + nativeToAscii(ENCODED));
+		logger.debug("  NV Decode:  " + nativeToAscii(nvDecoded));
+		logger.debug("  URLDecoder: " + nativeToAscii(javaDecoded));
+		logger.debug("  Expected:   " + nativeToAscii(UNENCODED));
 		assertEquals(nativeToAscii(UNENCODED), nativeToAscii(nvDecoded));
-		System.out.println("Finishing decodeTest");
+		logger.debug("Finishing decodeTest");
 	}
 
 	@Test
 	public void roundTripTest() throws Exception {
-		System.out.println("Starting roundTripTest");
+		logger.debug("Starting roundTripTest");
 		String nvDecoded = nvDecode(ENCODED);
 		String nvEncoded = nvEncode(nvDecoded);
-		System.out.println("Round Trip Test");
-		System.out.println("  Original:  " + nativeToAscii(ENCODED));
-		System.out.println("  NV Decode: " + nativeToAscii(nvDecoded));
-		System.out.println("  Expected:  " + nativeToAscii(UNENCODED));
-		System.out.println("  NV Encode: " + nativeToAscii(nvEncoded));
-		System.out.println("  Expected:  " + nativeToAscii(ENCODED));
+		logger.debug("Round Trip Test");
+		logger.debug("  Original:  " + nativeToAscii(ENCODED));
+		logger.debug("  NV Decode: " + nativeToAscii(nvDecoded));
+		logger.debug("  Expected:  " + nativeToAscii(UNENCODED));
+		logger.debug("  NV Encode: " + nativeToAscii(nvEncoded));
+		logger.debug("  Expected:  " + nativeToAscii(ENCODED));
 		assertEquals(nativeToAscii(ENCODED), nativeToAscii(nvEncoded));
 		assertEquals(nativeToAscii(UNENCODED), nativeToAscii(nvDecoded));
-		System.out.println("Finishing roundTripTest");
+		logger.debug("Finishing roundTripTest");
 	}
 
 	private static String nativeToAscii(String value) {
@@ -163,9 +154,9 @@ public class UTF8DecodingTest {
 		NamespaceConvention conv = NamespaceConvention
 				.createSerializationNSConvention(NS, prefix2NS, ns2Prefix);
 		QName name = new QName(NS, LOCAL_NAME);
-		NVStreamWriter writer = new NVStreamWriter(conv, baos, Charset
-				.forName(ENCODING), name, new DataElementSchemaImpl(name, 1),
-				opts, false);
+		NVStreamWriter writer = new NVStreamWriter(conv, baos,
+				Charset.forName(ENCODING), name, new DataElementSchemaImpl(
+						name, 1), opts, false);
 		writer.writeStartElement("", LOCAL_NAME, NS);
 		writer.writeCharacters(unencodedValue);
 		writer.writeEndElement();
@@ -180,20 +171,22 @@ public class UTF8DecodingTest {
 	private static String nvDecode(final String encodedValue)
 			throws UnsupportedEncodingException, XMLStreamException {
 		String message = LOCAL_NAME + "=" + encodedValue;
-		ByteArrayInputStream bais = new ByteArrayInputStream(message
-				.getBytes(ENCODING));
-		NVStreamParser parser = new NVStreamParser(bais, Charset
-				.forName(ENCODING), null);
+		ByteArrayInputStream bais = new ByteArrayInputStream(
+				message.getBytes(ENCODING));
+		NVStreamParser parser = new NVStreamParser(bais,
+				Charset.forName(ENCODING), null);
 		parser.parseLine();
 		String nvDecoded = parser.getValue();
 		return nvDecoded;
 	}
-	
+
 	private void doTest(String inputString) throws Exception {
 		String decoded = URLDecoder.decode(inputString, "UTF-8");
-		ByteArrayInputStream is = new ByteArrayInputStream(inputString.getBytes());
-		InputStreamReader isr = new InputStreamReader(new URLDecoderInputStream(is), "UTF-8");
-		
+		ByteArrayInputStream is = new ByteArrayInputStream(
+				inputString.getBytes());
+		InputStreamReader isr = new InputStreamReader(
+				new URLDecoderInputStream(is), "UTF-8");
+
 		char[] buf = new char[30];
 		int count = isr.read(buf);
 		if (-1 == count) {

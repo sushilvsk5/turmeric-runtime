@@ -38,7 +38,6 @@ public class ResponseDataBindingTest  extends AbstractWithServerTest {
 	public void setUp() throws Exception{
 		oldSysProp = System.getProperty(ParseUtils.SYS_PROP_CONFIG_SCHEMA_CHECK);
 		System.setProperty(ParseUtils.SYS_PROP_CONFIG_SCHEMA_CHECK, "ERROR");
-		//System.setProperty("test.log.out", "true");
 		
 		ServiceConfigManager.getInstance().setConfigTestCase("testconfig", true);
 	}
@@ -54,8 +53,6 @@ public class ResponseDataBindingTest  extends AbstractWithServerTest {
 	  }else{
 		  System.setProperty(ParseUtils.SYS_PROP_CONFIG_SCHEMA_CHECK, oldSysProp);
 	  }
-		//System.setProperty(ParseUtils.SYS_PROP_CONFIG_SCHEMA_CHECK, oldSysProp); - jvm bug? 
-		  // if the oldsysprop is null, throws nullptrexception
 	}
 	/**
 	 * @check  Exceptions need to be handled

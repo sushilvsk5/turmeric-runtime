@@ -62,10 +62,7 @@ public class ErrorMetricsRegistryTest extends BaseMonitoringTest  {
 		error2.setErrorId(100);
 		
 		assertTrue("Registering Error Groups for error1 failed", MetricsRegistrationHelper.registerMetricsForErrorDataGrps(error1, "MPLACE", "errgrp1 errgrp2"));
-		assertTrue("Registering Error Groups for error2 failed", MetricsRegistrationHelper.registerMetricsForErrorDataGrps(error2, "MPLACE", "errgrp2 errgrp3"));
-		
-	//	validateServerErrorGroupRegistration();
-				
+		assertTrue("Registering Error Groups for error2 failed", MetricsRegistrationHelper.registerMetricsForErrorDataGrps(error2, "MPLACE", "errgrp2 errgrp3"));				
 	}
 	
 	private void registerClientErrorGroups() throws Exception {
@@ -88,17 +85,6 @@ public class ErrorMetricsRegistryTest extends BaseMonitoringTest  {
 		assertTrue("Registering Error Groups for error2 failed", MetricsRegistrationHelper.registerMetricsForErrorDataGrps(error2, "MPLACE", "errgrp2 errgrp3"));
 				
 	}	
-	
-/*	private boolean registerErrorGroup1() {
-		CommonErrorData error1 = new CommonErrorData();
-		error1.setDomain("SOA");
-		error1.setOrganization("MPLACE");
-		error1.setErrorId(1);
-		
-		return MetricsRegistrationHelper.registerMetricsForErrorDataGrps(error1, "errgrp1", "errgrp2");
-		
-		
-	}*/
 	
 	private void validateMetricCount(MetricId metricId, int expected, boolean isClientSide) {
 		MetricValueAggregator metricValueAgg = null;

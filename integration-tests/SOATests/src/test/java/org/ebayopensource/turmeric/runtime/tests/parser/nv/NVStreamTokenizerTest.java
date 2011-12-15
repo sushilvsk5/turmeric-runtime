@@ -24,6 +24,8 @@ import org.ebayopensource.turmeric.runtime.binding.impl.parser.nv.NVPathPart;
 import org.ebayopensource.turmeric.runtime.binding.impl.parser.nv.NVStreamParser;
 import org.ebayopensource.turmeric.runtime.common.impl.binding.jaxb.DataBindingFacade;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ebay.kernel.util.FastURLEncoder;
 import com.ebay.kernel.util.URLDecoder;
@@ -31,23 +33,31 @@ import com.ebay.kernel.util.URLDecoder;
 /**
  * @author wdeng
  */
-public class NVStreamTokenizerTest{
+public class NVStreamTokenizerTest {
+
+	private final Logger logger = LoggerFactory
+			.getLogger(NVStreamTokenizerTest.class);
 
 	private void doTest(String input, String goldResult) throws Exception {
 		doTest(input, goldResult, null);
 	}
 
-	private void doTest(String input, String goldResult, QName impliedRoot) throws Exception {
+	private void doTest(String input, String goldResult, QName impliedRoot)
+			throws Exception {
 		byte[] inputData = input.getBytes();
 		InputStream is = new ByteArrayInputStream(inputData);
-		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
-		NVStreamParser lexer = new NVStreamParser(is, Charset.forName("ASCII"), convention);
+		NamespaceConvention convention = DataBindingFacade
+				.createDeserializationNSConvention(null);
+		NVStreamParser lexer = new NVStreamParser(is, Charset.forName("ASCII"),
+				convention);
 
 		NVLine prevLine = null;
-		NVPathPart impliedRoot2 = (impliedRoot != null ? new NVPathPart(impliedRoot, 0, false) : null);
+		NVPathPart impliedRoot2 = (impliedRoot != null ? new NVPathPart(
+				impliedRoot, 0, false) : null);
 		StringBuffer result = new StringBuffer();
 		while (lexer.parseLine()) {
-			NVLine line = NVLine.createNext(lexer, prevLine, null, impliedRoot2);
+			NVLine line = NVLine
+					.createNext(lexer, prevLine, null, impliedRoot2);
 
 			if (result.length() > 0) {
 				result.append("\n");
@@ -70,7 +80,7 @@ public class NVStreamTokenizerTest{
 			result.append(line.getValue());
 
 			result.append(";path=");
-			for (int i=0; i<line.getDepth(); i++) {
+			for (int i = 0; i < line.getDepth(); i++) {
 				NVPathPart part = line.getPathPart(i);
 
 				if (i > 0) {
@@ -92,267 +102,279 @@ public class NVStreamTokenizerTest{
 			prevLine = line;
 		}
 
-		System.out.println("Gold result = '" + goldResult + "'");
-		System.out.println("Actual Result = '" + result + "'");		
+		logger.debug("Gold result = '" + goldResult + "'");
+		logger.debug("Actual Result = '" + result + "'");
 
 		assertEquals(goldResult, result.toString());
 	}
 
 	@Test
 	public void tokenizer() throws Exception {
-		System.out.println("**** Starting testTokenizer");
+		logger.debug("**** Starting testTokenizer");
 
-		String input =
-			"nvns:tm=http://mynamespace/tm&nvns:c=http://mynamespace/c&" +
-			"tm:message.c:body=\"SOA+SOA%2C+SOS.\"&" +
-			"tm:message.recipient.city=\"San+Jose\"&" +
-			"tm:message.recipient(0).c:emailAddress=\"soa%40ebay.com\"&" +
-			"tm:message.recipient(0).postCode=\"95125\"&" +
-			"tm:message.recipient(0).state=\"CA\"&" +
-			"tm:message.recipient(0).streetNumber=\"0000\"&" +
-			"tm:message.recipient(0).city=\"San+Jose\"&" +
-			"tm:message.recipient(1).c:emailAddress=\"soa%40ebay.com\"&" +
-			"tm:message.recipient(1).postCode=\"95125\"&" +
-			"tm:message.recipient(1).state=\"CA\"&" +
-			"tm:message.recipient(1).streetNumber=\"1111\"&" +
-			"tm:message.subject=\"Test+SOA+JAXB+XML+ser%2Fdeser\"&";
+		String input = "nvns:tm=http://mynamespace/tm&nvns:c=http://mynamespace/c&"
+				+ "tm:message.c:body=\"SOA+SOA%2C+SOS.\"&"
+				+ "tm:message.recipient.city=\"San+Jose\"&"
+				+ "tm:message.recipient(0).c:emailAddress=\"soa%40ebay.com\"&"
+				+ "tm:message.recipient(0).postCode=\"95125\"&"
+				+ "tm:message.recipient(0).state=\"CA\"&"
+				+ "tm:message.recipient(0).streetNumber=\"0000\"&"
+				+ "tm:message.recipient(0).city=\"San+Jose\"&"
+				+ "tm:message.recipient(1).c:emailAddress=\"soa%40ebay.com\"&"
+				+ "tm:message.recipient(1).postCode=\"95125\"&"
+				+ "tm:message.recipient(1).state=\"CA\"&"
+				+ "tm:message.recipient(1).streetNumber=\"1111\"&"
+				+ "tm:message.subject=\"Test+SOA+JAXB+XML+ser%2Fdeser\"&";
 
-		String goldResult =
-			"depth=2;valley=-1;value=SOA SOA, SOS.;path=tm:message[0].c:body[0]\n" +
-			"depth=3;valley=0;value=San Jose;path=tm:message[0].recipient[0].city[0]\n" +
-			"depth=3;valley=1;value=soa@ebay.com;path=tm:message[0].recipient[0].c:emailAddress[0]\n" +
-			"depth=3;valley=1;value=95125;path=tm:message[0].recipient[0].postCode[0]\n" +
-			"depth=3;valley=1;value=CA;path=tm:message[0].recipient[0].state[0]\n" +
-			"depth=3;valley=1;value=0000;path=tm:message[0].recipient[0].streetNumber[0]\n" +
-			"depth=3;valley=1;value=San Jose;path=tm:message[0].recipient[0].city[0]\n" +
-			"depth=3;valley=0;value=soa@ebay.com;path=tm:message[0].recipient[1].c:emailAddress[0]\n" +
-			"depth=3;valley=1;value=95125;path=tm:message[0].recipient[1].postCode[0]\n" +
-			"depth=3;valley=1;value=CA;path=tm:message[0].recipient[1].state[0]\n" +
-			"depth=3;valley=1;value=1111;path=tm:message[0].recipient[1].streetNumber[0]\n" +
-			"depth=2;valley=0;value=Test SOA JAXB XML ser/deser;path=tm:message[0].subject[0]";
+		String goldResult = "depth=2;valley=-1;value=SOA SOA, SOS.;path=tm:message[0].c:body[0]\n"
+				+ "depth=3;valley=0;value=San Jose;path=tm:message[0].recipient[0].city[0]\n"
+				+ "depth=3;valley=1;value=soa@ebay.com;path=tm:message[0].recipient[0].c:emailAddress[0]\n"
+				+ "depth=3;valley=1;value=95125;path=tm:message[0].recipient[0].postCode[0]\n"
+				+ "depth=3;valley=1;value=CA;path=tm:message[0].recipient[0].state[0]\n"
+				+ "depth=3;valley=1;value=0000;path=tm:message[0].recipient[0].streetNumber[0]\n"
+				+ "depth=3;valley=1;value=San Jose;path=tm:message[0].recipient[0].city[0]\n"
+				+ "depth=3;valley=0;value=soa@ebay.com;path=tm:message[0].recipient[1].c:emailAddress[0]\n"
+				+ "depth=3;valley=1;value=95125;path=tm:message[0].recipient[1].postCode[0]\n"
+				+ "depth=3;valley=1;value=CA;path=tm:message[0].recipient[1].state[0]\n"
+				+ "depth=3;valley=1;value=1111;path=tm:message[0].recipient[1].streetNumber[0]\n"
+				+ "depth=2;valley=0;value=Test SOA JAXB XML ser/deser;path=tm:message[0].subject[0]";
 
 		doTest(input, goldResult, null);
-		System.out.println("**** Ending testTokenizer");
+		logger.debug("**** Ending testTokenizer");
 	}
 
 	@Test
 	public void decodeNegativeChar1() throws Exception {
-		System.out.println("**** Starting testDecodeNegativeChar1");
+		logger.debug("**** Starting testDecodeNegativeChar1");
 		String input = "nvns:tm=http://mynamespace/tm&nvns:c=http://mynamespace/c&tm:message.c:body=\"SOA+SOA%XC+SOS.\"";
 		String goldResult = "depth=2;valley=-1;value=SOA SOA%XC SOS.;path=tm:message[0].c:body[0]";
 		doTest(input, goldResult);
-		System.out.println("**** Ending testDecodeNegativeChar1");
+		logger.debug("**** Ending testDecodeNegativeChar1");
 	}
-	
+
 	@Test
 	public void decodeNegativeChar2() throws Exception {
-		System.out.println("**** Starting testDecodeNegativeChar2");
+		logger.debug("**** Starting testDecodeNegativeChar2");
 		String input = "nvns:tm=http://mynamespace/tm&nvns:c=http://mynamespace/c&tm:message.c:body=\"SOA+SOA%3XC+SOS.\"";
 		String goldResult = "depth=2;valley=-1;value=SOA SOA%3XC SOS.;path=tm:message[0].c:body[0]";
 		doTest(input, goldResult);
-		System.out.println("**** Ending testDecodeNegativeChar2");
+		logger.debug("**** Ending testDecodeNegativeChar2");
 	}
-	
+
 	@Test
-	public void decodeNegativeUnreadBehaviorDoublePercentageSign() throws Exception {
-		System.out.println("**** Starting testDecodeNegativeUnreadBehaviorDoublePercentageSign");
+	public void decodeNegativeUnreadBehaviorDoublePercentageSign()
+			throws Exception {
+		logger.debug("**** Starting testDecodeNegativeUnreadBehaviorDoublePercentageSign");
 		String input = "nvns:tm=http://mynamespace/tm&nvns:c=http://mynamespace/c&tm:message.c:body=\"SOA+SOA%%%3XC+SOS.\"";
 		String goldResult = "depth=2;valley=-1;value=SOA SOA%%%3XC SOS.;path=tm:message[0].c:body[0]";
 		doTest(input, goldResult);
-		System.out.println("**** Ending testDecodeNegativeUnreadBehaviorDoublePercentageSign");
+		logger.debug("**** Ending testDecodeNegativeUnreadBehaviorDoublePercentageSign");
 	}
-	
+
 	@Test
-	public void decodeNegativeUnreadBehaviorDoublePercentageSignFollowByGoodEncode() throws Exception {
-		System.out.println("**** Starting testDecodeNegativeUnreadBehaviorDoublePercentageSignFollowByGoodEncode");
+	public void decodeNegativeUnreadBehaviorDoublePercentageSignFollowByGoodEncode()
+			throws Exception {
+		logger.debug("**** Starting testDecodeNegativeUnreadBehaviorDoublePercentageSignFollowByGoodEncode");
 		String input = "body=\"A%%%2C+S\"";
 		String goldResult = "depth=1;valley=-1;value=A%%, S;path=body[0]";
 		doTest(input, goldResult);
-		System.out.println("**** Ending testDecodeNegativeUnreadBehaviorDoublePercentageSignFollowByGoodEncode");
+		logger.debug("**** Ending testDecodeNegativeUnreadBehaviorDoublePercentageSignFollowByGoodEncode");
 	}
 
-	
 	@Test
 	public void decodeParenthesisFollowsByEqualSign() throws Exception {
-		System.out.println("**** Starting testDecodeParenthesisFollowsByEqualSign");
+		logger.debug("**** Starting testDecodeParenthesisFollowsByEqualSign");
 		String input = "nvns:tm=http://mynamespace/tm&nvns:c=http://mynamespace/c&tm:message.c:body(0)=\"SOA+SOA.\"";
 		String goldResult = "depth=2;valley=-1;value=SOA SOA.;path=tm:message[0].c:body[0]";
 		doTest(input, goldResult);
-		System.out.println("**** Ending testDecodeParenthesisFollowsByEqualSign");
+		logger.debug("**** Ending testDecodeParenthesisFollowsByEqualSign");
 	}
-	
+
 	@Test
 	public void decodeParenthesisFollowsByDot() throws Exception {
-		System.out.println("**** Starting testDecodeParenthesisFollowsByDot");
+		logger.debug("**** Starting testDecodeParenthesisFollowsByDot");
 		String input = "nvns:tm=http://mynamespace/tm&nvns:c=http://mynamespace/c&tm:message(0).c:body=\"SOA+SOA.\"";
 		String goldResult = "depth=2;valley=-1;value=SOA SOA.;path=tm:message[0].c:body[0]";
 		doTest(input, goldResult);
-		System.out.println("**** Ending testDecodeParenthesisFollowsByDot");
+		logger.debug("**** Ending testDecodeParenthesisFollowsByDot");
 	}
-	
+
 	@Test
 	public void decodeParenthesisFollowsByColonInValue() throws Exception {
-		System.out.println("**** Starting testDecodeParenthesisFollowsByColonInValue");
+		logger.debug("**** Starting testDecodeParenthesisFollowsByColonInValue");
 		String input = "nvns:tm=http://mynamespace/tm&nvns:c=http://mynamespace/c&tm:message(0).c:body=\"message(0):message(1)\"";
 		String goldResult = "depth=2;valley=-1;value=message(0):message(1);path=tm:message[0].c:body[0]";
 		doTest(input, goldResult);
-		System.out.println("**** Ending testDecodeParenthesisFollowsByColonInValue");
+		logger.debug("**** Ending testDecodeParenthesisFollowsByColonInValue");
 	}
 
 	/**
-	 * @check  Exceptions need to be handled
+	 * @check Exceptions need to be handled
 	 */
 	@Test
 	public void decodeParenthesisFollowsByAmp() throws Exception {
-		System.out.println("**** Starting testDecodeParenthesisFollowsByAmp");
+		logger.debug("**** Starting testDecodeParenthesisFollowsByAmp");
 		String input = "tm:message(0)&c:body=\"SOA+SOA.\"";
 		try {
 			doTest(input, "");
 			fail("Expecting XMLStreamException but get nothing");
 		} catch (XMLStreamException e) {
-			if (!"Name data has terminated unexpectedly with the end of line".equals(e.getMessage())) {
+			if (!"Name data has terminated unexpectedly with the end of line"
+					.equals(e.getMessage())) {
 				throw e;
 			}
-			System.out.println("Caught expected: " + e.toString());
+			logger.debug("Caught expected: " + e.toString());
 		}
-		System.out.println("**** Ending testDecodeParenthesisFollowsByAmp");
+		logger.debug("**** Ending testDecodeParenthesisFollowsByAmp");
 	}
-	
+
 	/**
-	 * @check  Exceptions need to be handled
+	 * @check Exceptions need to be handled
 	 */
 	@Test
 	public void decodeParenthesisFollowsByColon() throws Exception {
-		System.out.println("**** Starting testDecodeParenthesisFollowsByColon");
+		logger.debug("**** Starting testDecodeParenthesisFollowsByColon");
 		String input = "tm:message(0):c:body=\"SOA+SOA.\"";
 		try {
 			doTest(input, "");
 			fail("Expecting XMLStreamException but get nothing");
 		} catch (XMLStreamException e) {
-			if (!"Namespace prefix is not expected after element name".equals(e.getMessage())) {
+			if (!"Namespace prefix is not expected after element name".equals(e
+					.getMessage())) {
 				throw e;
 			}
-			System.out.println("Caught expected: " + e.toString());
+			logger.debug("Caught expected: " + e.toString());
 		}
-		System.out.println("**** Ending testDecodeParenthesisFollowsByColon");
+		logger.debug("**** Ending testDecodeParenthesisFollowsByColon");
 	}
 
 	/**
-	 * @check  Exceptions need to be handled
+	 * @check Exceptions need to be handled
 	 */
 	@Test
 	public void decodeAmpInValueNotAllowed() throws Exception {
-		System.out.println("**** Starting testDecodeAmpInValueNotAllowed");
+		logger.debug("**** Starting testDecodeAmpInValueNotAllowed");
 		String input = "tm:message(0).c:body=\"SOA&SOA.\"";
 		try {
 			doTest(input, "");
 			fail("Expecting XMLStreamException but get nothing");
 		} catch (XMLStreamException e) {
-			if (!"Value starts with quotation mark, but ends without the same".equals(e.getMessage())) {
+			if (!"Value starts with quotation mark, but ends without the same"
+					.equals(e.getMessage())) {
 				throw e;
 			}
-			System.out.println("Caught expected: " + e.toString());
+			logger.debug("Caught expected: " + e.toString());
 		}
-		System.out.println("**** Ending testDecodeAmpInValueNotAllowed");
+		logger.debug("**** Ending testDecodeAmpInValueNotAllowed");
 	}
-	
+
 	@Test
 	public void qNameEquals() {
-		System.out.println("**** Starting testQNameEquals");
+		logger.debug("**** Starting testQNameEquals");
 		QName name = new QName("http://my.test/namespace", "AElementName", "ns");
-		QName nameWDiffPrefix = new QName("http://my.test/namespace", "AElementName", "ns1");
+		QName nameWDiffPrefix = new QName("http://my.test/namespace",
+				"AElementName", "ns1");
 		assertEquals(name, nameWDiffPrefix);
-		System.out.println("**** Ending testQNameEquals");
+		logger.debug("**** Ending testQNameEquals");
 	}
 
 	@Test
 	public void fastURLEncoder() {
-		System.out.println("**** Starting testFastURLEncoder");
+		logger.debug("**** Starting testFastURLEncoder");
 		String str = "test url encode:.()&   \\:\\.\\(\\)\\&";
 		String encoded = FastURLEncoder.encode(str);
-		System.out.println(encoded);
+		logger.debug(encoded);
 		String decoded = URLDecoder.decode(encoded);
 		assertEquals(str, decoded);
-		System.out.println("**** Ending testFastURLEncoder");
+		logger.debug("**** Ending testFastURLEncoder");
 	}
-	
+
 	@Test
 	public void ampersandValueParsing1() throws Exception {
 		String paramValue1 = "b%26b";
 		String paramValue2 = "e";
-		
-		byte[] inputData = ("a=" + paramValue1 +  "&d=" + paramValue2).getBytes();
+
+		byte[] inputData = ("a=" + paramValue1 + "&d=" + paramValue2)
+				.getBytes();
 		InputStream is = new ByteArrayInputStream(inputData);
-		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
-		NVStreamParser parser = new NVStreamParser(is, Charset.forName("ASCII"), convention);
-		
+		NamespaceConvention convention = DataBindingFacade
+				.createDeserializationNSConvention(null);
+		NVStreamParser parser = new NVStreamParser(is,
+				Charset.forName("ASCII"), convention);
+
 		parser.parseLine();
 		String actualParam1 = parser.getValue();
 		assertEquals("b&b", actualParam1);
-		
+
 		parser.parseLine();
 		String actualParam2 = parser.getValue();
 		assertEquals("e", actualParam2);
-		
+
 	}
 
 	@Test
 	public void ampersandValueParsing2() throws Exception {
 		String paramValue1 = "%26%26%26";
-		
+
 		byte[] inputData = ("a=" + paramValue1).getBytes();
 		InputStream is = new ByteArrayInputStream(inputData);
-		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
-		NVStreamParser parser = new NVStreamParser(is, Charset.forName("ASCII"), convention);
-		
+		NamespaceConvention convention = DataBindingFacade
+				.createDeserializationNSConvention(null);
+		NVStreamParser parser = new NVStreamParser(is,
+				Charset.forName("ASCII"), convention);
+
 		parser.parseLine();
 		String actualParam1 = parser.getValue();
 		assertEquals("&&&", actualParam1);
-	
+
 	}
 
 	@Test
 	public void ampersandValueParsing3() throws Exception {
 		String paramValue1 = "";
-		
+
 		byte[] inputData = ("a=" + paramValue1 + "&" + "x=y").getBytes();
 		InputStream is = new ByteArrayInputStream(inputData);
-		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
-		NVStreamParser parser = new NVStreamParser(is, Charset.forName("ASCII"), convention);
-		
+		NamespaceConvention convention = DataBindingFacade
+				.createDeserializationNSConvention(null);
+		NVStreamParser parser = new NVStreamParser(is,
+				Charset.forName("ASCII"), convention);
+
 		parser.parseLine();
 		String actualParam1 = parser.getValue();
 		assertEquals("", actualParam1);
 		parser.parseLine();
-	
-	}
 
+	}
 
 	@Test
 	public void percentageSignValueParsing4() throws Exception {
 		String paramValue1 = "b%25c";
-		
+
 		byte[] inputData = ("a=" + paramValue1 + "&" + "x=y").getBytes();
 		InputStream is = new ByteArrayInputStream(inputData);
-		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
-		NVStreamParser parser = new NVStreamParser(is, Charset.forName("ASCII"), convention);
-		
+		NamespaceConvention convention = DataBindingFacade
+				.createDeserializationNSConvention(null);
+		NVStreamParser parser = new NVStreamParser(is,
+				Charset.forName("ASCII"), convention);
+
 		parser.parseLine();
 		String actualParam1 = parser.getValue();
 		assertEquals("b%c", actualParam1);
-	
+
 	}
 
-	
 	@Test
 	public void ampersandValueParsing5() throws Exception {
 		String paramValue1 = "a=b&c=d%26&e=f";
-		
+
 		byte[] inputData = (paramValue1).getBytes();
 		InputStream is = new ByteArrayInputStream(inputData);
-		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
-		NVStreamParser parser = new NVStreamParser(is, Charset.forName("ASCII"), convention);
-		
+		NamespaceConvention convention = DataBindingFacade
+				.createDeserializationNSConvention(null);
+		NVStreamParser parser = new NVStreamParser(is,
+				Charset.forName("ASCII"), convention);
+
 		parser.parseLine();
 		String actualParam1 = parser.getValue();
 		assertEquals("b", actualParam1);
@@ -366,7 +388,5 @@ public class NVStreamTokenizerTest{
 		assertEquals("f", actualParam3);
 
 	}
-
-	
 
 }

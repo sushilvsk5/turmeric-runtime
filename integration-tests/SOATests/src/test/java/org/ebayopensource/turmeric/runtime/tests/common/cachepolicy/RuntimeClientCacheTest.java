@@ -65,10 +65,10 @@ public class RuntimeClientCacheTest extends AbstractWithServerTest {
         TestEchoObjectRequest req = buildTestEchoObjectRequest();
         // Creation of "CachableValueAccessor", which can fetch "keys" from this type of objects  
         CachableValueAccessor root = buildAccessorCache(req.getClass());
-        System.out.println(root.toString());
+        logger.debug(root.toString());
     
         CacheKey key = CachePolicyDesc.generateCacheKey("operaion name", req, root);
-        System.out.println(key.toString());
+        logger.debug(key.toString());
     }
 
 	// Helper, which creates "CachableValueAccessor" for TestEchoObjectRequest objects

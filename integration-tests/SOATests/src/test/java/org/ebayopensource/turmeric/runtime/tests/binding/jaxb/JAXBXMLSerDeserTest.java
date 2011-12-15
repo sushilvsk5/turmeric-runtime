@@ -57,7 +57,7 @@ public class JAXBXMLSerDeserTest extends BaseSerDeserTest {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		JAXBTestHelper.serialize(ctx, out, msg);
 		String xml1 = out.toString();
-		System.out.println(xml1);
+		logger.debug(xml1);
 		jaxbtest.setPayload(out);
 		Deserializer deser = m_deserFactory.getDeserializer();
 		ctx = jaxbtest.createTestMessageContext();
@@ -70,7 +70,7 @@ public class JAXBXMLSerDeserTest extends BaseSerDeserTest {
 		out = new ByteArrayOutputStream();
 		JAXBTestHelper.serialize(ctx, out, msg1);
 		String xml2 = out.toString();
-		System.out.println(xml2);
+		logger.debug(xml2);
 		assertEquals(msg,msg1);
 	}
 
@@ -91,7 +91,7 @@ public class JAXBXMLSerDeserTest extends BaseSerDeserTest {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		JAXBTestHelper.serialize(ctx, out, msg);
 		String xml1 = out.toString();
-		System.out.println(xml1);
+		logger.debug(xml1);
 		jaxbtest.setPayload(out);
 		Deserializer deser = m_deserFactory.getDeserializer();
 		ctx = jaxbtest.createTestMessageContext();
@@ -104,7 +104,7 @@ public class JAXBXMLSerDeserTest extends BaseSerDeserTest {
 		out = new ByteArrayOutputStream();
 		JAXBTestHelper.serialize(ctx, out, msg1);
 		String xml2 = out.toString();
-		System.out.println(xml2);
+		logger.debug(xml2);
 		assertEquals(null,msg1);
 	}
 }

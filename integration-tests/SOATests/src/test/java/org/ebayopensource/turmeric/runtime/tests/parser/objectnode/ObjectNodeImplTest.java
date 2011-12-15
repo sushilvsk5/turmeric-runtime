@@ -24,6 +24,8 @@ import org.ebayopensource.turmeric.runtime.binding.impl.parser.objectnode.Stream
 import org.ebayopensource.turmeric.runtime.binding.objectnode.ObjectNode;
 import org.ebayopensource.turmeric.runtime.tests.binding.jaxb.BaseSerDeserTest;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -33,7 +35,7 @@ public class ObjectNodeImplTest extends BaseSerDeserTest {
 
 	@Test
 	public void testIsAttributeTest() throws Exception {
-		System.out.println("**** Starting testIsAttributeTest");
+		logger.debug("**** Starting testIsAttributeTest");
 		InputStream inStream = new ObjectNodeImplTest().getClass()
 				.getResourceAsStream("books.xml");
 
@@ -51,13 +53,13 @@ public class ObjectNodeImplTest extends BaseSerDeserTest {
 		Assert.assertTrue (attribNode.isAttribute());
 		QName nodeName=attribNode.getNodeName();
 		Assert.assertTrue ("category".equals(nodeName.getLocalPart()));
-		System.out.println("**** Ending testIsAttributeTest");
+		logger.debug("**** Ending testIsAttributeTest");
 
 	}
 
 	@Test
 	public void testGetChildNodes() throws Exception {
-		System.out.println("**** Starting testGetChildNodes");
+		logger.debug("**** Starting testGetChildNodes");
 
 		// ObjectNode representation for books.xml and traverse to the root
 		// element
@@ -87,11 +89,13 @@ public class ObjectNodeImplTest extends BaseSerDeserTest {
 
 		verifyNode(0, rootNodeON, docToCompare);
 
-		System.out.println("**** Ending testGetChildNodes");
+		logger.debug("**** Ending testGetChildNodes");
 	}
 
 	private static void verifyNode(int level, ObjectNode node,
 			Node nodeToCompare) throws XMLStreamException {
+		final Logger logger = LoggerFactory.getLogger(ObjectNodeImplTest.class);
+		
 		NodeList listToCompare = nodeToCompare.getChildNodes();
 		int i = 0;
 		for (ObjectNode child : node.getChildNodes()) {
@@ -103,7 +107,7 @@ public class ObjectNodeImplTest extends BaseSerDeserTest {
 			} while (childNodeToCompare.getNodeType() != Node.ELEMENT_NODE);
 
 			printTags(level);
-			System.out.println("Node : " + child.getNodeName());
+			logger.debug("Node : " + child.getNodeName());
 			verifyAttributes(level + 1, child, childNodeToCompare);
 
 			if (child.hasChildNodes()) {
@@ -118,11 +122,13 @@ public class ObjectNodeImplTest extends BaseSerDeserTest {
 
 	private static void verifyAttributes(int level, ObjectNode node,
 			Node nodeToCompare) {
+		final Logger logger = LoggerFactory.getLogger(ObjectNodeImplTest.class);
+		
 		int i = 0;
 		for (ObjectNode attr : node.getAttributes()) {
 			Node attrToCompare = nodeToCompare.getAttributes().item(i++);
 			printTags(level);
-			System.out.println("Attribute Name [" + attr.getNodeName()
+			logger.debug("Attribute Name [" + attr.getNodeName()
 					+ "], Value [" + attr.getNodeValue() + "]");
 			Assert.assertEquals(attr.getNodeName().toString(), attrToCompare
 					.getNodeName());
@@ -134,8 +140,11 @@ public class ObjectNodeImplTest extends BaseSerDeserTest {
 
 	private static void verifyValue(int level, ObjectNode node,
 			Node nodeToCompare) {
+		
+		final Logger logger = LoggerFactory.getLogger(ObjectNodeImplTest.class);
+		
 		printTags(level);
-		System.out.println("Value : " + node.getNodeValue());
+		logger.debug("Value : " + node.getNodeValue());
 		Assert.assertEquals(node.getNodeValue().toString(), nodeToCompare
 				.getChildNodes().item(0).getNodeValue());
 

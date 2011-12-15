@@ -50,8 +50,6 @@ public class RequestDataBindingTest extends AbstractWithServerTest {
 	  }else{
 		  System.setProperty(ParseUtils.SYS_PROP_CONFIG_SCHEMA_CHECK, oldSysProp);
 	  }
-		//System.setProperty(ParseUtils.SYS_PROP_CONFIG_SCHEMA_CHECK, oldSysProp); - jvm bug? 
-		  // if the oldsysprop is null, throws nullptrexception
 	}
 	/**
 	 * @check  Exceptions need to be handled

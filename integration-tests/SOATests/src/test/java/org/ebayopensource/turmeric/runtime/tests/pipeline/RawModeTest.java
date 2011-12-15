@@ -100,7 +100,7 @@ public class RawModeTest extends AbstractWithServerTest {
 	public NeedsConfig needsconfig = new NeedsConfig("config");
 	
 	private void debug(String msg) {
-		System.out.println(msg);
+		logger.debug(msg);
 	}
 	
 	@Before

@@ -16,22 +16,25 @@ import org.ebayopensource.turmeric.runtime.binding.common.utils.SerializationUti
 import org.ebayopensource.turmeric.runtime.tests.common.util.TestUtils;
 import org.ebayopensource.turmeric.runtime.tests.service1.sample.types1.MyMessage;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
-// TODO: Move to BindingFwk unit tests.
 public class SerializationUtilsTest {
+	
+	private final Logger logger = LoggerFactory.getLogger(SerializationUtils.class);
 
 	private static final String TEST_NAMESPACE_URL = "http://www.ebay.com/test/soaframework/sample/service/message";
 	@Test
 	public void jaxbJSONSimpleSerialization() throws Exception {
-		System.out.println("**** Starting testJaxbJSONSimpleSerialization");
+		logger.debug("**** Starting testJaxbJSONSimpleSerialization");
 		MyMessage msg = TestUtils.createTestMessage(1);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
 		SerializationUtils.serializeSingleNamespaceJSONOutput(TEST_NAMESPACE_URL, msg, baos);
 		
 		String result = baos.toString("UTF-8");
-		System.out.println(result);
+		logger.debug(result);
 		
 		StringBuilder json = new StringBuilder();
 		json.append("{\"MyMessage\":[");
@@ -53,20 +56,19 @@ public class SerializationUtilsTest {
 		json.append("]}");
 		
 		assertEquals("JSON Form", result, json.toString());
-		System.out.println("**** Ending testJaxbJSONSimpleSerialization");
+		logger.debug("**** Ending testJaxbJSONSimpleSerialization");
 	}
 
-	//TODO: to make it work for NV, we need to use a config that has only one namespace.
 	@Test
 	public void jaxbNVSimpleSerialization() throws Exception {
-		System.out.println("**** Starting testJaxbNVSimpleSerialization");
+		logger.debug("**** Starting testJaxbNVSimpleSerialization");
 		MyMessage msg = TestUtils.createTestMessage(1);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
 		SerializationUtils.serializeSingleNamespaceNVOutput(TEST_NAMESPACE_URL, msg, baos);
 		
 		String result = baos.toString("UTF-8");
-		System.out.println(result);
+		logger.debug(result);
 		
 		StringBuilder nv = new StringBuilder();
 		nv.append("body(0)=\"SOA+in+Chinese+is+%27");
@@ -85,6 +87,6 @@ public class SerializationUtilsTest {
 		nv.append("&subject(0)=\"SOA+Framework+test+message\"");
 		
 		assertEquals(nv.toString(), result);
-		System.out.println("**** Ending testJaxbNVSimpleSerialization");
+		logger.debug("**** Ending testJaxbNVSimpleSerialization");
 	}
 }

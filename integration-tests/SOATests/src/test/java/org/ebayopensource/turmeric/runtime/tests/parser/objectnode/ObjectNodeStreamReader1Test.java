@@ -70,7 +70,7 @@ public class ObjectNodeStreamReader1Test extends BaseSerDeserTest {
 		jaxbtest.setDeserializerFactory(m_deserFactory);
 
 		String xml1 = jaxbtest.createOnWireString(msg);
-		System.out.println(xml1);
+		logger.debug(xml1);
 		Deserializer deser = m_deserFactory.getDeserializer();
 		MessageContext ctx = jaxbtest.createTestMessageContext(xml1);
 
@@ -113,7 +113,7 @@ public class ObjectNodeStreamReader1Test extends BaseSerDeserTest {
 		}
 		
 		MyMessage msg1 = (MyMessage) deser.deserialize(reqMsg, MyMessage.class);
-		System.out.println("Deserialized message is ==> " + msg1.getBody());
+		logger.debug("Deserialized message is ==> " + msg1.getBody());
 		Assert.assertEquals(msg,msg1);
 		Assert.assertEquals(m_longXml,msg1.getBody());
 	}

@@ -22,30 +22,34 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author wdeng
  *
  */
 public class IntrospectionTest  {
+	
+	private final Logger logger = LoggerFactory.getLogger(IntrospectionTest.class);
 
 	@Test
 	public void privateFieldPublicPropertyMarshalUnmarshal() throws Exception {
-		System.out.println("Start testPrivateFieldPublicPropertyMarshalUnmarshal.");
+		logger.debug("Start testPrivateFieldPublicPropertyMarshalUnmarshal.");
 		PrivateFieldPublicProperty obj = new PrivateFieldPublicProperty("JAXB");
 		marshalUnmarshalObject(obj, false);
 	}
 
 	@Test
 	public void publicFieldPublicPropertyMarshalUnmarshal() throws Exception {
-		System.out.println("Start testPublicFieldPublicPropertyMarshalUnmarshal.");
+		logger.debug("Start testPublicFieldPublicPropertyMarshalUnmarshal.");
 		PublicFieldPublicProperty obj = new PublicFieldPublicProperty("JAXB");
 		marshalUnmarshalObject(obj, false);
 	}
 
 	@Test
 	public void privateFieldPrivatePropertyMarshalUnmarshal() throws Exception {
-		System.out.println("Start testPrivateFieldPrivatePropertyMarshalUnmarshal.");
+		logger.debug("Start testPrivateFieldPrivatePropertyMarshalUnmarshal.");
 		PrivateFieldPrivateProperty obj = new PrivateFieldPrivateProperty("JAXB");
 		marshalUnmarshalObject(obj, true);
 	}

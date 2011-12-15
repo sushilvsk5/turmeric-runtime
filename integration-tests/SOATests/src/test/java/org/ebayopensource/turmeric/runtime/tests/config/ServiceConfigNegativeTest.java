@@ -40,12 +40,6 @@ public class ServiceConfigNegativeTest  extends AbstractTurmericTestCase {
 		} catch (ServiceCreationException e) {
 			ExceptionUtils.checkException(e, ServiceCreationException.class, "META-INF/soa/services/confignegative3/test2/ServiceConfig.xml: No service-instance-config section found");
 		}
-//		 We no longer error out missing server-instance-config.
-//		try {
-//			configManager.setConfigTestCase("confignegative4");
-//		} catch (ServiceCreationException e) {
-//			ExceptionUtils.checkException(e, ServiceCreationException.class, "META-INF/soa/services/confignegative4/ServiceConfigGroups.xml: No service-config section found");
-//		}
 		try {
 			configManager.setConfigTestCase("confignegative5", "testconfig");
 		} catch (ServiceCreationException e) {

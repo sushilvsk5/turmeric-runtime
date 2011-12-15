@@ -29,6 +29,8 @@ import org.ebayopensource.turmeric.runtime.tests.service1.sample.handlers.SetRes
 import org.ebayopensource.turmeric.runtime.tests.service1.sample.types1.MyMessage;
 import org.junit.Rule;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -36,6 +38,8 @@ import org.junit.Test;
  * @author gyue
  */
 public class SOAPServerPipelineTest extends AbstractTurmericTestCase {
+	
+	private final Logger logger = LoggerFactory.getLogger(SOAPServerPipelineTest.class);
 
 	 @Rule
 	 public NeedsConfig needsconfig = new NeedsConfig("testconfig");
@@ -76,12 +80,12 @@ public class SOAPServerPipelineTest extends AbstractTurmericTestCase {
 
 	@Test
 	public  void sOAPPositive_GoodRequest() throws Exception {
-		System.out.println(">>SOAP11");
+		logger.debug(">>SOAP11");
 		ServerMessageContext serverCtx =
 				SOAPTestUtils.createServerMessageContextForTest1Service(SOAPTestUtils.GOOD_SOAP_REQUEST);
 		runAndTest(serverCtx, SOAPTestUtils.SOAP_BINDING_NAME, false);
 
-		System.out.println(">>SOAP12");
+		logger.debug(">>SOAP12");
 		serverCtx =
 				SOAPTestUtils.createServerMessageContextForTest1Service(SOAPTestUtils.GOOD_SOAP_12_REQUEST, SOAConstants.MSG_PROTOCOL_SOAP_12);
 		runAndTest(serverCtx, SOAPTestUtils.SOAP_BINDING_NAME, false);
@@ -89,12 +93,12 @@ public class SOAPServerPipelineTest extends AbstractTurmericTestCase {
 
 	@Test
 	public  void sOAPPositive_GoodRequestWithSpace() throws Exception {
-		System.out.println(">>SOAP11");
+		logger.debug(">>SOAP11");
 		ServerMessageContext serverCtx =
 				SOAPTestUtils.createServerMessageContextForTest1Service(SOAPTestUtils.GOOD_SOAP_REQUEST_WITH_SPACE);
 		runAndTest(serverCtx, SOAPTestUtils.SOAP_BINDING_NAME, false);
 
-		System.out.println(">>SOAP12");
+		logger.debug(">>SOAP12");
 		serverCtx =
 				SOAPTestUtils.createServerMessageContextForTest1Service(SOAPTestUtils.GOOD_SOAP_12_REQUEST_WITH_SPACE, SOAConstants.MSG_PROTOCOL_SOAP_12);
 		runAndTest(serverCtx, SOAPTestUtils.SOAP_BINDING_NAME, false);
@@ -102,12 +106,12 @@ public class SOAPServerPipelineTest extends AbstractTurmericTestCase {
 
 	@Test
 	public  void sOAPPositive_GoodRequestWithComments() throws Exception {
-		System.out.println(">>SOAP11");
+		logger.debug(">>SOAP11");
 		ServerMessageContext serverCtx =
 				SOAPTestUtils.createServerMessageContextForTest1Service(SOAPTestUtils.GOOD_SOAP_REQUEST_WITH_COMMENTS);
 		runAndTest(serverCtx, SOAPTestUtils.SOAP_BINDING_NAME, false);
 
-		System.out.println(">>SOAP12");
+		logger.debug(">>SOAP12");
 		serverCtx =
 				SOAPTestUtils.createServerMessageContextForTest1Service(SOAPTestUtils.GOOD_SOAP_12_REQUEST_WITH_COMMENTS, SOAConstants.MSG_PROTOCOL_SOAP_12);
 		runAndTest(serverCtx, SOAPTestUtils.SOAP_BINDING_NAME, false);
@@ -117,12 +121,12 @@ public class SOAPServerPipelineTest extends AbstractTurmericTestCase {
 	@Test
 	public  void sOAPNegative_InvalidStartBodyTag() throws Exception {
 		// test flow w/ invalid start body tag
-		System.out.println(">>SOAP11");
+		logger.debug(">>SOAP11");
 		ServerMessageContext serverCtx = SOAPTestUtils.createServerMessageContextForTest1Service(
 									SOAPTestUtils.BAD_SOAP_REQUEST_INVALIDSTARTBODYTAG);
 		runAndTest(serverCtx, SOAPTestUtils.SOAP_BINDING_NAME, true);
 
-		System.out.println(">>SOAP12");
+		logger.debug(">>SOAP12");
 		serverCtx = SOAPTestUtils.createServerMessageContextForTest1Service(
 									SOAPTestUtils.BAD_SOAP_12_REQUEST_INVALIDSTARTBODYTAG, SOAConstants.MSG_PROTOCOL_SOAP_12);
 		runAndTest(serverCtx, SOAPTestUtils.SOAP_BINDING_NAME, true);
@@ -131,12 +135,12 @@ public class SOAPServerPipelineTest extends AbstractTurmericTestCase {
 	@Test
 	public  void sOAPNegative_InvalidEndBodyTag() throws Exception {
 		// test flow w/ invalid end body tag
-		System.out.println(">>SOAP11");
+		logger.debug(">>SOAP11");
 		ServerMessageContext serverCtx = SOAPTestUtils.createServerMessageContextForTest1Service(
 									SOAPTestUtils.BAD_SOAP_REQUEST_INVALIDENDBODYTAG);
 		runAndTest(serverCtx, SOAPTestUtils.SOAP_BINDING_NAME, true);
 
-		System.out.println(">>SOAP12");
+		logger.debug(">>SOAP12");
 		serverCtx = SOAPTestUtils.createServerMessageContextForTest1Service(
 									SOAPTestUtils.BAD_SOAP_12_REQUEST_INVALIDENDBODYTAG, SOAConstants.MSG_PROTOCOL_SOAP_12);
 		runAndTest(serverCtx, SOAPTestUtils.SOAP_BINDING_NAME, true);
@@ -145,18 +149,20 @@ public class SOAPServerPipelineTest extends AbstractTurmericTestCase {
 	@Test
 	public  void sOAPNegative_BadXMLBodyTag() throws Exception {
 		// test flow w/ bad XML body
-		System.out.println(">>SOAP11");
+		logger.debug(">>SOAP11");
 		ServerMessageContext serverCtx = SOAPTestUtils.createServerMessageContextForTest1Service(
 					SOAPTestUtils.BAD_SOAP_REQUEST_BADXMLBODY);
 		runAndTest(serverCtx, SOAPTestUtils.SOAP_BINDING_NAME, true);
 
-		System.out.println(">>SOAP12");
+		logger.debug(">>SOAP12");
 		serverCtx = SOAPTestUtils.createServerMessageContextForTest1Service(
 					SOAPTestUtils.BAD_SOAP_12_REQUEST_BADXMLBODY, SOAConstants.MSG_PROTOCOL_SOAP_12);
 		runAndTest(serverCtx, SOAPTestUtils.SOAP_BINDING_NAME, true);
 	}
 
 	private static Message runAndTest(ServerMessageContext serverCtx, String payloadType, boolean isNegativeTest) throws Exception {
+		final Logger logger = LoggerFactory.getLogger(SOAPServerPipelineTest.class);
+
 		MyMessage msg = null;
 		Message request = serverCtx.getRequestMessage();
 		ServerMessageProcessor.getInstance();
@@ -165,32 +171,32 @@ public class SOAPServerPipelineTest extends AbstractTurmericTestCase {
 		Message resp = serverCtx.getResponseMessage();
 
 		// get the configuered TestTransport and display the result
-		System.out.println("response: " + TestTransport.result);
+		logger.debug("response: " + TestTransport.result);
 
 		List<Throwable> errors = serverCtx.getErrorList();
 		if (isNegativeTest) {
 			if (serverCtx.getMessageProtocol().equals(SOAConstants.MSG_PROTOCOL_SOAP_12)) {
 				// ensure it contains a SOAP12 fault
 				if (!SOAPTestUtils.containSOAP12Fault(TestTransport.result)) {
-					System.out.println("ERROR>>: Expected SOAP12 fault/ErrorMessage, but not found!");
+					logger.debug("ERROR>>: Expected SOAP12 fault/ErrorMessage, but not found!");
 					assertTrue(false);
 				}
 			} else {
 				// ensure it contains a SOAP11 fault
 				if (!SOAPTestUtils.containSOAP11Fault(TestTransport.result)) {
-					System.out.println("ERROR>>: Expected SOAP11 fault/ErrorMessage, but not found!");
+					logger.debug("ERROR>>: Expected SOAP11 fault/ErrorMessage, but not found!");
 					assertTrue(false);
 				}
 			}
 			if (errors != null && !errors.isEmpty()) {
 				Throwable error = errors.get(0);
-				System.out.println("Expected exception>>: " + error.toString());
+				logger.debug("Expected exception>>: " + error.toString());
 			}
 		} else {
 			// ensure it DOES NOT contain a SOAP fault
 			if (SOAPTestUtils.containSOAP11Fault(TestTransport.result)
 					&& SOAPTestUtils.containSOAP12Fault(TestTransport.result) ) {
-				System.out.println("ERROR>>: Found SOAP fault/ErrorMessage");
+				logger.debug("ERROR>>: Found SOAP fault/ErrorMessage");
 				assertTrue(false);
 			}
 

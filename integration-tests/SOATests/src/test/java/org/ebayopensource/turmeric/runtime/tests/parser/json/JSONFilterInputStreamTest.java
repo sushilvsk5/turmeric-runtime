@@ -17,9 +17,13 @@ import junit.framework.Assert;
 
 import org.ebayopensource.turmeric.runtime.binding.impl.jaxb.json.JSONFilterInputStream;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class JSONFilterInputStreamTest {
+	
+	private final Logger logger = LoggerFactory.getLogger(JSONFilterInputStreamTest.class);
 
 	private static final String JSON_INPUT = 
 		"{\"emailAddresses\":[{\"email\":\"abc@abc.com\",\"id\":\"1693916\"},{\"email\":\"abc@abc.com\",\"id\":\"1693916\"},{\"email\":\"abc@abc.com\",\"id\":\"1693916\"}],\"phoneNumbers\":[{\"activated\":\"true\",\"countryCode\":\"1\",\"id\":\"2583906\"},{\"activated\":\"false\",\"countryCode\":\"1\",\"id\":\"123345\"}],\"streetAddresses\":[{\"city\":\"san jose\",\"country\":\"US\",\"id\":\"12345\",\"postalCode\":\"98765\",\"province\":\"CA\",\"recipientName\":\"rec name\",\"street1\":\"12 aaaaa\"}]}";
@@ -139,9 +143,8 @@ public class JSONFilterInputStreamTest {
 			totalRead += numRead;
 		}
 		
-		System.out.println();
-		System.out.println("expected MALFORMED INPUT: " + input);
-		System.out.println("actual  MALFORMED OUTPUT: " + new String(bites));
+		logger.debug("expected MALFORMED INPUT: {}", input);
+		logger.debug("actual  MALFORMED OUTPUT: {}",  new String(bites));
 		
 		Assert.assertEquals(input.length(), totalRead);
 		byte[] EXP_BITES = input.getBytes();
@@ -170,15 +173,15 @@ public class JSONFilterInputStreamTest {
 		}
 		
 		String actualOutput = new String(bites, "US-ASCII");
-		System.out.println("act: " + actualOutput);
-		System.out.println("exp: " + JSONFilterInputStreamTest.EXPECTED_OUTPUT);
+		logger.debug("act: {}", actualOutput);
+		logger.debug("exp: {}", JSONFilterInputStreamTest.EXPECTED_OUTPUT);
 		
 		//Assert.assertEquals(EXPECTED_OUTPUT, actualOutput);
 		//Assert.assertEquals(this.EXPECTED_OUTPUT.length(), actualOutput.length());
 		for(int i=0; i<EXPECTED_OUTPUT.length(); i++) {
 			//Assert.assertEquals(this.EXPECTED_OUTPUT_BYTES[i], bites[i]);
 			if( JSONFilterInputStreamTest.EXPECTED_OUTPUT_BYTES[i] != bites[i] ) {
-				System.out.println("mismatch at " + i);
+				logger.debug("mismatch at {}", i);
 				Assert.fail("mismatch at " + i);
 			}
 		}
@@ -204,15 +207,14 @@ public class JSONFilterInputStreamTest {
 		}
 		
 		String actualOutput = new String(bites, "US-ASCII");
-		System.out.println("ACT: " + actualOutput);
-		System.out.println("EXP: " + JSONFilterInputStreamTest.EXPECTED_OUTPUT2);
+		logger.debug("ACT: {}", actualOutput);
+		logger.debug("EXP: {}",JSONFilterInputStreamTest.EXPECTED_OUTPUT2);
 		
 		//Assert.assertEquals(EXPECTED_OUTPUT, actualOutput);
 		//Assert.assertEquals(this.EXPECTED_OUTPUT.length(), actualOutput.length());
 		for(int i=0; i<EXPECTED_OUTPUT2.length(); i++) {
 			//Assert.assertEquals(this.EXPECTED_OUTPUT_BYTES[i], bites[i]);
 			if( JSONFilterInputStreamTest.EXPECTED_OUTPUT_BYTES2[i] != bites[i] ) {
-				System.out.println("mismatch at " + i);
 				Assert.fail("mismatch at " + i);
 			}
 		}
@@ -239,14 +241,13 @@ public class JSONFilterInputStreamTest {
 		
 		String actualOutput = new String(bites, "US-ASCII");
 		
-		System.out.println("EXPECTED output: " + EXPECTED_OUTPUT);
-		System.out.println("ACTUAL output:   " + actualOutput);
+		logger.debug("EXPECTED output: {}", EXPECTED_OUTPUT);
+		logger.debug("ACTUAL output: {}   ", actualOutput);
 		
 		//Assert.assertEquals(EXPECTED_OUTPUT, actualOutput);
 		for(int i=0; i<EXPECTED_OUTPUT.length(); i++) {
 			//Assert.assertEquals(this.EXPECTED_OUTPUT_BYTES[i], bites[i]);
 			if( JSONFilterInputStreamTest.EXPECTED_OUTPUT_BYTES[i] != bites[i] ) {
-				System.out.println("mismatch at " + i);
 				Assert.fail("mismatch at " + i);
 			}
 		}		
@@ -273,15 +274,14 @@ public class JSONFilterInputStreamTest {
 		}
 		
 		String actualOutput = new String(accBites, "US-ASCII");
-		System.out.println("act: " + actualOutput);
-		System.out.println("exp: " + JSONFilterInputStreamTest.EXPECTED_OUTPUT);
+		logger.debug("act: {}", actualOutput);
+		logger.debug("exp: {}", JSONFilterInputStreamTest.EXPECTED_OUTPUT);
 		
 		//Assert.assertEquals(EXPECTED_OUTPUT, actualOutput);
 		//Assert.assertEquals(this.EXPECTED_OUTPUT.length(), actualOutput.length());
 		for(int i=0; i<EXPECTED_OUTPUT.length(); i++) {
 			//Assert.assertEquals(this.EXPECTED_OUTPUT_BYTES[i], bites[i]);
 			if( JSONFilterInputStreamTest.EXPECTED_OUTPUT_BYTES[i] != accBites[i] ) {
-				System.out.println("mismatch at " + i);
 				Assert.fail("mismatch at " + i);
 			}
 		}
@@ -314,7 +314,6 @@ public class JSONFilterInputStreamTest {
 		for(int i=0; i<EXPECTED_OUTPUT.length(); i++) {
 			//Assert.assertEquals(this.EXPECTED_OUTPUT_BYTES[i], bites[i]);
 			if( JSONFilterInputStreamTest.EXPECTED_OUTPUT_BYTES[i] != accBites[i] ) {
-				System.out.println("mismatch at " + i);
 				Assert.fail("mismatch at " + i);
 			}
 		}		
@@ -342,15 +341,14 @@ public class JSONFilterInputStreamTest {
 		}
 		
 		String actualOutput = new String(accBites, "US-ASCII");
-		System.out.println("act: " + actualOutput);
-		System.out.println("exp: " + JSONFilterInputStreamTest.EXPECTED_OUTPUT3);
+		logger.debug("act: {}", actualOutput);
+		logger.debug("exp: {}", JSONFilterInputStreamTest.EXPECTED_OUTPUT3);
 		
 		//Assert.assertEquals(EXPECTED_OUTPUT, actualOutput);
 		//Assert.assertEquals(this.EXPECTED_OUTPUT.length(), actualOutput.length());
 		for(int i=0; i<EXPECTED_OUTPUT3.length(); i++) {
 			//Assert.assertEquals(this.EXPECTED_OUTPUT_BYTES[i], bites[i]);
 			if( JSONFilterInputStreamTest.EXPECTED_OUTPUT_BYTES3[i] != accBites[i] ) {
-				System.out.println("mismatch at " + i);
 				Assert.fail("mismatch at " + i);
 			}
 		}
@@ -381,7 +379,6 @@ public class JSONFilterInputStreamTest {
 		for(int i=0; i<EXPECTED_OUTPUT.length(); i++) {
 			//Assert.assertEquals(this.EXPECTED_OUTPUT_BYTES[i], bites[i]);
 			if( JSONFilterInputStreamTest.EXPECTED_OUTPUT_BYTES[i] != bites[i] ) {
-				System.out.println("mismatch at " + i);
 				Assert.fail("mismatch at " + i);
 			}
 		}		
@@ -411,7 +408,6 @@ public class JSONFilterInputStreamTest {
 		for(int i=0; i<EXPECTED_OUTPUT.length(); i++) {
 			//Assert.assertEquals(this.EXPECTED_OUTPUT_BYTES[i], bites[i]);
 			if( JSONFilterInputStreamTest.EXPECTED_OUTPUT_BYTES[i] != bites[i] ) {
-				System.out.println("mismatch at " + i);
 				Assert.fail("mismatch at " + i);
 			}
 		}		
@@ -435,12 +431,11 @@ public class JSONFilterInputStreamTest {
 		}
 		
 		String actualOutput = new String(bites, "US-ASCII");
-		System.out.println("exp    output: " + MULTI_NS_INPUT);
-		System.out.println("actual output: " + actualOutput);
+		logger.debug("exp    output: {} ", MULTI_NS_INPUT);
+		logger.debug("actual output: {} ", actualOutput);
 		
 		for(int i=0; i<MULTI_NS_INPUT.length(); i++) {
 			if( JSONFilterInputStreamTest.MULTI_NS_INPUT_BYTES[i] != bites[i] ) {
-				System.out.println("mismatch at " + i);
 				Assert.fail("mismatch at " + i);
 			}
 		}		
@@ -464,13 +459,12 @@ public class JSONFilterInputStreamTest {
 		}
 		
 		String actualOutput = new String(bites, "US-ASCII");
-		System.out.println("exp    output: " + MULTI_NS_INPUT);
-		System.out.println("actual output: " + actualOutput);
+		logger.debug("exp    output: {}", MULTI_NS_INPUT);
+		logger.debug("actual output: {}", actualOutput);
 		
 		for(int i=0; i<MULTI_NS_INPUT.length(); i++) {
 			if( JSONFilterInputStreamTest.MULTI_NS_INPUT_BYTES[i] != bites[i] ) {
-				System.out.println("mismatch at " + i);
-				Assert.fail("mismatch at " + i);
+				Assert.fail("mismatch at {}" +  i);
 			}
 		}		
 
@@ -494,12 +488,11 @@ public class JSONFilterInputStreamTest {
 		}
 		
 		String actualOutput = new String(bites, "US-ASCII");
-		System.out.println("exp    output no root: " + MULTI_NS_NO_ROOT_EXPECTED_OUTPUT);
-		System.out.println("actual output no root: " + actualOutput);
+		logger.debug("exp    output no root: " + MULTI_NS_NO_ROOT_EXPECTED_OUTPUT);
+		logger.debug("actual output no root: " + actualOutput);
 		
 		for(int i=0; i<MULTI_NS_NO_ROOT_EXPECTED_OUTPUT.length(); i++) {
 			if( JSONFilterInputStreamTest.MULTI_NS_NO_ROOT_EXPECTED_OUTPUT_BYTES[i] != bites[i] ) {
-				System.out.println("mismatch at " + i);
 				Assert.fail("mismatch at " + i);
 			}
 		}		
@@ -523,8 +516,8 @@ public class JSONFilterInputStreamTest {
 		}
 		
 		String actualOutput = new String(bites, "US-ASCII");
-		System.out.println("exp    output no root: " + MULTI_NS_NO_ROOT_EXPECTED_OUTPUT);
-		System.out.println("actual output no root: " + actualOutput);
+		logger.debug("exp    output no root: " + MULTI_NS_NO_ROOT_EXPECTED_OUTPUT);
+		logger.debug("actual output no root: " + actualOutput);
 		
 		for(int i=0; i<MULTI_NS_NO_ROOT_EXPECTED_OUTPUT.length(); i++) {
 			if( JSONFilterInputStreamTest.MULTI_NS_NO_ROOT_EXPECTED_OUTPUT_BYTES[i] != bites[i] ) {
@@ -553,12 +546,11 @@ public class JSONFilterInputStreamTest {
 		}
 		
 		String actualOutput = new String(bites, "US-ASCII");
-		System.out.println("exp    output space: " + MULTI_NS_NO_ROOT_EXPECTED_OUTPUT_2);
-		System.out.println("actual output space: " + actualOutput);
+		logger.debug("exp    output space: " + MULTI_NS_NO_ROOT_EXPECTED_OUTPUT_2);
+		logger.debug("actual output space: " + actualOutput);
 		
 		for(int i=0; i<MULTI_NS_NO_ROOT_EXPECTED_OUTPUT_2.length(); i++) {
 			if( MULTI_NS_NO_ROOT_EXPECTED_OUTPUT_BYTES_2[i] != bites[i] ) {
-				System.out.println("mismatch at " + i);
 				Assert.fail("mismatch at " + i);
 			}
 		}		
@@ -582,12 +574,11 @@ public class JSONFilterInputStreamTest {
 		}
 		
 		String actualOutput = new String(bites, "US-ASCII");
-		System.out.println("exp    output no root: " + MULTI_NS_NO_ROOT_EXPECTED_OUTPUT_2);
-		System.out.println("actual output no root: " + actualOutput);
+		logger.debug("exp    output no root: " + MULTI_NS_NO_ROOT_EXPECTED_OUTPUT_2);
+		logger.debug("actual output no root: " + actualOutput);
 		
 		for(int i=0; i<MULTI_NS_NO_ROOT_EXPECTED_OUTPUT_2.length(); i++) {
 			if( JSONFilterInputStreamTest.MULTI_NS_NO_ROOT_EXPECTED_OUTPUT_BYTES_2[i] != bites[i] ) {
-				System.out.println("mismatch at " + i);
 				Assert.fail("mismatch at " + i);
 			}
 		}		

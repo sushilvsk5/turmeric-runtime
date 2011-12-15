@@ -85,7 +85,7 @@ public class MetricsRegistryTest extends BaseMonitoringTest {
 				registry.registerMetric(def);
 				assertTrue("Expecting ServiceException", false);
 			} catch (ServiceException e) {
-				System.out.println("Caught expected: " + e.toString());
+				logger.debug("Caught expected: " + e.toString());
 			}
 		} finally {
 			unregisterTestMetricDefs();
@@ -107,7 +107,7 @@ public class MetricsRegistryTest extends BaseMonitoringTest {
 				registry.registerMetric(def);
 				assertTrue("Expecting ServiceException", false);
 			} catch (ServiceException e) {
-				System.out.println("Caught expected: " + e.toString());
+				logger.debug("Caught expected: " + e.toString());
 			}
 		} finally {
 			unregisterTestMetricDefs();
@@ -129,7 +129,7 @@ public class MetricsRegistryTest extends BaseMonitoringTest {
 				registry.registerMetric(def);
 				assertTrue("Expecting ServiceException", false);
 			} catch (ServiceException e) {
-				System.out.println("Caught expected: " + e.toString());
+				logger.debug("Caught expected: " + e.toString());
 			}
 		} finally {
 			unregisterTestMetricDefs();
@@ -464,8 +464,7 @@ public class MetricsRegistryTest extends BaseMonitoringTest {
 	}
 
 	private static void registerWithName(MetricsRegistry registry) throws Exception {
-//TODO:  to be enabled when thread local MC in place.
-//		registry.registerMetric(METRIC_NAME_OTHER, MonitoringLevel.INFO, MetricCategory.Other);
+		
 	}
 
 	private static void registerWithDefs(MetricsRegistry registry) throws Exception {
@@ -477,7 +476,6 @@ public class MetricsRegistryTest extends BaseMonitoringTest {
 			MonitoringLevel.NORMAL, MetricCategory.Other, IntSumMetricValue.class));
 		defs.add(new MetricDef(METRIC_NAME_DBT, SERVICE_QNAME_ITEM, MetricDef.OP_DONT_CARE,
 			MonitoringLevel.NORMAL, MetricCategory.Other, IntSumMetricValue.class));
-//		TODO:  to be disabled when thread local MC in place.
 		defs.add(new MetricDef(METRIC_NAME_OTHER, SERVICE_QNAME_ITEM, OP_NAME_FIND,
 			MonitoringLevel.NORMAL, MetricCategory.Other, IntSumMetricValue.class));
 		registry.registerMetrics(defs);

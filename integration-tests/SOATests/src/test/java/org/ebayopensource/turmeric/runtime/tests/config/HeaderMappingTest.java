@@ -67,7 +67,7 @@ public class HeaderMappingTest extends AbstractWithServerTest {
 		//request.addHeader("Z-OPNAME", "echoString");
 		Response response = httpClient.invoke(request);
 		String body = response.getBody();
-		System.out.println("<><><>body: "+body);
+		logger.debug("<><><>body: "+body);
 		Assert.assertThat(body, not(containsString("exception-id")));
 		Assert.assertThat(body, containsString("Message=\"Emeryville\""));
 	}
@@ -81,7 +81,7 @@ public class HeaderMappingTest extends AbstractWithServerTest {
 		request.addHeader("X-TURMERIC-RESPONSE-DATA-FORMAT", "XML");
 		Response response = httpClient.invoke(request);
 		String body = response.getBody();
-		System.out.println("<><>Body: "+body);
+		logger.debug("<><>Body: "+body);
 		String expectedContent = ("Input URL gave a value for header " +
 				"X-TURMERIC-OPERATION-NAME equal to echoString but has a " +
 				"conflicting mapped value");

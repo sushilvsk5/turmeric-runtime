@@ -54,7 +54,7 @@ public class JAXBJSONSerDeserTest extends BaseSerDeserTest {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		jaxbtest.serialize(ctx, out, msg);
 		String xml1 = out.toString();
-		System.out.println(xml1);
+		logger.debug(xml1);
 		jaxbtest.setPayload(out);
 		Deserializer deser = m_deserFactory.getDeserializer();
 		Assert.assertNotNull("Deserializer", deser);

@@ -78,13 +78,13 @@ public class JAXBAttachmentSerDeserTest extends BaseSerDeserTest {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		JAXBTestHelper.serialize(ctx, out, msg);
 		String xml1 = out.toString();
-		System.out.println(xml1);
+		logger.debug(xml1);
 		Matcher cidMatcher = cidPattern.matcher(xml1);
 		cidMatcher.matches();
 		String contentType = "multipart/related;boundary=" + cidMatcher.group(1) + "; " +
 		"type=\"application/xop+xml\";start=\"" + cidMatcher.group(3) +
 		"\";start-info=\"text/xml\"";
-		System.out.println("ContentType=**" + contentType + "**");
+		logger.debug("ContentType=**" + contentType + "**");
 
 		Deserializer deser = m_deserFactory.getDeserializer();
 		
@@ -95,6 +95,6 @@ public class JAXBAttachmentSerDeserTest extends BaseSerDeserTest {
 		Object msg1 = deser.deserialize((InboundMessage)ctx.getRequestMessage(), MyMessage.class);
 		out = new ByteArrayOutputStream();
 		assertEquals(msg,msg1);
-		System.out.println("**** Ending testBasicAttachmentSerDeser");
+		logger.debug("**** Ending testBasicAttachmentSerDeser");
 	}
 }

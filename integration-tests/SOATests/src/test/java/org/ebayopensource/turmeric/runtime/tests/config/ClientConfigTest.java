@@ -28,8 +28,12 @@ import org.ebayopensource.turmeric.runtime.sif.impl.internal.service.ClientServi
 import org.ebayopensource.turmeric.runtime.tests.common.AbstractTurmericTestCase;
 import org.junit.Test;
 
+import com.ebay.kernel.logger.Logger;
+
 
 public class ClientConfigTest extends AbstractTurmericTestCase {
+	
+	private final Logger logger = Logger.getInstance(ClientConfigTest.class);
 	/**
 	 * @check  Exceptions need to be handled
 	 */
@@ -95,7 +99,7 @@ public class ClientConfigTest extends AbstractTurmericTestCase {
 			fail("Should have received ServiceCreationException");
 		}
 		catch (ServiceCreationException e) {
-			e.printStackTrace();
+			logger.log(com.ebay.kernel.logger.LogLevel.DEBUG, e);
 		}
 	}
 	
