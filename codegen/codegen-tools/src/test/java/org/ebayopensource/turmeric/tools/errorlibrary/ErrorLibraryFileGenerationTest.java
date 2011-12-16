@@ -429,6 +429,8 @@ public class ErrorLibraryFileGenerationTest extends AbstractCodegenTestCase {
 		try {
 			performDirectCodeGen(inputArgs1);
 			expectedLog.assertFoundMessage();
+		} catch (Exception ex) {
+			
 		} finally {
 			errlogger.removeHandler(expectedLog);
 		}
