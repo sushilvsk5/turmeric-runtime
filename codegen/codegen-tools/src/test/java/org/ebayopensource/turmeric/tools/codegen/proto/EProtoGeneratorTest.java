@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
@@ -175,8 +176,7 @@ public class EProtoGeneratorTest extends AbstractServiceGeneratorTestCase{
 	         method.setAccessible(true);
 	         method.invoke(sysloader, new Object[]{u});
 	      } catch (Throwable t) {
-	         t.printStackTrace();
-	         throw new IOException("Error, could not add URL to system classloader");
+	         throw new IOException("Error, could not add URL to system classloader", t);
 	      }
 
 	   }

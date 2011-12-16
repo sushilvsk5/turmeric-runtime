@@ -7,11 +7,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FileUtil {
 	
 	
 public static String readProtoFileToString(File fileLocation){
+		final Logger logger = Logger.getLogger("");
 		
 		StringBuffer sb = new StringBuffer();
 		FileReader fr  = null;
@@ -36,11 +39,9 @@ public static String readProtoFileToString(File fileLocation){
 				
 				
 			} catch (FileNotFoundException e) {
-			
-				e.printStackTrace();
+				logger.log(Level.FINE, "", e);
 			} catch (IOException e) {
-				
-				e.printStackTrace();
+				logger.log(Level.FINE, "", e);
 			}finally{
 				if(fr != null && br != null){
 					
@@ -49,7 +50,7 @@ public static String readProtoFileToString(File fileLocation){
 						br.close();
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						logger.log(Level.FINE, "", e);
 					}
 				}
 				
@@ -64,6 +65,7 @@ public static String readProtoFileToString(File fileLocation){
 
 
 public static List<String> readFileAsLines(File fileLocation){
+	final Logger logger = Logger.getLogger("");
 	
 	List<String> lines = new ArrayList<String>();
 	FileReader fr  = null;
@@ -89,10 +91,10 @@ public static List<String> readFileAsLines(File fileLocation){
 			
 		} catch (FileNotFoundException e) {
 		
-			e.printStackTrace();
+			logger.log(Level.FINE, "", e);
 		} catch (IOException e) {
 			
-			e.printStackTrace();
+			logger.log(Level.FINE, "", e);
 		}finally{
 			if(fr != null && br != null){
 				
@@ -100,8 +102,7 @@ public static List<String> readFileAsLines(File fileLocation){
 					fr.close();
 					br.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.log(Level.FINE, "", e);
 				}
 			}
 			

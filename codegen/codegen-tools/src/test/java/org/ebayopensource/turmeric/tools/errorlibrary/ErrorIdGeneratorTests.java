@@ -104,8 +104,6 @@ public class ErrorIdGeneratorTests extends AbstractServiceGeneratorTestCase {
         		MARKET_PLACES_ORG_NAME + 2,
         		99);
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			e.printStackTrace();//KEEPME
 			isException = true;
 		}
 		assertEquals(isException,true);
@@ -199,8 +197,6 @@ public class ErrorIdGeneratorTests extends AbstractServiceGeneratorTestCase {
 			l = errorIdGenerator.getNextId(DOMAIN_ONE);
 			m = errorIdGenerator2.getNextId(DOMAIN_ONE);
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			e.printStackTrace();
 			isArgException = true;
 		}
 		assertFalse(isArgException);
@@ -218,8 +214,6 @@ public class ErrorIdGeneratorTests extends AbstractServiceGeneratorTestCase {
 	        		MARKET_PLACES_STORE_LOCATION,
 	        		null);
 		}catch(Exception e){
-			System.out.println("Test case failed due to value of organization name: null \n" + e.getMessage());
-			e.printStackTrace();//KEEPME
 			isArgException = true;
 		}
 		assertTrue(isArgException);
@@ -239,8 +233,6 @@ public class ErrorIdGeneratorTests extends AbstractServiceGeneratorTestCase {
 	        		null,
 	        		PAY_ORG_NAME);
 		}catch(Exception e){
-			System.out.println("Test case failed due to value of storage location: null \n" + e.getMessage());
-			e.printStackTrace();
 			isArgException = true;
 		}
 		assertTrue(isArgException);
@@ -260,8 +252,6 @@ public class ErrorIdGeneratorTests extends AbstractServiceGeneratorTestCase {
 	        		"C:\\SOAtemp\\",
 	        		PAY_ORG_NAME +1 );
 		}catch(Exception e){
-			System.out.println("TEST CASE FAILED!" + e.getMessage());
-			e.printStackTrace();
 			isArgException = true;
 		}
 		assertTrue(isArgException);
@@ -337,7 +327,6 @@ public class ErrorIdGeneratorTests extends AbstractServiceGeneratorTestCase {
 		try {
 			objErrorIdGeneratorTests.testErrorIDGenerator_id_overlap();
 			} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 	

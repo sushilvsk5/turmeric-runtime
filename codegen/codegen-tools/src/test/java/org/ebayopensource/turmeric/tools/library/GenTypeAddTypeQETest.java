@@ -141,7 +141,6 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 			boolean masterEpisodeCompare = utility.compareFiles(masterEpisodeFileCodegenCopy, masterEpisodeFileVanillaCopy);
 			assertTrue("Sun-jaxb.episode content does not match", masterEpisodeCompare);
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("No exception should be thrown." + e.getMessage(), false);
 		}
 	}
@@ -230,7 +229,6 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 			boolean masterEpisodeCompare = utility.compareFiles(masterEpisodeFileCodegenCopy, masterEpisodeFileVanillaCopy);
 			//assertTrue("Sun-jaxb.episode content does not match", masterEpisodeCompare);
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("No exception should be thrown.Exception:"+e.getMessage(), false);
 		}
 	}
@@ -340,7 +338,6 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 			assertXML(masterEpisodeFileVanillaCopy, masterEpisodeFileCodegenCopy,null);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("No exception should be thrown. Exception:"+e.getMessage(), false);
 		}
 	}
@@ -394,7 +391,6 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 			assertTrue("XsAnyType1.java file content does not match", javaFileCompare);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("No exception should be thrown. Exception:"+e.getMessage(), false);
 		}
 	}
@@ -449,7 +445,6 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 			assertTrue("XsAnyType2.java file content does not match", javaFileCompare);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("No exception should be thrown. Exception:"+e.getMessage(), false);
 		}
 	}
@@ -550,7 +545,6 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 			boolean masterEpisodeCompare = utility.compareFiles(masterEpisodeFileCodegenCopy, masterEpisodeFileVanillaCopy);
 			//assertTrue("Sun-jaxb.episode content does not match", masterEpisodeCompare);
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("No exception should be thrown." + e.getMessage(), false);
 		}
 	}
@@ -623,7 +617,6 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 				assertTrue("CategoryName.java is not getting regenerated.", false);
 			}			
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("No exception should be thrown." + e.getMessage(), false);
 		}
 	}
@@ -680,7 +673,6 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 					"ProductInformation.xsd" };
 			sGenerator.startCodeGen(typesParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("No exception should be thrown."+ e.getMessage(), false);
 		}
 	}
@@ -766,95 +758,10 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 			boolean masterEpisodeCompare = utility.compareFiles(masterEpisodeFileCodegenCopy, masterEpisodeFileVanillaCopy);
 			assertTrue("Sun-jaxb.episode content does not match", masterEpisodeCompare);
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("No exception should be thrown. Following exception is thrown: "+e, false);
 		}
 	}
 
-	/*@Test
-	public void testGenTypeAddTypeDepOnComplexTypeDiffLib() {
-		String VANILLA_INFO = "addTypeFromComplexTypeDiffLib";
-
-		//Copy the xsd file to \meta-src\types\ folder
-		boolean copyXsd = utility.copyXSDFileToTypesFolder(CATEGORY_TYPE_LIBRARY, "CategoryProduct.xsd");
-		assertTrue("Xsd file is not copied", copyXsd);
-
-		boolean copyXsd1 = utility.copyXSDFileToTypesFolder(CATEGORY_TYPE_LIBRARY, "CategorySales.xsd");
-		assertTrue("Xsd file is not copied", copyXsd1);
-
-		ServiceGenerator sGenerator = new ServiceGenerator();
-		String[] pluginParameter = { "-gentype",
-				"genTypeAddType",
-				"-pr",
-				PROJECT_ROOT_CATEGORY,
-				"-libname",
-				"CategoryTypeLibrary",
-				"-type",
-				"CategorySales.xsd" };
-		try {
-			sGenerator.startCodeGen(pluginParameter);
-			//validate the content of TypeInformation.xml
-			String TIXmlCodegenPath = utility.getTypeInformationXMLPath(PROJECT_ROOT_CATEGORY, CATEGORY_TYPE_LIBRARY, null);
-			String TIXmlVanillaPath = utility.getTypeInformationXMLPath(GOLD_COPY_ROOT + "\\" + CATEGORY_TYPE_LIBRARY,
-					CATEGORY_TYPE_LIBRARY,
-					VANILLA_INFO);
-			boolean typeInformationXmlCompare = utility.compareFiles(TIXmlCodegenPath, TIXmlVanillaPath);
-			assertTrue("TypeInformation.xml content did not match", typeInformationXmlCompare);
-
-			//Validate the contents of CategorySales.java
-			String javaFileCodegenCopy = utility.getGeneratedJavaFilePath(PROJECT_ROOT_CATEGORY,
-					CATEGORY_TYPE_LIBRARY,
-					"CategorySales.java",
-					null);
-			String javaFileVanillaCopy = utility.getGeneratedJavaFilePath(GOLD_COPY_ROOT + "\\" + CATEGORY_TYPE_LIBRARY,
-					CATEGORY_TYPE_LIBRARY,
-					"CategorySales.java",
-					VANILLA_INFO);
-			;
-			boolean javaFileCompare = utility.compareFiles(javaFileCodegenCopy, javaFileVanillaCopy);
-			assertTrue("CategorySales.java file content does not match", javaFileCompare);
-
-			//Validate the contents of CategoryProduct.java
-			String javaFileCodegenCopy1 = utility.getGeneratedJavaFilePath(PROJECT_ROOT_CATEGORY,
-					CATEGORY_TYPE_LIBRARY,
-					"CategoryProduct.java",
-					null);
-			String javaFileVanillaCopy1 = utility.getGeneratedJavaFilePath(GOLD_COPY_ROOT + "\\" + CATEGORY_TYPE_LIBRARY,
-					CATEGORY_TYPE_LIBRARY,
-					"CategoryProduct.java",
-					VANILLA_INFO);
-			;
-			boolean javaFileCompare1 = utility.compareFiles(javaFileCodegenCopy1, javaFileVanillaCopy1);
-			assertTrue("CategorySales.java file content does not match", javaFileCompare1);
-
-			//Validate the content of CategorySales.episode file
-			String episodeFileCodegenCopy = utility.getEpisodeFilePath(PROJECT_ROOT_CATEGORY,
-					CATEGORY_TYPE_LIBRARY,
-					"CategorySales.episode",
-					null);
-			String episodeFileVanillaCopy = utility.getEpisodeFilePath(GOLD_COPY_ROOT + "\\" + CATEGORY_TYPE_LIBRARY,
-					CATEGORY_TYPE_LIBRARY,
-					"CategorySales.episode",
-					VANILLA_INFO);
-			boolean episodeFileCompare = utility.compareFiles(episodeFileCodegenCopy, episodeFileVanillaCopy);
-			assertTrue("CategorySales.episode content does not match.", episodeFileCompare);
-
-			//Validate the contents of Sun-jaxb.episode
-			String masterEpisodeFileCodegenCopy = utility.getEpisodeFilePath(PROJECT_ROOT_CATEGORY,
-					CATEGORY_TYPE_LIBRARY,
-					"sun-jaxb.episode",
-					null);
-			String masterEpisodeFileVanillaCopy = utility.getEpisodeFilePath(GOLD_COPY_ROOT + "\\" + CATEGORY_TYPE_LIBRARY,
-					CATEGORY_TYPE_LIBRARY,
-					"sun-jaxb.episode",
-					VANILLA_INFO);
-			boolean masterEpisodeCompare = utility.compareFiles(masterEpisodeFileCodegenCopy, masterEpisodeFileVanillaCopy);
-			assertTrue("Sun-jaxb.episode content does not match", masterEpisodeCompare);
-		} catch (Exception e) {
-			e.printStackTrace();
-			assertTrue("No exception should be thrown.", false);
-		}
-	}*/
 
 	/**
 	 * This testcase is for input options without value for '-pr'
@@ -873,7 +780,6 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			String exceptionMessage = "Please provide a value for the option -pr";
 			assertTrue("Expected Exception message: " + exceptionMessage + " || Actual Exception message:" + e.getMessage(),
@@ -898,7 +804,6 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.MissingInputOptionException";
 			String exceptionMessage = "Project Root is missing.";
 			assertTrue("Expected Exception message:" + exceptionMessage + " || Actual Exception message:" + e.getMessage(),
@@ -927,7 +832,6 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			String exceptionMessage = "Please provide a proper value for the option -pr";
 			assertTrue("Expected Exception message:" + exceptionMessage + " || Actual Exception message:" + e.getMessage(),
@@ -949,7 +853,6 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			String exceptionMessage = "Missing parameter for '-libname' option.";
 			assertTrue("Expected Exception message:" + exceptionMessage + " || Actual Exception message:" + e.getMessage(),
@@ -971,7 +874,6 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputOptionException";
 			String exceptionMessage = "Invalid option categorytypelibrary specified. This option is not recognized.";
 			assertTrue("Expected Exception message:" + exceptionMessage + " || Actual Exception message:" + e.getMessage(),
@@ -993,7 +895,6 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			String exceptionMessage = "Please provide a proper value for the option -libname";
 			assertTrue("Expected Exception message:" + exceptionMessage + " || Actual Exception message:" + e.getMessage(),
@@ -1021,7 +922,6 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			String exceptionMessage = "Missing parameter for '-type' option.";
 			assertTrue("Expected Exception message:" + exceptionMessage + " || Actual Exception message:" + e.getMessage(),
@@ -1049,7 +949,6 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputOptionException";
 			String exceptionMessage = "Invalid option categoryname.xsd specified. This option is not recognized.";
 			assertTrue("Expected Exception message:" + exceptionMessage + " || Actual Exception message:" + e.getMessage(),
@@ -1078,7 +977,6 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			String exceptionMessage = "Please provide a proper value for the option -type";
 			assertTrue("Expected Exception message:" + exceptionMessage + " || Actual Exception message:" + e.getMessage(),
@@ -1112,7 +1010,6 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.CodeGenFailedException";
 			String exceptionMessage = "Type.xsd does not exist";
 			assertTrue("Expected Exception message:" + exceptionMessage + " || Actual Exception message:" + e.getMessage(),
@@ -1140,7 +1037,6 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 			sGenerator.startCodeGen(pluginParameter);
 			flag = true;
 		} catch (Exception e) {
-			e.printStackTrace();
 			flag = false;
 		}
 		return flag;
@@ -1164,7 +1060,6 @@ public class GenTypeAddTypeQETest extends AbstractServiceGeneratorTestCase {
 			sGenerator.startCodeGen(pluginParameter);
 			flag = true;
 		} catch (Exception e) {
-			e.printStackTrace();
 			flag = false;
 		}
 		return flag;

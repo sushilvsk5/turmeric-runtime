@@ -487,8 +487,6 @@ public class TypeLibraryCodegenInterfaceTest extends
 				try {
 					performDirectCodeGen(pluginParametersForDeleteType);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 
 			}

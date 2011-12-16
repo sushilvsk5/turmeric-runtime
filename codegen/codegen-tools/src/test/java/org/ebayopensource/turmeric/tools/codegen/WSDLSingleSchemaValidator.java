@@ -70,7 +70,7 @@ public class WSDLSingleSchemaValidator {
 		try {
 			serviceGenerator.startCodeGen(getTestServiceGenerator(fileName));
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 		}
 		if (errMsgList == null){
 			returnValue = true;

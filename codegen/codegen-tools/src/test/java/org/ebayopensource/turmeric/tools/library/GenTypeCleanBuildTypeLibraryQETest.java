@@ -98,7 +98,6 @@ public class GenTypeCleanBuildTypeLibraryQETest extends AbstractServiceGenerator
 				Assert.assertTrue(typeInformation.exists());
 				
 			} catch (Exception e) {
-				e.printStackTrace();
 				assertTrue("No exception should be thrown. Exception: "+e.getMessage(), false);
 		}
 	}
@@ -166,7 +165,6 @@ public class GenTypeCleanBuildTypeLibraryQETest extends AbstractServiceGenerator
 				assertTrue(javaFileName+" content does not match.", javaFileCompare);
 				
 			} catch (Exception e) {
-				e.printStackTrace();
 				assertTrue("No exception should be thrown. Exception: "+e.getMessage(), false);
 		}
 	}
@@ -206,7 +204,6 @@ public class GenTypeCleanBuildTypeLibraryQETest extends AbstractServiceGenerator
 				assertTrue("Exception should be thrown. Exception: ", false);
 				
 			} catch (Exception e) {
-				e.printStackTrace();	
 		}
 	}
 	
@@ -230,7 +227,6 @@ public class GenTypeCleanBuildTypeLibraryQETest extends AbstractServiceGenerator
 			sGenerator.startCodeGen(pluginParameter);
 			flag = true;
 		} catch (Exception e) {
-			e.printStackTrace();
 			flag = false;
 		}
 		return flag;
@@ -251,7 +247,6 @@ public class GenTypeCleanBuildTypeLibraryQETest extends AbstractServiceGenerator
 			sGenerator.startCodeGen(pluginParameter);
 			flag = true;
 		} catch (Exception e) {
-			e.printStackTrace();
 			flag = false;
 		}
 		return flag;		

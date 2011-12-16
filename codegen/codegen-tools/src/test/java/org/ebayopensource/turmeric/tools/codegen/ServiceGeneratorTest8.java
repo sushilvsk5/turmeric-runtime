@@ -75,7 +75,6 @@ public class ServiceGeneratorTest8 extends AbstractServiceGeneratorTestCase {
 		try {
 			performDirectCodeGen(testArgs);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			Assert.assertFalse("Code Gen Failed", true);
 		}
 
@@ -146,12 +145,7 @@ public class ServiceGeneratorTest8 extends AbstractServiceGeneratorTestCase {
 				};
 		// @formatter:on
 
-		try {
 			performDirectCodeGen(testArgs);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			Assert.assertFalse("Code Gen Failed", true);
-		}
 
 		// check file generated
 		File serviceConfigDir = GeneratedAssert.assertFileExists(destDir, "gen-meta-src/META-INF/soa/services/config/ServerConfig/ServiceConfig.xml");
@@ -211,12 +205,7 @@ public class ServiceGeneratorTest8 extends AbstractServiceGeneratorTestCase {
 				};
 		// @formatter:on
 
-		try {
 			performDirectCodeGen(testArgs);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			Assert.assertFalse("Code Gen Failed", true);
-		}
 
 		String projectRoot = srcDir.getAbsolutePath();
 		String commonTypesPackageFolderPath = getCommonTypesPackageFolderPath(projectRoot);
@@ -305,7 +294,7 @@ public class ServiceGeneratorTest8 extends AbstractServiceGeneratorTestCase {
 		System.out.println("**** End testSortingOfObjectFactory() ****");
 	}
 	
-	private int[] generateServiceAndReturnObjectFactory() throws IOException{
+	private int[] generateServiceAndReturnObjectFactory() throws Exception{
 		// Initialize testing paths
 		MavenTestingUtils.ensureEmpty(testingdir);
 		File wsdl = TestResourceUtil.getResource("org/ebayopensource/turmeric/test/tools/codegen/data/AdvertisingTestPluginNewServiceV1.wsdl");
@@ -326,12 +315,7 @@ public class ServiceGeneratorTest8 extends AbstractServiceGeneratorTestCase {
 				};
 		// @formatter:on
 
-		try {
 			performDirectCodeGen(testArgs);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			Assert.assertFalse("Code Gen Failed", true);
-		}
 
 		String objectFactoryFilePath = getObjectFactoryFilePath( destDir.getAbsolutePath() );
 		File objectFactoryFile = new File(objectFactoryFilePath);
@@ -404,12 +388,7 @@ public class ServiceGeneratorTest8 extends AbstractServiceGeneratorTestCase {
 				};
 		// @formatter:on
 
-		try {
 			performDirectCodeGen(testArgs);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			Assert.assertFalse("Code Gen Failed", true);
-		}
 
 		File tmFile = GeneratedAssert.assertFileExists(destDir, "gen-meta-src/META-INF/soa/common/config/"+testArgs[1]+"/TypeMappings.xml");
 

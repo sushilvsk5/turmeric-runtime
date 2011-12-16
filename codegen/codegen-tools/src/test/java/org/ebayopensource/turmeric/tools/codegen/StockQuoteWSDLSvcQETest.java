@@ -326,7 +326,6 @@ File sl = getCodegenQEDataFileInput("service_layers2.txt");
 			
 		}
 			catch(Exception e ){
-				e.printStackTrace();
 			}
 		
 	}

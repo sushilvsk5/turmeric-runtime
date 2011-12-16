@@ -21,11 +21,14 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 
 import org.apache.axis2.wsdl.WSDL2Java;
+import org.apache.tools.ant.types.LogLevel;
 import org.ebayopensource.turmeric.tools.GeneratedAssert;
 import org.ebayopensource.turmeric.tools.TestResourceUtil;
 import org.ebayopensource.turmeric.tools.codegen.AbstractServiceGeneratorTestCase;
@@ -35,6 +38,8 @@ import org.junit.Test;
 
 public class WSO2BugTest extends AbstractServiceGeneratorTestCase {
 
+	private final Logger logger = Logger.getLogger("");
+	
 	@Test
 	public void testForExceptionClassAndSerialVersionID() throws Exception {
 		// Initialize testing paths
@@ -85,7 +90,7 @@ public class WSO2BugTest extends AbstractServiceGeneratorTestCase {
 			WSDL2Java.main(args);
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			logger.log(Level.INFO, e.getMessage(), e);
 		}
 
 		File srcDir = new File(rootDir, "src");
@@ -175,16 +180,16 @@ public class WSO2BugTest extends AbstractServiceGeneratorTestCase {
 			checkErrorDataType(types);
 
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			logger.log(Level.INFO, e.getMessage(), e);
 			Assert.fail("URL is not correct");
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			logger.log(Level.INFO, e.getMessage(), e);
 			Assert.fail("Class not found");
 		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
+			logger.log(Level.INFO, e.getMessage(), e);
 			Assert.fail("Expected constructors dont exist");
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.log(Level.INFO, e.getMessage(), e);
 			Assert.fail("Expected constructors dont exist");
 		}
 
@@ -205,6 +210,7 @@ public class WSO2BugTest extends AbstractServiceGeneratorTestCase {
 	}
 
 	public static boolean searchStringInFile(File file, String searchText) {
+		final Logger logger = Logger.getLogger("");
 
 		StringBuilder sb = new StringBuilder();
 		String line;
@@ -219,7 +225,7 @@ public class WSO2BugTest extends AbstractServiceGeneratorTestCase {
 			}
 
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			logger.log(Level.INFO, ex.getMessage(), ex);
 		}
 
 		String fileText = sb.toString();

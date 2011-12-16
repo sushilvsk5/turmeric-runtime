@@ -453,7 +453,7 @@ public class ServiceUIDQE2Test extends AbstractServiceGeneratorTestCase{
 			        out = new FileOutputStream(file);
 			        pro.store(out,null);
 			}catch(Exception e){
-				e.printStackTrace();
+				
 			}finally{
 	        out.close();
 		
@@ -487,7 +487,7 @@ private  void createImplPropsFile() throws IOException{
 	    out  = new FileOutputStream(destDir.getAbsolutePath()+File.separator +IMPL_PROPERTIES);
 	    pro.store(out,null);
 	}catch(Exception e){
-		e.printStackTrace();
+		
 	}finally{
     out.close();
     in.close(); }
