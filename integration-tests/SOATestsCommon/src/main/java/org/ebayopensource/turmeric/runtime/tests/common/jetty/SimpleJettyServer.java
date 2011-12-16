@@ -166,7 +166,6 @@ public class SimpleJettyServer {
 			jetty.start();
 			jetty.joinServer();
 		} catch (Throwable t) {
-			t.printStackTrace(System.err);
 		} finally {
 			Thread.currentThread().setContextClassLoader(original);
 		}

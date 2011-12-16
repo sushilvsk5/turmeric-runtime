@@ -338,9 +338,7 @@ public class AdvertisingUniqueIDServiceV1Impl implements
 				logger.debug("AttachmentAsyncHandler:handleResponse: getting response for void operation");
 				this.resp.get();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
 			} catch (ExecutionException e) {
-				e.printStackTrace();
 			} finally {
 				isDone = true;
 			}

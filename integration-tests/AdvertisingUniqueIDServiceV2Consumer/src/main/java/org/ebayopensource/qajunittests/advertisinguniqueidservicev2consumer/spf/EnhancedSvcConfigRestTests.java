@@ -77,17 +77,12 @@ public class EnhancedSvcConfigRestTests {
 				success = true;
 		}catch (Exception exception) {
 			success = false;
-			exception.printStackTrace();
 		}
 		Assert.assertTrue(success);
 		try {
 			ServiceConfigManager.getInstance().setConfigTestCase("config");
 		} catch (ServiceCreationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 	@Test
@@ -253,7 +248,6 @@ public class EnhancedSvcConfigRestTests {
 		param0.setSiteId("0");
 		System.out.println(consumer.testSchemaValidationWithUPA(param0).getAck());
 		} catch (Exception e) {
-			e.printStackTrace();
 			Assert.assertEquals(
 					"Error validating configuration file META-INF/soa/services/configAbsoluteMappingWithSameIndex/AdvertisingUniqueIDServiceV2/ServiceConfig.xml: Duplicates indices for url path elements",
 					e.getMessage());
@@ -503,9 +497,7 @@ public class EnhancedSvcConfigRestTests {
 			param0.setMessageType(null);
 			param0.setSiteId("0");
 			System.out.println(consumer.testSchemaValidationWithUPA(param0).getAck());
-//			Assert.assertEquals(AckValue.SUCCESS, consumer.testSchemaValidationWithUPA(param0).getAck());
 			} catch (Exception e) {
-				e.printStackTrace();
 				Assert.assertFalse(true);
 			}
 	}

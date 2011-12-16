@@ -88,9 +88,6 @@ public class Test1DriverExt extends Test1Driver {
 		if ((errorId == hackErrorId) && (expectedErrorId == hackExpectedId)) {
 			return false;
 		}
-
-		System.out.printf("errorId [%d]%n", errorId);
-		System.out.printf("expectedErrorId [%d]%n", errorId );
 		
 		return super.unexpectedError(errorId, expectedErrorId);
 	}

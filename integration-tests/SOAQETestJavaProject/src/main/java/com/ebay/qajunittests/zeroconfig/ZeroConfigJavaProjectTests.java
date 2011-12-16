@@ -30,7 +30,6 @@ public class ZeroConfigJavaProjectTests {
 			Assert.assertTrue(ex.getMessage().
 					contains("Transport HTTP error for target address: http://svcs.ebay.com" +
 					"/services/advertise/UniqueIDService/v1"));
-			ex.printStackTrace();
 		}
 	}
 
@@ -52,10 +51,8 @@ public class ZeroConfigJavaProjectTests {
 			System.out.println(client.echoMessage(param0).getOut());
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
-			ex.printStackTrace();
 			Assert.assertTrue(ex.getMessage().
 					contains("Inbound data error during deserialization: "));
-			ex.printStackTrace();
 		}
 	}
 
@@ -72,7 +69,6 @@ public class ZeroConfigJavaProjectTests {
 			System.out.println(client.echoMessage(param0).getOut());
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
-			ex.printStackTrace();
 			Assert.assertTrue(ex.getMessage().
 					contains("Transport HTTP error for target address:" + 
 							" http://svcs.qa.ebay.com/services/advertise/UniqueIDService/v1"));
@@ -115,7 +111,6 @@ public class ZeroConfigJavaProjectTests {
 			System.out.println(e.getMessage());
 			Assert.assertTrue(e.getMessage()
 					.contains("Unable to load file: META-INF/soa/client/config/foo/DefaultClientConfig.xml"));
-			e.printStackTrace();
 		}
 
 	}
@@ -136,8 +131,6 @@ public class ZeroConfigJavaProjectTests {
 			System.out.println(client.echoMessage(param0).getOut());
 			Assert.assertFalse(true);
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			Assert.assertTrue(e.getMessage().contains("Unable to load file: " + 
 					"META-INF/soa/client/config/AdvertisingUniqueIDServiceV1Consumer/" + 
 					"production/AdvertisingUniqueIDServiceV1/ClientConfig.xml"));
@@ -156,9 +149,6 @@ public class ZeroConfigJavaProjectTests {
 			param0.setIn("Foo");
 			System.out.println(client.echoMessage(param0).getOut());
 		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
-
-			ex.printStackTrace();
 		}
 	}
 	

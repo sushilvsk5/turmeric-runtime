@@ -171,7 +171,6 @@ public class AsyncClientStreamingDownloadAttachmentTests  extends AbstractWithSe
 		try {
 			attFutureObj = client.testAttachmentAsync(param0, attHandler);
 		} catch (WebServiceException e1) {
-			e1.printStackTrace();
 			assertNull(e1);
 		}
 		while (!attFutureObj.isDone()) {
@@ -310,15 +309,9 @@ public class AsyncClientStreamingDownloadAttachmentTests  extends AbstractWithSe
 			String currThreadNm = Thread.currentThread().getName();
 			System.out.println("AttachmentAsyncHandler:handleResponse:Executing thread " + currThreadNm);
 			try {
-//				System.out.println("AttachmentAsyncHandler:handleResponse:");
 				System.out.println(this.resp.get());
-//				TestAttachmentResponse response = (TestAttachmentResponse)this.resp.get();
-//				System.out.println(response.getOut().getFileName());
-//				System.out.println(response.getOut().getSize());
 			} catch (InterruptedException e) {
-				e.printStackTrace();
 			} catch (ExecutionException e) {
-				e.printStackTrace();
 			} finally {
 				isDone = true;
 			}

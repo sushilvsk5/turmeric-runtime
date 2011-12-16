@@ -93,7 +93,6 @@ public class HttpTestClient {
 			return getResponse(request, queryParams);
 		}
 		catch (MalformedURLException e) {
-			e.printStackTrace();
 			return e.getMessage();
 		}
 	}
@@ -126,7 +125,6 @@ public class HttpTestClient {
 			} else return response.getRequestStatus().getName();
 		}
 		catch (BaseClientSideException e) {
-			e.printStackTrace();
 			return e.getMessage();
 		}
 	}
@@ -163,7 +161,6 @@ public class HttpTestClient {
 //			else return response.getRequestStatus().getName();
 
 		} catch (BaseClientSideException e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -230,16 +227,8 @@ public class HttpTestClient {
 		try {
 			response = m_client.invoke(request);
 			return response;
-//			if (response.getRequestStatus() == HttpStatusEnum.SUCCESS)
-
-//			System.out.println("X-EBAY-SOA-RESPONSE-DATA-FORMAT - " + response.getHeader("X-EBAY-SOA-RESPONSE-DATA-FORMAT"));
-//
-//
-//				return response.getBody() + response.getHeader("X-EBAY-SOA-RESPONSE-DATA-FORMAT");
-//			else return response.getRequestStatus().getName();
 
 		} catch (BaseClientSideException e) {
-			e.printStackTrace();
 			return null;
 		}
 	}

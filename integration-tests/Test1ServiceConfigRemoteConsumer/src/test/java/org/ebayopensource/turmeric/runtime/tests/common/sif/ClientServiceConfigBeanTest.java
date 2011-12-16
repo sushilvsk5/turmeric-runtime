@@ -72,14 +72,11 @@ public class ClientServiceConfigBeanTest extends BaseCallTest {
 			try{
 				verifyInvokerOptionsTest();
 			}catch(Throwable t){
-				t.printStackTrace();
-				//ignore
 			}
 			try{
 				verifyTransportOptionsTest();
 			}catch(Throwable t){
-					//ignore
-				t.printStackTrace();
+				
 		    }
 		}
 	};

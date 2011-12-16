@@ -729,11 +729,9 @@ public class Test1Driver {
 	}
 
 	private String printErrorInfo(Object e) {
-		// TODO: print more ErrorDataList info here
 
 		String causeText;
 		if (e instanceof Throwable) {
-			((Throwable) e).printStackTrace();
 			causeText = e.toString();
 		} else if (e instanceof ErrorMessage) {
 			ErrorMessage msg = (ErrorMessage) e;
@@ -956,7 +954,6 @@ public class Test1Driver {
 							try {
 								Thread.sleep(100);
 							} catch (InterruptedException e) {
-								e.printStackTrace();
 								break;
 							}
 						}
@@ -1024,24 +1021,6 @@ public class Test1Driver {
 						try {
 							if (mode.equals(TestMode.SYNC))
 								msgResult = proxy.myTestOperation(msg);
-							/*
-							 * else if (mode.equals(TestMode.ASYNC_PULL)) {
-							 * response = proxy.myTestOperationAsync(msg); while
-							 * (!response.isDone()) { try { Thread.sleep(100); }
-							 * catch (InterruptedException e) {
-							 * e.printStackTrace(); } } msgResult = (MyMessage)
-							 * response.get(); } else
-							 * if(mode.equals(TestMode.ASYNC_PUSH)) { TestHander
-							 * handler = new TestHander<MyMessage>(); Future<?>
-							 * future = proxy.myTestOperationAsync(msg,
-							 * handler); while (!handler.isDone()) { try {
-							 * Thread.sleep(100); } catch (InterruptedException
-							 * e) { e.printStackTrace(); } } if
-							 * (handler.hasError()) throw (ExecutionException)
-							 * handler.getError(); else { msgResult =
-							 * (MyMessage) handler.get(); response =
-							 * handler.getResponse(); } }
-							 */
 						} finally {
 							proxyResponseTime += System.nanoTime() - startTime;
 						}

@@ -190,27 +190,12 @@ public class ServerMessageContextTestBuilder {
 
 		boolean isAttachment = (contentType != null && contentType.contains(HTTPConstants.MEDIA_TYPE_MULTIPART_RELATED));
 
-		// Attachment handling
-/*		BaseMessageAttachments attachments = null;
-		if (isAttachment) {
-			try {
-				attachments = new InboundMessageAttachments(inputStream, contentType);
-			} catch(Exception e) {
-				e.printStackTrace();
-				throw e;
-			}
-		}
-*/
 		Transport transport = new TestTransport();
 		
 		
 		InboundMessageImpl requestMsg = new InboundMessageImpl(true,
 			SOA_MESSAGE_PROTOCOL_VALUE, dbDesc, g11nOptions, headers, null, null, null, operation);
 		
-/*		if (isAttachment && null != inputStream) {
-			inputStream= attachments.getInputStreamForMasterMessage();
-		}
-*/		
 		if (null != inputStream)
 			requestMsg.setInputStream(inputStream);
 

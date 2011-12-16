@@ -21,6 +21,8 @@ import org.ebayopensource.turmeric.runtime.tests.common.jetty.AbstractWithProxyS
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.ebay.kernel.logger.Logger;
+
 
 public class ConnectionDropTest extends AbstractWithProxyServerTest {
 	private final String ECHO_STRING = "BH Test String";
@@ -36,19 +38,17 @@ public class ConnectionDropTest extends AbstractWithProxyServerTest {
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			
 		}
 	}
 
 	static class RunPoxyServer implements Runnable {
-
+		final Logger logger = Logger.getInstance(RunPoxyServer.class);
 		public void run() {
 			try {
 				runServer("localhost", 8080, 9999);
 			} catch (IOException e) {
-				e.printStackTrace();
-				System.out
-						.println("Unable to Start proxy, test run unreliable");
+				logger.debug("Unable to Start proxy, test run unreliable");
 			}
 		}
 

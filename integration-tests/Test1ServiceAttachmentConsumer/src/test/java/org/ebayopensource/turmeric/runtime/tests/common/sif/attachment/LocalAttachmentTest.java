@@ -130,7 +130,7 @@ public class LocalAttachmentTest extends BaseAttachmentTest {
 			System.out.println(ct1.getParameter("start"));
 			System.out.println(ct1.getParameter("start-info"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 		}
 	}
 }

@@ -63,7 +63,6 @@ public class Test1ServiceImpl implements Test1Service {
 		try {
 			MetricsRegistry.getServerInstance().registerMetric(messageCountDef);
 		} catch (ServiceException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -233,7 +232,7 @@ public class Test1ServiceImpl implements Test1Service {
 						messageCountDef);
 				clientRegistered = true;
 			} catch (ServiceException e) {
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -242,14 +241,10 @@ public class Test1ServiceImpl implements Test1Service {
 		MetricValueAggregator mvAggregator = MetricsCollector
 				.getServerInstance().getMetricValue(METRIC_NAME);
 
-		// MetricValue mvBefore = mvAggregator.deepCopy(true);
 
 		mvAggregator.update(MessageContextAccessor.getContext(),
 				(param1 == null ? 0 : param1.getRecipients().size()));
 
-		// MetricValue mvAfter = mvAggregator.deepCopy(true);
-		//
-		// MetricValue diff = mvAfter.diff(mvBefore, true);
 	}
 
 	private void updateClientMessageCount() {

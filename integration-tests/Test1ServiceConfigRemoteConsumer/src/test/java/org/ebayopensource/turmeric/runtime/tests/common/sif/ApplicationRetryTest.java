@@ -43,8 +43,8 @@ public class ApplicationRetryTest extends BaseCallTest {
 				"Transport communication failure for target address http://coolhost:9090/ws/spf");
 		try {
 			driver.doCall();
-		} catch (Exception e) {			
-			e.printStackTrace();
+		} catch (Exception e) {
+			
 		}
 	}
 }

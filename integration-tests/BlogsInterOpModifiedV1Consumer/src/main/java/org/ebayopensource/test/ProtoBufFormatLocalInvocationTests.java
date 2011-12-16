@@ -68,8 +68,6 @@ public class ProtoBufFormatLocalInvocationTests {
 			svc = ServiceFactory.create("BlogsInterOpModifiedV1","production","BlogsInterOpModifiedV1Consumer",new URL("http://localhost:8080/_soa_/services/blogs/BlogsInterOpModifiedV1/v1"));
 		
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 	

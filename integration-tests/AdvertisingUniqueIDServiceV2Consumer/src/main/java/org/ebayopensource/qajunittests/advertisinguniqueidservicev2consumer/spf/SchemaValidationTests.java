@@ -57,17 +57,12 @@ public class SchemaValidationTests {
 				success = true;
 		}catch (Exception exception) {
 			success = false;
-			exception.printStackTrace();
 		}
 		Assert.assertTrue(success);
 		try {
 			ServiceConfigManager.getInstance().setConfigTestCase("config");
 		} catch (ServiceCreationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}	
 	/*
@@ -101,17 +96,12 @@ public class SchemaValidationTests {
 		}catch (Exception exception) {
 			success = false;
 			Assert.assertEquals(errorMsg, exception.getMessage());
-			exception.printStackTrace();
 		}
 		Assert.assertFalse(success);
 		try {
 			ServiceConfigManager.getInstance().setConfigTestCase("config");
 		} catch (ServiceCreationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 	}
@@ -146,7 +136,6 @@ public class SchemaValidationTests {
 				success = true;
 		}catch (Exception exception) {
 			success = false;
-			exception.printStackTrace();
 		}
 		Assert.assertTrue(success);
 
@@ -180,8 +169,6 @@ public class SchemaValidationTests {
 				success = true;
 		}catch (Exception exception) {
 			success = false;
-			System.out.println(exception.getMessage());
-			exception.printStackTrace();
 		}
 		Assert.assertTrue(success);
 
@@ -216,17 +203,12 @@ public class SchemaValidationTests {
 				success = true;
 		}catch (Exception exception) {
 			success = false;
-			exception.printStackTrace();
 		}
 		Assert.assertTrue(success);
 		try {
 			ServiceConfigManager.getInstance().setConfigTestCase("config");
 		} catch (ServiceCreationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 	}
@@ -261,17 +243,12 @@ public class SchemaValidationTests {
 				success = true;
 		}catch (Exception exception) {
 			success = false;
-			exception.printStackTrace();
 		}
 		Assert.assertTrue(success);
 		try {
 			ServiceConfigManager.getInstance().setConfigTestCase("config");
 		} catch (ServiceCreationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 	}
@@ -306,18 +283,13 @@ public class SchemaValidationTests {
 				success = true;
 		}catch (Exception exception) {
 			success = false;
-			exception.printStackTrace();
 			Assert.assertEquals(errorMsg, exception.getMessage());
 		}
 		Assert.assertFalse(success);
 		try {
 			ServiceConfigManager.getInstance().setConfigTestCase("config");
 		} catch (ServiceCreationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 	}
@@ -349,7 +321,6 @@ public class SchemaValidationTests {
 			if(resp.getMessageList().get(0).getMessage().contains("schemaValidation"))
 				success = true;
 		}catch (Exception exception) {
-			exception.printStackTrace();
 			success = false;
 			Assert.assertEquals(errorMsg, exception.getMessage());
 		}
@@ -357,11 +328,7 @@ public class SchemaValidationTests {
 		try {
 			ServiceConfigManager.getInstance().setConfigTestCase("config");
 		} catch (ServiceCreationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 	/*
@@ -399,11 +366,7 @@ public class SchemaValidationTests {
 		try {
 			ServiceConfigManager.getInstance().setConfigTestCase("config");
 		} catch (ServiceCreationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
@@ -438,17 +401,12 @@ public class SchemaValidationTests {
 				success = true;
 		}catch (Exception exception) {
 			success = false;
-			exception.printStackTrace();
 		}
 		Assert.assertTrue(success);
 		try {
 			ServiceConfigManager.getInstance().setConfigTestCase("config");
 		} catch (ServiceCreationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 	
@@ -488,11 +446,7 @@ public class SchemaValidationTests {
 		try {
 			ServiceConfigManager.getInstance().setConfigTestCase("config");
 		} catch (ServiceCreationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
@@ -530,11 +484,7 @@ public class SchemaValidationTests {
 		try {
 			ServiceConfigManager.getInstance().setConfigTestCase("config");
 		} catch (ServiceCreationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 	}
@@ -572,66 +522,15 @@ public class SchemaValidationTests {
 				success = true;
 		}catch (Exception exception) {
 			success = false;
-			System.out.println(exception.getMessage());
-			exception.printStackTrace();
 		}
 		Assert.assertTrue(success);
 		try {
 			ServiceConfigManager.getInstance().setConfigTestCase("config");
 		} catch (ServiceCreationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 	
-	/*
-	 *  <data-binding name="NV">
-     *  <options>
-     *   <option name=�SchemaValidationLevel�>FOO</option>
-     *  </options>
- 	 *	</data-binding>
-	 */
-	/*@Test
-	public void testInvalidSchemaValidationListenerClass() {
-		boolean success = false;
-
-		try {
-			ServiceConfigManager.getInstance().setConfigTestCase("configSchemaValidationListenerClassNull");
-			GetMessagesForTheDayRequest param0 = new GetMessagesForTheDayRequest();
-			//			clientId is mandatory. But this test will not throw an error
-			//			param0.setClientId("schemavalidation");
-			param0.setLanguage("us-ENG");
-			param0.setMessageType(null);
-			param0.setSiteId("0");
-			SharedAdvertisingUniqueIDServiceV2Consumer consumer = new SharedAdvertisingUniqueIDServiceV2Consumer("AdvertisingUniqueIDServiceV2Consumer","local");
-			consumer.getService().getInvokerOptions().setRequestBinding("XML");
-			consumer.getService().getInvokerOptions().setResponseBinding("XML");
-			consumer.getService().getRequestContext().setTransportHeader(
-					SOAHeaders.REQ_PAYLOAD_VALIDATION_LEVEL, "None");
-			GetMessagesForTheDayResponse resp = 
-				consumer.getMessagesForTheDay(param0);
-			System.out.println(resp.getAck().toString());
-			if(("SUCCESS").equalsIgnoreCase(resp.getAck().toString()))
-				success = true;
-		}catch (Exception exception) {
-			success = false;
-			System.out.println(exception.getMessage());
-			exception.printStackTrace();
-		}
-		Assert.assertTrue(success);
-		try {
-			ServiceConfigManager.getInstance().setConfigTestCase("config");
-		} catch (ServiceCreationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
 */	/*
 	 *  <data-binding name="NV">
@@ -665,18 +564,12 @@ public class SchemaValidationTests {
 				success = true;
 		}catch (Exception exception) {
 			success = false;
-			System.out.println(exception.getMessage());
-			exception.printStackTrace();
 		}
 		Assert.assertTrue(success);
 		try {
 			ServiceConfigManager.getInstance().setConfigTestCase("config");
 		} catch (ServiceCreationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
@@ -819,17 +712,12 @@ public class SchemaValidationTests {
 		}catch (Exception exception) {
 			success = false;
 			Assert.assertEquals(errorMsg, exception.getMessage());
-			exception.printStackTrace();
 		}
 		Assert.assertFalse(success);
 		try {
 			ServiceConfigManager.getInstance().setConfigTestCase("config");
 		} catch (ServiceCreationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
@@ -867,17 +755,12 @@ public class SchemaValidationTests {
 		}catch (Exception exception) {
 			success = false;
 			Assert.assertEquals(errorMsg, exception.getMessage());
-			exception.printStackTrace();
 		}
 		Assert.assertTrue(success);
 		try {
 			ServiceConfigManager.getInstance().setConfigTestCase("config");
 		} catch (ServiceCreationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 }

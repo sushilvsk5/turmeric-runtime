@@ -277,22 +277,16 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 		value.setSize(f1.length());
 		param0.setIn(value);
 		try {
-			//			client.getService().setExecutor(null);
 			attFutureObj = client.testAttachmentAsync(param0, attHandler);
-			//			attFutureObj.isDone()
 		} catch (WebServiceException e1) {
-			e1.printStackTrace();
 			assertNull(e1);
 		}
 		while (!attFutureObj.isDone()) {
 			try {
-//				logger.debug("sleep");
 				Thread.sleep(DEFAULT_SLEEP_TIME);
 			} catch (InterruptedException e) {
-				// Ignore
 			}
 		}
-//		logger.debug(attHandler.resp.get().getOut().getFileName());
 		response = attHandler.resp.get().getOut();
 		out = new FileOutputStream(new File(response.getFileName()));
 		assertOnResponseAttachment(f2, MAX_SIZE1, "Client3mbAttachment.txt");
@@ -300,7 +294,6 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 		if (!writeData(dh, MAX_SIZE1)) Assert.assertFalse(true); 
 		Assert.assertTrue(attHandler.resp.get().getOut().getFileName().contains("Client3mbAttachment.txt"));
 		Assert.assertEquals(attHandler.resp.get().getOut().getSize().longValue(), MAX_SIZE1);
-//		logger.debug(f2.getAbsolutePath() + f2.length());
 		Assert.assertTrue(f2.exists());
 		Assert.assertEquals(f2.length(), MAX_SIZE1);
 		logger.debug("-- testAsyncPushClientStreamingTrueWith3MBAttachment --");
@@ -497,9 +490,7 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 	//				logger.debug(response.getOut().getFileName());
 	//				logger.debug(response.getOut().getSize());
 				} catch (InterruptedException e) {
-					e.printStackTrace();
 				} catch (ExecutionException e) {
-					e.printStackTrace();
 				} finally {
 					isDone = true;
 				}

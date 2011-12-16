@@ -65,11 +65,8 @@ public class ZeroConfigConsumerTests {
 			Assert.assertEquals(client.echoMessage(param0).getOut(),
 			" Echo Message = Foo");
 		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
-			ex.printStackTrace();
 			Assert.assertTrue(ex.getMessage().
 					contains("Inbound data error during deserialization: "));
-			ex.printStackTrace();
 		}
 	}
 
@@ -86,8 +83,6 @@ public class ZeroConfigConsumerTests {
 			System.out.println(client.echoMessage(param0).getOut());
 			Assert.assertTrue(false);
 		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
-			ex.printStackTrace();
 			Assert.assertTrue(ex.getMessage().
 					contains("Transport HTTP error for target address:" + 
 					" http://svcs.qa.ebay.com/services/advertise/UniqueIDService/v1"));
@@ -159,9 +154,6 @@ public class ZeroConfigConsumerTests {
 			Assert.assertEquals(client.echoMessage(param0).getOut(),
 			" Echo Message = Foo");
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block\
-			System.out.println(e.getMessage());
-			e.printStackTrace();
 			Assert.assertTrue(e.getMessage()
 					.contains("Error validating configuration file META-INF/soa/client/config/" + 
 					"AdvertisingUniqueIDServiceV1ZeroConfigTestConsumer/dev/" + 
@@ -187,8 +179,6 @@ public class ZeroConfigConsumerTests {
 			Assert.assertEquals(client.echoMessage(param0).getOut(),
 			" Echo Message = Foo");
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			Assert.assertTrue(e.getMessage().
 					contains("Unable to load file: META-INF/soa/client/config/qe/DefaultClientConfig.xml"));
 		}
@@ -210,8 +200,6 @@ public class ZeroConfigConsumerTests {
 			Assert.assertEquals(client.echoMessage(param0).getOut(),
 			" Echo Message = Foo");
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			Assert.assertTrue(e.getMessage().
 					contains("Unable to load file: META-INF/soa/client/config" + 
 					"/AdvertisingUniqueIDServiceV1ZeroConfigTestConsumer/qe/AdvertisingUniqueIDServiceV1/ClientConfig.xml"));
@@ -235,9 +223,6 @@ public class ZeroConfigConsumerTests {
 			Assert.assertEquals(client.echoMessage(param0).getOut(),
 			" Echo Message = Foo");
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println(e.getMessage());
 			Assert.assertTrue(e.getMessage().
 					contains("Error validating configuration file META-INF/soa/client/config" + 
 							"/AdvertisingUniqueIDServiceV1ZeroConfigTestConsumer/" + 

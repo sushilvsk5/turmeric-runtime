@@ -56,10 +56,8 @@ public class CacheUnitPositive  {
 			Assert.assertTrue(TTL==50L);
 		}
 		catch(ServiceCreationException e) {
-			e.printStackTrace();
 			Assert.assertTrue(false);
 		}catch(Exception e){
-			e.printStackTrace();
 			Assert.assertTrue(false);
 		}
 		finally {
@@ -100,10 +98,8 @@ public class CacheUnitPositive  {
 			Assert.assertTrue(TTL==50L);
 		}
 		catch(ServiceCreationException e) {
-			e.printStackTrace();
 			Assert.assertTrue(false);
 		}catch(Exception e){
-			e.printStackTrace();
 			Assert.assertTrue(false);
 		}
 		finally {
@@ -145,10 +141,8 @@ public class CacheUnitPositive  {
 			Assert.assertTrue(TTL==50L);
 		}
 		catch(ServiceCreationException e) {
-			e.printStackTrace();
 			Assert.assertTrue(false);
 		}catch(Exception e){
-			e.printStackTrace();
 			Assert.assertTrue(false);
 		}
 		finally {
@@ -193,10 +187,8 @@ public class CacheUnitPositive  {
 			Assert.assertTrue(TTL==50L);
 		}
 		catch(ServiceCreationException e) {
-			e.printStackTrace();
 			Assert.assertTrue(false);
 		}catch(Exception e){
-			e.printStackTrace();
 			Assert.assertTrue(false);
 		}
 		finally {
@@ -254,10 +246,8 @@ public class CacheUnitPositive  {
 			Assert.assertTrue(TTL==50L);
 		}
 		catch(ServiceCreationException e) {
-			e.printStackTrace();
 			Assert.assertTrue(false);
 		}catch(Exception e){
-			e.printStackTrace();
 			Assert.assertTrue(false);
 		}
 		finally {

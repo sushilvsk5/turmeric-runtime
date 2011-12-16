@@ -41,8 +41,6 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 			logger.debug(client.getHostName());
 			logger.debug("client.getServiceInvokerOptions() " + client.getServiceInvokerOptions().getTransportName());
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch blocks
-			e.printStackTrace();
 		}
 		
 		EchoMessageRequest req = new EchoMessageRequest();
@@ -58,8 +56,7 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 		try {
 			client.setHostName(serverUri.getHost()+":"+serverUri.getPort());
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
 		client.getServiceInvokerOptions().setTransportName(SOAConstants.TRANSPORT_LOCAL);
 		EchoMessageRequest req = new EchoMessageRequest();
@@ -76,8 +73,6 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 			client.setHostName(serverUri.getHost()+":"+serverUri.getPort());
 			logger.debug(client.getHostName());
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch blocks
-			e.printStackTrace();
 		}
 		client.getService().setServiceLocation(new URL("http://"+serverUri.getHost()+":"+serverUri.getPort()+"/services/advertise/UniqueIDService/v1"));
 
@@ -187,7 +182,6 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 			client1.setHostName(serverUri.getHost()+":"+serverUri.getPort());
 			logger.debug(client1.getHostName());
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
 		}
 		GetRequestIDResponse res = client1.getReqID("HTTP10");
 		assertTrue(res.getRequestID().contains("AdvertisingUniqueIDServiceV1"));
@@ -218,8 +212,7 @@ public class ClientSideFailoverTests extends AbstractWithServerTest{
 			client2.setHostName(serverUri.getHost()+":"+serverUri.getPort());
 			logger.debug(client2.getHostName());
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch blocks
-			e.printStackTrace();
+			
 		}
 		GetRequestIDResponse res = client2.getReqID("HTTP10");
 		assertTrue(res.getRequestID().contains("AdvertisingUniqueIDServiceV1"));

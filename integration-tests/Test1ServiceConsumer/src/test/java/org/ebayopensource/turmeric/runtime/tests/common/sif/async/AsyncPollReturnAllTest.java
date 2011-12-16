@@ -269,49 +269,6 @@ public class AsyncPollReturnAllTest extends AbstractWithServerTest {
 		Assert.assertTrue(responses.size() == 20);
 	}
 
-//	@SuppressWarnings("unchecked")
-//	public void testInvokerUtilPollLocalSmallTimeout() throws Exception {
-//		LinkedList<Service> services = new LinkedList<Service>();
-//		for (int i = 0; i < 10; i++) {
-//			MyMessage msg = TestUtils.createTestMessage();
-//			Service service = ServiceFactory.create("test1", "local", serverUri.toURL());
-//			service.createDispatch("echoString").invokeAsync(ECHO_STRING);
-//			msg.setBody(msg.getBody());
-//			service.createDispatch("myTestOperation").invokeAsync(msg);
-//			services.add(service);
-//		}
-//		System.out
-//				.println("testInvokerUtilPollLocalSmallTimeout: before time : "
-//						+ System.currentTimeMillis());
-//		List<Response<?>> responses = AsyncPollBlockingTest
-//				.getResponseList(InvokerUtil.pollGetAll(services, 0));
-//		System.out
-//				.println("testInvokerUtilPollLocalSmallTimeout: after time : "
-//						+ System.currentTimeMillis());
-//		Assert.assertTrue(responses.size() < 20);
-//	}
-
-//	@SuppressWarnings("unchecked")
-//	public void testInvokerUtilPollLocalLargeTimeout() throws Exception {
-//		LinkedList<Service> services = new LinkedList<Service>();
-//		for (int i = 0; i < 10; i++) {
-//			MyMessage msg = TestUtils.createTestMessage();
-//			Service service = ServiceFactory.create("test1", "local", serverUri.toURL());
-//			service.createDispatch("echoString").invokeAsync(ECHO_STRING);
-//			msg.setBody(msg.getBody());
-//			service.createDispatch("myTestOperation").invokeAsync(msg);
-//			services.add(service);
-//		}
-//		System.out
-//				.println("testInvokerUtilPollLocalLargeTimeout: before time : "
-//						+ System.currentTimeMillis());
-//		List<Response<?>> responses = AsyncPollBlockingTest
-//				.getResponseList(InvokerUtil.pollGetAll(services, 500));
-//		System.out
-//				.println("testInvokerUtilPollLocalLargeTimeout: after time : "
-//						+ System.currentTimeMillis());
-//		Assert.assertTrue(responses.size() == 20);
-//	}
 
 	@Test
 	@SuppressWarnings("unchecked")
@@ -330,49 +287,6 @@ public class AsyncPollReturnAllTest extends AbstractWithServerTest {
 		Assert.assertTrue(responses.size() == 20);
 	}
 
-//	@SuppressWarnings("unchecked")
-//	public void testInvokerUtilPollRemoteSmallTimeout() throws Exception {
-//		LinkedList<Service> services = new LinkedList<Service>();
-//		for (int i = 0; i < 10; i++) {
-//			MyMessage msg = TestUtils.createTestMessage();
-//			Service service = ServiceFactory.create("test1", "remote", serverUri.toURL());
-//			service.createDispatch("echoString").invokeAsync(ECHO_STRING);
-//			msg.setBody(msg.getBody());
-//			service.createDispatch("myTestOperation").invokeAsync(msg);
-//			services.add(service);
-//		}
-//		System.out
-//				.println("testInvokerUtilPollRemoteSmallTimeout: before time : "
-//						+ System.currentTimeMillis());
-//		List<Response<?>> responses = AsyncPollBlockingTest
-//				.getResponseList(InvokerUtil.pollGetAll(services, 0));
-//		System.out
-//				.println("testInvokerUtilPollRemoteSmallTimeout: after time : "
-//						+ System.currentTimeMillis());
-//		Assert.assertTrue(responses.size() < 20);
-//	}
-
-//	@SuppressWarnings("unchecked")
-//	public void testInvokerUtilPollRemoteLargeTimeout() throws Exception {
-//		LinkedList<Service> services = new LinkedList<Service>();
-//		for (int i = 0; i < 10; i++) {
-//			MyMessage msg = TestUtils.createTestMessage();
-//			Service service = ServiceFactory.create("test1", "remote", serverUri.toURL());
-//			service.createDispatch("echoString").invokeAsync(ECHO_STRING);
-//			msg.setBody(msg.getBody());
-//			service.createDispatch("myTestOperation").invokeAsync(msg);
-//			services.add(service);
-//		}
-//		System.out
-//				.println("testInvokerUtilPollRemoteLargeTimeout: before time : "
-//						+ System.currentTimeMillis());
-//		List<Response<?>> responses = AsyncPollBlockingTest
-//				.getResponseList(InvokerUtil.pollGetAll(services, 500));
-//		System.out
-//				.println("testInvokerUtilPollRemoteLargeTimeout: after time : "
-//						+ System.currentTimeMillis());
-//		Assert.assertTrue(responses.size() == 20);
-//	}
 
 	@Test
 	@SuppressWarnings("unchecked")
@@ -399,66 +313,4 @@ public class AsyncPollReturnAllTest extends AbstractWithServerTest {
 				.getResponseList(InvokerUtil.pollGetAll(services));
 		Assert.assertTrue(responses.size() == 40);
 	}
-
-//	@SuppressWarnings("unchecked")
-//	public void testInvokerUtilPollMixedSmallTimeout() throws Exception {
-//		LinkedList<Service> services = new LinkedList<Service>();
-//		for (int i = 0; i < 10; i++) {
-//			MyMessage msg = TestUtils.createTestMessage();
-//			Service service = ServiceFactory.create("test1", "remote", serverUri.toURL());
-//			service.createDispatch("echoString").invokeAsync(ECHO_STRING);
-//			msg.setBody(msg.getBody());
-//			service.createDispatch("myTestOperation").invokeAsync(msg);
-//			services.add(service);
-//		}
-//		for (int i = 0; i < 10; i++) {
-//			MyMessage msg = TestUtils.createTestMessage();
-//			Service service = ServiceFactory.create("test1", "local", serverUri.toURL());
-//			service.createDispatch("echoString").invokeAsync(ECHO_STRING);
-//			msg.setBody(msg.getBody());
-//			service.createDispatch("myTestOperation").invokeAsync(msg);
-//			services.add(service);
-//		}
-//		System.out
-//				.println("testInvokerUtilPollMixedSmallTimeout: before time : "
-//						+ System.currentTimeMillis());
-//		List<Response<?>> responses = AsyncPollBlockingTest
-//				.getResponseList(InvokerUtil.pollGetAll(services, 0));
-//		System.out
-//				.println("testInvokerUtilPollMixedSmallTimeout: after time : "
-//						+ System.currentTimeMillis());
-//
-//		Assert.assertTrue(responses.size() < 40);
-//	}
-
-//	@SuppressWarnings("unchecked")
-//	public void testInvokerUtilPollMixedLargeTimeout() throws Exception {
-//		LinkedList<Service> services = new LinkedList<Service>();
-//		for (int i = 0; i < 10; i++) {
-//			MyMessage msg = TestUtils.createTestMessage();
-//			Service service = ServiceFactory.create("test1", "remote", serverUri.toURL());
-//			service.createDispatch("echoString").invokeAsync(ECHO_STRING);
-//			msg.setBody(msg.getBody());
-//			service.createDispatch("myTestOperation").invokeAsync(msg);
-//			services.add(service);
-//		}
-//		for (int i = 0; i < 10; i++) {
-//			MyMessage msg = TestUtils.createTestMessage();
-//			Service service = ServiceFactory.create("test1", "local", serverUri.toURL());
-//			service.createDispatch("echoString").invokeAsync(ECHO_STRING);
-//			msg.setBody(msg.getBody());
-//			service.createDispatch("myTestOperation").invokeAsync(msg);
-//			services.add(service);
-//		}
-//		System.out
-//				.println("testInvokerUtilPollMixedLargeTimeout: before time : "
-//						+ System.currentTimeMillis());
-//		List<Response<?>> responses = AsyncPollBlockingTest
-//				.getResponseList(InvokerUtil.pollGetAll(services, 500));
-//		System.out
-//				.println("testInvokerUtilPollMixedLargeTimeout: after time : "
-//						+ System.currentTimeMillis());
-//		Assert.assertTrue(responses.size() == 40);
-//	}
-
 }

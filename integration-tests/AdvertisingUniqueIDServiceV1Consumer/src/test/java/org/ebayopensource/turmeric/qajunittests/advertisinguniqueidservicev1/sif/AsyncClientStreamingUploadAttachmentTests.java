@@ -171,7 +171,6 @@ public class AsyncClientStreamingUploadAttachmentTests {
 		try {
 			attFutureObj = client.testAttachmentAsync(param0, attHandler);
 		} catch (WebServiceException e1) {
-			e1.printStackTrace();
 			assertNull(e1);
 		}
 		while (!attFutureObj.isDone()) {
@@ -310,9 +309,7 @@ public class AsyncClientStreamingUploadAttachmentTests {
 //				logger.debug(response.getOut().getFileName());
 //				logger.debug(response.getOut().getSize());
 			} catch (InterruptedException e) {
-				e.printStackTrace();
 			} catch (ExecutionException e) {
-				e.printStackTrace();
 			} finally {
 				isDone = true;
 			}

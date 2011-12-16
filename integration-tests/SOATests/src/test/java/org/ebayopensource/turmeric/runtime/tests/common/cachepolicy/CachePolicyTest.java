@@ -86,16 +86,13 @@ public class CachePolicyTest extends AbstractTurmericTestCase {
 			operationParamDesc = 
 				new ServiceOperationParamDescImpl(getRootClasses1(), getRootElement1(), null, false);
 		} catch (ServiceCreationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		opMap.put("getVersion", operationParamDesc);
 		try {
 			operationParamDesc = 
 				new ServiceOperationParamDescImpl(getRootClasses2(), getRootElement1(), null, false);
 		} catch (ServiceCreationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
 		opMap.put("echo", operationParamDesc);
 		
