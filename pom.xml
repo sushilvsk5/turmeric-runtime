@@ -146,32 +146,6 @@
     <module>distribution/turmeric-runtime-dist</module>
     <module>logging-handler-cassandra</module>
   </modules>
-  <profiles>
-    <profile>
-      <id>codegen</id>
-      <activation>
-        <!-- Default behavior is to always build codegen -->
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <modules>
-        <module>codegen</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>it</id>
-      <activation>
-        <!-- Default behavior is to always build integration tests -->
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <modules>
-        <module>integration-tests</module>
-      </modules>
-    </profile>
-    <profile>
-       <id>ebayrepos</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
 	   <repositories>
 	      <repository>
                  <id>ebaythird-party</id>
@@ -246,6 +220,26 @@
 		 </snapshots>
 	      </pluginRepository>
 	   </pluginRepositories>
+  <profiles>
+    <profile>
+      <id>codegen</id>
+      <activation>
+        <!-- Default behavior is to always build codegen -->
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <modules>
+        <module>codegen</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>it</id>
+      <activation>
+        <!-- Default behavior is to always build integration tests -->
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <modules>
+        <module>integration-tests</module>
+      </modules>
     </profile>
   </profiles>
 </project>
