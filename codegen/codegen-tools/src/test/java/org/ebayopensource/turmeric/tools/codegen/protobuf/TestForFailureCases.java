@@ -108,8 +108,7 @@ public class TestForFailureCases extends AbstractServiceGeneratorTestCase {
 				}
 				
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 	}
 	}

@@ -37,12 +37,6 @@ public class ClientConfigNegativeTest extends AbstractTurmericTestCase {
 		} catch (ServiceCreationException e) {
 			ExceptionUtils.checkException(e, ServiceCreationException.class, "client-instance-config line is missing in the config file: META-INF/soa/client/confignegative3/default/ClientConfig.xml");
 		}
-		// We no longer error out missing client-instance-config.
-//		try {
-//			configManager.setConfigTestCase("confignegative4");
-//		} catch (ServiceCreationException e) {
-//			ExceptionUtils.checkException(e, ServiceCreationException.class, "client-instance-config line is missing in the config file: META-INF/soa/client/confignegative4/default/ClientConfigGroups.xml");
-//		}
 		try {
 			configManager.setConfigTestCase("confignegative5", "testconfig");
 		} catch (ServiceCreationException e) {

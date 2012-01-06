@@ -42,10 +42,15 @@ import org.ebayopensource.turmeric.runtime.spf.service.ServerServiceId;
 import org.ebayopensource.turmeric.runtime.tests.common.util.SOAPTestUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ctc.wstx.exc.WstxParsingException;
 
 public class BaseSOAPProtocolProcessorTest {
+	
+	private final Logger logger = LoggerFactory.getLogger(BaseSOAPProtocolProcessorTest.class);
+	
 	public static ServerSOAPProtocolProcessor createServerProtocolProcessor(String protocolName, String version) throws ServiceException {
 		ServerSOAPProtocolProcessor protocolProcessor = new ServerSOAPProtocolProcessor();
 		ServiceId svcId = ServerServiceId.createFallbackServiceId("test_admin_name");
@@ -82,14 +87,14 @@ public class BaseSOAPProtocolProcessorTest {
 		xmlStreamWriter.flush();
 
 		String content = bos.toString();
-		System.out.println("after preSerialize >> " + content);
+		logger.debug("after preSerialize >> " + content);
         Assert.assertThat(content, endsWith("<soapenv:Body"));
 
 		// invoke postSerialize
 		protocolProcessor.postSerialize(msg, xmlStreamWriter);
 		xmlStreamWriter.flush();
 		content = bos.toString();
-		System.out.println("after postSerialize >> " + content);
+		logger.debug("after postSerialize >> " + content);
         Assert.assertThat(content, endsWith("</soapenv:Envelope>"));
 	}
 
@@ -117,14 +122,14 @@ public class BaseSOAPProtocolProcessorTest {
 		xmlStreamWriter.flush();
 
 		String content = bos.toString();
-		System.out.println("after preSerialize >> " + content);
+		logger.debug("after preSerialize >> " + content);
         Assert.assertThat(content, endsWith(SOAP11Constants.SOAP_FAULT_DETAIL_LOCAL_NAME));
 
 		// invoke postSerialize
 		protocolProcessor.postSerialize(msg, xmlStreamWriter);
 		xmlStreamWriter.flush();
 		content = bos.toString();
-		System.out.println("after postSerialize >> " + content);
+		logger.debug("after postSerialize >> " + content);
         Assert.assertThat(content, endsWith("</soapenv:Envelope>"));
 	}
 
@@ -152,14 +157,14 @@ public class BaseSOAPProtocolProcessorTest {
 		xmlStreamWriter.flush();
 
 		String content = bos.toString();
-		System.out.println("after preSerialize >> " + content);
+		logger.debug("after preSerialize >> " + content);
 		Assert.assertThat(content, endsWith(SOAP12Constants.SOAP_FAULT_DETAIL_LOCAL_NAME));
 
 		// invoke postSerialize
 		protocolProcessor.postSerialize(msg, xmlStreamWriter);
 		xmlStreamWriter.flush();
 		content = bos.toString();
-		System.out.println("after postSerialize >> " + content);
+		logger.debug("after postSerialize >> " + content);
         Assert.assertThat(content, endsWith("</soapenv:Envelope>"));
 	}
 

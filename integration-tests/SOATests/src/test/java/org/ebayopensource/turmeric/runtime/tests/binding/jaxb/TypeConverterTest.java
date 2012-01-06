@@ -47,7 +47,6 @@ public class TypeConverterTest extends BaseSerDeserTest {
 				BindingConstants.PAYLOAD_JSON,
 				BindingConstants.PAYLOAD_NV,
 				TestUtils.PAYLOAD_UNORDERED_NV,
-//				SOAConstants.PAYLOAD_FAST_INFOSET
 				};
 
 	private static final HashMap<String, DataFormatInfo> DATA_FORMAT_INFO = new HashMap<String, DataFormatInfo>();
@@ -120,7 +119,7 @@ public class TypeConverterTest extends BaseSerDeserTest {
 
 	 @Test
 	public void typeConverterBasic() throws Exception {
-			System.out.println("**** Starting testTypeConverterBasic");
+		logger.debug("**** Starting testTypeConverterBasic");
 		MyMessage msg = TestUtils.createTestMessage(1);
 		for (int i = 0; i<SUPPORTED_FORMATS.length; i++) {
 			String dataFormat = SUPPORTED_FORMATS[i];
@@ -128,7 +127,7 @@ public class TypeConverterTest extends BaseSerDeserTest {
 //TODO: make me work.
 //			doTest(msg, info);
 		}
-		System.out.println("**** Ending testTypeConverterBasic");
+		logger.debug("**** Ending testTypeConverterBasic");
 	}
 
 	private void doTest(MyMessage msg, DataFormatInfo info) throws Exception {
@@ -139,7 +138,7 @@ public class TypeConverterTest extends BaseSerDeserTest {
 			SerializerFactory serFactory = info.m_serFactory;
 			DeserializerFactory deserFactory = info.m_deserFactory;
 
-			System.out.println("**** Testing " + name);
+			logger.debug("**** Testing " + name);
 			boolean ordered = (BindingConstants.PAYLOAD_NV.equals(dataFormat) && BindingConstants.PAYLOAD_NV.equals(name));
 			
 			JAXBTestBuilder jaxbtest = new JAXBTestBuilder();
@@ -153,7 +152,7 @@ public class TypeConverterTest extends BaseSerDeserTest {
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			jaxbtest.serialize(ctx, out, msg);
 			String xml1 = out.toString();
-			System.out.println(xml1);
+			logger.debug(xml1);
 			jaxbtest.setPayload(out);
 			Deserializer deser = deserFactory.getDeserializer();
 			ctx = jaxbtest.createTestMessageContext();
@@ -166,11 +165,11 @@ public class TypeConverterTest extends BaseSerDeserTest {
 			out = new ByteArrayOutputStream();
 			jaxbtest.serialize(ctx, out, msg1);
 			String xml2 = out.toString();
-			System.out.println(xml2);
+			logger.debug(xml2);
 			assertEquals(msg,msg1);
 
 			assertTrue(xml2.indexOf("entry") < 0);
-			System.out.println("**** Finish testing " + dataFormat);
+			logger.debug("**** Finish testing " + dataFormat);
 		} finally {
 			ServiceConfigManager.getInstance().setConfigTestCase("config");
 		}

@@ -223,7 +223,6 @@ private void setClassPath(String PROJECT_ROOT){
 		URLClassLoader urlClassLoader = new URLClassLoader(urls, Thread.currentThread().getContextClassLoader());
 		Thread.currentThread().setContextClassLoader(urlClassLoader);
 	    }catch(MalformedURLException e){
-	    	e.printStackTrace();
 	    }
 	
 	

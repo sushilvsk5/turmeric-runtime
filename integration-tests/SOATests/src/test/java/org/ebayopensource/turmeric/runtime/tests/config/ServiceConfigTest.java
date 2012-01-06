@@ -26,8 +26,12 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.AfterClass;
 
+import com.ebay.kernel.logger.Logger;
 
-public class ServiceConfigTest  extends AbstractTurmericTestCase {
+public class ServiceConfigTest extends AbstractTurmericTestCase {
+
+	private final Logger logger = Logger.getInstance(ServiceConfigTest.class);
+
 	public ServiceConfigTest() {
 		System.setProperty(ParseUtils.SYS_PROP_CONFIG_SCHEMA_CHECK, "ERROR");
 	}
@@ -38,79 +42,75 @@ public class ServiceConfigTest  extends AbstractTurmericTestCase {
 		configManager.setConfigTestCase("config");
 	}
 
-    @AfterClass
-    public static void setPropertyToNone() throws Exception {
+	@AfterClass
+	public static void setPropertyToNone() throws Exception {
 		System.setProperty(ParseUtils.SYS_PROP_CONFIG_SCHEMA_CHECK, "NONE");
 	}
-    
-    @Test 
+
+	@Test
 	public void testRequestParamMapping() throws Exception {
-		
+
 		System.setProperty(ParseUtils.SYS_PROP_CONFIG_SCHEMA_CHECK, "WARNING");
 		ParseUtils.reloadSchemaCheckLevel();
-		
+
 		ServiceConfigManager configManager = ServiceConfigManager.getInstance();
 		configManager.setConfigTestCase("request-param", "testconfig");
 		String goodService = "good-service";
-		
+
 		try {
 			configManager.getConfig(goodService);
 		} catch (Throwable e) {
-			fail("Failed to find valid service: " + goodService.toString() + " " + e.getMessage());
-		}	
-		
-		try {
-			ServiceConfigHolder cch = configManager.getConfigForUpdate(goodService);
-			RequestParamsDescriptor rpDesc = cch.getRequestParamsDescriptor();			
-			
-			// aliases check
-			System.out.println(rpDesc.getRequestParams("swim").aliases());
-			System.out.println(rpDesc.getRequestParams("dive").aliases());
-			Map<String, String> aliases = rpDesc.getRequestParams("swim").aliases();
-			
-			assertTrue(aliases.containsKey("dist"));
-			assertTrue(aliases.containsKey("doI"));
-			
-			assertTrue(aliases.containsValue("howlong"));
-			assertTrue(aliases.containsValue("do.i.know.swimming"));
-			
-	
-			// duplicates check
-			System.out.println(rpDesc.getPathIndices());
-
-			Set<String> pathIndices = rpDesc.getPathIndices();
-			assertTrue(pathIndices.contains("2"));
-			assertTrue(pathIndices.contains("3"));
-			assertTrue(pathIndices.contains("5"));
-			assertTrue(pathIndices.contains("6")); 
-			
-			// Parameter mapping count check
-			assertEquals(rpDesc.getRequestParams("swim").count(), 4);
-			assertEquals(rpDesc.getRequestParams("dive").count(), 2);
-			
-			assertEquals(rpDesc.getRequestParams("swim").get("2"), "howlong");
-			assertEquals(rpDesc.getRequestParams("swim").get("3"), "do.i.know.swimming");
-			assertEquals(rpDesc.getRequestParams("swim").get("5"), "do.i.know.swimming.2");
-			assertEquals(rpDesc.getRequestParams("swim").get("6"), "do.i.know.swimming.3");
-			assertEquals(rpDesc.getRequestParams("dive").get("2"), "height");
-			assertEquals(rpDesc.getRequestParams("dive").get("3"), "howlong");
+			fail("Failed to find valid service: " + goodService.toString()
+					+ " " + e.getMessage());
 		}
-		catch (Throwable e) {
-			fail("Test failed " + goodService.toString() + " " +  e.getMessage());
-		}	
+
+		ServiceConfigHolder cch = configManager.getConfigForUpdate(goodService);
+		RequestParamsDescriptor rpDesc = cch.getRequestParamsDescriptor();
+
+		// aliases check
+		logger.debug(rpDesc.getRequestParams("swim").aliases().toString());
+		logger.debug(rpDesc.getRequestParams("dive").aliases().toString());
+		Map<String, String> aliases = rpDesc.getRequestParams("swim").aliases();
+
+		assertTrue(aliases.containsKey("dist"));
+		assertTrue(aliases.containsKey("doI"));
+
+		assertTrue(aliases.containsValue("howlong"));
+		assertTrue(aliases.containsValue("do.i.know.swimming"));
+
+		// duplicates check
+		logger.debug(rpDesc.getPathIndices().toString());
+
+		Set<String> pathIndices = rpDesc.getPathIndices();
+		assertTrue(pathIndices.contains("2"));
+		assertTrue(pathIndices.contains("3"));
+		assertTrue(pathIndices.contains("5"));
+		assertTrue(pathIndices.contains("6"));
+
+		// Parameter mapping count check
+		assertEquals(rpDesc.getRequestParams("swim").count(), 4);
+		assertEquals(rpDesc.getRequestParams("dive").count(), 2);
+
+		assertEquals(rpDesc.getRequestParams("swim").get("2"), "howlong");
+		assertEquals(rpDesc.getRequestParams("swim").get("3"),
+				"do.i.know.swimming");
+		assertEquals(rpDesc.getRequestParams("swim").get("5"),
+				"do.i.know.swimming.2");
+		assertEquals(rpDesc.getRequestParams("swim").get("6"),
+				"do.i.know.swimming.3");
+		assertEquals(rpDesc.getRequestParams("dive").get("2"), "height");
+		assertEquals(rpDesc.getRequestParams("dive").get("3"), "howlong");
 	}
 
-
-    
 	/**
-	 * @check  Exceptions need to be handled
+	 * @check Exceptions need to be handled
 	 */
 	@Test
 	public void serviceConfig() throws Exception {
-		
+
 		System.setProperty(ParseUtils.SYS_PROP_CONFIG_SCHEMA_CHECK, "ERROR");
 		ParseUtils.reloadSchemaCheckLevel();
-		
+
 		StringBuffer output = new StringBuffer();
 		ServiceConfigManager configManager = ServiceConfigManager.getInstance();
 
@@ -120,31 +120,36 @@ public class ServiceConfigTest  extends AbstractTurmericTestCase {
 			configManager.getConfig(fakeService);
 			fail("Service should not be found: " + fakeService);
 		} catch (Throwable e) {
-			ExceptionUtils.checkException(e, ServiceNotFoundException.class, "No configuration defined for service: unknown");
+			ExceptionUtils.checkException(e, ServiceNotFoundException.class,
+					"No configuration defined for service: unknown");
 		}
-		
+
 		String goodService = "test2";
 		try {
 			configManager.getConfig(goodService);
 		} catch (Throwable e) {
 			fail("Failed to find valid service: " + goodService.toString());
 		}
-		
-		for (int i = 1; i <= 7; i++) {  // test 6 is not really valid - namespace must be declared
+
+		for (int i = 1; i <= 7; i++) { // test 6 is not really valid - namespace
+										// must be declared
 			String testcase = "configtest" + String.valueOf(i);
 			configManager.setConfigTestCase(testcase, "testconfig");
-			Collection<String> allConfig = configManager.getAllServiceAdminNames();
+			Collection<String> allConfig = configManager
+					.getAllServiceAdminNames();
 			output.append("Test case: " + testcase + '\n');
 			for (String svcName : allConfig) {
 				try {
-					ServiceConfigHolder cch = configManager.getConfigForUpdate(svcName);
+					ServiceConfigHolder cch = configManager
+							.getConfigForUpdate(svcName);
 					cch.dump(output);
 				} catch (Exception e) {
 					output.append("Exception: " + e.toString() + '\n');
 				}
 
 				try {
-					GlobalConfigHolder gch = configManager.getGlobalConfigForUpdate();
+					GlobalConfigHolder gch = configManager
+							.getGlobalConfigForUpdate();
 					gch.dump(output);
 				} catch (Exception e) {
 					output.append("Exception: " + e.toString() + '\n');
@@ -152,8 +157,10 @@ public class ServiceConfigTest  extends AbstractTurmericTestCase {
 			}
 		}
 
-		String absPath = CompareUtils.writeOutputFile(this.getClass(), output, "server");
-		String compareString = CompareUtils.getCompareString(this.getClass(), "server.compare.txt");
+		String absPath = CompareUtils.writeOutputFile(this.getClass(), output,
+				"server");
+		String compareString = CompareUtils.getCompareString(this.getClass(),
+				"server.compare.txt");
 		assertEquals(compareString, output.toString());
 
 		configManager.setConfigTestCase("config");

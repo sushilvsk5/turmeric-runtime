@@ -32,7 +32,7 @@ public class SimpleConsoleHandler extends Handler {
 					in = url.openStream();
 					LogManager.getLogManager().readConfiguration(in);
 				} catch (IOException e) {
-					e.printStackTrace(System.err);
+					
 					configureDefaults();
 				} finally {
 					IOUtils.closeQuietly(in);

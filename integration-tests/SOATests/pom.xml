@@ -129,11 +129,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.ebayopensource.turmeric</groupId>
-			<artifactId>slf4j-to-jul</artifactId>
-			<version>1.2</version>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>

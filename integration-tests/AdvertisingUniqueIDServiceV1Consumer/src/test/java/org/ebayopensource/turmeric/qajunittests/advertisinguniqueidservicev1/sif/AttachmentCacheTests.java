@@ -13,12 +13,13 @@ import junit.framework.Assert;
 import org.ebayopensource.turmeric.advertising.v1.services.FileAttachmentType;
 import org.ebayopensource.turmeric.advertising.v1.services.TestAttachment;
 import org.ebayopensource.turmeric.advertisinguniqueidservicev1.gen.SharedAdvertisingUniqueIDServiceV1Consumer;
-import org.ebayopensource.turmeric.runtime.common.types.SOAConstants;
 import org.ebayopensource.turmeric.runtime.tests.common.jetty.AbstractWithServerTest;
 import org.ebayopensource.turmeric.runtime.tests.common.util.QEFileUtils;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.ebay.kernel.logger.Logger;
 
 public class AttachmentCacheTests extends AbstractWithServerTest {
 	File f1, fClient, fServer;
@@ -34,9 +35,9 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		f = new File(currentDir + File.separator + "attachmentcache");
 	
 	/*	if (QEFileUtils.deleteDir(f)){
-			System.out.println("done* in Setup*************");
+			logger.debug("done* in Setup*************");
 		}else{
-			System.out.println("not deleting in before class");
+			logger.debug("not deleting in before class");
 		}
 	 */	
 			
@@ -47,7 +48,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 	 */
 	@Test
 	public void testCacheONDefaultLimit1KbFile() throws Exception {
-		System.out.println(" ** testCacheONDefaultLimit1KbFile ** ");
+		logger.debug(" ** testCacheONDefaultLimit1KbFile ** ");
 		f1 = new File(currentDir + File.separator + "1kbAttachment.txt");
 		fClient = new File(currentDir + File.separator + "Client1kbAttachment.txt");
 		fServer = new File(currentDir + File.separator + "Server1kbAttachment.txt");
@@ -70,18 +71,18 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		response = client.testAttachment(param0).getOut();
 		assertOnResponse(response, 0, MAX_SIZE);
 
-		System.out.println("-- testCacheONDefaultLimit1KbFile --");
+		logger.debug("-- testCacheONDefaultLimit1KbFile --");
 	}
 
 	@After
 	public void cleanUp() {
 		if (QEFileUtils.deleteDir(f))
 		{
-			System.out.println("done");
+			logger.debug("done");
 		}
 		else
 		{
-			System.out.println("not done");
+			logger.debug("not done");
 		}
 		
 		fClient.delete();
@@ -92,7 +93,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 
 	@Test
 	public void testCacheON0kbLimit1KbFile() throws Exception {
-		System.out.println(" ** testCacheON0kbLimit1KbFile ** ");
+		logger.debug(" ** testCacheON0kbLimit1KbFile ** ");
 		f1 = new File(currentDir + File.separator + "1kbAttachment.txt");
 		fClient = new File(currentDir + File.separator + "Client1kbAttachment.txt");
 		fServer = new File(currentDir + File.separator + "Server1kbAttachment.txt");
@@ -114,12 +115,12 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		param0.setIn(value);
 		response = client.testAttachment(param0).getOut();
 		Assert.assertFalse(f.exists());
-		System.out.println(" ** testCacheON0kbLimit1KbFile ** ");
+		logger.debug(" ** testCacheON0kbLimit1KbFile ** ");
 	}
 
 	@Test
 	public void testCacheOFFDefaultLimit1KbFile() throws Exception {
-		System.out.println(" ** testCacheOFFDefaultLimit1KbFile ** ");
+		logger.debug(" ** testCacheOFFDefaultLimit1KbFile ** ");
 		f1 = new File(currentDir + File.separator + "1kbAttachment.txt");
 		fClient = new File(currentDir + File.separator + "Client1kbAttachment.txt");
 		fServer = new File(currentDir + File.separator + "Server1kbAttachment.txt");
@@ -142,12 +143,12 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		param0.setIn(value);
 		response = client.testAttachment(param0).getOut();
 		assertOnResponse(response, 0, MAX_SIZE);
-		System.out.println(" ** testCacheOFFDefaultLimit1KbFile ** ");
+		logger.debug(" ** testCacheOFFDefaultLimit1KbFile ** ");
 	}
 
 	@Test
 	public void testCacheOFFDefaultLimit2KbFile() throws Exception {
-		System.out.println(" ** testCacheOFFDefaultLimit2KbFile ** ");
+		logger.debug(" ** testCacheOFFDefaultLimit2KbFile ** ");
 		f1 = new File(currentDir + File.separator + "2kbAttachment.txt");
 		fClient = new File(currentDir + File.separator + "Client2kbAttachment.txt");
 		fServer = new File(currentDir + File.separator + "Server2kbAttachment.txt");
@@ -169,12 +170,12 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		param0.setIn(value);
 		response = client.testAttachment(param0).getOut();
 		assertOnResponse(response, 0, MAX_SIZE);
-		System.out.println(" ** testCacheOFFDefaultLimit2KbFile ** ");
+		logger.debug(" ** testCacheOFFDefaultLimit2KbFile ** ");
 	}
 
 	@Test
 	public void testCacheOFFDefaultLimit3KbFile() throws Exception {
-		System.out.println(" ** testCacheOFFDefaultLimit3KbFile ** ");
+		logger.debug(" ** testCacheOFFDefaultLimit3KbFile ** ");
 		f1 = new File(currentDir + File.separator + "3kbAttachment.txt");
 		fClient = new File(currentDir + File.separator + "Client3kbAttachment.txt");
 		fServer = new File(currentDir + File.separator + "Server3kbAttachment.txt");
@@ -196,12 +197,12 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		param0.setIn(value);
 		response = client.testAttachment(param0).getOut();
 		assertOnResponse(response, 0, MAX_SIZE);
-		System.out.println(" ** testCacheOFFDefaultLimit3KbFile ** ");
+		logger.debug(" ** testCacheOFFDefaultLimit3KbFile ** ");
 	}
 
 	@Test
 	public void testCacheOFF100bLimit1KbFile() throws Exception {
-		System.out.println(" ** testCacheOFFDefaultLimit1KbFile ** ");
+		logger.debug(" ** testCacheOFFDefaultLimit1KbFile ** ");
 		f1 = new File(currentDir + File.separator + "1kbAttachment.txt");
 		fClient = new File(currentDir + File.separator + "Client1kbAttachment.txt");
 		fServer = new File(currentDir + File.separator + "Server1kbAttachment.txt");
@@ -224,12 +225,12 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		param0.setIn(value);
 		response = client.testAttachment(param0).getOut();
 		assertOnResponse(response, 0, MAX_SIZE);
-		System.out.println(" ** testCacheOFFDefaultLimit1KbFile ** ");
+		logger.debug(" ** testCacheOFFDefaultLimit1KbFile ** ");
 	}
 
 	@Test
 	public void testCacheOFF100bLimit2KbFile() throws Exception {
-		System.out.println(" ** testCacheOFFDefaultLimit2KbFile ** ");
+		logger.debug(" ** testCacheOFFDefaultLimit2KbFile ** ");
 		f1 = new File(currentDir + File.separator + "2kbAttachment.txt");
 		fClient = new File(currentDir + File.separator + "Client2kbAttachment.txt");
 		fServer = new File(currentDir + "\\Server2kbAttachment.txt");
@@ -251,7 +252,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		param0.setIn(value);
 		response = client.testAttachment(param0).getOut();
 		assertOnResponse(response, 0, MAX_SIZE);
-		System.out.println(" ** testCacheOFFDefaultLimit2KbFile ** ");
+		logger.debug(" ** testCacheOFFDefaultLimit2KbFile ** ");
 	}
 
 	private void assertOnResponse(FileAttachmentType response, int cacheSize,
@@ -278,7 +279,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 	public void testCacheONDefaultLimit2KbFile() throws Exception {
 		File f30 = new File(currentDir + File.separator + "attachmentcache");
 		f30.mkdir();
-		System.out.println("-- testCacheONDefaultLimit2KbFile --");
+		logger.debug("-- testCacheONDefaultLimit2KbFile --");
 		response = null;
 		f1 = new File(f30.getCanonicalFile() + File.separator + "2kbAttachment.txt");
 		fClient = new File(f30.getCanonicalFile() + File.separator + "Client2kbAttachment.txt");
@@ -303,7 +304,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		param0.setIn(value);
 		response = client.testAttachment(param0).getOut();
 		assertOnResponse(response, 1, MAX_SIZE);
-		System.out.println("-- testCacheONDefaultLimit2KbFile --");
+		logger.debug("-- testCacheONDefaultLimit2KbFile --");
 		delete(f30);
 	}
 	@Test
@@ -314,14 +315,14 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
         }           
         f20.mkdir();
         response = null;
-        System.out.println("-- testCacheONDefaultLimit3KbFile --");
+        logger.debug("-- testCacheONDefaultLimit3KbFile --");
         f1 = new File(f20.getCanonicalFile() + File.separator + "3kbAttachment.txt");       
         fClient = new File(f20.getCanonicalFile() + File.separator + "Client3kbAttachment.txt");
         fServer = new File(f20.getCanonicalFile() + File.separator + "Server3kbAttachment.txt");
         if (!f1.exists()) {
               QEFileUtils.createFileForTest(Integer.valueOf(3072), f1);
         }
-        System.out.println("third line of trace "+f1.getAbsolutePath());
+        logger.debug("third line of trace "+f1.getAbsolutePath());
         MAX_SIZE = f1.length();
         SharedAdvertisingUniqueIDServiceV1Consumer client = new SharedAdvertisingUniqueIDServiceV1Consumer(
                     "AdvertisingUniqueIDServiceV1Consumer", "attachmentcache4");
@@ -345,7 +346,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
               boolean success1 = f20.delete();
         }
         // Assert on the temp location
-        System.out.println("-- testCacheONDefaultLimit3KbFile --");
+        logger.debug("-- testCacheONDefaultLimit3KbFile --");
         
   }
 
@@ -355,7 +356,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		File f10 = new File(currentDir + File.separator + "attachmentcache");
 		f10.mkdir();
 		response = null;
-		System.out.println("-- testCacheON4KbLimit1KbFile --");
+		logger.debug("-- testCacheON4KbLimit1KbFile --");
 
 		f1 = new File(f10.getCanonicalFile() + File.separator + "1kbAttachment.txt");
 		fClient = new File(f10.getCanonicalFile() + File.separator + "Client1kbAttachment.txt");
@@ -378,12 +379,12 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		param0.setIn(value);
 		response = client.testAttachment(param0).getOut();
 		assertOnResponse(response, 1, MAX_SIZE);
-		System.out.println("-- testCacheON4KbLimit1KbFile --");
+		logger.debug("-- testCacheON4KbLimit1KbFile --");
 		if (f10.isDirectory()) {
 		      String[] files = f10.list();
 		      boolean success = f10.delete();
 		}
-		System.out.println("-- testCacheON4KbLimit1KbFile --");
+		logger.debug("-- testCacheON4KbLimit1KbFile --");
 	}
 	
 	
@@ -411,6 +412,8 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 	
 	public static void delete(File file)
 	throws IOException{
+		final Logger logger = Logger.getInstance("AttachmentCacheTests");
+		
 
 	if(file.isDirectory()){
 
@@ -418,7 +421,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 		if(file.list().length==0){
 
 		   file.delete();
-		   System.out.println("Directory is deleted : " 
+		   logger.debug("Directory is deleted : " 
                                              + file.getAbsolutePath());
 
 		}else{
@@ -437,7 +440,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
     	   //check the directory again, if empty then delete it
     	   if(file.list().length==0){
        	     file.delete();
-    	     System.out.println("Directory is deleted : " 
+    	     logger.debug("Directory is deleted : " 
                                               + file.getAbsolutePath());
     	   }
 		}
@@ -445,7 +448,7 @@ public class AttachmentCacheTests extends AbstractWithServerTest {
 	}else{
 		//if file, then delete it
 		file.delete();
-		System.out.println("File is deleted : " + file.getAbsolutePath());
+		logger.debug("File is deleted : " + file.getAbsolutePath());
 	}
 }
 

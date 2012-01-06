@@ -153,7 +153,7 @@ public abstract class AbstractWithProxyServerTest extends AbstractTurmericTestCa
 		File outputFile = new File(testingResourceDir, modifiedConfigPath);
 		MavenTestingUtils.ensureDirExists(outputFile.getParentFile());
 
-		System.out.println("Writing modified ClientConfig to "
+		logger.debug("Writing modified ClientConfig to "
 				+ outputFile.getAbsolutePath());
 		writeXml(outputFile, doc);
 

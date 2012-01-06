@@ -62,7 +62,6 @@ public void generateMetadataPropsWithNs() throws Exception{
 	pro.load(in);
 	Assert.assertTrue(pro.get("namespace").equals(namespace)); }
 	catch(Exception e){
-		e.printStackTrace();
 	}finally{
 		
 		in.close();
@@ -96,7 +95,6 @@ public void generateMetadataPropsWithoutNs() throws Exception{
 		pro.load(in);
 		Assert.assertTrue(pro.get("namespace").equals(null)); }
 		catch(Exception e){
-			e.printStackTrace();
 		}finally{
 			
 			in.close();

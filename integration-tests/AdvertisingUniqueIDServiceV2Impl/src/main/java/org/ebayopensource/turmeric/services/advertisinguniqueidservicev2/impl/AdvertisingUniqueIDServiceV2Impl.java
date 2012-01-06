@@ -47,7 +47,6 @@ implements AdvertisingUniqueIDServiceV2
 		try {
 			requestHeaders = request.getTransportHeaders();
 		} catch (ServiceException e) {
-			e.printStackTrace();
 		}
 		String requestId = requestHeaders.get("X-EBAY-SOA-REQUEST-ID");
 		res.setNestedSrvcRequestID(requestId);
@@ -69,8 +68,6 @@ implements AdvertisingUniqueIDServiceV2
 			}
 			return response;		
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} 
 
 		return response;
@@ -79,7 +76,6 @@ implements AdvertisingUniqueIDServiceV2
 	@Override
 	public GetNestedGenericClientInfoResponse getNestedGenericClientInfo(
 			GetNestedGenericClientInfoRequest getNestedGenericClientInfoRequest) {
-		// TODO Auto-generated method stub
 		GetNestedGenericClientInfoResponse resp = new GetNestedGenericClientInfoResponse();
 		GetGenericClientInfoResponse resp2 = null;
 		if(getNestedGenericClientInfoRequest.getId().equals("100")){
@@ -102,9 +98,7 @@ implements AdvertisingUniqueIDServiceV2
 				resp.setId(resp2.getId());
 				ClientConfigManager.getInstance().setConfigTestCase("config");
 			} catch (MalformedURLException e) {
-				e.printStackTrace();
 			} catch (ServiceException e) {
-				e.printStackTrace();
 			}
 		}
 		return resp;

@@ -7,6 +7,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.ebayopensource.turmeric.tools.codegen.CodeGenContext;
 import org.ebayopensource.turmeric.tools.codegen.ServiceGenerator;
@@ -101,6 +103,7 @@ public class BaseEprotoGeneratorTest {
 
 
 	   protected static void addURL(URL u) throws IOException {
+		  final Logger logger = Logger.getLogger("");
 		  Class[] parameters = new Class[]{URL.class};
 
 	      URLClassLoader sysloader = (URLClassLoader) ClassLoader.getSystemClassLoader();
@@ -111,8 +114,7 @@ public class BaseEprotoGeneratorTest {
 	         method.setAccessible(true);
 	         method.invoke(sysloader, new Object[]{u});
 	      } catch (Throwable t) {
-	         t.printStackTrace();
-	         throw new IOException("Error, could not add URL to system classloader");
+	         throw new IOException("Error, could not add URL to system classloader", t);
 	      }
 
 	   }

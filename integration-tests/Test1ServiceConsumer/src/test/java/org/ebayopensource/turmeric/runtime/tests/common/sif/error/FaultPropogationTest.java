@@ -31,7 +31,6 @@ public class FaultPropogationTest extends BaseErrorResponseTest {
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -41,9 +40,7 @@ public class FaultPropogationTest extends BaseErrorResponseTest {
 			try {
 				runServer("localhost", 9889);
 			} catch (IOException e) {
-				e.printStackTrace();
-				System.out
-						.println("Unable to Start proxy, test run unreliable");
+				
 			}
 		}
 
@@ -102,10 +99,7 @@ public class FaultPropogationTest extends BaseErrorResponseTest {
 				// connection to our client.
 				// streamToClient.close();
 			} catch (IOException e) {
-				System.err.println(e);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} finally {
 				try {
 					if (client != null) {
@@ -132,9 +126,7 @@ public class FaultPropogationTest extends BaseErrorResponseTest {
 			options.setMessageProtocolName(SOAConstants.MSG_PROTOCOL_SOAP_11);
 			String outMessage = (String) service.createDispatch("echoString")
 					.invoke(ECHO_STRING);
-			System.out.println(outMessage);
 		} catch (Exception e) {
-			e.printStackTrace();
 			Assert
 					.assertTrue(e
 							.getCause()

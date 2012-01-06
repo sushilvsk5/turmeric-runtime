@@ -51,7 +51,6 @@ public class TestErrorDataContentProvider implements ErrorDataProvider {
 	}
 
 	public void init() {
-		// TODO Auto-generated method stub
 		
 	}
 

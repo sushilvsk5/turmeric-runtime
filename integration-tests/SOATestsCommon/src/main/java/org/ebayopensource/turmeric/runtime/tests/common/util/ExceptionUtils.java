@@ -45,7 +45,6 @@ public class ExceptionUtils {
 
 		String causeText;
 		if (e instanceof Throwable) {
-			((Throwable)e).printStackTrace();
 			causeText = e.toString();
 		} else {
 			causeText = e.toString();

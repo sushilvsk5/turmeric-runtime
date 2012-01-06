@@ -215,7 +215,7 @@ public abstract class AbstractServiceGeneratorTestCase extends AbstractCodegenTe
 		        out = new FileOutputStream(file);
 		        pro.store(out,null);
 		}catch(Exception e){
-			e.printStackTrace();
+			
 		}finally{
         out.close();
 	
@@ -399,7 +399,6 @@ public abstract class AbstractServiceGeneratorTestCase extends AbstractCodegenTe
 				gen.execute(pluginParameter);
 				flag = true;
 			} catch (Exception e) {
-				e.printStackTrace();
 				flag = false;
 			}
 			return flag;
@@ -419,7 +418,7 @@ public abstract class AbstractServiceGeneratorTestCase extends AbstractCodegenTe
 				NonInteractiveCodeGen gen = new NonInteractiveCodeGen();
 				gen.execute(pluginParameter);
 			}catch (Exception e){
-				e.printStackTrace();
+				
 			}
 		}
 		

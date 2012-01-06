@@ -388,7 +388,6 @@ public class ServicePayloadExecutor {
                     Thread.sleep(100);
                 }
                 catch (InterruptedException e) {
-                    e.printStackTrace();
                     break;
                 }
             }
@@ -428,7 +427,6 @@ public class ServicePayloadExecutor {
                     Thread.sleep(100);
                 }
                 catch (InterruptedException e) {
-                    e.printStackTrace();
                     break;
                 }
             }

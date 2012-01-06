@@ -62,7 +62,6 @@ public class HelloWorldWSDLSvcQETest extends AbstractServiceGeneratorTestCase{
 			performDirectCodeGen(testArgs, binDir);
 		} catch (Exception e) {
 			
-			e.printStackTrace();
 		}
 	
 	}
@@ -109,7 +108,6 @@ public class HelloWorldWSDLSvcQETest extends AbstractServiceGeneratorTestCase{
 			performDirectCodeGen(testArgs1, binDir);
 		} catch (Exception e) {
 			
-			e.printStackTrace();
 		}
 	
 	}

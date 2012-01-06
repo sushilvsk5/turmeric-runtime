@@ -145,7 +145,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean libFlag = (( libraryListAfter.size() -libraryListBef.size()) == list.size());
 			assertTrue("SOAGlobalRegistry is not updated properly.", libFlag);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			assertTrue("No Exception should be thrown. Following Exception is thrown: " + ex.getMessage(), false);
 		}
 	}
@@ -171,7 +170,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean flag = m_soaTypeRegistry.populateRegistryWithTypeLibraries(list);
 			assertFalse("Valid Exception should be thrown.", flag);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.library.exception.PopulateRegistryException";
 			String exceptionMessage = "Could not find the TypeInformation.xml file for library InvalidTypeLibrary  at location : META-INF/InvalidTypeLibrary/TypeInformation.xml";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -209,7 +207,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean sizeFlag = ((libraryListAfter.size() -libraryListBef.size()) == (list.size() -2));
 			assertTrue("The Global Registry should not be updated for duplicate libraries.", sizeFlag);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			assertTrue("No Exception should be thrown. Following Exception is thrown: " + ex.getMessage(), false);
 		}
 
@@ -240,7 +237,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean flag = m_soaTypeRegistry.populateRegistryWithTypeLibraries(list);
 			assertFalse("Exception should be thrown.", flag);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Could not find the TypeInformation.xml file for library null  at location : META-INF/null/TypeInformation.xml";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.library.exception.PopulateRegistryException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -286,7 +282,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean checkFlag = (flag == (initialCount + 1 == finalCount));
 			assertTrue("Invalid working of addTypeLibraryToRegistry(TypeLibraryType type).", checkFlag);
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("No exception should be thrown. Exception:" + e.getMessage(), false);
 		}
 	}
@@ -313,7 +308,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean flag = m_soaTypeRegistry.addTypeLibraryToRegistry(productTypeLibrary);
 			assertTrue("Invalid working of addTypeLibraryToRegistry(TypeLibraryType type).",flag);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Input param TypeLibraryType's version is not in the format X.Y.Z where X,Y,Z are integers.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -345,7 +339,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			assertTrue("Invalid working of addTypeLibraryToRegistry(TypeLibraryType type).",
 					(flag || flag1) || (initialCount == finalCount));
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("No exception should be thrown. Exception:" + e.getMessage(), false);
 		}
 	}
@@ -364,7 +357,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean flag = m_soaTypeRegistry.addTypeLibraryToRegistry(productTypeLibrary);
 			assertFalse("Invalid working of addTypeLibraryToRegistry(TypeLibraryType type).", true);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Input param TypeLibraryType's library name is either null or void.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -389,7 +381,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean flag = m_soaTypeRegistry.addTypeLibraryToRegistry(productTypeLibrary);
 			assertFalse("Invalid working of addTypeLibraryToRegistry(TypeLibraryType type).", true);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Input param \"TypeLibraryType\" cannot be null.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -426,7 +417,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean checkFlag = (flag == (initialCount != finalCount));
 			assertTrue("Invalid working of addTypeLibraryToRegistry(TypeLibraryType type).", checkFlag);
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("No exception should be thrown. Exception:" + e.getMessage(), false);
 		}
 	}
@@ -448,7 +438,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			assertTrue("Invalid working of addTypeLibraryToRegistry(TypeLibraryType type).",
 					(flag || flag1) || (initialCount == finalCount));
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("No exception should be thrown. Exception:" + e.getMessage(), false);
 		}
 	}
@@ -467,7 +456,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean flag = m_soaTypeRegistry.addTypeLibraryToRegistry(productTypeLibrary);
 			assertFalse("Invalid working of addTypeLibraryToRegistry(TypeLibraryType type).", true);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Could not find the TypeInformation.xml file for library   at location : META-INF//TypeInformation.xml";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.library.exception.PopulateRegistryException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -492,7 +480,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean flag = m_soaTypeRegistry.addTypeLibraryToRegistry(productTypeLibrary);
 			assertFalse("Invalid working of addTypeLibraryToRegistry(TypeLibraryType type).", true);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Could not find the TypeInformation.xml file for library   at location : META-INF//TypeInformation.xml";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.library.exception.PopulateRegistryException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -517,7 +504,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean flag = m_soaTypeRegistry.addTypeLibraryToRegistry(productTypeLibrary);
 			assertFalse("Invalid working of addTypeLibraryToRegistry(TypeLibraryType type).", true);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Input param \"library\" cannot be null.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -550,7 +536,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			int finalCount = m_soaTypeRegistry.getAllTypes().size();
 			assertTrue("Invalid working of addTypeToRegistry(LibraryType libraryType)", (initialCount != finalCount));
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("No exception should be thrown. Exception:" + e.getMessage(), false);
 		}
 	}
@@ -574,7 +559,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			m_soaTypeRegistry.addTypeToRegistry(type);
 			assertTrue("Invalid working of addTypeToRegistry(LibraryType libraryType)", false);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Input params \"libraryType\" cannot have a null value for name.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -604,7 +588,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			m_soaTypeRegistry.addTypeToRegistry(type);
 			assertTrue("Invalid working of addTypeToRegistry(LibraryType libraryType)", false);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Input params \"libraryType\" cannot have a null value for name.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -634,7 +617,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			m_soaTypeRegistry.addTypeToRegistry(type);
 			assertTrue("Invalid working of addTypeToRegistry(LibraryType libraryType)", false);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Input params \"libraryType\" cannot have a null value for the Library Name.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -664,7 +646,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			m_soaTypeRegistry.addTypeToRegistry(type);
 			assertTrue("Invalid working of addTypeToRegistry(LibraryType libraryType)", false);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Input params \"libraryType\" cannot have a null value for the LibraryInfo.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -694,7 +675,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			m_soaTypeRegistry.addTypeToRegistry(type);
 			assertTrue("Invalid working of addTypeToRegistry(LibraryType libraryType)", false);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "The namespace of the type and the library to which it belongs to do not match.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -724,7 +704,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			m_soaTypeRegistry.addTypeToRegistry(type);
 			//assertTrue("Invalid working of addTypeToRegistry(LibraryType libraryType)", false);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "The namespace of the type and the library to which it belongs to do not match.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -755,7 +734,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			System.out.println(value);
 			assertTrue("Invalid working of addTypeToRegistry(LibraryType libraryType)", value);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "The namespace of the type and the library to which it belongs to do not match.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -785,7 +763,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			m_soaTypeRegistry.addTypeToRegistry(type);
 			//assertTrue("Invalid working of addTypeToRegistry(LibraryType libraryType)", false);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "The namespace of the type and the library to which it belongs to do not match.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -815,7 +792,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			m_soaTypeRegistry.addTypeToRegistry(type);
 			//assertTrue("Invalid working of addTypeToRegistry(LibraryType libraryType)", false);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "The namespace of the type and the library to which it belongs to do not match.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -841,7 +817,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			m_soaTypeRegistry.addTypeToRegistry(type);
 			assertTrue("Invalid working of addTypeToRegistry(LibraryType libraryType)", false);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Input param \"libraryType\" cannot be null.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -887,8 +862,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			List<LibraryType> tlt1 = m_soaTypeRegistry.getDependentChildTypeFiles(libraryType);
 			//System.out.println("End:"+finalSize );
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
@@ -952,7 +925,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			int finalCount = tlt.getType().size();
 			assertTrue("Updating to global registry failed.", (flag1 || (initialCount != finalCount)));
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured: " + e.getMessage(), false);
 		}
 
@@ -978,7 +950,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 				flag = true;
 			assertTrue("Invalid working of getType(String typeName)", flag);
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured: " + e.getMessage(), false);
 		}
 	}
@@ -1000,7 +971,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 				flag = true;
 			assertFalse("Invalid working of getType(String typeName)", flag);
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured: " + e.getMessage(), false);
 		}
 	}
@@ -1022,7 +992,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 				flag = true;
 			assertFalse("Invalid working of getType(String typeName)", flag);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Input param \"typeName\" cannot be null.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -1068,7 +1037,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean flag = ((initialCount < interMidCount) && (interMidCount < finalCount));
 			assertTrue("Invalid working of getAllTypes().", flag);
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured: " + e, false);
 		}
 	}
@@ -1100,7 +1068,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean flag2 = ("3.2.1".equals(typeVersions.get(CATEGORY_TYPE_LIBRARY)));
 			assertTrue("Invalid working of getTypeLibrariesVersion(List<String> typeLibraryNames)", (flag1 || flag2));
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured:" + e.getMessage(), false);
 		}
 	}
@@ -1133,7 +1100,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean flag2 = ("3.2.1".equals(typeVersions.get(CATEGORY_TYPE_LIBRARY)));
 			assertTrue("Invalid working of getTypeLibrariesVersion(List<String> typeLibraryNames)", (flag1 || flag2));
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured:" + e.getMessage(), false);
 		}
 	}
@@ -1165,7 +1131,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean flag2 = ("3.2.1".equals(typeVersions.get(CATEGORY_TYPE_LIBRARY)));
 			assertTrue("Invalid working of getTypeLibrariesVersion(List<String> typeLibraryNames)", (flag1 || flag2));
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured:" + e.getMessage(), false);
 		}
 	}
@@ -1199,7 +1164,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean flag2 = ("3.2.1".equals(typeVersions.get(CATEGORY_TYPE_LIBRARY)));
 			assertTrue("Invalid working of getTypeLibrariesVersion(List<String> typeLibraryNames)", (flag1 || flag2));
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured:" + e.getMessage(), false);
 		}
 	}
@@ -1221,7 +1185,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean flag2 = ("3.2.1".equals(typeVersions.get(CATEGORY_TYPE_LIBRARY)));
 			assertTrue("Invalid working of getTypeLibrariesVersion(List<String> typeLibraryNames)", (flag1 || flag2));
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "nput param \"typeLibraryNames\" cannot be null.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -1273,7 +1236,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 				assertTrue("Invalid working of List<TypeLibraryType> getAllTypeLibraries()", check);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured: " + e.getMessage(), false);
 		}
 	}
@@ -1307,7 +1269,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			assertTrue("Invalid working of List<TypeLibraryType> getAllTypeLibraries()",
 					(libName || libVersion || libNamespace));
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured :" + e.getMessage(), false);
 		}
 	}
@@ -1325,7 +1286,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			TypeLibraryType library = m_soaTypeRegistry.getTypeLibrary(PRODUCT_TYPE_LIBRARY + "Changed");
 			assertTrue("Invalid working of List<TypeLibraryType> getAllTypeLibraries()", (library == null));
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured :" + e.getMessage(), false);
 		}
 	}
@@ -1344,7 +1304,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			TypeLibraryType library = m_soaTypeRegistry.getTypeLibrary(libName);
 			assertTrue("Invalid working of List<TypeLibraryType> getAllTypeLibraries()", (library == null));
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Input param \"typeLibName\" cannot be null.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -1368,7 +1327,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			TypeLibraryType library = m_soaTypeRegistry.getTypeLibrary("");
 			assertTrue("Invalid working of List<TypeLibraryType> getAllTypeLibraries()", (library == null));
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Input param \"typeLibName\" cannot be null.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -1396,7 +1354,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean flag = librariesRefered.contains(CATEGORY_TYPE_LIBRARY);
 			assertTrue("Invalid working of getLibrariesReferredByType(String typeName)", flag);
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured: " + e.getMessage(), false);
 		}
 	}
@@ -1418,7 +1375,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean flag = librariesRefered.isEmpty();
 			assertTrue("Invalid working of getLibrariesReferredByType(String typeName)", flag);
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured: " + e.getMessage(), false);
 		}
 	}
@@ -1443,7 +1399,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean flag = librariesRefered.contains(PRODUCT_TYPE_LIBRARY);
 			assertTrue("Invalid working of getLibrariesReferredByType(LibraryType typeName)", flag);
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured: " + e.getMessage(), false);
 		}
 	}
@@ -1464,7 +1419,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean flag = librariesRefered.isEmpty();
 			assertTrue("Invalid working of getLibrariesReferredByType(LibraryType typeName)", flag);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Input LibraryType's name is either null or empty.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -1491,7 +1445,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean flag = librariesRefered.isEmpty();
 			assertTrue("Invalid working of getLibrariesReferredByType(LibraryType typeName)", flag);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Input param \"LibraryType\" cannot be null.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -1520,7 +1473,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			assertTrue("Invalid working of getDependentParentTypeFiles(LibraryType libraryType).",
 					(actualList != null || actualList.size() != 0));
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured: " + e.getMessage(), false);
 		}
 	}
@@ -1541,7 +1493,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			List<LibraryType> actualList = m_soaTypeRegistry.getDependentParentTypeFiles(libraryType);
 			assertTrue("Invalid working of getDependentParentTypeFiles(LibraryType libraryType).", (actualList.size() == 0));
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured: " + e.getMessage(), false);
 		}
 	}
@@ -1561,7 +1512,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			List<LibraryType> actualList = m_soaTypeRegistry.getDependentParentTypeFiles(libraryType);
 			assertTrue("Invalid working of getDependentParentTypeFiles(LibraryType libraryType).", false);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Input param \"LibraryType\" cannot be null.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -1590,7 +1540,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			assertTrue("Invalid working of getDependentParentTypeFiles(LibraryType libraryType).",
 					(actualList != null || actualList.size() != 0));
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured :" + e.getMessage(), false);
 		}
 	}
@@ -1611,7 +1560,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			List<LibraryType> actualList = m_soaTypeRegistry.getDependentChildTypeFiles(libraryType);
 			assertTrue("Invalid working of getDependentParentTypeFiles(LibraryType libraryType).", (actualList.size() == 0));
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured :" + e.getMessage(), false);
 		}
 	}
@@ -1631,7 +1579,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			List<LibraryType> actualList = m_soaTypeRegistry.getDependentChildTypeFiles(libraryType);
 			assertTrue("Invalid working of getDependentParentTypeFiles(LibraryType libraryType).", (actualList.size() == 0));
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Input param \"LibraryType\" cannot be null.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -1667,7 +1614,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			assertTrue("Invalid working of removeTypeFromRegistry(String typeName)", (check || flag));
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured : " + e.getMessage(), false);
 		}
 	}
@@ -1695,8 +1641,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			//assertTrue("Invalid working of removeTypeFromRegistry(String typeName)", (check || flag));
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
@@ -1715,7 +1659,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean type = m_soaTypeRegistry.doesTypeNameExist(typeQ);
 			assertTrue("Invalid working of doesTypeNameExist(String typeName).", type);
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured: " + e.getMessage(), false);
 		}
 	}
@@ -1734,7 +1677,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean type = m_soaTypeRegistry.doesTypeNameExist(typeQ);
 			assertFalse("Invalid working of doesTypeNameExist(String typeName).", type);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Input LibraryType's name is either null or empty";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -1759,7 +1701,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean type = m_soaTypeRegistry.doesTypeNameExist(typeQ);
 			assertFalse("Invalid working of doesTypeNameExist(String typeName).", type);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			assertTrue("Following exception occured: " + ex.getMessage(), false);
 		}
 	}
@@ -1782,7 +1723,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean catType = m_soaTypeRegistry.doesTypeNameExist(type);
 			assertTrue("Invalid working of doesTypeNameExist(String typeName).", catType);
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured: " + e.getMessage(), false);
 		}
 	}
@@ -1801,7 +1741,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean catType = m_soaTypeRegistry.doesTypeNameExist(type);
 			assertFalse("Invalid working of doesTypeNameExist(String typeName).", catType);
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("Following exception occured: " + e.getMessage(), false);
 		}
 	}
@@ -1820,7 +1759,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean catType = m_soaTypeRegistry.doesTypeNameExist(type);
 			assertFalse("Invalid working of doesTypeNameExist(String typeName).", catType);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Input param \"LibraryType\" cannot be null.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -1845,7 +1783,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			boolean catType = m_soaTypeRegistry.doesTypeNameExist(type);
 			assertFalse("Invalid working of doesTypeNameExist(String typeName).", catType);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			String exceptionMessage = "Input LibraryType's name is either null or empty.";
 			String exceptionClassName = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			assertTrue("Exception class is invalid. \n Actual:" + ex.getClass().getName()
@@ -1943,7 +1880,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			sGenerator.startCodeGen(pluginParameter);
 			flag = true;
 		} catch (Exception e) {
-			e.printStackTrace();
 			flag = false;
 		}
 		return flag;
@@ -1964,7 +1900,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			sGenerator.startCodeGen(pluginParameter);
 			flag = true;
 		} catch (Exception e) {
-			e.printStackTrace();
 			flag = false;
 		}
 		return flag;
@@ -1988,8 +1923,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 		try {
 			TestResourceUtil.copyResource("types/CategoryTypeLibrary/CategoryName.xsd", testingdir, "CategoryTypeLibrary/meta-src");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		addTypeToLibrary(PROJECT_ROOT_CATEGORY,CATEGORY_TYPE_LIBRARY,"CategoryName.xsd");
@@ -2000,8 +1933,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 		try {
 			TestResourceUtil.copyResource("types/ProductTypeLibrary/ProductName.xsd", testingdir, "ProductTypeLibrary/meta-src");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		addTypeToLibrary(PROJECT_ROOT_PRODUCT,PRODUCT_TYPE_LIBRARY,"ProductName.xsd");
 		
@@ -2041,7 +1972,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 				System.out.println((i + 1) + "." + library.getLibraryName());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue("No exception should be thrown. Exception:" + e.getMessage(), false);
 		}
 		return count;
@@ -2058,7 +1988,6 @@ public class SOAGlobalRegistryQETest extends AbstractServiceGeneratorTestCase {
 			ServiceGenerator sGenerator = new ServiceGenerator();
 			sGenerator.startCodeGen(pluginParameter);
 		}catch(Exception e){
-			e.printStackTrace();
 		}		
 	}
 }

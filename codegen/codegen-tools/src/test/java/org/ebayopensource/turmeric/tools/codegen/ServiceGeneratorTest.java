@@ -162,7 +162,6 @@ public class ServiceGeneratorTest extends AbstractServiceGeneratorTestCase {
 			performDirectCodeGen(args);
 			Assert.fail("Expected exception of type: " + CodeGenFailedException.class.getName());
 		} catch (CodeGenFailedException ex) {
-			ex.printStackTrace(System.err);
 			Throwable cause = ex.getCause();
 			Assert.assertNotNull("Cause should not be null", cause);
 			Assert.assertThat(ex.getMessage(), containsString(badClass));

@@ -12,8 +12,11 @@ package org.ebayopensource.turmeric.qajunittests.advertisinguniqueidservicev1.so
 import java.net.MalformedURLException;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SOAPHeadersTest {
+	protected final Logger logger = LoggerFactory.getLogger(SOAPHeadersTest.class);
 
 	/*
 	 * Test to client-side handler
@@ -24,8 +27,8 @@ public class SOAPHeadersTest {
 	 */
 	@Test
 	public void headersThruHandler() throws MalformedURLException{
-		System.out.println(" ** SOAP Headers Test thru Client-side Handler Begins ** ");
-		System.out.println(" ** SOAP Headers Test thru Client-side Handler ends ** ");
+		logger.debug(" ** SOAP Headers Test thru Client-side Handler Begins ** ");
+		logger.debug(" ** SOAP Headers Test thru Client-side Handler ends ** ");
 	}
 	/*
 	 * Test through Request Context
@@ -36,8 +39,8 @@ public class SOAPHeadersTest {
 	 */
 	@Test
 	public void headersThruRequestContext(){
-		System.out.println(" ** SOAP Headers Test thru Request Context Begins ** ");
-		System.out.println(" ** SOAP Headers Test thru Request Context Ends ** ");
+		logger.debug(" ** SOAP Headers Test thru Request Context Begins ** ");
+		logger.debug(" ** SOAP Headers Test thru Request Context Ends ** ");
 	}
 	/*
 	 * Test thru ServiceIntf
@@ -48,16 +51,16 @@ public class SOAPHeadersTest {
 	 */
 	@Test
 	public void headersThruSession(){
-		System.out.println(" ** SOAP Headers Test thru Session Begins ** ");		
-		System.out.println(" ** SOAP Headers Test thru Session ends ** ");
+		logger.debug(" ** SOAP Headers Test thru Session Begins ** ");		
+		logger.debug(" ** SOAP Headers Test thru Session ends ** ");
 	}
 	/**
 	 * @check  Exceptions need to be handled
 	 */
 	@Test
 	public void multipleHeadersThruRequestContext(){
-		System.out.println(" ** Multiple SOAP Headers Test thru Request Context Begins ** ");
-		System.out.println(" ** Multiple SOAP Headers Test thru Request Context Ends ** ");
+		logger.debug(" ** Multiple SOAP Headers Test thru Request Context Begins ** ");
+		logger.debug(" ** Multiple SOAP Headers Test thru Request Context Ends ** ");
 	}
 	/*
 	 * Test thru ServiceIntf
@@ -68,7 +71,7 @@ public class SOAPHeadersTest {
 	 */
 	@Test
 	public void multipleHeadersThruSession(){
-		System.out.println(" ** Multiple SOAP Headers Test thru Session Begins ** ");		
-		System.out.println(" ** SOAP Headers Test thru Session ends ** ");
+		logger.debug(" ** Multiple SOAP Headers Test thru Session Begins ** ");		
+		logger.debug(" ** SOAP Headers Test thru Session ends ** ");
 	}
 }

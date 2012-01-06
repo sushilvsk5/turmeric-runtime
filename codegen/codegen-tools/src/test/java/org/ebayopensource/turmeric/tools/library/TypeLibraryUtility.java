@@ -83,9 +83,7 @@ public class TypeLibraryUtility  extends AbstractServiceGeneratorTestCase{
 			out.close();
 			flag = true;
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
 		}finally {
 			fromFile = null;
 			toFile = null;
@@ -184,8 +182,6 @@ public class TypeLibraryUtility  extends AbstractServiceGeneratorTestCase{
 			try {
 				toXsdFile.createNewFile();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
 
@@ -196,8 +192,6 @@ public class TypeLibraryUtility  extends AbstractServiceGeneratorTestCase{
 			try {
 				fromXsdFile.createNewFile();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
 		boolean flag = false;
@@ -213,9 +207,7 @@ public class TypeLibraryUtility  extends AbstractServiceGeneratorTestCase{
 			out.close();
 			flag = true;
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
 		}finally{
 			toXsdFile = null;
 			fromXsdFile = null;
@@ -238,8 +230,6 @@ public class TypeLibraryUtility  extends AbstractServiceGeneratorTestCase{
 			try {
 				toXsdFile.createNewFile();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
 
@@ -248,8 +238,6 @@ public class TypeLibraryUtility  extends AbstractServiceGeneratorTestCase{
 			try {
 				fromXsdFile.createNewFile();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
 		boolean flag = false;
@@ -265,9 +253,7 @@ public class TypeLibraryUtility  extends AbstractServiceGeneratorTestCase{
 			out.close();
 			flag = true;
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
 		}finally{
 			toXsdFile = null;
 			fromXsdFile = null;
@@ -390,27 +376,16 @@ public class TypeLibraryUtility  extends AbstractServiceGeneratorTestCase{
 			
 			
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
 		}
 		return true;
 	}
 
-	/*public String getGeneratedJavaFilePath1(String projectRoot, String javaClassName, String aditionalPath) {
-			String path = null;
-			if(aditionalPath != null && aditionalPath.trim().length() != 0){
-				path = projectRoot+"\\gen-src\\com\\ebay\\marketplace\\services\\"+aditionalPath+"\\"+javaClassName;
-			}else{
-				path = projectRoot+"\\gen-src\\com\\ebay\\marketplace\\services\\"+javaClassName;
-			}
-			return path;
-	}*/
 
 	public static void main(String[] args){
 		TypeLibraryUtility utility = new TypeLibraryUtility();
 		try{
 			utility.waitForExecution(20);
 		}catch(Exception e){
-			e.printStackTrace();
 		}
 		
 	}

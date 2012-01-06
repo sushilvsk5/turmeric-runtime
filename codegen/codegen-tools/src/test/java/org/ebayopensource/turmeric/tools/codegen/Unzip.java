@@ -66,7 +66,7 @@ public static void doUnzip(String inputZip, String destinationDirectory)
             
             }
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+        	
         }
     }
     zipFile.close();

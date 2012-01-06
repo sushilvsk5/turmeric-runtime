@@ -58,7 +58,7 @@ public class DataValidationTest extends BaseSerDeserTest {
 		jaxbtest.setDeserializerFactory(m_deserFactory);
 		
 		String xml1 = jaxbtest.createOnWireStringWithExtraEndTag(msg);
-		System.out.println(xml1);
+		logger.debug(xml1);
 		jaxbtest.setPayload(xml1);
 
 		Deserializer deser = m_deserFactory.getDeserializer();
@@ -71,7 +71,7 @@ public class DataValidationTest extends BaseSerDeserTest {
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				JAXBTestHelper.serialize(ctx, out, msg1);
 				String xml2 = out.toString();
-				System.out.println(xml2);
+				logger.debug(xml2);
 				assertNotSame(xml1,xml2);
 			}
 			return;
@@ -95,7 +95,7 @@ public class DataValidationTest extends BaseSerDeserTest {
 		jaxbtest.setDeserializerFactory(m_deserFactory);
 		
 		String xml1 = jaxbtest.createOnWireStringWithMissingEndTag(msg);
-		System.out.println(xml1);
+		logger.debug(xml1);
 		jaxbtest.setPayload(xml1);
 
 		Deserializer deser = m_deserFactory.getDeserializer();
@@ -109,7 +109,7 @@ public class DataValidationTest extends BaseSerDeserTest {
 			if (null != msg1) {
 				JAXBTestHelper.serialize(ctx, out, msg1);
 				String xml2 = out.toString();
-				System.out.println(xml2);
+				logger.debug(xml2);
 				assertNotSame(xml1,xml2);
 			}
 
@@ -124,7 +124,7 @@ public class DataValidationTest extends BaseSerDeserTest {
 			assertEquals(5003L, dve.getErrorMessage().getError().get(0).getErrorId());
 			dve.localizeMessage("en-US");
 
-			System.out.println(dve.toString());
+			logger.debug(dve.toString());
 		}
 	}
 }

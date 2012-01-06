@@ -13,14 +13,18 @@ import org.ebayopensource.turmeric.runtime.sif.service.Service;
 import org.ebayopensource.turmeric.runtime.sif.service.ServiceFactory;
 import org.ebayopensource.turmeric.runtime.tests.common.jetty.SimpleJettyServer;
 import org.ebayopensource.turmeric.runtime.tests.common.sif.error.MarkdownTestHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FailoverTests extends TestCase {
 	private static Thread serverThread;
+	
+	private final Logger logger = LoggerFactory.getLogger(FailoverTests.class);
+	
 	static class RunPoxyServer implements Runnable {
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
 			SimpleJettyServer.main(null);
 		}
 		
@@ -39,7 +43,7 @@ public class FailoverTests extends TestCase {
 		URL url = new URL("http://localhost:8080/ws/spf");
 		Service service = ServiceFactory.create("Test1Service", "keepAlive", url);
 		String outMessage = (String) service.createDispatch("echoString").invoke("hello");
-		System.out.println("outMessage:"+outMessage);
+		logger.debug("outMessage:"+outMessage);
 	}
 	
 	public void testMultiple() throws Exception{
@@ -52,7 +56,7 @@ public class FailoverTests extends TestCase {
 		Service service = ServiceFactory.create("test1", "failover");
 		service.setServiceLocations(urls);
 		String outMessage = (String) service.createDispatch("echoString").invoke("hello");
-		System.out.println("outMessage:"+outMessage);
+		logger.debug("outMessage:"+outMessage);
 		assertEquals("hello", outMessage);
 	}
 	
@@ -80,24 +84,21 @@ public class FailoverTests extends TestCase {
 	public void testMultipleWithConfigFile() throws Exception{
 		Service service = ServiceFactory.create("test1", "failover"); //shd pick up the cc.xml?
 		String outMessage = (String) service.createDispatch("echoString").invoke("hello");
-		System.out.println("outMessage:"+outMessage);
+		logger.debug("outMessage:"+outMessage);
 	}
 	
 	public void testMultipleFailWithConfigFile() throws Exception{
 		Service service = ServiceFactory.create("test1a", "failover"); //shd pick up the cc.xml?
 		try{
 			String outMessage = (String) service.createDispatch("echoString").invoke("hello");
-			assertTrue(false); //shoiuld have failed
+			fail("Should have failed."); //shoiuld have failed
 		}catch(Exception e){
-			assertTrue(true); // will ultimately fail with the unresolved exception after 
-			// going through the failovers
+			
 		}
 	}
 	
 	public void testSuccessiveInvocations() throws Exception{
 		List<URL> urls = new ArrayList<URL>();
-		//URL url = new URL("http://nothing:8080/ws/spf");
-		//urls.add(url);
 		URL url = new URL("http://localhost:8080/ws/spf");
 		urls.add(url);
 		Service service = ServiceFactory.create("test1", "failover");
@@ -108,41 +109,9 @@ public class FailoverTests extends TestCase {
 		service.setServiceLocation(url);
 		try{
 			outMessage = (String) service.createDispatch("echoString").invoke("hello");
-			assertTrue(false);
+			fail("Should have failed");
 		}catch(Exception e){
-			assertTrue(true);
-		}
-	}
-	
-	
-	/*public void testFailure() throws Exception{
-			GetDeploymentKeysRequest request = new GetDeploymentKeysRequest();
-			BaseResourcePersistenceServiceConsumer service = getClient();
-			GetDeploymentKeysResponse response = service.getDeploymentKeys(request);
 			
-	}
-	
-	public BaseResourcePersistenceServiceConsumer getClient(){
-		BaseResourcePersistenceServiceConsumer client;
-		try {
-			String m_urlStr = null;
-			if (m_urlStr == null) {
-				IRemoteResourceRepoResolver resolver=null;
-				if (resolver == null) {
-					resolver = DsfRuntime.getInstance().getCommonFwk().getRemoteResourceRepoResolver("testSource");
-				}
-				
-				client = new ResourceServiceClient(resolver);
-			}
-			else {
-				URL m_url = new URL(m_urlStr);
-				client = new ResourceServiceClient(m_url, "AppName", "token", IRemoteResourceRepoResolver.AuthMode.Default);
-			}
-				
-		} catch (MalformedURLException e) {
-			throw new RepositoryRuntimeException(e);
 		}
-		
-		return client;
-	}*/
+	}
 }

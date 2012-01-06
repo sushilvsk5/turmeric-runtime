@@ -75,9 +75,6 @@ public class FastInfosetSerDeserTest extends BaseSerDeserTest {
 		out = new ByteArrayOutputStream();
 		JAXBTestHelper.serialize(ctx, out, msg1);
 		String xml2 = out.toString();
-		System.out.println(xml2);
-//TODO: fix config file issue
-		// Assert.assertEquals(msg, msg1);
-		// Assert.assertEquals(msg.getBody(),((MyMessage)msg1).getBody());
+		logger.debug(xml2);
 	}
 }

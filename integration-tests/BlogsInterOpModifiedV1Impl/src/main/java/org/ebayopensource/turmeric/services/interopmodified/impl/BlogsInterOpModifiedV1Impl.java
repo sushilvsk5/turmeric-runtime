@@ -125,8 +125,6 @@ public class BlogsInterOpModifiedV1Impl
 		type.setHexbi(bytes);
 		type.setTi(DatatypeFactory.newInstance().newXMLGregorianCalendar(greCal));
 		} catch (DatatypeConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		type.setId("value");
 		type.setLan("value");
@@ -251,8 +249,6 @@ public class BlogsInterOpModifiedV1Impl
     	try {
 			cc.setArgA(DatatypeFactory.newInstance().newXMLGregorianCalendar(greCal));
 		} catch (DatatypeConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
     	cc.setArgB(true);
     	cc.setValue(23.4f);
@@ -328,8 +324,6 @@ public class BlogsInterOpModifiedV1Impl
 			
 			
 			} catch (DatatypeConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
         return res;
     }
@@ -379,8 +373,6 @@ public class BlogsInterOpModifiedV1Impl
 		type.setTi(DatatypeFactory.newInstance().newXMLGregorianCalendar(greCal));
 		
 		} catch (DatatypeConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		type.setValue("value");
 		empty.setIn1(type);

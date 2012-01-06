@@ -29,7 +29,6 @@ public class AsyncPollNonBlockingTimeoutTest extends AbstractWithSlowServerTest 
 
 	@Test
 	@SuppressWarnings("unchecked")
-    // TODO: this testcase is supposed to be tested using Test1Driver.
 	public void testServicePollNonBlockingTimeout() throws Exception {
 		Service service = ServiceFactory.create("test1", "remote", serverUri.toURL());
 		service.createDispatch("echoString").invokeAsync(
@@ -43,7 +42,6 @@ public class AsyncPollNonBlockingTimeoutTest extends AbstractWithSlowServerTest 
 
 	@Test
 	@SuppressWarnings("unchecked")
-    // TODO: this testcase is supposed to be tested using Test1Driver.
 	public void testServicePollNonBlockingDifferentOperationsTimeout()
 			throws Exception {
 		MyMessage msg = TestUtils.createTestMessage();
@@ -95,9 +93,9 @@ public class AsyncPollNonBlockingTimeoutTest extends AbstractWithSlowServerTest 
 	}
 	
 	private void debug(List<Response<?>> responseList) throws Exception {
-		System.out.printf("ResponseList.size = %d%n", responseList.size());
+		logger.debug("RespnseList.size = " + responseList.size());
 		for (Response<?> element : responseList) {
-			System.out.printf("  element.get() = %s%n", element.get());
+			logger.debug(" element.get() = " + element.get());
 		}
 	}
 }

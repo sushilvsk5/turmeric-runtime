@@ -86,7 +86,7 @@ public class ObjectNodeStreamReaderTest extends BaseSerDeserTest {
 
 		MessageContext ctx = jaxbtest.createTestMessageContext();
 		String xml1 = jaxbtest.createOnWireString(msg);
-		System.out.println(xml1);
+		logger.debug(xml1);
 		jaxbtest.setPayload(xml1, ctx.getEffectiveCharset());
 		Deserializer deser = m_deserFactory.getDeserializer();
 		ctx = jaxbtest.createTestMessageContext();
@@ -147,7 +147,7 @@ public class ObjectNodeStreamReaderTest extends BaseSerDeserTest {
 
 		MessageContext ctx = jaxbtest.createTestMessageContext();
 		String xml1 = jaxbtest.createOnWireString(msg);
-		System.out.println(xml1);
+		logger.debug(xml1);
 		jaxbtest.setPayload(xml1, ctx.getEffectiveCharset());
 		Deserializer deser = m_deserFactory.getDeserializer();
 		ctx = jaxbtest.createTestMessageContext();
@@ -174,7 +174,7 @@ public class ObjectNodeStreamReaderTest extends BaseSerDeserTest {
 
 		MessageContext ctx = jaxbtest.createTestMessageContext();
 		String xml1 = jaxbtest.createOnWireString(msg);
-		System.out.println(xml1);
+		logger.debug(xml1);
 		jaxbtest.setPayload(xml1, ctx.getEffectiveCharset());
 		Deserializer deser = m_deserFactory.getDeserializer();
 		ctx = jaxbtest.createTestMessageContext();
@@ -239,7 +239,7 @@ public class ObjectNodeStreamReaderTest extends BaseSerDeserTest {
 
 		MessageContext ctx = jaxbtest.createTestMessageContext();
 		String xml1 = jaxbtest.createOnWireStringWithExtraEndTag(msg);
-		System.out.println(xml1);
+		logger.debug(xml1);
 		jaxbtest.setPayload(xml1, ctx.getEffectiveCharset());
 		Deserializer deser = m_deserFactory.getDeserializer();
 		ctx = jaxbtest.createTestMessageContext();
@@ -293,7 +293,7 @@ public class ObjectNodeStreamReaderTest extends BaseSerDeserTest {
 
 		MessageContext ctx = jaxbtest.createTestMessageContext();
 		String xml1 = jaxbtest.createOnWireStringWithMissingEndTag(msg);
-		System.out.println(xml1);
+		logger.debug(xml1);
 		jaxbtest.setPayload(xml1, ctx.getEffectiveCharset());
 		Deserializer deser = m_deserFactory.getDeserializer();
 		ctx = jaxbtest.createTestMessageContext();
@@ -311,7 +311,7 @@ public class ObjectNodeStreamReaderTest extends BaseSerDeserTest {
 			if (null != msg1) {
 				jaxbtest.serialize(ctx, out, msg1);
 				String xml2 = out.toString();
-				System.out.println(xml2);
+				logger.debug(xml2);
 				Assert.assertNotSame(xml1,xml2);
 			}
 
@@ -324,7 +324,7 @@ public class ObjectNodeStreamReaderTest extends BaseSerDeserTest {
 					dve.getErrorMessage().getError().get(0).getErrorId());
 			dve.localizeMessage("en-US");
 
-			System.out.println(dve.toString());
+			logger.debug(dve.toString());
 		}
 	}
 
@@ -342,7 +342,7 @@ public class ObjectNodeStreamReaderTest extends BaseSerDeserTest {
 
 		MessageContext ctx = jaxbtest.createTestMessageContext();
 		String xml1 = jaxbtest.createOnWireString(msg);
-		System.out.println(xml1);
+		logger.debug(xml1);
 		jaxbtest.setPayload(xml1, ctx.getEffectiveCharset());
 		Deserializer deser = m_deserFactory.getDeserializer();
 		ctx = jaxbtest.createTestMessageContext();
@@ -378,7 +378,7 @@ public class ObjectNodeStreamReaderTest extends BaseSerDeserTest {
 
 		MessageContext ctx = jaxbtest.createTestMessageContext();
 		String xml1 = jaxbtest.createOnWireString(msg);
-		System.out.println(xml1);
+		logger.debug(xml1);
 		jaxbtest.setPayload(xml1, ctx.getEffectiveCharset());
 		Deserializer deser = m_deserFactory.getDeserializer();
 		ctx = jaxbtest.createTestMessageContext();
@@ -402,8 +402,8 @@ public class ObjectNodeStreamReaderTest extends BaseSerDeserTest {
 		ObjectNodeStreamReader oNodeReader = new ObjectNodeStreamReader(xmlStreamReader);
 		StreamableObjectNodeImpl rootNode = new StreamableObjectNodeImpl(oNodeReader);
 		ObjectNode attribNode = rootNode.nextChild().nextChild().getAttribute(0);
-		System.out.println("Attrib Node : " +attribNode.getNodeName());
-		System.out.println("Attrib Node : " +attribNode.isAttribute());
+		logger.debug("Attrib Node : " +attribNode.getNodeName());
+		logger.debug("Attrib Node : " +attribNode.isAttribute());
 		Assert.assertEquals(attribNode.getNodeName().getLocalPart(), "category");
 		Assert.assertTrue(attribNode.isAttribute());
 

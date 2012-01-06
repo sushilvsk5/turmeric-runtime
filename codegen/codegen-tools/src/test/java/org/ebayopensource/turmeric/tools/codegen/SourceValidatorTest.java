@@ -113,7 +113,6 @@ public class SourceValidatorTest extends AbstractServiceGeneratorTestCase {
 			SourceValidator.validateServiceInterface("InvalidInterfaceName");
 			fail("invalid return from a error scenario");
 		} catch (PreValidationFailedException e) {			
-			e.printStackTrace();
 			failed = true;
 		}
 
@@ -132,7 +131,6 @@ public class SourceValidatorTest extends AbstractServiceGeneratorTestCase {
 				fail("success from a error scenario");
 			}
 		} catch (PreValidationFailedException e) {			
-			e.printStackTrace();
 			failed = true;
 		}
 

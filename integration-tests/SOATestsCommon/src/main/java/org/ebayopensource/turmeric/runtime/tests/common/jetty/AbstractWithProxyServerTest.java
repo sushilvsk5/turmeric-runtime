@@ -38,11 +38,15 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 
+import com.ebay.kernel.logger.Logger;
+
 public abstract class AbstractWithProxyServerTest extends AbstractTurmericTestCase {
 	protected static SimpleJettyServer jetty;
 	protected static SimpleJettyProxyServer proxyServer;
 	protected static URI serverUri;
 	protected static URI proxyUri;
+	protected Logger logger = Logger.getInstance("AbstractWithServerQETest");  
+
 	
 	@Rule public TestingDir testingdir = new TestingDir();
 	

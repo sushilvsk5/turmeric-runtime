@@ -16,4 +16,6 @@ ConfigRoot
 temp_per*
 .checkstyle
 *.orig
+*.txt
+TestFileClient
 

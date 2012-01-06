@@ -196,7 +196,7 @@ public final class CodeGenClassLoader extends URLClassLoader {
 				// Java supports "jar:" url references natively.
 				return new URL(String.format("jar:%s!/%s", file.toURI().toASCIIString(), jarEntry.getName()));
 			} catch (IOException e) {
-				e.printStackTrace(); // KEEPME
+				s_logger.error(e); // KEEPME
 			} catch (Exception e) {
 				/* ignore */
 			} finally {

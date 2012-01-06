@@ -53,7 +53,6 @@ public class ProtoBufFullRun extends AbstractServiceGeneratorTestCase {
 		try {
 			performDirectCodeGen(testArgs);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			throw ex;
 		}
 

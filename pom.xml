@@ -12,7 +12,7 @@
   <parent>
     <groupId>org.ebayopensource.turmeric</groupId>
     <artifactId>turmeric-project</artifactId>
-    <version>1.1.0.7</version>
+    <version>1.1.0.9</version>
   </parent>
   <groupId>org.ebayopensource.turmeric.runtime</groupId>
   <artifactId>turmeric-runtime-parent</artifactId>
@@ -146,32 +146,6 @@
     <module>distribution/turmeric-runtime-dist</module>
     <module>logging-handler-cassandra</module>
   </modules>
-  <profiles>
-    <profile>
-      <id>codegen</id>
-      <activation>
-        <!-- Default behavior is to always build codegen -->
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <modules>
-        <module>codegen</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>it</id>
-      <activation>
-        <!-- Default behavior is to always build integration tests -->
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <modules>
-        <module>integration-tests</module>
-      </modules>
-    </profile>
-    <profile>
-       <id>ebayrepos</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
 	   <repositories>
 	      <repository>
                  <id>ebaythird-party</id>
@@ -246,6 +220,26 @@
 		 </snapshots>
 	      </pluginRepository>
 	   </pluginRepositories>
+  <profiles>
+    <profile>
+      <id>codegen</id>
+      <activation>
+        <!-- Default behavior is to always build codegen -->
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <modules>
+        <module>codegen</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>it</id>
+      <activation>
+        <!-- Default behavior is to always build integration tests -->
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <modules>
+        <module>integration-tests</module>
+      </modules>
     </profile>
   </profiles>
 </project>

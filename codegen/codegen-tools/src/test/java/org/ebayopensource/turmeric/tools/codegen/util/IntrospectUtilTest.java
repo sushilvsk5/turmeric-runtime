@@ -31,18 +31,17 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-
 public class IntrospectUtilTest extends AbstractTurmericTestCase {
 	@Rule
 	public TestingDir testingdir = new TestingDir();
-	
+
 	@Before
 	public void preventBadTests() {
 		mavenTestingRules.setStrictReadPaths(true);
 		mavenTestingRules.setStrictWritePaths(true);
 		mavenTestingRules.setFailOnViolation(true);
 	}
-	
+
 	@Test
 	public void isCollectionTypeString() throws Exception {
 		Assert.assertFalse(IntrospectUtil.isCollectionType(String.class));
@@ -55,14 +54,14 @@ public class IntrospectUtilTest extends AbstractTurmericTestCase {
 
 	@Test
 	public void isCollectionTypeInteger() throws Exception {
-		Assert.assertFalse(IntrospectUtil.isCollectionType(Integer.TYPE.getClass()));
+		Assert.assertFalse(IntrospectUtil.isCollectionType(Integer.TYPE
+				.getClass()));
 	}
 
 	@Test
 	public void isCollectionTypeHashtable() throws Exception {
 		Assert.assertTrue(IntrospectUtil.isCollectionType(Hashtable.class));
 	}
-
 
 	@Test
 	public void isCollectionTypeNull() throws Exception {
@@ -72,18 +71,15 @@ public class IntrospectUtilTest extends AbstractTurmericTestCase {
 
 	@Test
 	public void hasCollectionType1() throws Exception {
-		Class<?>[] typeClass = new Class[] {String.class};
+		Class<?>[] typeClass = new Class[] { String.class };
 		Assert.assertFalse(IntrospectUtil.hasCollectionType(typeClass));
 	}
 
-
 	@Test
 	public void hasCollectionType2() throws Exception {
-		Class<?>[] typeClass = new Class[] {String.class, List.class};
+		Class<?>[] typeClass = new Class[] { String.class, List.class };
 		Assert.assertTrue(IntrospectUtil.hasCollectionType(typeClass));
 	}
-
-
 
 	@Test
 	public void hasCollectionType3() throws Exception {
@@ -94,34 +90,29 @@ public class IntrospectUtilTest extends AbstractTurmericTestCase {
 	@Test
 	public void hasAttachmentTypeRef1() throws Exception {
 		Class<?> type = null;
-		Set<String> typeNameSet = new HashSet<String>(); 
-		Assert.assertFalse(IntrospectUtil.hasAttachmentTypeRef(type, typeNameSet));
+		Set<String> typeNameSet = new HashSet<String>();
+		Assert.assertFalse(IntrospectUtil.hasAttachmentTypeRef(type,
+				typeNameSet));
 	}
-
 
 	@Test
 	public void hasAttachmentTypeRef2() throws Exception {
 		Class<?> type = String.class;
-		Set<String> typeNameSet = new HashSet<String>(); 
-		boolean hasAttachmentType = IntrospectUtil.hasAttachmentTypeRef(type, typeNameSet);
+		Set<String> typeNameSet = new HashSet<String>();
+		boolean hasAttachmentType = IntrospectUtil.hasAttachmentTypeRef(type,
+				typeNameSet);
 
 		assertTrue((hasAttachmentType == false));
 	}
-
-
 
 	@Test
 	public void hasAttachmentTypeRef3() throws Exception {
 		boolean hasAttachmentType = false;
 
-		try {
-			Class<?> type = CodeGenTestMessage.class;
-			Set<String> typeNameSet = new HashSet<String>(); 
-			hasAttachmentType = IntrospectUtil.hasAttachmentTypeRef(type, typeNameSet);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			throw ex;
-		}	
+		Class<?> type = CodeGenTestMessage.class;
+		Set<String> typeNameSet = new HashSet<String>();
+		hasAttachmentType = IntrospectUtil.hasAttachmentTypeRef(type,
+				typeNameSet);
 
 		assertTrue((hasAttachmentType == true));
 	}
@@ -149,7 +140,7 @@ public class IntrospectUtilTest extends AbstractTurmericTestCase {
 			Thread.currentThread().setContextClassLoader(originalCL);
 		}
 	}
-	
+
 	@Test
 	public void testInitializeJType() throws Exception {
 		// Setup testing directory
@@ -166,7 +157,8 @@ public class IntrospectUtilTest extends AbstractTurmericTestCase {
 
 		try {
 			Thread.currentThread().setContextClassLoader(cl);
-			JTypeTable jtt = IntrospectUtil.initializeJType("fr.virtuoz.BotService");
+			JTypeTable jtt = IntrospectUtil
+					.initializeJType("fr.virtuoz.BotService");
 			Assert.assertNotNull("Loaded Class should not be null", jtt);
 		} finally {
 			Thread.currentThread().setContextClassLoader(originalCL);

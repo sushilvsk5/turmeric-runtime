@@ -102,8 +102,6 @@ public static void removeElementFromXml(String xmlFile,String nodeName) throws P
 		try {
 			 writer = new FileWriter(xmlFile);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		return writer;

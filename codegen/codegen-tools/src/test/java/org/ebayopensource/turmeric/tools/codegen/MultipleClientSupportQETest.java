@@ -114,7 +114,6 @@ public class MultipleClientSupportQETest extends AbstractServiceGeneratorTestCas
 				String[] testArgs1 = setInputParameters("Consumer",true,true,"MyServiceV1");
 				performDirectCodeGen(testArgs1, binDir);
 		    } catch (Exception e) {
-		    	e.printStackTrace();
 				isException = true;
 				assertFalse(true);
 			}

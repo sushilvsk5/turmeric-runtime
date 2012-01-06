@@ -8,7 +8,7 @@
  *******************************************************************************/
 package org.ebayopensource.turmeric.runtime.tests.common.jetty;
 
-import static org.hamcrest.Matchers.*;
+ import static org.hamcrest.Matchers.*;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -38,11 +38,15 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 
+import com.ebay.kernel.logger.Logger;
+
 public abstract class AbstractWithSlowProxyServerTest extends AbstractTurmericTestCase {
 	protected static SimpleJettyServer jetty;
 	protected static SimpleJettyProxyServer proxyServer;
 	protected static URI serverUri;
 	protected static URI proxyUri;
+	protected Logger logger = Logger.getInstance("AbstractWithSlowProxyServerTest");  
+
 	
 	@Rule public TestingDir testingdir = new TestingDir();
 

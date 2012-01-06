@@ -63,7 +63,7 @@ public class QEFileUtils {
 			try {
 				fos.close();
 			} catch (IOException e) {
-				new RuntimeException("Couldn't close output stream " + f2.getAbsolutePath(), e).printStackTrace();
+			//	new RuntimeException("Couldn't close output stream " + f2.getAbsolutePath(), e).printStackTrace();
 			}
 		}
 	}
@@ -86,8 +86,7 @@ public class QEFileUtils {
 				br.close();
 				out.close();
 			} catch (IOException e) {
-				System.err.println("Could not close one of the streams");
-				e.printStackTrace();
+				
 			}
 		}
 		return out;

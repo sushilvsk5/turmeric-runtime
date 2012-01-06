@@ -77,7 +77,7 @@ public class SourceValidator {
 					validateClassForService(args[1]);
 				}
 			} catch (PreValidationFailedException ex) {
-				ex.printStackTrace(); //KEEPME
+				
 			}
 		}
 	}

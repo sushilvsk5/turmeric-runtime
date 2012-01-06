@@ -76,7 +76,7 @@ public class AutoMarkdownTest extends AbstractWithServerTest {
 					throw e;
 				}
 
-				System.out.println("Caught expected at #" + i + " : " + e.toString());
+				logger.debug("Caught expected at #" + i + " : " + e.toString());
 			}
 
 			@SuppressWarnings("rawtypes")

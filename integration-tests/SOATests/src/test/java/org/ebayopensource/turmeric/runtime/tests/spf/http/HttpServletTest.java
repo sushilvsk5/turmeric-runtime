@@ -26,19 +26,22 @@ import org.ebayopensource.turmeric.runtime.tests.common.util.TestUtils;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
  * @author wdeng
  */
 public class HttpServletTest extends AbstractTurmericTestCase {
+	private final Logger logger = LoggerFactory.getLogger(HttpServletTest.class);
 
 	@Rule
 	public NeedsConfig needsconfig = new NeedsConfig("testconfig");
 	
 	@Test
 	public  void httpServerUtilsGet() throws Exception {
-		System.out.println("**** Starting testHttpServerUtilsGet");
+		logger.debug("**** Starting testHttpServerUtilsGet");
 
 		TestServletRequest req = new TestServletRequest();
 		req.setMethod("GET");
@@ -61,12 +64,12 @@ public class HttpServletTest extends AbstractTurmericTestCase {
 
 		assertEquals("myTestOperation", helper.getTransportHeader(SOAHeaders.SERVICE_OPERATION_NAME));
 		assertEquals("test1", helper.getTransportHeader(SOAHeaders.SERVICE_NAME));
-		System.out.println("**** Ending testHttpServerUtilsGet");
+		logger.debug("**** Ending testHttpServerUtilsGet");
 	}
 
 	@Test
 	public  void httpServerUtilsPost() throws Exception {
-		System.out.println("**** Starting testHttpServerUtilsPost");
+		logger.debug("**** Starting testHttpServerUtilsPost");
 
 		TestServletRequest req = new TestServletRequest();
 		req.setMethod("POST");
@@ -93,7 +96,7 @@ public class HttpServletTest extends AbstractTurmericTestCase {
 		assertEquals("myTestOperation", helper.getTransportHeader(SOAHeaders.SERVICE_OPERATION_NAME));
 		assertEquals("test1", helper.getTransportHeader(SOAHeaders.SERVICE_NAME));
 
-		System.out.println("**** Ending testHttpServerUtilsPost");
+		logger.debug("**** Ending testHttpServerUtilsPost");
 	}
 	
 	@Test
@@ -139,6 +142,6 @@ public class HttpServletTest extends AbstractTurmericTestCase {
 		}
 		assertTrue("Expected error not found", foundError);
 
-		System.out.println("**** Ending testHttpServerNonMatchingOperationName");
+		logger.debug("**** Ending testHttpServerNonMatchingOperationName");
 	}
 }

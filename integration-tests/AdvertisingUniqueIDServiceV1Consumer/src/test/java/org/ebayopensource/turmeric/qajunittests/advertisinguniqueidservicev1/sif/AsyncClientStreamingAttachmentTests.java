@@ -61,7 +61,6 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 	@BeforeClass
 	public static void getParams() throws IOException {
 		currentDir = System.getProperty("user.dir");
-		System.out.println("user.dir=" + currentDir);
 		f1 = new File(currentDir + "\\3mbAttachment.txt");
 		f2 = new File(currentDir + "\\Server3mbAttachment.txt");
 
@@ -96,7 +95,7 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 	@Test@
 	Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testAsyncPullClientStreamingTrue() throws Exception {
-		System.out.println("-- testAsyncPullClientStreamingTrue --");
+		logger.debug("-- testAsyncPullClientStreamingTrue --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "ClientStreaming");
 		GetTransportHeaders param0 = new GetTransportHeaders();
 		param0.getIn().add(0, "X-EBAY-SOA-CCTEST-HEADER1");
@@ -104,16 +103,16 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 		while (!resp.isDone()) {
 			Thread.sleep(1000L);
 		}
-		System.out.println("isDone is true, now process response.");
-		System.out.println(resp.get().getOut().get(0));
+		logger.debug("isDone is true, now process response.");
+		logger.debug(resp.get().getOut().get(0));
 		Assert.assertEquals("X-EBAY-SOA-CCTEST-HEADER1 BAR", resp.get().getOut().get(0));
-		System.out.println("-- testAsyncPullClientStreamingTrue --");
+		logger.debug("-- testAsyncPullClientStreamingTrue --");
 	}
 
 	@Test
 	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testAsyncPushClientStreamingTrue() throws Exception {
-		System.out.println("-- testAsyncPushClientStreamingTrue --");
+		logger.debug("-- testAsyncPushClientStreamingTrue --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "ClientStreaming");
 		GetTransportHeaders param0 = new GetTransportHeaders();
 		param0.getIn().add(0, "X-EBAY-SOA-CCTEST-HEADER1");
@@ -124,20 +123,20 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 		//			attFutureObj.isDone()
 		while (!attFutureObj.isDone() && !attFutureObj.isDone()) {
 			try {
-//				System.out.println("sleep");
+//				logger.debug("sleep");
 				Thread.sleep(DEFAULT_SLEEP_TIME);
 			} catch (InterruptedException e) {
 				// Ignore
 			}
 		}
-		System.out.println(attHandler.resp.get().getOut());
+		logger.debug(attHandler.resp.get().getOut().toString());
 		Assert.assertTrue(attHandler.resp.get().getOut().contains("X-EBAY-SOA-CCTEST-HEADER1 BAR"));
-		System.out.println("-- testAsyncPushClientStreamingTrue --");
+		logger.debug("-- testAsyncPushClientStreamingTrue --");
 	}
 	@Test
 	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testAsyncPollClientStreamingTrue() throws ServiceException, InterruptedException, ExecutionException {
-		System.out.println("-- testPollClientStreamingTrue --");
+		logger.debug("-- testPollClientStreamingTrue --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
 			new SharedAdvertisingUniqueIDServiceV1Consumer(
 					"AdvertisingUniqueIDServiceV1Consumer", "ClientStreaming");
@@ -149,29 +148,29 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 		List<Response<?>> list = m_proxy.poll(true, false);
 		for (Iterator<Response<?>> iter = list.iterator(); iter.hasNext();) {
 			Response<?> resp = (Response<?>) iter.next();
-			System.out.println("After Poll: " + resp.get().getClass());
+			logger.debug("After Poll: " + resp.get().getClass());
 		}
 		GetTransportHeadersResponse resp = client.getTransportHeaders(param0);
 		Assert.assertEquals("X-EBAY-SOA-CCTEST-HEADER1 BAR", resp.getOut().get(0));
-		System.out.println("-- testPollClientStreamingTrue --");
+		logger.debug("-- testPollClientStreamingTrue --");
 	}
 	
 	@Test
 	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testClientStreamingTrueChainedScenario() throws ServiceException {
-		System.out.println("-- testPushClientStreamingTrue --");
+		logger.debug("-- testPushClientStreamingTrue --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
 			new SharedAdvertisingUniqueIDServiceV1Consumer(
 					"AdvertisingUniqueIDServiceV1Consumer", "ESB1");
 		ChainedTransportHeaders param0 = new ChainedTransportHeaders();
 		param0.getIn().add("X-EBAY-SOA-TEST");
 		ChainedTransportHeadersResponse resp = client.chainedTransportHeaders(param0);
-		System.out.println("ResponseHeader[0] = " + resp.getOut().get(0));
+		logger.debug("ResponseHeader[0] = " + resp.getOut().get(0));
 		Map<String, String> queryParams = new HashMap<String, String>();
 		queryParams.put("id","com.ebay.soa.client.http.UniqueIDServiceV2Client.AdvertisingUniqueIDServiceV2.HTTP11");
 		queryParams.put("USE_RESPONSE_STREAMING", "true");
 		String out = MetricUtil.invokeHttpClient(queryParams, "update");
-		System.out.println("Setting client streaming ON remotely returned: " + out);
+		logger.debug("Setting client streaming ON remotely returned: " + out);
 		Assert.assertTrue("Response.out doesn't contain USE_RESPONSE_STREAMING=\"true\", but it's: " + out,
 				out.contains("attribute name=\"USE_RESPONSE_STREAMING\" value=\"true\""));
 		
@@ -180,13 +179,13 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 		out = MetricUtil.invokeHttpClient(queryParams, "update");
 		Assert.assertTrue("Response.out doesn't contain USE_RESPONSE_STREAMING=\"false\", but it's: " + out, 
 				out.contains("attribute name=\"USE_RESPONSE_STREAMING\" value=\"false\""));
-		System.out.println("-- testPushClientStreamingTrue --");
+		logger.debug("-- testPushClientStreamingTrue --");
 	}
 	
 	@Test
 	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testAsyncPullClientStreamingTrueWith3GBAttachment() throws Exception {
-		System.out.println("-- testAsyncPullClientStreamingTrueWith3GBAttachment --");
+		logger.debug("-- testAsyncPullClientStreamingTrueWith3GBAttachment --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
 			new SharedAdvertisingUniqueIDServiceV1Consumer(
 					"AdvertisingUniqueIDServiceV1Consumer", "ClientStreaming");
@@ -201,18 +200,18 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 		while (!resp.isDone()) { // take a nap
 			Thread.sleep(1000L);
 		}
-		System.out.println("isDone is true, now process response.");
+		logger.debug("isDone is true, now process response.");
 		
 		response = resp.get().getOut();
 		assertOnResponseAttachment(f6, MAX_SIZE2, "Client3gbAttachment.txt");
 		
-		System.out.println("-- testAsyncPullClientStreamingTrueWith3GBAttachment --");
+		logger.debug("-- testAsyncPullClientStreamingTrueWith3GBAttachment --");
 	}
 	
 	@Test
 	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testAsyncPullClientStreamingTrueWith3MBAttachment() throws Exception {
-		System.out.println("-- testAsyncPullClientStreamingTrueWith3MBAttachment --");
+		logger.debug("-- testAsyncPullClientStreamingTrueWith3MBAttachment --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
 			new SharedAdvertisingUniqueIDServiceV1Consumer(
 					"AdvertisingUniqueIDServiceV1Consumer", "ClientStreaming");
@@ -227,19 +226,19 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 		while (!resp.isDone()) {
 			Thread.sleep(5000);
 		}
-		System.out.println("isDone is true, now process response.");
+		logger.debug("isDone is true, now process response.");
 		
 		response = resp.get().getOut();
 		assertOnResponseAttachment(f2, MAX_SIZE1, "Client3mbAttachment.txt");
 		
-		System.out.println("-- testAsyncPullClientStreamingTrueWith3MBAttachment --");
+		logger.debug("-- testAsyncPullClientStreamingTrueWith3MBAttachment --");
 	}
 
 
 	@Test
 	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testAsyncPushClientStreamingTrueWith3GBAttachment() throws Exception {
-		System.out.println("-- testAsyncPushClientStreamingTrueWith3GBAttachment --");
+		logger.debug("-- testAsyncPushClientStreamingTrueWith3GBAttachment --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
 			new SharedAdvertisingUniqueIDServiceV1Consumer(
 					"AdvertisingUniqueIDServiceV1Consumer", "ClientStreaming");
@@ -260,13 +259,13 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 		response = attHandler.resp.get().getOut();
 		assertOnResponseAttachment(f6, MAX_SIZE2, "Client3gbAttachment.txt");
 		
-		System.out.println("-- testAsyncPushClientStreamingTrueWith3GBAttachment --");
+		logger.debug("-- testAsyncPushClientStreamingTrueWith3GBAttachment --");
 	}
 	
 	@Test
 	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testAsyncPushClientStreamingTrueWith3MBAttachment() throws ServiceException, InterruptedException, ExecutionException, IOException {
-		System.out.println("-- testAsyncPushClientStreamingTrueWith3MBAttachment --");
+		logger.debug("-- testAsyncPushClientStreamingTrueWith3MBAttachment --");
 		SharedAdvertisingUniqueIDServiceV1Consumer client = new SharedAdvertisingUniqueIDServiceV1Consumer("AdvertisingUniqueIDServiceV1Consumer", "ClientStreaming");
 		AttachmentAsyncHandler<TestAttachmentResponse> attHandler = new AttachmentAsyncHandler<TestAttachmentResponse>();
 		Future<?> attFutureObj = null;
@@ -278,22 +277,16 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 		value.setSize(f1.length());
 		param0.setIn(value);
 		try {
-			//			client.getService().setExecutor(null);
 			attFutureObj = client.testAttachmentAsync(param0, attHandler);
-			//			attFutureObj.isDone()
 		} catch (WebServiceException e1) {
-			e1.printStackTrace();
 			assertNull(e1);
 		}
 		while (!attFutureObj.isDone()) {
 			try {
-//				System.out.println("sleep");
 				Thread.sleep(DEFAULT_SLEEP_TIME);
 			} catch (InterruptedException e) {
-				// Ignore
 			}
 		}
-//		System.out.println(attHandler.resp.get().getOut().getFileName());
 		response = attHandler.resp.get().getOut();
 		out = new FileOutputStream(new File(response.getFileName()));
 		assertOnResponseAttachment(f2, MAX_SIZE1, "Client3mbAttachment.txt");
@@ -301,17 +294,16 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 		if (!writeData(dh, MAX_SIZE1)) Assert.assertFalse(true); 
 		Assert.assertTrue(attHandler.resp.get().getOut().getFileName().contains("Client3mbAttachment.txt"));
 		Assert.assertEquals(attHandler.resp.get().getOut().getSize().longValue(), MAX_SIZE1);
-//		System.out.println(f2.getAbsolutePath() + f2.length());
 		Assert.assertTrue(f2.exists());
 		Assert.assertEquals(f2.length(), MAX_SIZE1);
-		System.out.println("-- testAsyncPushClientStreamingTrueWith3MBAttachment --");
+		logger.debug("-- testAsyncPushClientStreamingTrueWith3MBAttachment --");
 	}
 
 
 	@Test
 	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testDefaultCaseWith3MBAttachmentRemote() throws Exception {
-		System.out.println("-- testDefaultCaseWith3MBAttachmentRemote --");
+		logger.debug("-- testDefaultCaseWith3MBAttachmentRemote --");
 		MAX_SIZE1 = f1.length();
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
 			new SharedAdvertisingUniqueIDServiceV1Consumer(
@@ -326,13 +318,13 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 		response = client.testAttachment(param0).getOut();
 		assertOnResponseAttachment(f2, MAX_SIZE1, "Client3mbAttachment.txt");
 		
-		System.out.println("-- testDefaultCaseWith3MBAttachmentRemote --");
+		logger.debug("-- testDefaultCaseWith3MBAttachmentRemote --");
 
 	}
 	@Test
 	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testDefaultCaseWith3MBAttachmentLocal() throws Exception {
-		System.out.println("-- testDefaultCaseWith3MBAttachmentLocal --");
+		logger.debug("-- testDefaultCaseWith3MBAttachmentLocal --");
 		MAX_SIZE1 = f1.length();
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
 			new SharedAdvertisingUniqueIDServiceV1Consumer(
@@ -347,13 +339,13 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 		response = client.testAttachment(param0).getOut();
 		assertOnResponseAttachment(f2, MAX_SIZE1, "Client3mbAttachment.txt");
 		
-		System.out.println("-- testDefaultCaseWith3MBAttachmentLocal --");
+		logger.debug("-- testDefaultCaseWith3MBAttachmentLocal --");
 
 	}
 	@Test
 	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testDefaultCaseWith3GBAttachmentLocal() throws Exception {
-		System.out.println("-- testDefaultCaseWith3GBAttachmentLocal --");
+		logger.debug("-- testDefaultCaseWith3GBAttachmentLocal --");
 		
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
 			new SharedAdvertisingUniqueIDServiceV1Consumer(
@@ -369,13 +361,13 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 		response = client.testAttachment(param0).getOut();
 		assertOnResponseAttachment(f6, MAX_SIZE2, "Client3gbAttachment.txt");
  
-		System.out.println("-- testDefaultCaseWith3GBAttachmentLocal --");
+		logger.debug("-- testDefaultCaseWith3GBAttachmentLocal --");
 	}
 	
 	@Test
 	@Ignore("client streaming feature is not supported in opensource.Ignoring tests")
 	public void testDefaultCaseWith3GBAttachmentRemote() throws Exception {
-		System.out.println("-- testDefaultCaseWith3GBAttachmentRemote --");
+		logger.debug("-- testDefaultCaseWith3GBAttachmentRemote --");
 		MAX_SIZE2 = f4.length();
 		SharedAdvertisingUniqueIDServiceV1Consumer client = 
 			new SharedAdvertisingUniqueIDServiceV1Consumer(
@@ -390,14 +382,14 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 		response = client.testAttachment(param0).getOut();
 		assertOnResponseAttachment(f6, MAX_SIZE2, "Client3gbAttachment.txt");
 		
-		System.out.println("-- testDefaultCaseWith3GBAttachmentRemote --");
+		logger.debug("-- testDefaultCaseWith3GBAttachmentRemote --");
 	}
 	
 	private void assertOnResponseAttachment(
 			File serverFile, long size, String clientFileName)
 	throws FileNotFoundException, IOException {
 		// assert on server file
-		System.out.println("Server file size = " + serverFile.length());
+		logger.debug("Server file size = " + serverFile.length());
 		Assert.assertEquals("Unexpected output file size", serverFile.length(), size);
 		Assert.assertTrue("Output file " + serverFile.getAbsolutePath() + " doesn't exist", serverFile.exists());
 		
@@ -444,16 +436,16 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 				int j  = 0;
 				long offset = 0;
 				while (j++ < 3) {
-	//				System.out.println("offset - " + offset);
-	//				System.out.println("length - " + length);
-	//				System.out.println("j - " + j);
+	//				logger.debug("offset - " + offset);
+	//				logger.debug("length - " + length);
+	//				logger.debug("j - " + j);
 					MappedByteBuffer MappByteBuff = fc.map(FileChannel.MapMode.READ_WRITE, offset, length);
 					for (int i = 0; i < length; i++)
 					{
 						MappByteBuff.put((byte) 'B');
 					}
 					offset = offset + length;
-	//				System.out.println(fc.size());
+	//				logger.debug(fc.size());
 				}
 			} else { 	
 				MappedByteBuffer MappByteBuff = fc.map(FileChannel.MapMode.READ_WRITE, 0, length);
@@ -463,7 +455,6 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 				}
 			}
 			fc.close();
-			System.out.println("File successFully written");
 		}
 	@Ignore
 	public void create3GBFile() throws Exception {
@@ -491,17 +482,15 @@ public class AsyncClientStreamingAttachmentTests extends AbstractWithServerTest 
 			public void handleResponse(Response<T> resp) {
 				this.resp = resp;
 				String currThreadNm = Thread.currentThread().getName();
-				System.out.println("AttachmentAsyncHandler:handleResponse:Executing thread " + currThreadNm);
+				logger.debug("AttachmentAsyncHandler:handleResponse:Executing thread " + currThreadNm);
 				try {
-	//				System.out.println("AttachmentAsyncHandler:handleResponse:");
-					System.out.println(this.resp.get());
+	//				logger.debug("AttachmentAsyncHandler:handleResponse:");
+					logger.debug(this.resp.get().toString());
 	//				TestAttachmentResponse response = (TestAttachmentResponse)this.resp.get();
-	//				System.out.println(response.getOut().getFileName());
-	//				System.out.println(response.getOut().getSize());
+	//				logger.debug(response.getOut().getFileName());
+	//				logger.debug(response.getOut().getSize());
 				} catch (InterruptedException e) {
-					e.printStackTrace();
 				} catch (ExecutionException e) {
-					e.printStackTrace();
 				} finally {
 					isDone = true;
 				}

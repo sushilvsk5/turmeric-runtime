@@ -30,6 +30,8 @@ import org.ebayopensource.turmeric.runtime.binding.impl.parser.json.JSONStreamRe
 import org.ebayopensource.turmeric.runtime.binding.objectnode.ObjectNode;
 import org.ebayopensource.turmeric.runtime.common.impl.binding.jaxb.DataBindingFacade;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -37,6 +39,8 @@ import org.junit.Test;
  */
 
 public class JSONParserTest {
+	private final Logger logger = LoggerFactory.getLogger(JSONParserTest.class);
+	
 	private static final String JSON_INPUT_WITH_NUMBER_AND_BOOLEAN = 
 		"{\"jsonns.ns\":\"http://www.ebay.com/soaframework/test/JAXBDataBinding\"," + 
 		"\"ns.MyMessage\":{\"body\":100,\"recipients\":[" + 
@@ -203,17 +207,17 @@ public class JSONParserTest {
 			"		  \"cancelUrl\"  :  \"http://apigee.com/console/-1/handlePaypalCancel?\"," + 
 			"		  \"requestEnvelope\"  :  {\"errorLanguage\":\"en_US\", \"detailLevel\":\"ReturnAll\"}" + 
 			"		}";
-		System.out.println("**** Starting jSONParserPayPalSpaceIssue");
-		System.out.println(JSON_INPUT_PAYPAL_ISSUE);
+		logger.debug("**** Starting jSONParserPayPalSpaceIssue");
+		logger.debug(JSON_INPUT_PAYPAL_ISSUE);
 		ByteArrayInputStream is = new ByteArrayInputStream(JSON_INPUT_PAYPAL_ISSUE.getBytes());
 		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
 		JSONStreamReadContext ctx = new JSONStreamReadContext(is, convention, Charset.forName("ASCII"));
 		JSONStreamObjectNodeImpl root = new JSONStreamObjectNodeImpl(ctx);
 		ObjectNode clone = root.cloneNode();
 		root.getChildNodes();
-		System.out.println(root.getTree());
+		logger.debug(root.getTree());
 		assertEquals(GOLD_JSON_INPUT_PAYPAL_ISSUE, root.getTree());
-		System.out.println("**** Ending jSONParserPayPalSpaceIssue");
+		logger.debug("**** Ending jSONParserPayPalSpaceIssue");
 	}
 
 	
@@ -230,52 +234,52 @@ public class JSONParserTest {
 			"		  \"cancelUrl\":  \"http://apigee.com/console/-1/handlePaypalCancel?\"," + 
 			"		  \"requestEnvelope\"  :  {\"errorLanguage\":\"en_US\", \"detailLevel\":\"ReturnAll\"}" + 
 			"		}";
-		System.out.println("**** Starting jSONParserPayPalSpaceIssue");
-		System.out.println(JSON_INPUT_PAYPAL_ISSUE);
+		logger.debug("**** Starting jSONParserPayPalSpaceIssue");
+		logger.debug(JSON_INPUT_PAYPAL_ISSUE);
 		ByteArrayInputStream is = new ByteArrayInputStream(JSON_INPUT_PAYPAL_ISSUE.getBytes());
 		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
 		JSONStreamReadContext ctx = new JSONStreamReadContext(is, convention, Charset.forName("ASCII"));
 		JSONStreamObjectNodeImpl root = new JSONStreamObjectNodeImpl(ctx);
 		ObjectNode clone = root.cloneNode();
 		root.getChildNodes();
-		System.out.println(root.getTree());
+		logger.debug(root.getTree());
 		assertEquals(GOLD_JSON_INPUT_PAYPAL_ISSUE, root.getTree());
-		System.out.println("**** Ending jSONParserPayPalSpaceIssue");
+		logger.debug("**** Ending jSONParserPayPalSpaceIssue");
 	}
 
 	
 	@Test
 	public void jSONParserWithNumberAndBoolean() throws Exception {
-		System.out.println("**** Starting jSONParserWithNumberAndBoolean");
-		System.out.println(JSON_INPUT_WITH_NUMBER_AND_BOOLEAN);
+		logger.debug("**** Starting jSONParserWithNumberAndBoolean");
+		logger.debug(JSON_INPUT_WITH_NUMBER_AND_BOOLEAN);
 		ByteArrayInputStream is = new ByteArrayInputStream(JSON_INPUT_WITH_NUMBER_AND_BOOLEAN.getBytes());
 		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
 		JSONStreamReadContext ctx = new JSONStreamReadContext(is, convention, Charset.forName("ASCII"));
 		JSONStreamObjectNodeImpl root = new JSONStreamObjectNodeImpl(ctx);
 		ObjectNode clone = root.cloneNode();
 		root.getChildNodes();
-		System.out.println(root.getTree());
+		logger.debug(root.getTree());
 		assertEquals(GOLD_JSON_INPUT_WITH_NUMBER_AND_BOOLEAN, root.getTree());
 //		assertEquals(clone.getNodeName().getLocalPart(), root.getNodeName().getLocalPart());
-		System.out.println("**** Ending jSONParserWithNumberAndBoolean");
+		logger.debug("**** Ending jSONParserWithNumberAndBoolean");
 	}
 
 	@Test
 	public void lazyReadJSONParserWithHashMap() throws Exception {
-		System.out.println("**** Starting testLazyReadJSONParserWithHashMap");
+		logger.debug("**** Starting testLazyReadJSONParserWithHashMap");
 		ByteArrayInputStream is = new ByteArrayInputStream(JSON_INPUT_WITH_MAP.getBytes());
 		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
 		JSONStreamReadContext ctx = new JSONStreamReadContext(is, convention, Charset.forName("ASCII"));
 		JSONStreamObjectNodeImpl root = new JSONStreamObjectNodeImpl(ctx);
-		System.out.println(GOLD_RESULT_HASHMAP);
-		System.out.println(root.toString());
+		logger.debug(GOLD_RESULT_HASHMAP);
+		logger.debug(root.toString());
 		assertEquals(GOLD_RESULT_HASHMAP, root.getTree());
-		System.out.println("**** Ending testLazyReadJSONParserWithHashMap");
+		logger.debug("**** Ending testLazyReadJSONParserWithHashMap");
 	}
 	
 	@Test
 	public void jSONParserWithHashMap() throws Exception {
-		System.out.println("**** Starting testJSONParserWithHashMap");
+		logger.debug("**** Starting testJSONParserWithHashMap");
 		ByteArrayInputStream is = new ByteArrayInputStream(JSON_INPUT_WITH_MAP.getBytes());
 		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
 		JSONStreamReadContext ctx = new JSONStreamReadContext(is, convention, Charset.forName("ASCII"));
@@ -284,7 +288,7 @@ public class JSONParserTest {
 		root.getChildNodes();
 		assertEquals(GOLD_RESULT_HASHMAP, root.getTree());
 		assertEquals(clone.getNodeName().getLocalPart(), root.getNodeName().getLocalPart());
-		System.out.println("**** Ending testJSONParserWithHashMap");
+		logger.debug("**** Ending testJSONParserWithHashMap");
 	}
 
 	private static final String JSON_INPUT_WITH_PRIMATIVE_TYPE_ARRAY = 
@@ -303,8 +307,8 @@ public class JSONParserTest {
 	
 	@Test
 	public void jSONParserWithPrimativeArray() throws Exception {
-		System.out.println("**** Starting testJSONParserWithPrimativeArray");
-		System.out.println(JSON_INPUT_WITH_PRIMATIVE_TYPE_ARRAY);
+		logger.debug("**** Starting testJSONParserWithPrimativeArray");
+		logger.debug(JSON_INPUT_WITH_PRIMATIVE_TYPE_ARRAY);
 		ByteArrayInputStream is = new ByteArrayInputStream(JSON_INPUT_WITH_PRIMATIVE_TYPE_ARRAY.getBytes());
 		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
 		JSONStreamReadContext ctx = new JSONStreamReadContext(is, convention, Charset.forName("ASCII"));
@@ -313,24 +317,24 @@ public class JSONParserTest {
 		root.getChildNodes();
 		assertEquals(GOLD_RESULT_WITH_PRIMATIVE_TYPE_ARRAY, root.getTree());
 		assertEquals(clone.getNodeName().getLocalPart(), root.getNodeName().getLocalPart());
-		System.out.println("**** Ending testJSONParserWithPrimativeArray");
+		logger.debug("**** Ending testJSONParserWithPrimativeArray");
 	}
 	
 	@Test
 	public void jSONParserWithPrimativeArrayOnDemand() throws Exception {
-		System.out.println("**** Starting testJSONParserWithPrimativeArrayOnDemand");
-		System.out.println(JSON_INPUT_WITH_PRIMATIVE_TYPE_ARRAY);
+		logger.debug("**** Starting testJSONParserWithPrimativeArrayOnDemand");
+		logger.debug(JSON_INPUT_WITH_PRIMATIVE_TYPE_ARRAY);
 		ByteArrayInputStream is = new ByteArrayInputStream(JSON_INPUT_WITH_PRIMATIVE_TYPE_ARRAY.getBytes());
 		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
 		JSONStreamReadContext ctx = new JSONStreamReadContext(is, convention, Charset.forName("ASCII"));
 		JSONStreamObjectNodeImpl root = new JSONStreamObjectNodeImpl(ctx);
 		assertEquals(GOLD_RESULT_WITH_PRIMATIVE_TYPE_ARRAY, root.getTree());
-		System.out.println("**** Ending testJSONParserWithPrimativeArrayOnDemand");
+		logger.debug("**** Ending testJSONParserWithPrimativeArrayOnDemand");
 	}
 	
 	@Test
 	public void jSONParserWithHashMap2() throws Exception {
-		System.out.println("**** Starting testJSONParserWithHashMap2");
+		logger.debug("**** Starting testJSONParserWithHashMap2");
 		ByteArrayInputStream is = new ByteArrayInputStream(JSON_INPUT_WITH_MAP.getBytes());
 		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
 		JSONStreamReadContext ctx = new JSONStreamReadContext(is, convention, Charset.forName("ASCII"));
@@ -338,23 +342,23 @@ public class JSONParserTest {
 		int numChilds = root.getChildNodesSize();
 		root.getChildNodes();
 		assertEquals("Incorrect number of children returned", 2, numChilds);
-		System.out.println("**** Ending testJSONParserWithHashMap2");
+		logger.debug("**** Ending testJSONParserWithHashMap2");
 	}	
 	
 	@Test
 	public void jSONParserWithHashMap3() throws Exception {
-		System.out.println("**** Starting testJSONParserWithHashMap3");
+		logger.debug("**** Starting testJSONParserWithHashMap3");
 		ByteArrayInputStream is = new ByteArrayInputStream(JSON_INPUT_WITH_MAP.getBytes());
 		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
 		JSONStreamReadContext ctx = new JSONStreamReadContext(is, convention, Charset.forName("ASCII"));
 		JSONStreamObjectNodeImpl root = new JSONStreamObjectNodeImpl(ctx);
 		assertTrue("Has childrens", root.hasChildNodes());
-		System.out.println("**** Ending testJSONParserWithHashMap3");
+		logger.debug("**** Ending testJSONParserWithHashMap3");
 	}	
 	
 	@Test
 	public void jSONParserWithHashMap4() throws Exception {
-		System.out.println("**** Starting testJSONParserWithHashMap4");
+		logger.debug("**** Starting testJSONParserWithHashMap4");
 		ByteArrayInputStream is = new ByteArrayInputStream(JSON_INPUT_WITH_MAP.getBytes());
 		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
 		JSONStreamReadContext ctx = new JSONStreamReadContext(is, convention, Charset.forName("ASCII"));
@@ -364,12 +368,12 @@ public class JSONParserTest {
 	/*	QName chqname = root.getChildNode(0).getNodeName();*/
 		List<ObjectNode> childList = root.getChildNodes(new QName(uriNamespace, "ns",  "jsonns"));
 		assertEquals("Has one child with jssonns:ns", 1, childList.size());
-		System.out.println("**** Ending testJSONParserWithHashMap4");
+		logger.debug("**** Ending testJSONParserWithHashMap4");
 	}	
 	
 	@Test
 	public void jSONParserWithHashMap5() throws Exception {
-		System.out.println("**** Starting testJSONParserWithHashMap5");
+		logger.debug("**** Starting testJSONParserWithHashMap5");
 		ByteArrayInputStream is = new ByteArrayInputStream(JSON_INPUT_WITH_MAP.getBytes());
 		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
 		JSONStreamReadContext ctx = new JSONStreamReadContext(is, convention, Charset.forName("ASCII"));
@@ -378,12 +382,12 @@ public class JSONParserTest {
 		root.getChildNode(0);
 		ObjectNode cnode = root.getChildNode(new QName(uriNamespace, "ns",  "jsonns"), 0);
 		assertEquals("Has one child with jssonns:ns", "ns", cnode.getNodeName().getLocalPart());
-		System.out.println("**** Ending testJSONParserWithHashMap5");
+		logger.debug("**** Ending testJSONParserWithHashMap5");
 	}
 	
 	@Test
 	public void jSONParserWithHashMap6() throws Exception {
-		System.out.println("**** Starting testJSONParserWithHashMap6");
+		logger.debug("**** Starting testJSONParserWithHashMap6");
 		ByteArrayInputStream is = new ByteArrayInputStream(JSON_INPUT_WITH_MAP.getBytes());
 		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
 		JSONStreamReadContext ctx = new JSONStreamReadContext(is, convention, Charset.forName("ASCII"));
@@ -391,12 +395,12 @@ public class JSONParserTest {
 		String uriNamespace = null;
 		ObjectNode cnode = root.getChildNode(new QName(uriNamespace, "ns",  "jsonns"), 0);
 		assertEquals("Has one child with jssonns:ns", "ns", cnode.getNodeName().getLocalPart());
-		System.out.println("**** Ending testJSONParserWithHashMap6");
+		logger.debug("**** Ending testJSONParserWithHashMap6");
 	}
 	
 	@Test
 	public void jSONParserWithHashMap7() throws Exception {
-		System.out.println("**** Starting testJSONParserWithHashMap7");
+		logger.debug("**** Starting testJSONParserWithHashMap7");
 		ByteArrayInputStream is = new ByteArrayInputStream(JSON_INPUT_WITH_MAP.getBytes());
 		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
 		JSONStreamReadContext ctx = new JSONStreamReadContext(is, convention, Charset.forName("ASCII"));
@@ -405,12 +409,12 @@ public class JSONParserTest {
 	/*	QName chqname = root.getChildNode(0).getNodeName();*/
 		List<ObjectNode> childList = root.getChildNodes(new QName(uriNamespace, "ns",  "jsonns"));
 		assertEquals("Has one child with jssonns:ns", 1, childList.size());
-		System.out.println("**** Ending testJSONParserWithHashMap7");
+		logger.debug("**** Ending testJSONParserWithHashMap7");
 	}
 	
 	@Test
 	public void jSONParserWithHashMap8() throws Exception {
-		System.out.println("**** Starting testJSONParserWithHashMap8");
+		logger.debug("**** Starting testJSONParserWithHashMap8");
 		ByteArrayInputStream is = new ByteArrayInputStream(JSON_INPUT_WITH_MAP.getBytes());
 		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
 		JSONStreamReadContext ctx = new JSONStreamReadContext(is, convention, Charset.forName("ASCII"));
@@ -418,12 +422,12 @@ public class JSONParserTest {
 		String uriNamespace = null;
 		ObjectNode cnode =  root.getChildNode(1);
 		assertEquals("Has one child with jssonns:ns", "MyMessage", cnode.getNodeName().getLocalPart());
-		System.out.println("**** Ending testJSONParserWithHashMap8");
+		logger.debug("**** Ending testJSONParserWithHashMap8");
 	}
 	
 	@Test
 	public void jSONParserWithHashMap9() throws Exception {
-		System.out.println("**** Starting testJSONParserWithHashMap9");
+		logger.debug("**** Starting testJSONParserWithHashMap9");
 		ByteArrayInputStream is = new ByteArrayInputStream(JSON_INPUT_WITH_DEPTH_FIRST_ELEMENT.getBytes());
 		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
 		JSONStreamReadContext ctx = new JSONStreamReadContext(is, convention, Charset.forName("ASCII"));
@@ -436,34 +440,32 @@ public class JSONParserTest {
 		List<ObjectNode> gggcnode = ggcnode.get(0).getChildNodes();
 		cnodeIter.next();
 		assertEquals("Has one child with jssonns:ns", "MyMessage", cnode.getNodeName().getLocalPart());
-		System.out.println("**** Ending testJSONParserWithHashMap9");
+		logger.debug("**** Ending testJSONParserWithHashMap9");
 	}
 	
 	@Test
 	public void lazyReadJSONParserWithArray() throws Exception {
-		System.out.println("**** Starting testLazyReadJSONParserWithArray");
+		logger.debug("**** Starting testLazyReadJSONParserWithArray");
 		ByteArrayInputStream is = new ByteArrayInputStream(JSON_INPUT_WITH_ARRAY.getBytes());
 		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
 		JSONStreamReadContext ctx = new JSONStreamReadContext(is, convention, Charset.forName("ASCII"));
 		JSONStreamObjectNodeImpl root = new JSONStreamObjectNodeImpl(ctx);
-/*		System.out.println("Tree: \n" + root.getTree());
-		System.out.println("End Tree");
-*/		assertEquals(GOLD_RESULT_ARRAY, root.getTree());
-		System.out.println("**** Ending testLazyReadJSONParserWithArray");
+		assertEquals(GOLD_RESULT_ARRAY, root.getTree());
+		logger.debug("**** Ending testLazyReadJSONParserWithArray");
 	}
 	
 	@Test
 	public void jSONParserWithArray() throws Exception {
-		System.out.println("**** Starting testJSONParserWithArray");
+		logger.debug("**** Starting testJSONParserWithArray");
 		ByteArrayInputStream is = new ByteArrayInputStream(JSON_INPUT_WITH_ARRAY.getBytes());
 		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
 		JSONStreamReadContext ctx = new JSONStreamReadContext(is, convention, Charset.forName("ASCII"));
 		JSONStreamObjectNodeImpl root = new JSONStreamObjectNodeImpl(ctx);
 		root.getChildNodes();
-		System.out.println("Tree: \n" + root.getTree());
-		System.out.println("End Tree");
+		logger.debug("Tree: \n" + root.getTree());
+		logger.debug("End Tree");
 		assertEquals(GOLD_RESULT_ARRAY, root.getTree());
-		System.out.println("**** Ending testJSONParserWithArray");
+		logger.debug("**** Ending testJSONParserWithArray");
 	}
 
 	/**
@@ -473,27 +475,13 @@ public class JSONParserTest {
 	public void bUG486468() throws Exception {
 		
 		Exception e = null;
-		System.out.println("**** Starting testBUG486468");
+		logger.debug("**** Starting testBUG486468");
 		ByteArrayInputStream is = new ByteArrayInputStream(JSON_INPUT_FOR_BUG486468.getBytes());
 		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
 		JSONStreamReadContext ctx = new JSONStreamReadContext(is, convention, Charset.forName("ASCII"));
 		JSONStreamObjectNodeImpl root = new JSONStreamObjectNodeImpl(ctx);
-		try {
-			List<ObjectNode> childList =  root.getChildNodes();
-		}
-		catch (ParseException pe) {
-			pe.printStackTrace();
-			e = pe;
-		}
-		catch (XMLStreamException se)
-		{
-			se.printStackTrace();
-			e = se;
-			
-			
-		}
-		assertNull(" ParseException is not expected", e);
-		System.out.println("**** Ending testBUG486468");
+		List<ObjectNode> childList =  root.getChildNodes();
+		logger.debug("**** Ending testBUG486468");
 	}
 
 	/**
@@ -502,7 +490,7 @@ public class JSONParserTest {
 	@Test(expected=org.ebayopensource.turmeric.runtime.binding.impl.parser.ParseException.class)
 	public void jSONParserWithBadInput1() throws Exception {
 		
-		System.out.println("**** Starting testJSONParserWithBadInput1");
+		logger.debug("**** Starting testJSONParserWithBadInput1");
 		ByteArrayInputStream is = new ByteArrayInputStream(JSON_BAD_INPUT_WITH_ARRAY.getBytes());
 		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
 		JSONStreamReadContext ctx = new JSONStreamReadContext(is, convention, Charset.forName("ASCII"));
@@ -510,7 +498,7 @@ public class JSONParserTest {
 			root.getChildNodes();
 			fail("ParseException not thrown as expected");
 
-		System.out.println("**** Ending testJSONParserWithBadInput1");
+		logger.debug("**** Ending testJSONParserWithBadInput1");
 	}
 	
 	/**
@@ -535,7 +523,7 @@ public class JSONParserTest {
 			}
 		}; 
 		
-		System.out.println("**** Starting testJSONParserWithBadInput2");
+		logger.debug("**** Starting testJSONParserWithBadInput2");
 		MyBAInputStream is = new MyBAInputStream(JSON_BAD_INPUT_WITH_ARRAY.getBytes());
 		NamespaceConvention convention = DataBindingFacade.createDeserializationNSConvention(null);
 			JSONStreamReadContext ctx = new JSONStreamReadContext(is, convention, Charset.forName("ASCII"));
@@ -544,6 +532,6 @@ public class JSONParserTest {
 			root.getChildNodes();
 			fail("ParseException not thrown as expected");
 
-		System.out.println("**** Ending testJSONParserWithBadInput2");
+		logger.debug("**** Ending testJSONParserWithBadInput2");
 	}
 }

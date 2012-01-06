@@ -107,7 +107,7 @@ public class ServerPipelineTest extends AbstractWithServerTest {
 		serverCtx.setProperty(ExceptionTestHandler.KEY_HANDLER_NAME, ExceptionTestHandler.NAME_CONTINUE_ON_ERROR_HANDLER);
 		runAndTest(serverCtx, "XML");
 
-		System.out.println("**** Run it again");
+		logger.debug("**** Run it again");
 
 		serverCtx = msgtest.createServerMessageContext();
 		serverCtx.setProperty(ExceptionTestHandler.KEY_HANDLER_NAME, ExceptionTestHandler.NAME_CONTINUE_ON_ERROR_HANDLER);
@@ -153,13 +153,13 @@ public class ServerPipelineTest extends AbstractWithServerTest {
 
 		long start = System.nanoTime();
 		ServerMessageProcessor.getInstance();
-		System.out.println("SMP initialization time(" + payloadType + "): " + (System.nanoTime() - start)/1000000.0);
+		logger.debug("SMP initialization time(" + payloadType + "): " + (System.nanoTime() - start)/1000000.0);
 		start = System.nanoTime();
 		ServerMessageProcessor processor = ServerMessageProcessor.getInstance();
 		// Enable Object Node Test
 		request.setTransportHeader(RequestObjectNodeAccessHandler.H_REQUEST_TEST_OBJECT_NODE, "doit");
 		processor.processMessage(serverCtx);
-		System.out.println("SMP turnaround time for payload: " + payloadType + ": " + (System.nanoTime() - start)/1000000.0);
+		logger.debug("SMP turnaround time for payload: " + payloadType + ": " + (System.nanoTime() - start)/1000000.0);
 
 		List<Throwable> errors = serverCtx.getErrorList();
 		for(Throwable t: errors) {
@@ -192,7 +192,9 @@ public class ServerPipelineTest extends AbstractWithServerTest {
 		tresp.assertTransportHeader(ResponseObjectNodeAccessHandler.H_RESPONSE_BODY_NODE_CLASS_TYPE, MyMessage.class.getSimpleName());
 		tresp.assertTransportHeader(ResponseObjectNodeAccessHandler.H_RESPONSE_BODY_NODE_TYPE, ObjectNodeType.JAVA.name());
 
-		tresp.dumpParams();
+		if (logger.isDebugEnabled()) {
+			tresp.dumpParams();
+		}
 		
 		MyMessage msgOut = tresp.getParamMessage(0);
 		String prefix = "response.param(0).MyMessage";

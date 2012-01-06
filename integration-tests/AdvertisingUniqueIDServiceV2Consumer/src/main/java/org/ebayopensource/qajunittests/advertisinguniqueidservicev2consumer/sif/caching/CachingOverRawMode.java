@@ -76,9 +76,7 @@ public class CachingOverRawMode {
 			Assert.assertNotSame(res1,res2);
 					
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
 		} catch (ServiceException e) {
-			e.printStackTrace();
 		}
 	
 	}

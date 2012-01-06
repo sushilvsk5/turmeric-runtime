@@ -7,8 +7,6 @@ import java.util.Map;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 
-import junit.framework.Assert;
-
 import org.ebayopensource.turmeric.advertising.v1.services.EchoMessageRequest;
 import org.ebayopensource.turmeric.advertising.v1.services.TestEnhancedRest;
 import org.ebayopensource.turmeric.advertising.v1.services.TestPrimitiveTypesRequest;
@@ -16,10 +14,9 @@ import org.ebayopensource.turmeric.advertisinguniqueservicev1.AdvertisingUniqueI
 import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
 import org.ebayopensource.turmeric.runtime.common.types.SOAConstants;
 import org.ebayopensource.turmeric.runtime.tests.common.jetty.AbstractWithServerQETest;
-import org.ebayopensource.turmeric.runtime.tests.common.sif.error.MarkdownTestHelper;
 import org.ebayopensource.turmeric.runtime.tests.common.util.HttpTestClient;
-import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 
 
@@ -30,26 +27,22 @@ public class MixedModeTests extends AbstractWithServerQETest {
 	String response = null;
 
 	@Test
-	public void testMixedModePositiveCaseRemoteMode_2()  {
-		try {
+	public void testMixedModePositiveCaseRemoteMode_2() throws Exception  {
 		AdvertisingUniqueIDServiceV1SharedConsumer client = new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "MixedMode2");
 		EchoMessageRequest param0 = new EchoMessageRequest();
 		param0.setIn("Foo");
 		client.getService().setServiceLocation(new URL(serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1/"));
-		Assert.assertEquals(client.echoMessage(param0).getOut(), " Echo Message = Foo");
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.assertFalse(true);
-		}
+		assertEquals(client.echoMessage(param0).getOut(), " Echo Message = Foo");
 	}
+	
 	@Test
 	public void testMixedModePositiveCaseRemoteMode() throws ServiceException, MalformedURLException {
 		AdvertisingUniqueIDServiceV1SharedConsumer client = new AdvertisingUniqueIDServiceV1SharedConsumer("AdvertisingUniqueIDServiceV1Consumer", "MixedMode1");
 		EchoMessageRequest param0 = new EchoMessageRequest();
 		param0.setIn("Foo");
 		client.getService().setServiceLocation(new URL(serverUri.toASCIIString() + "/ws/spf?in=Remote"));
-//		System.out.println(client.echoMessage(param0).getOut());
-		Assert.assertEquals(client.echoMessage(param0).getOut(), " Echo Message = Remote");
+//		logger.debug(client.echoMessage(param0).getOut());
+		assertEquals(client.echoMessage(param0).getOut(), " Echo Message = Remote");
 	}
 	
 	
@@ -61,8 +54,8 @@ public class MixedModeTests extends AbstractWithServerQETest {
 //		client.getService().setServiceLocation(new URL(serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1?in=Remote"));
 		client.getService().setServiceLocation(new URL(serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1/"));
 		client.getServiceInvokerOptions().setREST(Boolean.TRUE);
-//		System.out.println(client.echoMessage(param0).getOut());
-		Assert.assertEquals(client.echoMessage(param0).getOut(), " Echo Message = Foo");
+//		logger.debug(client.echoMessage(param0).getOut());
+		assertEquals(client.echoMessage(param0).getOut(), " Echo Message = Foo");
 	}
 	@Test
 	public void testMixedModePositiveCaseRemoteModeWithURL() throws ServiceException, MalformedURLException {
@@ -70,8 +63,8 @@ public class MixedModeTests extends AbstractWithServerQETest {
 		EchoMessageRequest param0 = new EchoMessageRequest();
 		param0.setIn("Foo");
 		client.getService().setServiceLocation(new URL(serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1/"));
-//		System.out.println(client.echoMessage(param0).getOut());
-		Assert.assertEquals(client.echoMessage(param0).getOut(), " Echo Message = Foo");
+//		logger.debug(client.echoMessage(param0).getOut());
+		assertEquals(client.echoMessage(param0).getOut(), " Echo Message = Foo");
 	}
 	@Test
 	public void testMixedModePositiveCaseRemoteModeWithURLGet() throws ServiceException, MalformedURLException {
@@ -81,8 +74,8 @@ public class MixedModeTests extends AbstractWithServerQETest {
 		param0.setIn("Foo");
 		client.getService().setServiceLocation(new URL(serverUri.toASCIIString() + "/ws/spf/"));
 		
-//		System.out.println(client.echoMessage(param0).getOut());
-		Assert.assertEquals(client.echoMessage(param0).getOut(), " Echo Message = Foo");
+//		logger.debug(client.echoMessage(param0).getOut());
+		assertEquals(client.echoMessage(param0).getOut(), " Echo Message = Foo");
 	}
 	
 	@Test
@@ -91,8 +84,8 @@ public class MixedModeTests extends AbstractWithServerQETest {
 		EchoMessageRequest param0 = new EchoMessageRequest();
 		param0.setIn("Local");
 		client.getServiceInvokerOptions().setTransportName(SOAConstants.TRANSPORT_LOCAL);
-//		System.out.println(client.echoMessage(param0).getOut());
-		Assert.assertEquals(client.echoMessage(param0).getOut(), " Echo Message = Local");
+//		logger.debug(client.echoMessage(param0).getOut());
+		assertEquals(client.echoMessage(param0).getOut(), " Echo Message = Local");
 	}
 	@Test
 	public void testMixedModePositiveCaseRESTMode() throws ServiceException {
@@ -101,8 +94,8 @@ public class MixedModeTests extends AbstractWithServerQETest {
 		queryParams.put("in","Foo");	
 		String url = serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1/";
 		String response = http.getResponse(url, queryParams);
-//		System.out.println(response);
-		Assert.assertTrue(response.contains("Echo Message"));
+//		logger.debug(response);
+		assertTrue(response.contains("Echo Message"));
 	
 	}
 	@Test
@@ -111,8 +104,8 @@ public class MixedModeTests extends AbstractWithServerQETest {
 		TestEnhancedRest param0 = new TestEnhancedRest();
 		param0.getIn().add(0, "MixedMode");
 		client.getService().setServiceLocation(new URL(serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1/"));
-//		System.out.println(client.testEnhancedRest(param0).getOut());
-//		Assert.assertEquals(client.testEnhancedRest(param0).getOut(),"MixedMode" );
+//		logger.debug(client.testEnhancedRest(param0).getOut());
+//		assertEquals(client.testEnhancedRest(param0).getOut(),"MixedMode" );
 	}
 	@Test
 	public void testMixedModePositiveCaseOtherOperationLocal() throws ServiceException, MalformedURLException {
@@ -122,8 +115,8 @@ public class MixedModeTests extends AbstractWithServerQETest {
 		TestEnhancedRest param0 = new TestEnhancedRest();
 		param0.getIn().add(0, "MixedMode");
 		client.getService().setServiceLocation(new URL(serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1/"));
-//		System.out.println(client.testEnhancedRest(param0).getOut());
-		Assert.assertEquals(client.testEnhancedRest(param0).getOut(),"MixedMode" );
+//		logger.debug(client.testEnhancedRest(param0).getOut());
+		assertEquals(client.testEnhancedRest(param0).getOut(),"MixedMode" );
 	}
 	@Test
 	public void testMixedModePositiveCaseOtherOperationLocal1() throws ServiceException, MalformedURLException {
@@ -132,8 +125,8 @@ public class MixedModeTests extends AbstractWithServerQETest {
 		
 		TestEnhancedRest param0 = new TestEnhancedRest();
 		param0.getIn().add(0, "MixedMode");
-		System.out.println(client.testEnhancedRest(param0).getOut());
-		Assert.assertEquals(client.testEnhancedRest(param0).getOut(),"MixedMode" );
+		logger.debug(client.testEnhancedRest(param0).getOut());
+		assertEquals(client.testEnhancedRest(param0).getOut(),"MixedMode" );
 	}
 	
 	@Test
@@ -141,8 +134,8 @@ public class MixedModeTests extends AbstractWithServerQETest {
 		queryParams.put("X-TURMERIC-OPERATION-NAME","testEnhancedRest");
 		queryParams.put("in","Foo");	
 		String response = http.getResponse(serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1", queryParams);
-//		System.out.println(response);
-		Assert.assertTrue(response.contains("<ns2:out>test</ns2:out>"));
+//		logger.debug(response);
+		assertTrue(response.contains("<ns2:out>test</ns2:out>"));
 	}
 	@Test
 	public void testMixedModePositiveCaseOtherOperationREST_WSPSF() throws ServiceException {
@@ -150,8 +143,8 @@ public class MixedModeTests extends AbstractWithServerQETest {
 		queryParams.put("X-TURMERIC-SERVICE-NAME","AdvertisingUniqueIDServiceV1");
 		queryParams.put("in","Foo");		
 		String response = http.getResponse(serverUri.toASCIIString() +"/ws/spf", queryParams);
-//		System.out.println(response);
-		Assert.assertTrue(response.contains("<ns2:out>test</ns2:out>"));
+//		logger.debug(response);
+		assertTrue(response.contains("<ns2:out>test</ns2:out>"));
 	}
 	
 //	@Test
@@ -163,7 +156,7 @@ public class MixedModeTests extends AbstractWithServerQETest {
 //		queryParams.put("in(0)","Foo");	
 //		String url = serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1/";
 //		String response = http.getResponse(url, queryParams);
-//		System.out.println(response);
+//		logger.debug(response);
 //		Assert.assertTrue(response.contains("<out>Foo</out>"));
 //	}
 	@Test
@@ -176,7 +169,7 @@ public class MixedModeTests extends AbstractWithServerQETest {
 		TestPrimitiveTypesRequest request = new TestPrimitiveTypesRequest();
 		byte b = 12;
 		request.setTypeByte(b);
-		Assert.assertEquals("From Server 123", client.testPrimitiveTypes(request).getOut());
+		assertEquals("From Server 123", client.testPrimitiveTypes(request).getOut());
 	}
 
 	@Test
@@ -187,7 +180,7 @@ public class MixedModeTests extends AbstractWithServerQETest {
 		TestPrimitiveTypesRequest request = new TestPrimitiveTypesRequest();
 		short s = 123;
 		request.setTypeShort(s);
-		Assert.assertEquals("From Server 12345", client.testPrimitiveTypes(request).getOut());
+		assertEquals("From Server 12345", client.testPrimitiveTypes(request).getOut());
 	}
 	
 	@Test
@@ -198,7 +191,7 @@ public class MixedModeTests extends AbstractWithServerQETest {
 
 		TestPrimitiveTypesRequest request = new TestPrimitiveTypesRequest();
 		request.setTypeInt(123);
-		Assert.assertEquals("From Server 12345", client.testPrimitiveTypes(request).getOut());
+		assertEquals("From Server 12345", client.testPrimitiveTypes(request).getOut());
 	}
 	@Test
 	public void testMixedModePrimitiveTypelong() throws ServiceException, MalformedURLException, DatatypeConfigurationException {
@@ -207,7 +200,7 @@ public class MixedModeTests extends AbstractWithServerQETest {
 		client.getService().setServiceLocation(new URL(serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1?typeBoolean=true"));
 		TestPrimitiveTypesRequest request = new TestPrimitiveTypesRequest();
 		request.setTypeBoolean(false);
-		Assert.assertEquals("From Server true", client.testPrimitiveTypes(request).getOut());
+		assertEquals("From Server true", client.testPrimitiveTypes(request).getOut());
 	}
 	@Test
 	public void testMixedModePrimitiveTypefloat() throws ServiceException, MalformedURLException, DatatypeConfigurationException {
@@ -216,7 +209,7 @@ public class MixedModeTests extends AbstractWithServerQETest {
 		client.getService().setServiceLocation(new URL(serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1?typeFloat=123.123f"));
 		TestPrimitiveTypesRequest request = new TestPrimitiveTypesRequest();
 		request.setTypeFloat(123.1f);
-		Assert.assertEquals("From Server 123.123", client.testPrimitiveTypes(request).getOut());
+		assertEquals("From Server 123.123", client.testPrimitiveTypes(request).getOut());
 	}
 	@Test
 	public void testMixedModePrimitiveTypedouble() throws ServiceException, MalformedURLException, DatatypeConfigurationException {
@@ -225,7 +218,7 @@ public class MixedModeTests extends AbstractWithServerQETest {
 		client.getService().setServiceLocation(new URL(serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1?typeDouble=123.123d"));
 		TestPrimitiveTypesRequest request = new TestPrimitiveTypesRequest();
 		request.setTypeDouble(123.1d);
-		Assert.assertEquals("From Server 123.123", client.testPrimitiveTypes(request).getOut());
+		assertEquals("From Server 123.123", client.testPrimitiveTypes(request).getOut());
 	}
 	@Test
 	public void testMixedModePrimitiveTypeboolean() throws ServiceException, MalformedURLException, DatatypeConfigurationException {
@@ -234,7 +227,7 @@ public class MixedModeTests extends AbstractWithServerQETest {
 		client.getService().setServiceLocation(new URL(serverUri.toASCIIString() + "/services/advertise/UniqueIDService/v1?typeBoolean=true"));
 		TestPrimitiveTypesRequest request = new TestPrimitiveTypesRequest();
 		request.setTypeBoolean(false);
-		Assert.assertEquals("From Server true", client.testPrimitiveTypes(request).getOut());
+		assertEquals("From Server true", client.testPrimitiveTypes(request).getOut());
 	}
 	@Test
 	public void testMixedModeForForPrimitiveTypechar() throws ServiceException, MalformedURLException, DatatypeConfigurationException {
@@ -244,7 +237,7 @@ public class MixedModeTests extends AbstractWithServerQETest {
 		TestPrimitiveTypesRequest request = new TestPrimitiveTypesRequest();
 		char c =20;
 		request.setTypeChar(c);
-		Assert.assertEquals("From Server 30", client.testPrimitiveTypes(request).getOut());
+		assertEquals("From Server 30", client.testPrimitiveTypes(request).getOut());
 	}
 	
 }

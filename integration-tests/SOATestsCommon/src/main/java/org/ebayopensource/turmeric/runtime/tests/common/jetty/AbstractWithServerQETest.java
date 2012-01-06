@@ -16,12 +16,15 @@ import org.ebayopensource.turmeric.runtime.spf.pipeline.SPFServlet;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
+import com.ebay.kernel.logger.Logger;
+
 /**
  * For testing against {@link SPFServlet} with Embedded Jetty Server.
  */
 public abstract class AbstractWithServerQETest {
 	protected static SimpleJettyServer jetty;
 	protected static URI serverUri;
+	protected Logger logger = Logger.getInstance("AbstractWithServerQETest");  
 
 	@BeforeClass
 	public static void startServer() throws Exception {

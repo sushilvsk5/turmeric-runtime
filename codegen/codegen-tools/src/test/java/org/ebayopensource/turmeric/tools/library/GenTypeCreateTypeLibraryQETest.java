@@ -53,7 +53,6 @@ public class GenTypeCreateTypeLibraryQETest extends AbstractServiceGeneratorTest
 				String typeInformationXmlVanillaPath = TestResourceUtil.copyResource("TypeLibraryCodegen/CategoryTypeLibrary/gen-meta-src/META-INF/CategoryTypeLibrary/TypeInformation.xml", testingdir, "gen-meta-src").getAbsolutePath();
 				assertXML(typeInformationXmlVanillaPath, typeInformationXmlCodegenPath,new String [] {"xml-type-name"});
 			} catch (Exception e) {
-				e.printStackTrace();
 				assertTrue("No exception should be thrown",false);
 		}
 	}
@@ -72,7 +71,6 @@ public class GenTypeCreateTypeLibraryQETest extends AbstractServiceGeneratorTest
 			try {
 				sGenerator.startCodeGen(pluginParameter);
 			} catch (Exception e) {
-				e.printStackTrace();
 				String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 				String exceptionMessage = "Please provide a value for the option -pr";
 				assertTrue(
@@ -93,7 +91,6 @@ public class GenTypeCreateTypeLibraryQETest extends AbstractServiceGeneratorTest
 			try {
 				sGenerator.startCodeGen(pluginParameter);
 			} catch (Exception e) {
-				e.printStackTrace();
 				String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.MissingInputOptionException";
 				String exceptionMessage = "Project Root is missing.";
 				assertTrue(
@@ -115,7 +112,6 @@ public class GenTypeCreateTypeLibraryQETest extends AbstractServiceGeneratorTest
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			String exceptionMessage = "Please provide a proper value for the option -pr";
 			assertTrue("Expected Exception message:" + exceptionMessage
@@ -142,7 +138,6 @@ public class GenTypeCreateTypeLibraryQETest extends AbstractServiceGeneratorTest
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			String exceptionMessage = "Please provide a value for the option -libname";
 			assertTrue("Expected Exception message:" + exceptionMessage
@@ -169,7 +164,6 @@ public class GenTypeCreateTypeLibraryQETest extends AbstractServiceGeneratorTest
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputOptionException";
 			String exceptionMessage = "Invalid option categorytypelibrary specified. This option is not recognized.";
 			assertTrue("Expected Exception message:" + exceptionMessage
@@ -196,7 +190,6 @@ public class GenTypeCreateTypeLibraryQETest extends AbstractServiceGeneratorTest
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			String exceptionMessage = "Please provide a proper value for the option -libname";
 			assertTrue("Expected Exception message:" + exceptionMessage
@@ -223,7 +216,6 @@ public class GenTypeCreateTypeLibraryQETest extends AbstractServiceGeneratorTest
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			String exceptionMessage = "Please provide a value for the option -libversion";
 			assertTrue("Expected Exception message:" + exceptionMessage
@@ -249,7 +241,6 @@ public class GenTypeCreateTypeLibraryQETest extends AbstractServiceGeneratorTest
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputOptionException";
 			String exceptionMessage = "Invalid option 1.2.3 specified. This option is not recognized.";
 			assertTrue("Expected Exception message:" + exceptionMessage
@@ -276,7 +267,6 @@ public class GenTypeCreateTypeLibraryQETest extends AbstractServiceGeneratorTest
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			String exceptionMessage = "Please provide a proper value for the option -libversion";
 			assertTrue("Expected Exception message:" + exceptionMessage
@@ -303,7 +293,6 @@ public class GenTypeCreateTypeLibraryQETest extends AbstractServiceGeneratorTest
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			String exceptionMessage = "The Library version should be in the format X.Y.Z where X,Y and Z are integers.";
 			assertTrue("Expected Exception message:" + exceptionMessage
@@ -330,7 +319,6 @@ public class GenTypeCreateTypeLibraryQETest extends AbstractServiceGeneratorTest
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			String exceptionMessage = "The Library version should be in the format X.Y.Z where X,Y and Z are integers.";
 			assertTrue("Expected Exception message:" + exceptionMessage
@@ -356,7 +344,6 @@ public class GenTypeCreateTypeLibraryQETest extends AbstractServiceGeneratorTest
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			String exceptionMessage = "Missing parameter for '-libNamespace' option.";
 			assertTrue("Expected Exception message:" + exceptionMessage
@@ -381,7 +368,6 @@ public class GenTypeCreateTypeLibraryQETest extends AbstractServiceGeneratorTest
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputOptionException";
 			String exceptionMessage = "Invalid option http://www.ebayopensource.org/soaframework/examples/config specified. This option is not recognized.";
 			assertTrue("Expected Exception message:" + exceptionMessage
@@ -407,7 +393,6 @@ public class GenTypeCreateTypeLibraryQETest extends AbstractServiceGeneratorTest
 		try {
 			sGenerator.startCodeGen(pluginParameter);
 		} catch (Exception e) {
-			e.printStackTrace();
 			String exceptionClass = "org.ebayopensource.turmeric.tools.codegen.exception.BadInputValueException";
 			String exceptionMessage = "Please provide a proper value for the option -libnamespace";
 			assertTrue("Expected Exception message:" + exceptionMessage

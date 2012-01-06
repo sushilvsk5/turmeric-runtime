@@ -86,7 +86,6 @@ public class FastSerFormatValidationTests extends AbstractServiceGeneratorTestCa
 			FastSerFormatCodegenBuilder.getInstance().validateServiceIfApplicable(context);
 		} catch (CodeGenFailedException e) {
 			if( !e.getMessage().contains( FastSerFormatValidationHandler.EMPTY_WSDL_PATH )){
-				e.printStackTrace();
 				Assert.fail("The Test failed. Expected to fail for empty wsdl path");
 			}
 		}
@@ -96,7 +95,6 @@ public class FastSerFormatValidationTests extends AbstractServiceGeneratorTestCa
 			FastSerFormatCodegenBuilder.getInstance().validateServiceIfApplicable(context);
 		} catch (CodeGenFailedException e) {
 			if( !e.getMessage().contains( WSDLParserConstants.NS_URI_1999_SCHEMA_XSD )){
-				e.printStackTrace();
 				Assert.fail("The Test failed. Expected to fail for invalid xsd namespace");
 			}
 		}
@@ -105,7 +103,6 @@ public class FastSerFormatValidationTests extends AbstractServiceGeneratorTestCa
 		try {
 			FastSerFormatCodegenBuilder.getInstance().validateServiceIfApplicable(context);
 		} catch (CodeGenFailedException e) {
-			e.printStackTrace();
 			if( !( e instanceof FastSerFormatNotSupportedException ) ){
 				Assert.fail("The Test failed. Expected exception FastSerFormatNotSupportedException");
 			}

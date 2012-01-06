@@ -407,7 +407,7 @@ public class CodeGenerationUtility {
             stream.flush();
             stream.close();
         } catch (Exception e) {
-            e.printStackTrace();
+        	log.error(e);
         }
         InputSource ins = new InputSource(file.toURI().toString());
         sc.parseSchema(ins);
