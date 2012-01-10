@@ -12,7 +12,7 @@ import org.ebayopensource.turmeric.runtime.binding.IDeserializationContext;
 import org.ebayopensource.turmeric.runtime.binding.IDeserializerFactory.InitContext;
 import org.ebayopensource.turmeric.runtime.binding.objectnode.ObjectNode;
 import org.ebayopensource.turmeric.runtime.common.binding.DeserializerFactory;
-import org.ebayopensource.turmeric.runtime.common.binding.IProtobufDeserializer;
+import org.ebayopensource.turmeric.runtime.common.binding.IFastFormatDeserializer;
 import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
 import org.ebayopensource.turmeric.runtime.common.pipeline.InboundMessage;
 
@@ -27,7 +27,7 @@ public class ProtobufDeserializerFactory implements DeserializerFactory {
 	}
 
 	@Override
-	public IProtobufDeserializer getDeserializer() {
+	public IFastFormatDeserializer getDeserializer() {
 		return new ProtobufDeserializer();
 	}
 
@@ -53,7 +53,7 @@ public class ProtobufDeserializerFactory implements DeserializerFactory {
 		return Collections.emptyMap();
 	}
 	
-	public static class ProtobufDeserializer implements IProtobufDeserializer {
+	public static class ProtobufDeserializer implements IFastFormatDeserializer {
 
 		private static final String uoexStr = "ProtobufDeserializer does not impolement this method";
 		

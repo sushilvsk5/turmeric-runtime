@@ -5,7 +5,7 @@ import java.io.OutputStream;
 import org.ebayopensource.turmeric.runtime.binding.ISerializationContext;
 import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
 
-public interface IProtobufSerializer extends Serializer {
+public interface IFastFormatSerializer extends Serializer {
 
 	/**
 	 * It takes a java content tree, serialize it 

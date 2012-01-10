@@ -5,7 +5,7 @@ import java.io.InputStream;
 import org.ebayopensource.turmeric.runtime.binding.IDeserializationContext;
 import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
 
-public interface IProtobufDeserializer extends Deserializer {
+public interface IFastFormatDeserializer extends Deserializer {
 
 	/**
 	 * 

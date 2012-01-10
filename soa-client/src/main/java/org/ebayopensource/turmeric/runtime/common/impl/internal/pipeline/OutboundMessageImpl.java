@@ -26,7 +26,7 @@ import org.ebayopensource.turmeric.runtime.binding.DataBindingOptions;
 import org.ebayopensource.turmeric.runtime.binding.objectnode.ObjectNode;
 import org.ebayopensource.turmeric.runtime.binding.objectnode.impl.JavaObjectNodeImpl;
 import org.ebayopensource.turmeric.runtime.common.binding.DataBindingDesc;
-import org.ebayopensource.turmeric.runtime.common.binding.IProtobufSerializer;
+import org.ebayopensource.turmeric.runtime.common.binding.IFastFormatSerializer;
 import org.ebayopensource.turmeric.runtime.common.binding.Serializer;
 import org.ebayopensource.turmeric.runtime.common.binding.SerializerFactory;
 import org.ebayopensource.turmeric.runtime.common.exceptions.ErrorDataFactory;
@@ -37,7 +37,6 @@ import org.ebayopensource.turmeric.runtime.common.impl.attachment.BaseMessageAtt
 import org.ebayopensource.turmeric.runtime.common.impl.attachment.OutboundMessageAttachments;
 import org.ebayopensource.turmeric.runtime.common.impl.attachment.SOAMimeUtils;
 import org.ebayopensource.turmeric.runtime.common.impl.binding.jaxb.JAXBBasedSerializer;
-import org.ebayopensource.turmeric.runtime.common.impl.binding.protobuf.ProtobufSerializerFactory;
 import org.ebayopensource.turmeric.runtime.common.impl.internal.monitoring.SystemMetricDefs;
 import org.ebayopensource.turmeric.runtime.common.impl.internal.utils.OutboundRawDataRecorder;
 import org.ebayopensource.turmeric.runtime.common.impl.utils.LogManager;
@@ -214,9 +213,9 @@ public final class OutboundMessageImpl extends BaseMessageImpl implements Outbou
 		long startTime = System.nanoTime();	
 
 		try {
-			if (serFactory instanceof ProtobufSerializerFactory) {
+			if (ser instanceof IFastFormatSerializer) {
 				try {
-					IProtobufSerializer serializer = (IProtobufSerializer) ser;
+					IFastFormatSerializer serializer = (IFastFormatSerializer) ser;
 					if (m_params != null) {
 						for (int i = 0; i < m_params.length; ++i) {
 							serializer.serialize(ctx, m_params[i], paramTypes.get(i), out);

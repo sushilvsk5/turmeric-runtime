@@ -37,12 +37,11 @@ import org.ebayopensource.turmeric.runtime.binding.objectnode.impl.ObjectNodeImp
 import org.ebayopensource.turmeric.runtime.common.binding.DataBindingDesc;
 import org.ebayopensource.turmeric.runtime.common.binding.Deserializer;
 import org.ebayopensource.turmeric.runtime.common.binding.DeserializerFactory;
-import org.ebayopensource.turmeric.runtime.common.binding.IProtobufDeserializer;
+import org.ebayopensource.turmeric.runtime.common.binding.IFastFormatDeserializer;
 import org.ebayopensource.turmeric.runtime.common.exceptions.ErrorDataFactory;
 import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
 import org.ebayopensource.turmeric.runtime.common.impl.attachment.BaseMessageAttachments;
 import org.ebayopensource.turmeric.runtime.common.impl.attachment.InboundMessageAttachments;
-import org.ebayopensource.turmeric.runtime.common.impl.binding.protobuf.ProtobufDeserializerFactory;
 import org.ebayopensource.turmeric.runtime.common.impl.internal.monitoring.SystemMetricDefs;
 import org.ebayopensource.turmeric.runtime.common.impl.internal.utils.PrereadingRawDataRecorder;
 import org.ebayopensource.turmeric.runtime.common.impl.utils.LogManager;
@@ -304,8 +303,8 @@ public final class InboundMessageImpl extends BaseMessageImpl implements Inbound
 			if (hasErrorTransportHeader()) {
 				Class javaType = getErrorParamType();
 
-				if (deserFactory instanceof ProtobufDeserializerFactory) {
-                    IProtobufDeserializer ideser = (IProtobufDeserializer) deser;
+				if (deser instanceof IFastFormatDeserializer) {
+                    IFastFormatDeserializer ideser = (IFastFormatDeserializer) deser;
                     m_errorResponse = ideser.deserialize(null, javaType, m_inputStream);
                 }
 				else {
@@ -330,8 +329,8 @@ public final class InboundMessageImpl extends BaseMessageImpl implements Inbound
 
 				if (!paramTypes.isEmpty()) {
 
-					if (deserFactory instanceof ProtobufDeserializerFactory) {
-						IProtobufDeserializer ideser = (IProtobufDeserializer) deser;
+					if (deser instanceof IFastFormatDeserializer) {
+						IFastFormatDeserializer ideser = (IFastFormatDeserializer) deser;
 	                        m_params = new Object[paramTypes.size()];
 	                        for (int i = 0; i < paramTypes.size(); i++) {
 	                            m_params[i] = ideser.deserialize(null, paramTypes.get(i), m_inputStream);

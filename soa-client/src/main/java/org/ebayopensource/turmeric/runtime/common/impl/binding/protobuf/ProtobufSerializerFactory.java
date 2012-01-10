@@ -11,7 +11,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.ebayopensource.turmeric.runtime.binding.ISerializationContext;
 import org.ebayopensource.turmeric.runtime.binding.ISerializer;
-import org.ebayopensource.turmeric.runtime.common.binding.IProtobufSerializer;
+import org.ebayopensource.turmeric.runtime.common.binding.IFastFormatSerializer;
 import org.ebayopensource.turmeric.runtime.common.binding.SerializerFactory;
 import org.ebayopensource.turmeric.runtime.common.exceptions.ServiceException;
 import org.ebayopensource.turmeric.runtime.common.pipeline.MessageContext;
@@ -24,7 +24,7 @@ public class ProtobufSerializerFactory implements SerializerFactory {
 	
 
     @Override
-    public IProtobufSerializer getSerializer() {
+    public IFastFormatSerializer getSerializer() {
         return new ProtobufSerializer();
     }
 
@@ -44,7 +44,7 @@ public class ProtobufSerializerFactory implements SerializerFactory {
     	return Collections.emptyMap();
     }
 
-    public static class ProtobufSerializer implements IProtobufSerializer {
+    public static class ProtobufSerializer implements IFastFormatSerializer {
 
     	private static final String uoexStr = "Protobuf Serializer does not impolement this method";
     	

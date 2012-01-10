@@ -124,6 +124,11 @@ public final class BindingConstants {
 	 * Refers to the payload type (data binding name) for Google's Protocol Buffers.
 	 */
 	public static final String PAYLOAD_PROTOBUF = "PROTOBUF";
+	
+	/**
+	 * Refers to the payload type (data binding name) for Protostuff.
+	 */
+	public static final String PAYLOAD_PROTOSTUFF = "PROTOSTUFF";
 
 	/**
 	 * Refers to the payload validation level. Can take the following values

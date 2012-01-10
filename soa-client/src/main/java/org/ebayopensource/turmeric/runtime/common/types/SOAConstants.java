@@ -118,7 +118,12 @@ public final class SOAConstants {
 	/**
 	 * MIME type sent in Content-Type representations for Google Protobuf.
 	 */
-	public static final String MIME_PROTOBUF = "application/octet-stream";	// http://www.iana.org/assignments/media-types/application/fastinfoset
+	public static final String MIME_PROTOBUF = "application/octet-stream";	// http://code.google.com/p/protobuf/
+	
+	/**
+	 * MIME type sent in Content-Type representations for Protostuff.
+	 */
+	public static final String MIME_PROTOSTUFF = "application/octet-stream";	// http://code.google.com/p/protostuff/
 
 	/**
 	 * SOA name for built-in HTTP 1.0 transport. Refers to both the transport
