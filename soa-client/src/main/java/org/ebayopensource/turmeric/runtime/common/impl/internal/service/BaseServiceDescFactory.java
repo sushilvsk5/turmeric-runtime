@@ -1536,7 +1536,7 @@ public abstract class BaseServiceDescFactory<T extends ServiceDesc> {
 						throw new ServiceCreationException(ErrorDataFactory.createErrorData(ErrorConstants.SVC_FACTORY_DUPLICATE_HEADER_KEY,
 								ErrorConstants.ERRORDOMAIN, new Object[] {adminName, indexval}));
 					}
-					headerMap.put(indexval, name);
+					headerMap.put(indexval.toUpperCase(), name);
 				} else {
 					if( headerMap.containsKey(indexval)) {
 						throw new ServiceCreationException(ErrorDataFactory.createErrorData(ErrorConstants.SVC_FACTORY_DUPLICATE_HEADER_KEY,
