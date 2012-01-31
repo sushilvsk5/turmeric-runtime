@@ -28,7 +28,8 @@ public class HeaderMappingTest {
 		nv.setValue("header[SOAPAction]");
 		mappings.add(nv);
 		HeaderMappingsDesc hmd = factory.loadHeaderMappings("ExampleService", options, true);
-		assertTrue(hmd.getHeaderMap().containsKey("SOAPAction"));
+		//The framework converts header SOAPAction to uppercase.
+		assertTrue(hmd.getHeaderMap().containsKey("SOAPAction".toUpperCase()));
 	}	
 	
 	@Test
