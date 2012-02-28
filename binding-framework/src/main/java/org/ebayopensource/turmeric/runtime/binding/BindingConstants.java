@@ -129,7 +129,17 @@ public final class BindingConstants {
 	 * Refers to the payload type (data binding name) for Protostuff.
 	 */
 	public static final String PAYLOAD_PROTOSTUFF = "PROTOSTUFF";
+	
+	/**
+	 * Refers to the payload type (data binding name) for Jackson JSON.
+	 */
+	public static final String PAYLOAD_JACKSON_JSON = "JACKSON_JSON";
 
+	/**
+	 * Refers to the payload type (data binding name) for Jackson SMILE.
+	 */
+	public static final String PAYLOAD_JACKSON_SMILE = "JACKSON_SMILE";
+	
 	/**
 	 * Refers to the payload validation level. Can take the following values
 	 * disabled, none, relax, strict

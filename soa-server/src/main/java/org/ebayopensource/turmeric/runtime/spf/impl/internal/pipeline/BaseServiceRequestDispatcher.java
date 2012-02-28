@@ -271,11 +271,16 @@ public abstract class BaseServiceRequestDispatcher<T> implements Dispatcher {
 		ServerMessageContextImpl ctxImpl = (ServerMessageContextImpl) ctx;
 
 		/*
-		 * Operation name can not be verified as the protobuf and protostuff
-		 * payloads do not have any operation related information
+		 * Operation name can not be verified as the protobuf, protostuff and
+		 * jackson payloads do not have any operation related information
 		 */
-		if (!(ctx.getPayloadType().equals(BindingConstants.PAYLOAD_PROTOBUF) || ctx
-				.getPayloadType().equals(BindingConstants.PAYLOAD_PROTOSTUFF))) {
+		if (!(ctx.getPayloadType().equals(BindingConstants.PAYLOAD_PROTOBUF)
+				|| ctx.getPayloadType().equals(
+						BindingConstants.PAYLOAD_PROTOSTUFF)
+				|| ctx.getPayloadType().equals(
+						BindingConstants.PAYLOAD_JACKSON_JSON) || ctx
+				.getPayloadType()
+				.equals(BindingConstants.PAYLOAD_JACKSON_SMILE))) {
 			ctxImpl.checkOperationName();
 		}
 

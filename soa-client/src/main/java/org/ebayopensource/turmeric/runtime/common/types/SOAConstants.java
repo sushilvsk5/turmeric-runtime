@@ -124,6 +124,16 @@ public final class SOAConstants {
 	 * MIME type sent in Content-Type representations for Protostuff.
 	 */
 	public static final String MIME_PROTOSTUFF = "application/octet-stream";	// http://code.google.com/p/protostuff/
+	
+	/**
+	 * MIME type sent in Content-Type representations for Jackson JSON.
+	 */
+	public static final String MIME_JACKSON_JSON = "application/json";	// http://jackson.codehaus.org/
+	
+	/**
+	 * MIME type sent in Content-Type representations for Jackson SMILE.
+	 */
+	public static final String MIME_JACKSON_SMILE = "application/x-jackson-smile";	// http://jackson.codehaus.org/
 
 	/**
 	 * SOA name for built-in HTTP 1.0 transport. Refers to both the transport

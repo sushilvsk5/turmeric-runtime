@@ -150,7 +150,7 @@ public class GenInterfaceFromWsdlMojo extends AbstractGenInterfaceMojo {
 			getLog().debug("ENABLE NAMESPACE FOLDING: "+ enableNamespaceFolding);
 			if(enableNamespaceFolding) {
 			    commands.addSingle(InputOptions.OPT_ENABLEDNAMESPACE_FOLDING);
-			}
+			}			
 	
 			// TODO: The namespace should be an input argument.
 	
