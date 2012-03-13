@@ -58,6 +58,7 @@ import org.ebayopensource.turmeric.tools.codegen.exception.CodeGenFailedExceptio
 import org.ebayopensource.turmeric.tools.codegen.exception.MissingInputOptionException;
 import org.ebayopensource.turmeric.tools.codegen.exception.PreProcessFailedException;
 import org.ebayopensource.turmeric.tools.codegen.fastserformat.FastSerFormatCodegenBuilder;
+import org.ebayopensource.turmeric.tools.codegen.fastserformat.protobuf.validator.FastSerFormatNotSupportedException;
 import org.ebayopensource.turmeric.tools.codegen.handler.ConsoleResponseHandler;
 import org.ebayopensource.turmeric.tools.codegen.handler.DontPromptResponseHandler;
 import org.ebayopensource.turmeric.tools.codegen.handler.UserResponseHandler;
@@ -83,6 +84,7 @@ import org.xml.sax.SAXException;
 public class ServiceCodeGenBuilder {
 	
 	private static Logger s_logger = LogManager.getInstance(ServiceCodeGenBuilder.class);
+	private boolean skipCodegenForFastSerFormats;
 	
 	
 	private Logger getLogger() {
@@ -176,7 +178,14 @@ public class ServiceCodeGenBuilder {
 				CodeGenContext codeGenCtx = createContext(inputOptions, userResponseHandler);
 
 				if( isValidationRequiredForFastSerFormat( codeGenCtx ) ){
-					FastSerFormatCodegenBuilder.getInstance().validateServiceIfApplicable(codeGenCtx);
+					try{
+						FastSerFormatCodegenBuilder.getInstance().validateServiceIfApplicable(codeGenCtx);
+					}catch(FastSerFormatNotSupportedException e){
+						this.skipCodegenForFastSerFormats = true;
+						getLogger().log(Level.INFO, "Codegen will be skipped for for Fast Ser formats due to WSDL validation errors (" +
+								e.getMessage() +
+								")");
+					}
 				}
 				if(inputOptions.isEnabledNamespaceFoldingSet()&& isMMNWsdlGenerationRequired(codeGenCtx.getInputOptions()))
 				{
@@ -381,7 +390,9 @@ public class ServiceCodeGenBuilder {
 				codeGenerators.add(WSDLGenerator.getInstance());
 			}
 			codeGenerators.add(TypeDefsBuilderGenerator.getInstance());
-			codeGenerators.add(FastSerFormatCodegenBuilder.getInstance());
+			if(!skipCodegenForFastSerFormats){
+				codeGenerators.add(FastSerFormatCodegenBuilder.getInstance());
+			}
 		}
 		else if (codeGenType == CodeGenType.Server) {
 			codeGenerators.add(ServiceSkeletonGenerator.getInstance());
@@ -421,7 +432,9 @@ public class ServiceCodeGenBuilder {
 			if (inputOptions.isGenTests() && inputOptions.isBaseConsumerGenertionReq()) {
 				codeGenerators.add(ServiceConsumerGenerator.getInstance());
 			}
-			codeGenerators.add(FastSerFormatCodegenBuilder.getInstance());
+			if(!skipCodegenForFastSerFormats){
+				codeGenerators.add(FastSerFormatCodegenBuilder.getInstance());
+			}
 		}
 		else if (codeGenType == CodeGenType.ServerNoConfig) {
 			codeGenerators.add(ServiceSkeletonGenerator.getInstance());
@@ -455,7 +468,9 @@ public class ServiceCodeGenBuilder {
  			if(inputOptions.isGenerateSharedConsumer() || inputOptions.isConsumerAnInterfaceProjectArtifact()) {
  				codeGenerators.add(ServiceConsumerGenerator.getInstance());
  			}
-			codeGenerators.add(FastSerFormatCodegenBuilder.getInstance());
+ 			if(!skipCodegenForFastSerFormats){
+ 				codeGenerators.add(FastSerFormatCodegenBuilder.getInstance());
+ 			}
 			
 		}
 		else if (codeGenType == CodeGenType.Proxy) {
@@ -552,8 +567,10 @@ public class ServiceCodeGenBuilder {
  				codeGenerators.add(ServiceConsumerGenerator.getInstance());
  			
 			if (inputOptions.isGenTests() && inputOptions.isBaseConsumerGenertionReq()) 
-				codeGenerators.add(ServiceConsumerGenerator.getInstance());     
-			codeGenerators.add(FastSerFormatCodegenBuilder.getInstance());
+				codeGenerators.add(ServiceConsumerGenerator.getInstance());
+			if(!skipCodegenForFastSerFormats){
+				codeGenerators.add(FastSerFormatCodegenBuilder.getInstance());
+			}
 		}
 		else if (codeGenType == CodeGenType.ServiceFromWSDLImpl){
 			codeGenerators.add(ServiceSkeletonGenerator.getInstance());
